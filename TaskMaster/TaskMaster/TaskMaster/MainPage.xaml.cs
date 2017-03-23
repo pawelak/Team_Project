@@ -13,5 +13,15 @@ namespace TaskMaster
 		{
 			InitializeComponent();
 		}
+
+	    private void StartTaskButton_OnClicked(object sender, EventArgs e)
+	    {
+	        Navigation.PushAsync(new StartTaskPage());
+	    }
+
+	    private void PlanTaskButton_OnClicked(object sender, EventArgs e)
+	    {
+	        Navigation.PushAsync(new PlanTaskPage());
+	    }
 	}
 }

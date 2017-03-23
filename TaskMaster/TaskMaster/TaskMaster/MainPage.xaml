@@ -3,9 +3,19 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:local="clr-namespace:TaskMaster"
              x:Class="TaskMaster.MainPage">
-
-	<Label Text="Welcome to Xamarin Forms!" 
-           VerticalOptions="Center" 
-           HorizontalOptions="Center" />
-
+    <ContentPage.Padding>
+        <OnPlatform x:TypeArguments="Thickness"
+                    iOS="20, 40, 20, 20"
+                    Android="20, 20, 20, 20"
+                    WinPhone="20, 20, 20, 20" />
+    </ContentPage.Padding>
+    <ContentPage.Content>
+        <StackLayout HorizontalOptions="Center"
+                     Spacing="15">
+            <Label Text="Welcome to TaskMaster!" HorizontalOptions="Center"/>
+            <Button Text="Rozpocznij zadanie" x:Name="StartTaskButton" Clicked="StartTaskButton_OnClicked"/>
+            <Button Text="Zaplanuj zadanie" x:Name="PlanTaskButton" Clicked="PlanTaskButton_OnClicked"/>
+            <Button Text="Rozpocznij szybkie zadanie" x:Name="FastTaskButton" />
+        </StackLayout>
+    </ContentPage.Content>
 </ContentPage>

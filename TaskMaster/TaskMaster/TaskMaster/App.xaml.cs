@@ -12,8 +12,7 @@ namespace TaskMaster
 		public App ()
 		{
 			InitializeComponent();
-
-			MainPage = new TaskMaster.MainPage();
+			MainPage = new NavigationPage(new MainPage());
 		}
 
 		protected override void OnStart ()
