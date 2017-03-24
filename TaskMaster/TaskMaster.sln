@@ -14,6 +14,9 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Mobile", "Mobile", "{35E5FE3E-A934-4EEE-83A0-9BBD9C11D264}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Shared", "Shared", "{398413FD-3CC3-4402-A907-0E56B7614572}"
+	ProjectSection(SolutionItems) = preProject
+		readme.txt = readme.txt
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Web", "Web", "{9D4D3436-B1DA-4E9B-A9E7-325A7C63B8C2}"
 EndProject
@@ -21,6 +24,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tools", "Tools", "{4EAA3816
 EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		TaskMaster\TaskMaster\TaskMaster.projitems*{8d6fa25e-6606-4148-9157-2588a9abc2ef}*SharedItemsImports = 4
 		TaskMaster\TaskMaster\TaskMaster.projitems*{9e98c242-cff7-42cb-adca-b110b818b1cc}*SharedItemsImports = 13
 		TaskMaster\TaskMaster\TaskMaster.projitems*{a38114d8-f58c-43e1-b6c7-c1bba14f7aa6}*SharedItemsImports = 4
 		TaskMaster\TaskMaster\TaskMaster.projitems*{b6117302-e5ad-42c0-b93d-04def9e39eb0}*SharedItemsImports = 4
