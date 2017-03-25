@@ -20,7 +20,8 @@ namespace TaskMaster.Droid
 			base.OnCreate (bundle);
 
 			global::Xamarin.Forms.Forms.Init (this, bundle);
-			LoadApplication (new TaskMaster.App ());
+            XamForms.Controls.Droid.Calendar.Init();
+            LoadApplication (new TaskMaster.App ());
 		}
 	}
 }

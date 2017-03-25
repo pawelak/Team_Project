@@ -17,6 +17,7 @@
             <Button Text="Zaplanuj zadanie" x:Name="PlanTaskButton" Clicked="PlanTaskButton_OnClicked"/>
             <Button Text="Rozpocznij szybkie zadanie" x:Name="FastTaskButton" Clicked="FastTaskButton_OnClicked"/>
             <Button Text="Przeglądaj statystyki" x:Name="StatisticsButton" Clicked="StatisticsButton_OnClicked"></Button>
+            <Button Text="Kalendarz" x:Name="CallenButton" Clicked="CallendarButton_OnClicked"></Button>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

@@ -23,7 +23,8 @@ namespace TaskMaster.iOS
 		public override bool FinishedLaunching(UIApplication app, NSDictionary options)
 		{
 			global::Xamarin.Forms.Forms.Init ();
-			LoadApplication (new TaskMaster.App ());
+            XamForms.Controls.iOS.Calendar.Init();
+            LoadApplication (new TaskMaster.App ());
 
 			return base.FinishedLaunching (app, options);
 		}

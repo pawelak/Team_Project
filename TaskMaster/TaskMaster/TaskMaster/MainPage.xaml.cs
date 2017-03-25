@@ -33,5 +33,9 @@ namespace TaskMaster
 	    {
 	        Navigation.PushAsync(new StatisticPage());
 	    }
-	}
+        private void CallendarButton_OnClicked(object sender, EventArgs e)
+        {
+            Navigation.PushAsync(new CallendarPage());
+        }
+    }
 }
