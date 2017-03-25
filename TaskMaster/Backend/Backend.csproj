@@ -196,14 +196,25 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\ACTIONsController.cs" />
+    <Compile Include="Controllers\ACTIVITiesController.cs" />
+    <Compile Include="Controllers\EVENTsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\TOKENsController.cs" />
+    <Compile Include="Controllers\USERsController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\ACTION.cs" />
+    <Compile Include="Models\ACTIVITY.cs" />
+    <Compile Include="Models\CONNECTION.cs" />
+    <Compile Include="Models\EVENT.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\TOKEN.cs" />
+    <Compile Include="Models\USER.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
@@ -265,6 +276,31 @@
     <Content Include="Views\Manage\VerifyPhoneNumber.cshtml" />
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
+    <Content Include="Views\USERs\Create.cshtml" />
+    <Content Include="Views\USERs\Delete.cshtml" />
+    <Content Include="Views\USERs\Details.cshtml" />
+    <Content Include="Views\USERs\Edit.cshtml" />
+    <Content Include="Views\USERs\Index.cshtml" />
+    <Content Include="Views\TOKENs\Create.cshtml" />
+    <Content Include="Views\TOKENs\Delete.cshtml" />
+    <Content Include="Views\TOKENs\Details.cshtml" />
+    <Content Include="Views\TOKENs\Edit.cshtml" />
+    <Content Include="Views\TOKENs\Index.cshtml" />
+    <Content Include="Views\EVENTs\Create.cshtml" />
+    <Content Include="Views\EVENTs\Delete.cshtml" />
+    <Content Include="Views\EVENTs\Details.cshtml" />
+    <Content Include="Views\EVENTs\Edit.cshtml" />
+    <Content Include="Views\EVENTs\Index.cshtml" />
+    <Content Include="Views\ACTIONs\Create.cshtml" />
+    <Content Include="Views\ACTIONs\Delete.cshtml" />
+    <Content Include="Views\ACTIONs\Details.cshtml" />
+    <Content Include="Views\ACTIONs\Edit.cshtml" />
+    <Content Include="Views\ACTIONs\Index.cshtml" />
+    <Content Include="Views\ACTIVITies\Create.cshtml" />
+    <Content Include="Views\ACTIVITies\Delete.cshtml" />
+    <Content Include="Views\ACTIVITies\Details.cshtml" />
+    <Content Include="Views\ACTIVITies\Edit.cshtml" />
+    <Content Include="Views\ACTIVITies\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
