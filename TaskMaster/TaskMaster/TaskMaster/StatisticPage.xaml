@@ -11,7 +11,7 @@
     <ContentPage.Content>
         <StackLayout HorizontalOptions="Center"
                      Spacing="15">
+            <Label Text="Miejsce na statystyki. Podział również na kalendarz oraz dodatkowe elementy"/>
         </StackLayout>
-        <Label Text="Miejsce na statystyki. Podział również na kalendarz oraz dodatkowe elementy"/>
     </ContentPage.Content>
 </ContentPage>
