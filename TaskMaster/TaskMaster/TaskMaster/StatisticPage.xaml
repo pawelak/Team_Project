@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="TaskMaster.StartTaskPage">
+             x:Class="TaskMaster.StatisticPage">
     <ContentPage.Padding>
         <OnPlatform x:TypeArguments="Thickness"
                     iOS="20, 40, 20, 20"
@@ -12,8 +12,6 @@
         <StackLayout HorizontalOptions="Center"
                      Spacing="15">
         </StackLayout>
-        <Label Text="Podaj nazwę aktywności"/>
-        <Entry x:Name="StartTaskActivityName"/>
-        <Button x:Name="PlanTaskButton" Text="Zaplanuj aktywność"/>
+        <Label Text="Miejsce na statystyki. Podział również na kalendarz oraz dodatkowe elementy"/>
     </ContentPage.Content>
 </ContentPage>

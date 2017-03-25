@@ -23,5 +23,19 @@ namespace TaskMaster
 	    {
 	        Navigation.PushAsync(new PlanTaskPage());
 	    }
+
+	    private void FastTaskButton_OnClicked(object sender, EventArgs e)
+	    {
+	        Navigation.PushAsync(new FastTaskPage());
+	    }
+
+	    private void StatisticsButton_OnClicked(object sender, EventArgs e)
+	    {
+	        Navigation.PushAsync(new StatisticPage());
+
+
+
+
+	    }
 	}
 }

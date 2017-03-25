@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="TaskMaster.StartTaskPage">
+             x:Class="TaskMaster.FastTaskPage">
     <ContentPage.Padding>
         <OnPlatform x:TypeArguments="Thickness"
                     iOS="20, 40, 20, 20"
@@ -11,9 +11,7 @@
     <ContentPage.Content>
         <StackLayout HorizontalOptions="Center"
                      Spacing="15">
+            <Button x:Name="FastTaskStartButton" Text="Rozpocznij szybko aktywność" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"/>
         </StackLayout>
-        <Label Text="Podaj nazwę aktywności"/>
-        <Entry x:Name="StartTaskActivityName"/>
-        <Button x:Name="PlanTaskButton" Text="Zaplanuj aktywność"/>
     </ContentPage.Content>
 </ContentPage>

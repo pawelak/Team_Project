@@ -2,4 +2,27 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="TaskMaster.PlanTaskPage">
+    <ContentPage.Padding>
+        <OnPlatform x:TypeArguments="Thickness"
+                    iOS="20, 40, 20, 20"
+                    Android="20, 20, 20, 20"
+                    WinPhone="20, 20, 20, 20" />
+    </ContentPage.Padding>
+    <ContentPage.Content>
+        <StackLayout HorizontalOptions="Center"
+                     VerticalOptions="FillAndExpand"
+                     Spacing="15">
+            <Label Text="Podaj nazwę aktywności"/>
+            <Entry x:Name="ActivityName"/>
+            <Label Text="Podaj datę i godzinę rozpoczęcia aktywności"/>
+            <DatePicker x:Name="PlanTaskStartDate" Format="dd/MM/yyyy"/>
+            <TimePicker x:Name="PlanTaskStartTime" Format="HH:mm"/>
+            <!--<Entry x:Name="datatimeStart"/>-->
+            <Label Text="Podaj datę i godzinę zakończenia aktywności"/>
+            <!--<Entry x:Name="datatimeStop"/>-->
+            <DatePicker x:Name="PlanTaskStopDate" Format="dd/MM/yyyy"/>
+            <TimePicker x:Name="PlanTaskStopTime" Format="HH:mm"/>
+            <Button x:Name="PlanTaskButton" Text="Zaplanuj aktywność"/>
+        </StackLayout>
+    </ContentPage.Content>
 </ContentPage>

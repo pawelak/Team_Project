@@ -12,10 +12,11 @@
     <ContentPage.Content>
         <StackLayout HorizontalOptions="Center"
                      Spacing="15">
-            <Label Text="Welcome to TaskMaster!" HorizontalOptions="Center"/>
+            <Label Text="Welcome to TaskMaster!" HorizontalOptions="FillAndExpand"/>
             <Button Text="Rozpocznij zadanie" x:Name="StartTaskButton" Clicked="StartTaskButton_OnClicked"/>
             <Button Text="Zaplanuj zadanie" x:Name="PlanTaskButton" Clicked="PlanTaskButton_OnClicked"/>
-            <Button Text="Rozpocznij szybkie zadanie" x:Name="FastTaskButton" />
+            <Button Text="Rozpocznij szybkie zadanie" x:Name="FastTaskButton" Clicked="FastTaskButton_OnClicked"/>
+            <Button Text="Przeglądaj statystyki" x:Name="StatisticsButton" Clicked="StatisticsButton_OnClicked"></Button>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>
