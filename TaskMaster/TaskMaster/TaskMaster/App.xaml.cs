@@ -9,6 +9,19 @@ namespace TaskMaster
 {
 	public partial class App : Application
 	{
+	    static UserDatabase database;
+
+	    static UserDatabase Database
+	    {
+	        get
+	        {
+	            if (database == null)
+	            {
+	                database = new UserDatabase(DependencyService.Get<IFileHelper>().GetLocalFilePath("UsersSQlite.db3"));
+	            }
+                return database;
+            }
+	    } 
 		public App ()
 		{
 			InitializeComponent();
