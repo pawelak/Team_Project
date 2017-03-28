@@ -10,15 +10,15 @@ namespace TaskMaster
     class UserDatabase
     {
         readonly SQLiteAsyncConnection database;
-        public UserDatabase(string dbpath)
+        public UserDatabase (string dbpath)
         {
             database = new SQLiteAsyncConnection(dbpath);
-            database.CreateTableAsync<Users>().Wait();
+            database.CreateTablesAsync<User, Events, PartsOfTasks, Tasks>().Wait();
         }
 
-        public Task<List<Users>> GetUserAsync()
+        public Task<List<User>> GetUserAsync()
         {
-            return database.Table<Users>().ToListAsync();
+            return database.Table<User>().ToListAsync();
         }
     }
 }

@@ -11,7 +11,7 @@
     <ContentPage.Content>
         <StackLayout HorizontalOptions="Center"
                      Spacing="15">
-            <Button x:Name="FastTaskStartButton" Text="Rozpocznij szybko aktywność" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"/>
+            <Button x:Name="FastTaskStartButton" Text="{x:StaticResource StartFastText}" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"/>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

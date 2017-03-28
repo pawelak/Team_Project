@@ -12,12 +12,12 @@
     <ContentPage.Content>
         <StackLayout HorizontalOptions="Center"
                      Spacing="15">
-            <Label Text="Welcome to TaskMaster!" HorizontalOptions="FillAndExpand"/>
-            <Button Text="Rozpocznij zadanie" x:Name="StartTaskButton" Clicked="StartTaskButton_OnClicked"/>
-            <Button Text="Zaplanuj zadanie" x:Name="PlanTaskButton" Clicked="PlanTaskButton_OnClicked"/>
-            <Button Text="Rozpocznij szybkie zadanie" x:Name="FastTaskButton" Clicked="FastTaskButton_OnClicked"/>
-            <Button Text="Przeglądaj statystyki" x:Name="StatisticsButton" Clicked="StatisticsButton_OnClicked"></Button>
-            <Button Text="Kalendarz" x:Name="CallenButton" Clicked="CallendarButton_OnClicked"></Button>
+            <Label Text="{x:StaticResource WelcomeText}" HorizontalOptions="FillAndExpand"/>
+            <Button Text="{x:StaticResource StartTaskText}" x:Name="StartTaskButton" Clicked="StartTaskButton_OnClicked"/>
+            <Button Text="{x:StaticResource PlanTaskText}" x:Name="PlanTaskButton" Clicked="PlanTaskButton_OnClicked"/>
+            <Button Text="{x:StaticResource FastTaskText}" x:Name="FastTaskButton" Clicked="FastTaskButton_OnClicked"/>
+            <Button Text="{x:StaticResource StatisticText}" x:Name="StatisticsButton" Clicked="StatisticsButton_OnClicked"></Button>
+            <Button Text="{x:StaticResource CalendarText}" x:Name="CallenButton" Clicked="CallendarButton_OnClicked"></Button>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

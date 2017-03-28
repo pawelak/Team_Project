@@ -12,17 +12,17 @@
         <StackLayout HorizontalOptions="Center"
                      VerticalOptions="FillAndExpand"
                      Spacing="15">
-            <Label Text="Podaj nazwę aktywności"/>
+            <Label Text="{x:StaticResource NameText}"/>
             <Entry x:Name="ActivityName"/>
-            <Label Text="Podaj datę i godzinę rozpoczęcia aktywności"/>
+            <Label Text="{x:StaticResource DateStartText}"/>
             <DatePicker x:Name="PlanTaskStartDate" Format="dd/MM/yyyy"/>
             <TimePicker x:Name="PlanTaskStartTime" Format="HH:mm"/>
             <!--<Entry x:Name="datatimeStart"/>-->
-            <Label Text="Podaj datę i godzinę zakończenia aktywności"/>
+            <Label Text="{x:StaticResource DateStopText}"/>
             <!--<Entry x:Name="datatimeStop"/>-->
             <DatePicker x:Name="PlanTaskStopDate" Format="dd/MM/yyyy"/>
             <TimePicker x:Name="PlanTaskStopTime" Format="HH:mm"/>
-            <Button x:Name="PlanTaskButton" Text="Zaplanuj aktywność"/>
+            <Button Text="{x:StaticResource StartPlanText}" x:Name="PlanTaskStartButton" Clicked="PlanTaskStartButton_OnClicked"/>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

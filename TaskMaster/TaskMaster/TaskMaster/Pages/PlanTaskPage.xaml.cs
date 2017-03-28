@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -16,5 +15,10 @@ namespace TaskMaster
 		{
 			InitializeComponent ();
 		}
+
+	    private void PlanTaskStartButton_OnClicked(object sender, EventArgs e)
+        {
+	        DisplayAlert("Tytuł", ActivityName.Text, "OK", "No");
+	    }
 	}
 }

@@ -11,9 +11,9 @@
     <ContentPage.Content>
         <StackLayout HorizontalOptions="Center"
                      Spacing="15">
-            <Label Text="Podaj nazwę aktywności"/>
+            <Label Text="{x:StaticResource StartNameText}"/>
             <Entry x:Name="StartTaskActivityName"/>
-            <Button x:Name="PlanTaskButton" Text="Zaplanuj aktywność"/>
+            <Button Text="{x:StaticResource StartTaskButtonText}" x:Name="StartTaskButton" />
         </StackLayout>
         
     </ContentPage.Content>

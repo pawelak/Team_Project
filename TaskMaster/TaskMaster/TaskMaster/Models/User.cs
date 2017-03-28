@@ -5,7 +5,7 @@ using SQLite;
 
 namespace TaskMaster.Models
 {
-    class Users
+    class User
     {
         [PrimaryKey,AutoIncrement]
         public int Id { get; set; }

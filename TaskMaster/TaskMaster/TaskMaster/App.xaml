@@ -4,7 +4,34 @@
              x:Class="TaskMaster.App">
 	<Application.Resources>
 
-		<!-- Application resource dictionary -->
+		<ResourceDictionary>
+            <!-- Main Page -->
+            <x:String x:Key="WelcomeText">Witaj w TaskMaster!</x:String>
+            <x:String x:Key="StartTaskText">Rozpocznij aktywność</x:String>
+            <x:String x:Key="PlanTaskText">Zaplanuj aktywność</x:String>
+            <x:String x:Key="FastTaskText">Rozpocznij szybką aktywność</x:String>
+            <x:String x:Key="StatisticText">Przeglądaj statystyki</x:String>
+            <x:String x:Key="CalendarText">Kalendarz</x:String>
+
+            <!-- Callender Page -->
+            
+            
+            <!-- Fast Task Page -->
+            <x:String x:Key="StartFastText">Rozpocznij aktywność bez podawania danych</x:String>
+
+            <!-- Plan Task Page -->
+            <x:String x:Key="NameText">Podaj nazwę aktywności</x:String>
+            <x:String x:Key="DateStartText">Podaj datę i godzinę rozpoczęcia aktywności</x:String>
+            <x:String x:Key="DateStopText">Podaj datę i godzinę zakończenia aktywności</x:String>
+            <x:String x:Key="StartPlanText">Zaplanuj aktywność</x:String>
+
+            <!-- Start Task Page -->
+            <x:String x:Key="StartNameText">Podaj nazwę aktywnościa</x:String>
+            <x:String x:Key="StartTaskButtonText">Rozpocznij aktywność</x:String>
+
+            <!-- Statistic Page -->
+
+        </ResourceDictionary>
 
 	</Application.Resources>
 </Application>
