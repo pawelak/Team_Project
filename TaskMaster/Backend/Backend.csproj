@@ -80,12 +80,24 @@
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Net.Http.Formatting, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.3\lib\net45\System.Net.Http.Formatting.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Web.Http, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Core.5.2.3\lib\net45\System.Web.Http.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.Http.WebHost, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.WebHost.5.2.3\lib\net45\System.Web.Http.WebHost.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Extensions" />
@@ -195,7 +207,9 @@
     <Compile Include="App_Start\IdentityConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
+    <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\ACTIONsAppController.cs" />
     <Compile Include="Controllers\ACTIONsController.cs" />
     <Compile Include="Controllers\ACTIVITiesController.cs" />
     <Compile Include="Controllers\EVENTsController.cs" />
@@ -230,6 +244,7 @@
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="ClassDiagram1.cd" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -301,6 +316,31 @@
     <Content Include="Views\ACTIVITies\Details.cshtml" />
     <Content Include="Views\ACTIVITies\Edit.cshtml" />
     <Content Include="Views\ACTIVITies\Index.cshtml" />
+    <Content Include="Views\ACTIONsApp\Create.cshtml" />
+    <Content Include="Views\ACTIONsApp\Delete.cshtml" />
+    <Content Include="Views\ACTIONsApp\Details.cshtml" />
+    <Content Include="Views\ACTIONsApp\Edit.cshtml" />
+    <Content Include="Views\ACTIONsApp\Index.cshtml" />
+    <Content Include="Views\ACTIVITiesApp\Create.cshtml" />
+    <Content Include="Views\ACTIVITiesApp\Delete.cshtml" />
+    <Content Include="Views\ACTIVITiesApp\Details.cshtml" />
+    <Content Include="Views\ACTIVITiesApp\Edit.cshtml" />
+    <Content Include="Views\ACTIVITiesApp\Index.cshtml" />
+    <Content Include="Views\EVENTsApp\Create.cshtml" />
+    <Content Include="Views\EVENTsApp\Delete.cshtml" />
+    <Content Include="Views\EVENTsApp\Details.cshtml" />
+    <Content Include="Views\EVENTsApp\Edit.cshtml" />
+    <Content Include="Views\EVENTsApp\Index.cshtml" />
+    <Content Include="Views\TOKENsApp\Create.cshtml" />
+    <Content Include="Views\TOKENsApp\Delete.cshtml" />
+    <Content Include="Views\TOKENsApp\Details.cshtml" />
+    <Content Include="Views\TOKENsApp\Edit.cshtml" />
+    <Content Include="Views\TOKENsApp\Index.cshtml" />
+    <Content Include="Views\USERsApp\Create.cshtml" />
+    <Content Include="Views\USERsApp\Delete.cshtml" />
+    <Content Include="Views\USERsApp\Details.cshtml" />
+    <Content Include="Views\USERsApp\Edit.cshtml" />
+    <Content Include="Views\USERsApp\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
