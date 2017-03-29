@@ -7,18 +7,29 @@ using TaskMaster.Models;
 
 namespace TaskMaster
 {
-    class UserDatabase
+    public class UserDatabase
     {
-        readonly SQLiteAsyncConnection database;
+        readonly SQLiteAsyncConnection _database;
         public UserDatabase (string dbpath)
         {
-            database = new SQLiteAsyncConnection(dbpath);
-            database.CreateTablesAsync<User, Events, PartsOfTasks, Tasks>().Wait();
+            _database = new SQLiteAsyncConnection(dbpath);
+            _database.CreateTablesAsync<Events,PartsOfTasks,Tasks,User>().Wait();
+           
         }
 
         public Task<List<User>> GetUserAsync()
         {
-            return database.Table<User>().ToListAsync();
+            return _database.Table<User>().ToListAsync();
+        }
+
+        public Task<int> SaveUser(User user)
+        {
+            return _database.InsertAsync(user);
+        }
+
+        public Task<int> SaveTask(Task task)
+        {
+            return _database.InsertAsync(task);
         }
     }
 }

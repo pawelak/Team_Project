@@ -9,17 +9,17 @@ namespace TaskMaster
 {
 	public partial class App : Application
 	{
-	    static UserDatabase database;
+	    static UserDatabase _database;
 
-	    static UserDatabase Database
+	    public static UserDatabase Database
 	    {
 	        get
 	        {
-	            if (database == null)
+	            if (_database == null)
 	            {
-	                database = new UserDatabase(DependencyService.Get<IFileHelper>().GetLocalFilePath("UsersSQlite.db3"));
+	                _database = new UserDatabase(DependencyService.Get<IFileHelper>().GetLocalFilePath("UserSQlite.db3"));
 	            }
-                return database;
+                return _database;
             }
 	    } 
 		public App ()

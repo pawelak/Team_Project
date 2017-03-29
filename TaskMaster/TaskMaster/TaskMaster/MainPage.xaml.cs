@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TaskMaster.Models;
 using Xamarin.Forms;
 
 namespace TaskMaster
@@ -12,6 +13,12 @@ namespace TaskMaster
 		public MainPage()
 		{
 			InitializeComponent();
+		    var user = new User()
+		    {
+		        Name = "Przykład",
+		        Desc = "Jeszcze też przykład"
+		    };
+		    App.Database.SaveUser(user);
 		}
 
 	    private void StartTaskButton_OnClicked(object sender, EventArgs e)

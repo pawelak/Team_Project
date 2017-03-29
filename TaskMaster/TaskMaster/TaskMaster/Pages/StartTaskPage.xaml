@@ -13,7 +13,7 @@
                      Spacing="15">
             <Label Text="{x:StaticResource StartNameText}"/>
             <Entry x:Name="StartTaskActivityName"/>
-            <Button Text="{x:StaticResource StartTaskButtonText}" x:Name="StartTaskButton" />
+            <Button Text="{x:StaticResource StartTaskButtonText}" x:Name="StartTaskButton" Clicked="StartTaskButton_OnClicked"/>
         </StackLayout>
         
     </ContentPage.Content>
