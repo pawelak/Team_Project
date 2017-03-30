@@ -9,10 +9,14 @@ namespace TaskMaster.Models
     public class User
     {
         [PrimaryKey,AutoIncrement]
-        public int Id { get; set; }
-        public string Name { get; set; }
-        public string Desc { get; set; }
-        //[OneToMany(CascadeOperations = CascadeOperation.All)]
-        //public List<Events> Events { get; set; }
+        public int userId { get; set; }
+        public string name { get; set; }
+        public string description { get; set; }
+        public string token { get; set; }
+        public string kind { get; set; }
+        [OneToMany(CascadeOperations = CascadeOperation.All)]
+        public List<Activities> activities { get; set; }
+        [OneToMany(CascadeOperations = CascadeOperation.All)]
+        public List<Favorites> favorites { get; set; }
     }
 }

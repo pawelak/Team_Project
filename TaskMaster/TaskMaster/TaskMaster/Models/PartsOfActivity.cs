@@ -6,14 +6,16 @@ using SQLiteNetExtensions.Attributes;
 
 namespace TaskMaster.Models
 {
-    public class PartsOfTasks
+    public class PartsOfActivity
     {
         [PrimaryKey,AutoIncrement]
         public int id { get; set; }
-        [ForeignKey(typeof(Events))]
-        public int eventID { get; set; }
+        [ForeignKey(typeof(Activities))]
+        public int activityID { get; set; }
         public DateTime start { get; set; }
         public DateTime stop { get; set; }
         public DateTime duration { get; set; }
+        [ManyToOne]
+        public Activities activity { get; set; }
     }
 }

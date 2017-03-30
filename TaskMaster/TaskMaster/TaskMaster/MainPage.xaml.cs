@@ -12,13 +12,7 @@ namespace TaskMaster
 	{
 		public MainPage()
 		{
-			InitializeComponent();
-		    var user = new User()
-		    {
-		        Name = "Przykład",
-		        Desc = "Jeszcze też przykład"
-		    };
-		    App.Database.SaveUser(user);
+            InitializeComponent();
 		}
 
 	    private void StartTaskButton_OnClicked(object sender, EventArgs e)

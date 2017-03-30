@@ -9,27 +9,25 @@ namespace TaskMaster
 {
     public class UserDatabase
     {
-        readonly SQLiteAsyncConnection _database;
+        readonly SQLiteConnection _database;
         public UserDatabase (string dbpath)
         {
-            _database = new SQLiteAsyncConnection(dbpath);
-            _database.CreateTablesAsync<Events,PartsOfTasks,Tasks,User>().Wait();
-           
+            _database = new SQLiteConnection(dbpath);
+            _database.CreateTable<Activities>();
+            _database.CreateTable<Favorites>();
+            _database.CreateTable<PartsOfActivity>();
+            _database.CreateTable<Tasks>();
+            _database.CreateTable<User>();
+        }
+        
+        public int SaveUser(User user)
+        {
+            return _database.Insert(user);
         }
 
-        public Task<List<User>> GetUserAsync()
+        public int SaveTask(Task task)
         {
-            return _database.Table<User>().ToListAsync();
-        }
-
-        public Task<int> SaveUser(User user)
-        {
-            return _database.InsertAsync(user);
-        }
-
-        public Task<int> SaveTask(Task task)
-        {
-            return _database.InsertAsync(task);
+            return _database.Insert(task);
         }
     }
 }

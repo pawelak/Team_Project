@@ -12,8 +12,9 @@
     <Compile Include="$(MSBuildThisFileDirectory)App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
-    <Compile Include="$(MSBuildThisFileDirectory)Models\Events.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Models\PartsOfTasks.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\Activities.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\Favorites.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\PartsOfActivity.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\Tasks.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserDatabase.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)IFileHelper.cs" />
