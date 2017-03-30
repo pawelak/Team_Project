@@ -19,7 +19,7 @@ namespace TaskMaster.DAL
         public DbSet<Activity> Activity { get; set; }
         public DbSet<Favorities> Favorities { get; set; }
         public DbSet<Group> Group { get; set; }
-        public DbSet<Parts_of_activity> Parts_of_activity { get; set; }
+        public DbSet<PartsOfActivity> PartsOfActivity { get; set; }
         public DbSet<Task> Task { get; set; }
         public DbSet<Tokens> Tokens { get; set; }
         public DbSet<User> User { get; set; }

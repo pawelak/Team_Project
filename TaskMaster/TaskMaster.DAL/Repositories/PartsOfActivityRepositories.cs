@@ -5,10 +5,10 @@ using System.Web;
 
 namespace TaskMaster.DAL
 {
-    public class Parts_of_activityRepositories : RepoBase<Parts_of_activity>
+    public class PartsOfActivityRepositories : RepoBase<PartsOfActivity>
     {
         Context db = new Context();
-        public Parts_of_activityRepositories()
+        public PartsOfActivityRepositories()
         {
 
         }

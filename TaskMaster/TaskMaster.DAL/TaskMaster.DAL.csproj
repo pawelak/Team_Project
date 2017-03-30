@@ -127,12 +127,12 @@
     <Compile Include="Models\Favorities.cs" />
     <Compile Include="Models\Group.cs" />
     <Compile Include="Repositories\GroupRepositories.cs" />
-    <Compile Include="Models\Parts_of_activity.cs" />
+    <Compile Include="Models\PartsOfActivity.cs" />
     <Compile Include="Models\Task.cs" />
     <Compile Include="Models\Tokens.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Models\User_Group.cs" />
-    <Compile Include="Repositories\Parts_of_activityRepositories.cs" />
+    <Compile Include="Repositories\PartsOfActivityRepositories.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\RepoBase.cs" />
     <Compile Include="Repositories\TaskRepositories.cs" />

@@ -17,7 +17,7 @@ namespace TaskMaster.DAL
         public Group Group { get; set; }
         public Task Task { get; set; }
 
-        public ICollection<Parts_of_activity> Parts_of_activity { get; set; }
+        public ICollection<PartsOfActivity> PartsOfActivity { get; set; }
         
     }
 }
