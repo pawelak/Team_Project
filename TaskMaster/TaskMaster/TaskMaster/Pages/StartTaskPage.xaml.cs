@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Android.OS;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using TaskMaster.Models;
@@ -20,18 +19,24 @@ namespace TaskMaster
 
 	    private void StartTaskButton_OnClicked(object sender, EventArgs e)
 	    {
-            try
+            var taskon = new Tasks()
             {
-                var user = new User() {
-                    name = "test",
-                    description = "testowe"
-                };
-                App.Database.SaveUser(user);
-            }
-            catch(System.TypeInitializationException a)
+                name = StartTaskName.Text,
+                description = StartTaskDescription.Text
+            };
+            App.Database.SaveTask(taskon);
+            var activity = new Activities {
+                taskId = taskon.taskId,
+                userId = 1
+            };
+            App.Database.SaveActivity(activity);
+            DateTime now = DateTime.Now;
+            var part = new PartsOfActivity
             {
-                DisplayAlert("Error", a.ToString(), "0", "1");
-            }
+                activityID = activity.activityId,
+                start = now
+            };
+            App.Database.SavePartOfTask(part);
         }
 	}
 }

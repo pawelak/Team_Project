@@ -9,25 +9,46 @@ namespace TaskMaster
 {
     public class UserDatabase
     {
-        readonly SQLiteConnection _database;
+        readonly SQLiteAsyncConnection _database;
         public UserDatabase (string dbpath)
         {
-            _database = new SQLiteConnection(dbpath);
-            _database.CreateTable<Activities>();
-            _database.CreateTable<Favorites>();
-            _database.CreateTable<PartsOfActivity>();
-            _database.CreateTable<Tasks>();
-            _database.CreateTable<User>();
-        }
-        
-        public int SaveUser(User user)
-        {
-            return _database.Insert(user);
+            _database = new SQLiteAsyncConnection(dbpath);
+            _database.CreateTablesAsync<Activities, Favorites, PartsOfActivity, Tasks, User>().Wait();
         }
 
-        public int SaveTask(Task task)
+        public Task<int> SaveActivity(Activities activity)
         {
-            return _database.Insert(task);
+            if (activity.activityId != 0)
+                return _database.UpdateAsync(activity);
+            return _database.InsertAsync(activity);
+        }
+        public Task<int> SaveFavorite(Favorites favorite)
+        {
+            if (favorite.favoriteId != 0)
+                return _database.UpdateAsync(favorite);
+            return _database.InsertAsync(favorite);
+        }
+        public Task<int> SavePartOfTask(PartsOfActivity part)
+        {
+            if (part.id != 0)
+                return _database.UpdateAsync(part);
+            return _database.InsertAsync(part);
+        }
+        public Task<int> SaveUser(User user)
+        {
+            if (user.userId != 0)
+                return _database.UpdateAsync(user);
+            return _database.InsertAsync(user);
+        }
+        public Task<int> SaveTask(Tasks task)
+        {
+            if (task.taskId != 0)
+                return _database.UpdateAsync(task);
+            return _database.InsertAsync(task);
+        }
+        public Task<Tasks> GetItemAsync(Tasks task)
+        {
+            return _database.GetAsync<Tasks>(task);
         }
     }
 }

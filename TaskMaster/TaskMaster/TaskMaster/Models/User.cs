@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Text;
 using SQLite;
-using SQLiteNetExtensions.Attributes;
 
 namespace TaskMaster.Models
 {
@@ -14,9 +13,5 @@ namespace TaskMaster.Models
         public string description { get; set; }
         public string token { get; set; }
         public string kind { get; set; }
-        [OneToMany(CascadeOperations = CascadeOperation.All)]
-        public List<Activities> activities { get; set; }
-        [OneToMany(CascadeOperations = CascadeOperation.All)]
-        public List<Favorites> favorites { get; set; }
     }
 }

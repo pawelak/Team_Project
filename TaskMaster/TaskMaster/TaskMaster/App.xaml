@@ -27,6 +27,7 @@
 
             <!-- Start Task Page -->
             <x:String x:Key="StartNameText">Podaj nazwę aktywnościa</x:String>
+            <x:String x:Key="StartDescriptionText">Podaj opis aktywności</x:String>
             <x:String x:Key="StartTaskButtonText">Rozpocznij aktywność</x:String>
 
             <!-- Statistic Page -->

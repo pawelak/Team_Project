@@ -12,7 +12,9 @@
         <StackLayout HorizontalOptions="Center"
                      Spacing="15">
             <Label Text="{x:StaticResource StartNameText}"/>
-            <Entry x:Name="StartTaskActivityName"/>
+            <Entry x:Name="StartTaskName"/>
+            <Label Text="{x:StaticResource StartDescriptionText}"/>
+            <Entry x:Name="StartTaskDescription"/>
             <Button Text="{x:StaticResource StartTaskButtonText}" x:Name="StartTaskButton" Clicked="StartTaskButton_OnClicked"/>
         </StackLayout>
         
