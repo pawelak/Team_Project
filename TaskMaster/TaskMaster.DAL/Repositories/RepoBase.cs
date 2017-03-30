@@ -34,7 +34,9 @@ namespace TaskMaster.DAL
 
             public void Edit(T X)
             {
-                // db.Entry(X).State
+                // Proszę o zwórcenie bacznej uwagi na kod ponizej i informacje o jego poprawnosci
+                db.Entry(X).State = EntityState.Modified;
+                db.SaveChanges();
             }
 
             public int Count()
