@@ -24,16 +24,16 @@ namespace TaskMaster
                 name = StartTaskName.Text,
                 description = StartTaskDescription.Text
             };
-            App.Database.SaveTask(taskon);
+            int newTaskId = App.Database.SaveTask(taskon).Result;
             var activity = new Activities {
-                taskId = taskon.taskId,
+                taskId = newTaskId,
                 userId = 1
             };
-            App.Database.SaveActivity(activity);
+            int newActivityId = App.Database.SaveActivity(activity).Result;
             DateTime now = DateTime.Now;
             var part = new PartsOfActivity
             {
-                activityID = activity.activityId,
+                activityID = newActivityId,
                 start = now
             };
             App.Database.SavePartOfTask(part);
