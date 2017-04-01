@@ -9,6 +9,7 @@ namespace TaskMaster.Models
     {
         [PrimaryKey,AutoIncrement]
         public int taskId { get; set; }
+        [Unique]
         public string name { get; set; }
         public string description { get; set; }
     }

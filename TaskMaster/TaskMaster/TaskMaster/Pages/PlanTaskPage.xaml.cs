@@ -21,10 +21,28 @@ namespace TaskMaster
         {
             var task = new Tasks()
             {
-                name = ActivityName.Text              
+                name = ActivityName.Text,
             };
-            
-	        DisplayAlert("Tytuł", ActivityName.Text, "OK", "No");
-	    }
+            if (App.Database.GetTask(task).Result == null)
+                task.taskId = App.Database.SaveTask(task).Result;
+            else
+                task = App.Database.GetTask(task).Result;
+            var activity = new Activities()
+            {
+                userId = 1,
+                taskId = task.taskId,
+                groupId = 1
+            };
+            activity.activityId = App.Database.SaveActivity(activity).Result;
+            string start = PlanTaskStartTime + " " + PlanTaskStartDate;
+            string end = PlanTaskStopTime + " " + PlanTaskStopDate;
+            var part = new PartsOfActivity()
+            {
+                activityID = activity.activityId,
+                start = start,
+                stop = end
+            };
+            App.Database.SavePartOfTask(part);
+        }
 	}
 }

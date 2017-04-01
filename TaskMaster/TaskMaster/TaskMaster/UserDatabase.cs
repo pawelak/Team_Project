@@ -51,5 +51,10 @@ namespace TaskMaster
                 return _database.UpdateAsync(task);
             return _database.InsertAsync(task);          
         }
+
+        public Task<Tasks> GetTask(Tasks task)
+        {
+            return _database.Table<Tasks>().Where(t => t.name == task.name).FirstOrDefaultAsync();
+        }
     }
 }
