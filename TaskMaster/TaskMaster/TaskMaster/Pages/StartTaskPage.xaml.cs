@@ -25,24 +25,20 @@ namespace TaskMaster
                 name = StartTaskName.Text,
                 description = StartTaskDescription.Text
             };
-	        int newTaskId;
             if (App.Database.GetTask(taskon).Result == null)
-	            newTaskId = App.Database.SaveTask(taskon).Result;
+	            taskon.taskId = App.Database.SaveTask(taskon).Result;
 	        else
-	        {
 	            taskon = App.Database.GetTask(taskon).Result;
-	            newTaskId = taskon.taskId;
-	        }
 	        var activity = new Activities {
-                taskId = newTaskId,
+                taskId = taskon.taskId,
                 userId = 1
             };
-            int newActivityId = App.Database.SaveActivity(activity).Result;
+            activity.activityId = App.Database.SaveActivity(activity).Result;
             DateTime now = DateTime.Now;
 	        string date = now.ToString("HH:mm:ss dd/MM/yyyy");
             var part = new PartsOfActivity
             {
-                activityID = newActivityId,
+                activityID = activity.activityId,
                 start = date
             };
             App.Database.SavePartOfTask(part);
