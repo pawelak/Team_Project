@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
+using Android.Support.V7.View.Menu;
 using SQLite;
 using TaskMaster.Models;
 
@@ -24,37 +25,63 @@ namespace TaskMaster
         public Task<int> SaveActivity(Activities activity)
         {
             if (activity.activityId != 0)
-                return _database.UpdateAsync(activity);
-            return _database.InsertAsync(activity);
+                _database.UpdateAsync(activity);
+            else
+                _database.InsertAsync(activity);
+            return _database.ExecuteScalarAsync<int>("Select activityId From Activities Order By activityId Desc Limit 1");
+
         }
         public Task<int> SaveFavorite(Favorites favorite)
         {
             if (favorite.favoriteId != 0)
-                return _database.UpdateAsync(favorite);
-            return _database.InsertAsync(favorite);
+                _database.UpdateAsync(favorite);
+            else
+                _database.InsertAsync(favorite);
+            return _database.ExecuteScalarAsync<int>("Select favoriteId From Favorites Order By favoriteId Desc Limit 1");
         }
         public Task<int> SavePartOfTask(PartsOfActivity part)
         {
-            if (part.id != 0)
-                return _database.UpdateAsync(part);
-            return _database.InsertAsync(part);
+            if (part.partId != 0)
+                _database.UpdateAsync(part);
+            else
+                _database.InsertAsync(part);
+            return _database.ExecuteScalarAsync<int>("Select partId From PartsOfActivity Order By partId Desc Limit 1");
         }
         public Task<int> SaveUser(User user)
         {
             if (user.userId != 0)
-                return _database.UpdateAsync(user);
-            return _database.InsertAsync(user);
+                _database.UpdateAsync(user);
+            else
+                _database.InsertAsync(user);
+            return _database.ExecuteScalarAsync<int>("Select userId From User Order By userId Desc Limit 1");
         }
         public Task<int> SaveTask(Tasks task)
         {
             if (task.taskId != 0)
-                return _database.UpdateAsync(task);
-            return _database.InsertAsync(task);          
+                _database.UpdateAsync(task);
+            else
+                _database.InsertAsync(task);
+            return _database.ExecuteScalarAsync<int>("Select taskid FROM Tasks ORDER BY taskId DESC LIMIT 1");
         }
 
         public Task<Tasks> GetTask(Tasks task)
         {
             return _database.Table<Tasks>().Where(t => t.name == task.name).FirstOrDefaultAsync();
+        }
+
+        public Task<List<PartsOfActivity>> GetPartsList()
+        {
+            return _database.Table<PartsOfActivity>().ToListAsync();
+        }
+
+        public Task<Activities> GetActivity(int id)
+        {
+            return _database.Table<Activities>().Where(t => t.activityId == id).FirstOrDefaultAsync();
+        }
+
+        public Task<Tasks> GetTaskById(int id)
+        {
+            return _database.Table<Tasks>().Where(t => t.taskId == id).FirstOrDefaultAsync();
         }
     }
 }

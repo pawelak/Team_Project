@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -38,13 +39,13 @@ namespace TaskMaster
             };
             int newActivityId = App.Database.SaveActivity(activity).Result;
             DateTime now = DateTime.Now;
-	        string date = now.ToString("HH:mm:ss dd-MM-yyyy");
+	        string date = now.ToString("HH:mm:ss dd/MM/yyyy");
             var part = new PartsOfActivity
             {
                 activityID = newActivityId,
                 start = date
             };
             App.Database.SavePartOfTask(part);
-        }
+	    }
 	}
 }

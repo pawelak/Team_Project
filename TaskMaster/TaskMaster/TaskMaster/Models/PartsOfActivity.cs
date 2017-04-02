@@ -8,7 +8,7 @@ namespace TaskMaster.Models
     public class PartsOfActivity
     {
         [PrimaryKey,AutoIncrement]
-        public int id { get; set; }
+        public int partId { get; set; }
         public int activityID { get; set; }
         public string start { get; set; }
         public string stop { get; set; }

@@ -22,6 +22,7 @@ namespace TaskMaster
             var task = new Tasks()
             {
                 name = ActivityName.Text,
+                description = ActivityDecription.Text
             };
             if (App.Database.GetTask(task).Result == null)
                 task.taskId = App.Database.SaveTask(task).Result;
@@ -34,8 +35,8 @@ namespace TaskMaster
                 groupId = 1
             };
             activity.activityId = App.Database.SaveActivity(activity).Result;
-            string start = PlanTaskStartTime + " " + PlanTaskStartDate;
-            string end = PlanTaskStopTime + " " + PlanTaskStopDate;
+            string start = PlanTaskStartTime.Time + " " + PlanTaskStartDate.Date.ToShortDateString();
+            string end = PlanTaskStopTime.Time + " " + PlanTaskStopDate.Date.ToShortDateString();
             var part = new PartsOfActivity()
             {
                 activityID = activity.activityId,

@@ -10,8 +10,8 @@
     </ContentPage.Padding>
     <ContentPage.Content>
         <StackLayout HorizontalOptions="Center"
-                     Spacing="15">
-            <Button x:Name="FastTaskStartButton" Text="{x:StaticResource StartFastText}" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"/>
+                     Spacing="5">
+            <Button x:Name="FastTaskStartButton" Text="{x:StaticResource StartFastText}" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" Clicked="FastTaskStartButton_OnClicked"/>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

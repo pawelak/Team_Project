@@ -21,6 +21,7 @@
 
             <!-- Plan Task Page -->
             <x:String x:Key="NameText">Podaj nazwę aktywności</x:String>
+            <x:String x:Key="DescriptionText">Podaj opis aktywności</x:String>
             <x:String x:Key="DateStartText">Podaj datę i godzinę rozpoczęcia aktywności</x:String>
             <x:String x:Key="DateStopText">Podaj datę i godzinę zakończenia aktywności</x:String>
             <x:String x:Key="StartPlanText">Zaplanuj aktywność</x:String>

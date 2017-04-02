@@ -11,9 +11,11 @@
     <ContentPage.Content>
         <StackLayout HorizontalOptions="Center"
                      VerticalOptions="FillAndExpand"
-                     Spacing="15">
+                     Spacing="5">
             <Label Text="{x:StaticResource NameText}"/>
             <Entry x:Name="ActivityName"/>
+            <Label Text="{x:StaticResource DescriptionText}"/>
+            <Entry x:Name="ActivityDecription"/>
             <Label Text="{x:StaticResource DateStartText}"/>
             <DatePicker x:Name="PlanTaskStartDate" Format="dd/MM/yyyy"/>
             <TimePicker x:Name="PlanTaskStartTime" Format="HH:mm"/>
