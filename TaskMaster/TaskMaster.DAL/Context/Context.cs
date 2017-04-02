@@ -16,14 +16,14 @@ namespace TaskMaster.DAL
             // Database.SetInitializer<CONNECTION>(new CreateDatabaseIfNotExists<CONNECTION>());
         }
 
-        public DbSet<Activity> Activity { get; set; }
-        public DbSet<Favorities> Favorities { get; set; }
-        public DbSet<Group> Group { get; set; }
-        public DbSet<PartsOfActivity> PartsOfActivity { get; set; }
-        public DbSet<Task> Task { get; set; }
-        public DbSet<Tokens> Tokens { get; set; }
-        public DbSet<User> User { get; set; }
-        public DbSet<User_Group> User_group { get; set; }
+        public DbSet<Activity> activity { get; set; }
+        public DbSet<Favorities> favorities { get; set; }
+        public DbSet<Group> group { get; set; }
+        public DbSet<PartsOfActivity> partsOfActivity { get; set; }
+        public DbSet<Task> task { get; set; }
+        public DbSet<Tokens> tokens { get; set; }
+        public DbSet<User> user { get; set; }
+        public DbSet<UserGroup> userGroup { get; set; }
 
     }
 }

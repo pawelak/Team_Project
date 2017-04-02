@@ -119,16 +119,16 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="REPOSITORIES\RepoBase.cs" />
-    <Compile Include="MODELS\Action.cs" />
-    <Compile Include="MODELS\Activity.cs" />
-    <Compile Include="MODELS\Comment.cs" />
+    <Compile Include="Repositories\RepoBase.cs" />
+    <Compile Include="Models\Action.cs" />
+    <Compile Include="Models\Activity.cs" />
+    <Compile Include="Models\Comment.cs" />
     <Compile Include="Connection.cs" />
-    <Compile Include="MODELS\Event.cs" />
+    <Compile Include="Models\Event.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="MODELS\Token.cs" />
-    <Compile Include="MODELS\User.cs" />
-    <Compile Include="REPOSITORIES\RepoAction.cs" />
+    <Compile Include="Models\Token.cs" />
+    <Compile Include="Models\User.cs" />
+    <Compile Include="Repositories\RepoAction.cs" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

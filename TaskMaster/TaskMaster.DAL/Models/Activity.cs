@@ -10,14 +10,15 @@ namespace TaskMaster.DAL
     {
         public Activity() { }
         [Key]
-        public int Activityid { get; set; }
-        public string Comment { get; set; }
+        public int activityId { get; set; }
+        public int state { get; set; }
+        public string comment { get; set; }
 
-        public User User { get; set; }
-        public Group Group { get; set; }
-        public Task Task { get; set; }
+        public User user { get; set; }
+        public Group group { get; set; }
+        public Task task { get; set; }
 
-        public ICollection<PartsOfActivity> PartsOfActivity { get; set; }
+        public ICollection<PartsOfActivity> partsOfActivity { get; set; }
         
     }
 }

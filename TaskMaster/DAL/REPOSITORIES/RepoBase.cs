@@ -26,7 +26,7 @@ namespace DAL
         {
             return db.Set<T>().ToList<T>();
         }
-
+       
         public T Get(T X)
         {
             return db.Set<T>().FirstOrDefault<T>();
@@ -34,7 +34,14 @@ namespace DAL
 
         public void Edit(T X)
         {
-           // db.Entry(X).State
+            // Proszę o sprawdzenie tego miejsca i odpoiedzenie na następujące pytania:
+            // Czy ma prawo zadziałać?
+            // Czy istnieje lepsze zaimlementowanie sposobu edycji danych?
+            // Czy jest prawidłowe ze względu na konwencję kodowania?
+            // Z poważaniem Norbert 
+            db.Entry(X).State = EntityState.Modified;
+            db.SaveChanges();
+            db.Database.
         }
 
         public int Count()

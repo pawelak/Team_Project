@@ -10,11 +10,11 @@ namespace TaskMaster.DAL
     {
         public Group() { }
         [Key]
-        public int Groupid { get; set; }
-        public string Name_group { get; set; }
+        public int groupId { get; set; }
+        public string nameGroup { get; set; }
  
-        public ICollection<Activity> Activity { get; set; }
-        public ICollection<User_Group> User_Group { get; set; }
+        public ICollection<Activity> activity { get; set; }
+        public ICollection<UserGroup> userGroup { get; set; }
 
     }
 }

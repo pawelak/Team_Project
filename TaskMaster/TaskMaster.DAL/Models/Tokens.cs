@@ -10,11 +10,11 @@ namespace TaskMaster.DAL
     {
         public Tokens() { }
         [Key]
-        public int Tokensid { get; set; }
-        public string Token { get; set; }
-        public int Kind { get; set; }
-        public int Platform { get; set; }
+        public int tokensId { get; set; }
+        public string token { get; set; }
+        public int kind { get; set; }
+        public int platform { get; set; }
 
-        public User User { get; set; }   
+        public User user { get; set; }   
     }
 }

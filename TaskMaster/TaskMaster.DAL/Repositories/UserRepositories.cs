@@ -12,20 +12,21 @@ namespace TaskMaster.DAL
         {
             //Dane testowe do wyrzucenia po zakonczeniu badan
             User alfa = new User();
-            alfa.Email = "dlanorberta@gmail.com";
-            alfa.Name = "Norbercik";
-            db.User.Add(alfa);
+            alfa.email = "dlanorberta@gmail.com";
+            alfa.name = "Norbercik";
+            db.user.Add(alfa);
             db.SaveChanges();
             User beta = new User();
-            beta.Email = "dlapawela@gmail.com";
-            beta.Name = "Pawełek";
-            db.User.Add(beta);
+            beta.email = "dlapawela@gmail.com";
+            beta.name = "Pawełek";
+            db.user.Add(beta);
             db.SaveChanges();
             User gamma = new User();
-            gamma.Email = "dlabartosza@gmail.com";
-            gamma.Name = "Bartoszek";
-            db.User.Add(gamma);
+            gamma.email = "dlabartosza@gmail.com";
+            gamma.name = "Bartoszek";
+            db.user.Add(gamma);
             db.SaveChanges();
+            //Koniec testu
         }
     }
 }

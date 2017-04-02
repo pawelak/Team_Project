@@ -119,6 +119,7 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Models\UserGroup.cs" />
     <Compile Include="Proba.cs" />
     <Compile Include="Repositories\ActivityRepositories.cs" />
     <Compile Include="Context\Context.cs" />
@@ -131,14 +132,13 @@
     <Compile Include="Models\Task.cs" />
     <Compile Include="Models\Tokens.cs" />
     <Compile Include="Models\User.cs" />
-    <Compile Include="Models\User_Group.cs" />
     <Compile Include="Repositories\PartsOfActivityRepositories.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\RepoBase.cs" />
     <Compile Include="Repositories\TaskRepositories.cs" />
     <Compile Include="Repositories\TokensRepositories.cs" />
+    <Compile Include="Repositories\UserGroupRepositories.cs" />
     <Compile Include="Repositories\UserRepositories.cs" />
-    <Compile Include="Repositories\User_GroupRepositories.cs" />
   </ItemGroup>
   <ItemGroup />
   <PropertyGroup>

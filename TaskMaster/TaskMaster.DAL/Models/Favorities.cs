@@ -10,10 +10,10 @@ namespace TaskMaster.DAL
     {
         public Favorities() { }
         [Key]
-        public int Favoritiesid { get; set; }
+        public int favoritiesId { get; set; }
 
-        public User User { get; set; }
-        public Task Task { get; set; }
+        public User user { get; set; }
+        public Task task { get; set; }
 
     }
 }

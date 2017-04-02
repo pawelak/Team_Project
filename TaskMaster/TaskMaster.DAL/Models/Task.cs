@@ -10,12 +10,12 @@ namespace TaskMaster.DAL
     {
         public Task() { }
         [Key]
-        public int Taskid { get; set; }
-        public string Name { get; set; }
-        public string Descryption { get; set; }
+        public int taskId { get; set; }
+        public string name { get; set; }
+        public string descryption { get; set; }
 
-        public ICollection<Activity> Activity { get; set; }
-        public ICollection<Favorities> Favorites { get; set; }
+        public ICollection<Activity> activity { get; set; }
+        public ICollection<Favorities> favorites { get; set; }
 
     }
 }

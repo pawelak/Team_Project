@@ -10,12 +10,12 @@ namespace TaskMaster.DAL
     {
         public PartsOfActivity() { }
         [Key]
-        public int PartsOfActivityId { get; set; }
-        public DateTime Start { get; set; }
-        public DateTime Stop { get; set; }
-        public DateTime Duration { get; set; }
+        public int partsOfActivityId { get; set; }
+        public DateTime start { get; set; }
+        public DateTime stop { get; set; }
+        public DateTime duration { get; set; }
 
-        public Activity Activity { get; set; }
+        public Activity activity { get; set; }
 
     }
 }

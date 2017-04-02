@@ -8,7 +8,7 @@ namespace TaskMaster.DAL
     public class GroupRepositories : RepoBase<Group>
     {
         Context db = new Context();
-        GroupRepositories()
+        public GroupRepositories()
         {
 
         }

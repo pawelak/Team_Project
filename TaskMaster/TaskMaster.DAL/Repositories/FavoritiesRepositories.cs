@@ -8,7 +8,7 @@ namespace TaskMaster.DAL
     public class FavoritiesRepositories : RepoBase<Favorities>
     {
         Context db = new Context();
-        FavoritiesRepositories()
+        public FavoritiesRepositories()
         {
 
         }

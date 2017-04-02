@@ -5,10 +5,11 @@ using System.Web;
 
 namespace TaskMaster.DAL
 {
-    public class User_GroupRepositories : RepoBase<User_Group>
+    public class UserGroupRepositories : RepoBase<UserGroup>
     {
         Context db = new Context();
-        public User_GroupRepositories()
+
+        public UserGroupRepositories()
         {
 
         }

@@ -12,7 +12,7 @@ namespace DAL
         public Connection(): base("name=TaskMasterBase")
         {
            //Database.Connection.ConnectionString = "Data Source=DESKTOP-I62ETTQ;Initial Catalog=NOWA;User ID=Konserwator; Password=poziomkowa13";
-           // Database.SetInitializer<CONNECTION>(new CreateDatabaseIfNotExists<CONNECTION>());
+           //Database.SetInitializer<CONNECTION>(new CreateDatabaseIfNotExists<CONNECTION>());
         }
 
         public DbSet<User> User { get; set; }
