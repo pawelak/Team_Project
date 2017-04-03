@@ -10,9 +10,9 @@ using Xamarin.Forms.Xaml;
 namespace TaskMaster
 {
 	[XamlCompilation(XamlCompilationOptions.Compile)]
-	public partial class PlanTaskPage : ContentPage
+	public partial class StatisticPage : ContentPage
 	{
-		public PlanTaskPage ()
+		public StatisticPage ()
 		{
 			InitializeComponent ();
 		}
