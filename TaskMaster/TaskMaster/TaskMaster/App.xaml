@@ -33,6 +33,10 @@
 
             <!-- Statistic Page -->
 
+
+            <!-- Timer Page -->
+            <x:String x:Key="StopButtonText">Zakończ aktywność</x:String>
+
         </ResourceDictionary>
 
 	</Application.Resources>

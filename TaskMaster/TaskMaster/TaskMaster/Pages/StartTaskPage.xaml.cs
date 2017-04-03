@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using TaskMaster.Models;
+using TaskMaster.Pages;
 
 namespace TaskMaster
 {
@@ -42,6 +43,7 @@ namespace TaskMaster
                 start = date
             };
             App.Database.SavePartOfTask(part);
+	        Navigation.PushAsync(new TimePage(part));
 	    }
 	}
 }
