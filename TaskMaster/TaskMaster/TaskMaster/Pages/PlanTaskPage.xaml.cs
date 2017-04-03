@@ -44,6 +44,7 @@ namespace TaskMaster
                 stop = end
             };
             App.Database.SavePartOfTask(part);
+            Navigation.PopAsync();
         }
 	}
 }
