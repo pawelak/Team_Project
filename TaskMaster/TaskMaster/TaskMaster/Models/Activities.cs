@@ -13,5 +13,6 @@ namespace TaskMaster.Models
         public int userId { get; set; }
         public int taskId { get; set; }
         public int groupId { get; set; }
+        public int status { get; set; }
     }
 }
