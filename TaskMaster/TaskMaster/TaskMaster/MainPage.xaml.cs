@@ -1,4 +1,5 @@
 ﻿using System;
+using TaskMaster.Pages;
 using Xamarin.Forms;
 
 namespace TaskMaster
@@ -33,5 +34,10 @@ namespace TaskMaster
         {
             await Navigation.PushAsync(new CalendarPage());
         }
-    }
+
+	    private async void ActiveButton_OnClicked(object sender, EventArgs e)
+	    {
+	        await Navigation.PushAsync(new ActiveTasksPage());
+	    }
+	}
 }
