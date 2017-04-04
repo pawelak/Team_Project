@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Diagnostics;
+using System.Linq;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using TaskMaster.Models;
@@ -27,18 +29,22 @@ namespace TaskMaster
 	            newTask = App.Database.GetTask(newTask).Result;
 	        var newActivity = new Activities {
                 TaskId = newTask.TaskId,
-                UserId = 1
+                UserId = 1,
+                Status = StatusType.Start
             };
             newActivity.ActivityId = await App.Database.SaveActivity(newActivity);
             DateTime now = DateTime.Now;
 	        string date = now.ToString("HH:mm:ss dd/MM/yyyy");
             var part = new PartsOfActivity
             {
-                ActivityID = newActivity.ActivityId,
+                ActivityId = newActivity.ActivityId,
                 Start = date
             };
-            await App.Database.SavePartOfTask(part);
-	        await Navigation.PushAsync(new TimePage(part));
+            part.PartId = await App.Database.SavePartOfTask(part);
+            Stopwatch sw = new Stopwatch();
+            App.Stopwatches.Add(sw);
+	        App.Stopwatches[0].Start();
+            await Navigation.PushAsync(new TimePage(part));
 	    }
 	}
 }

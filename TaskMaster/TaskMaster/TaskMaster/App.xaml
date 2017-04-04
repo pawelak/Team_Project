@@ -35,6 +35,8 @@
 
 
             <!-- Timer Page -->
+            <x:String x:Key="ResumeButtonText">Wznów aktywność</x:String>
+            <x:String x:Key="PauseButtonText">Zapauzuj aktywność</x:String>
             <x:String x:Key="StopButtonText">Zakończ aktywność</x:String>
 
         </ResourceDictionary>

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using Xamarin.Forms;
@@ -9,8 +10,8 @@ namespace TaskMaster
 {
 	public partial class App : Application
 	{
-	    static UserDatabase _database;
-
+	    private static UserDatabase _database;
+	    public static List<Stopwatch> Stopwatches = new List<Stopwatch>();
 	    public static UserDatabase Database
 	    {
 	        get

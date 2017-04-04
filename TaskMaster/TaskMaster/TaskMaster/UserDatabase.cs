@@ -98,5 +98,11 @@ namespace TaskMaster
             var result = await _database.Table<Tasks>().Where(t => t.TaskId == id).FirstOrDefaultAsync();
             return result;
         }
+
+        public async Task<List<Activities>> GetActivitiesByStatus(StatusType status)
+        {
+            var result = await _database.Table<Activities>().Where(t => t.Status == status).ToListAsync();
+            return result;
+        }
     }
 }

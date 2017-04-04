@@ -39,7 +39,7 @@ namespace TaskMaster
             string end = PlanTaskStopTime.Time + " " + PlanTaskStopDate.Date.ToShortDateString();
             var part = new PartsOfActivity()
             {
-                ActivityID = newActivity.ActivityId,
+                ActivityId = newActivity.ActivityId,
                 Start = start,
                 Stop = end
             };

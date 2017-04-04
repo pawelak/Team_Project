@@ -13,6 +13,11 @@ namespace TaskMaster.Models
         public int UserId { get; set; }
         public int TaskId { get; set; }
         public int GroupId { get; set; }
-        public int Status { get; set; }
+        public StatusType Status { get; set; }
+    }
+
+    public enum StatusType
+    {
+        Start,Pause,Stop
     }
 }
