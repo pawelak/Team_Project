@@ -19,13 +19,16 @@ namespace TaskMaster
             _database.CreateTablesAsync<Activities, Favorites, PartsOfActivity, Tasks, User>().Wait();
         }
 
-        public Task<int> SaveActivity(Activities activity)
+        public async Task<int> SaveActivity(Activities activity)
         {
             if (activity.ActivityId != 0)
-                return _database.UpdateAsync(activity);
-            _database.InsertAsync(activity);
-            return _database.ExecuteScalarAsync<int>("Select activityId From Activities Order By activityId Desc Limit 1");
-
+            {
+                var result = await _database.UpdateAsync(activity);
+                return result;
+            }
+            var result2 = await _database.InsertAsync(activity);
+            //return _database.ExecuteScalarAsync<int>("Select activityId From Activities Order By activityId Desc Limit 1");
+            return result2;
         }
         public Task<int> SaveFavorite(Favorites favorite)
         {

@@ -19,9 +19,9 @@ namespace TaskMaster.Pages
 		{
 			InitializeComponent ();
 		    _activity = part;
-		    _active = App.Database.GetActivity(_activity.activityID).Result;
-            _task = App.Database.GetTaskById(_active.taskId).Result;
-		    DisplayAlert(_task.name, _task.description + "\n" + _activity.start + "\n" + _activity.stop + "\n" + _activity.duration, "No", "Ok");
+		    _active = App.Database.GetActivity(_activity.ActivityID).Result;
+            _task = App.Database.GetTaskById(_active.TaskId).Result;
+		    DisplayAlert(_task.Name, _task.Description + "\n" + _activity.Start + "\n" + _activity.Stop + "\n" + _activity.Duration, "No", "Ok");
 		}
 	}
 }

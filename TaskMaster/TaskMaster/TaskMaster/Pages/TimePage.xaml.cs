@@ -28,8 +28,8 @@ namespace TaskMaster.Pages
 	        long mili = _stopwatch.ElapsedMilliseconds;
             DateTime now = DateTime.Now;
             string date = now.ToString("HH:mm:ss dd/MM/yyyy");
-	        _actual.stop = date;
-	        _actual.duration = mili.ToString();
+	        _actual.Stop = date;
+	        _actual.Duration = mili.ToString();
             Navigation.PushAsync(new ResultPage(_actual));
         }
 	}

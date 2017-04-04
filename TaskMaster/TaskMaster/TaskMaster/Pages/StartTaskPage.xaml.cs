@@ -1,9 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using TaskMaster.Models;
@@ -21,26 +16,26 @@ namespace TaskMaster
 
 	    private void StartTaskButton_OnClicked(object sender, EventArgs e)
 	    {
-            var taskon = new Tasks()
+            var newTask = new Tasks()
             {
-                name = StartTaskName.Text,
-                description = StartTaskDescription.Text
+                Name = StartTaskName.Text,
+                Description = StartTaskDescription.Text
             };
-            if (App.Database.GetTask(taskon).Result == null)
-	            taskon.taskId = App.Database.SaveTask(taskon).Result;
+            if (App.Database.GetTask(newTask).Result == null)
+	            newTask.TaskId = App.Database.SaveTask(newTask).Result;
 	        else
-	            taskon = App.Database.GetTask(taskon).Result;
-	        var activity = new Activities {
-                taskId = taskon.taskId,
-                userId = 1
+	            newTask = App.Database.GetTask(newTask).Result;
+	        var newActivity = new Activities {
+                TaskId = newTask.TaskId,
+                UserId = 1
             };
-            activity.activityId = App.Database.SaveActivity(activity).Result;
+            newActivity.ActivityId = App.Database.SaveActivity(newActivity).Result;
             DateTime now = DateTime.Now;
 	        string date = now.ToString("HH:mm:ss dd/MM/yyyy");
             var part = new PartsOfActivity
             {
-                activityID = activity.activityId,
-                start = date
+                ActivityID = newActivity.ActivityId,
+                Start = date
             };
             App.Database.SavePartOfTask(part);
 	        Navigation.PushAsync(new TimePage(part));

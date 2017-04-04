@@ -21,7 +21,7 @@ namespace TaskMaster
 	    private void FastTaskStartButton_OnClicked(object sender, EventArgs e)
 	    {
 	        var activity = new Activities();
-	        activity.activityId = App.Database.SaveActivity(activity).Result;
+	        activity.ActivityId = App.Database.SaveActivity(activity).Result;
 	    }
 	}
 }

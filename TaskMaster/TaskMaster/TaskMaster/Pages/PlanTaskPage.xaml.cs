@@ -19,29 +19,29 @@ namespace TaskMaster
 
 	    private void PlanTaskStartButton_OnClicked(object sender, EventArgs e)
         {
-            var task = new Tasks()
+            var newTask = new Tasks()
             {
-                name = ActivityName.Text,
-                description = ActivityDecription.Text
+                Name = ActivityName.Text,
+                Description = ActivityDecription.Text
             };
-            if (App.Database.GetTask(task).Result == null)
-                task.taskId = App.Database.SaveTask(task).Result;
+            if (App.Database.GetTask(newTask).Result == null)
+                newTask.TaskId = App.Database.SaveTask(newTask).Result;
             else
-                task = App.Database.GetTask(task).Result;
-            var activity = new Activities()
+                newTask = App.Database.GetTask(newTask).Result;
+            var newActivity = new Activities()
             {
-                userId = 1,
-                taskId = task.taskId,
-                groupId = 1
+                UserId = 1,
+                TaskId = newTask.TaskId,
+                GroupId = 1
             };
-            activity.activityId = App.Database.SaveActivity(activity).Result;
+            newActivity.ActivityId = App.Database.SaveActivity(newActivity).Result;
             string start = PlanTaskStartTime.Time + " " + PlanTaskStartDate.Date.ToShortDateString();
             string end = PlanTaskStopTime.Time + " " + PlanTaskStopDate.Date.ToShortDateString();
             var part = new PartsOfActivity()
             {
-                activityID = activity.activityId,
-                start = start,
-                stop = end
+                ActivityID = newActivity.ActivityId,
+                Start = start,
+                Stop = end
             };
             App.Database.SavePartOfTask(part);
             Navigation.PopAsync();
