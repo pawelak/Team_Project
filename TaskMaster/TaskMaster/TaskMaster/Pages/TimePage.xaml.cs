@@ -22,7 +22,7 @@ namespace TaskMaster.Pages
 		    _actual = part;
 		}
 
-	    private void StopButton_OnClicked(object sender, EventArgs e)
+	    private async void StopButton_OnClicked(object sender, EventArgs e)
 	    {
 	        _stopwatch.Stop();
 	        long mili = _stopwatch.ElapsedMilliseconds;
@@ -30,7 +30,7 @@ namespace TaskMaster.Pages
             string date = now.ToString("HH:mm:ss dd/MM/yyyy");
 	        _actual.Stop = date;
 	        _actual.Duration = mili.ToString();
-            Navigation.PushAsync(new ResultPage(_actual));
+            await Navigation.PushAsync(new ResultPage(_actual));
         }
 	}
 }

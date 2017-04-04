@@ -14,22 +14,22 @@ namespace TaskMaster
 			InitializeComponent ();
 		}
 
-	    private void StartTaskButton_OnClicked(object sender, EventArgs e)
+	    private async void StartTaskButton_OnClicked(object sender, EventArgs e)
 	    {
             var newTask = new Tasks()
             {
                 Name = StartTaskName.Text,
                 Description = StartTaskDescription.Text
             };
-            if (App.Database.GetTask(newTask).Result == null)
-	            newTask.TaskId = App.Database.SaveTask(newTask).Result;
+            if (await App.Database.GetTask(newTask) == null)
+	            newTask.TaskId = await App.Database.SaveTask(newTask);
 	        else
 	            newTask = App.Database.GetTask(newTask).Result;
 	        var newActivity = new Activities {
                 TaskId = newTask.TaskId,
                 UserId = 1
             };
-            newActivity.ActivityId = App.Database.SaveActivity(newActivity).Result;
+            newActivity.ActivityId = await App.Database.SaveActivity(newActivity);
             DateTime now = DateTime.Now;
 	        string date = now.ToString("HH:mm:ss dd/MM/yyyy");
             var part = new PartsOfActivity
@@ -37,8 +37,8 @@ namespace TaskMaster
                 ActivityID = newActivity.ActivityId,
                 Start = date
             };
-            App.Database.SavePartOfTask(part);
-	        Navigation.PushAsync(new TimePage(part));
+            await App.Database.SavePartOfTask(part);
+	        await Navigation.PushAsync(new TimePage(part));
 	    }
 	}
 }

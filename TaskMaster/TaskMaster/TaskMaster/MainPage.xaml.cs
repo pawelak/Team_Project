@@ -10,28 +10,28 @@ namespace TaskMaster
             InitializeComponent();
 		}
 
-	    private void StartTaskButton_OnClicked(object sender, EventArgs e)
+	    private async void StartTaskButton_OnClicked(object sender, EventArgs e)
 	    {
-	        Navigation.PushAsync(new StartTaskPage());
+	        await Navigation.PushAsync(new StartTaskPage());
 	    }
 
-	    private void PlanTaskButton_OnClicked(object sender, EventArgs e)
+	    private async void PlanTaskButton_OnClicked(object sender, EventArgs e)
 	    {
-	        Navigation.PushAsync(new PlanTaskPage());
+	        await Navigation.PushAsync(new PlanTaskPage());
 	    }
 
-	    private void FastTaskButton_OnClicked(object sender, EventArgs e)
+	    private async void FastTaskButton_OnClicked(object sender, EventArgs e)
 	    {
-	        Navigation.PushAsync(new FastTaskPage());
+	        await Navigation.PushAsync(new FastTaskPage());
 	    }
 
-	    private void StatisticsButton_OnClicked(object sender, EventArgs e)
+	    private async void StatisticsButton_OnClicked(object sender, EventArgs e)
 	    {
-	        Navigation.PushAsync(new StatisticPage());
+	        await Navigation.PushAsync(new StatisticPage());
 	    }
-        private void CalendarButton_OnClicked(object sender, EventArgs e)
+        private async void CalendarButton_OnClicked(object sender, EventArgs e)
         {
-            Navigation.PushAsync(new CalendarPage());
+            await Navigation.PushAsync(new CalendarPage());
         }
     }
 }

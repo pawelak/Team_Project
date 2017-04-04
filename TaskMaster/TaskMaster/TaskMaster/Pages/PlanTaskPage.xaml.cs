@@ -17,24 +17,24 @@ namespace TaskMaster
 			InitializeComponent ();
 		}
 
-	    private void PlanTaskStartButton_OnClicked(object sender, EventArgs e)
+	    private async void PlanTaskStartButton_OnClicked(object sender, EventArgs e)
         {
             var newTask = new Tasks()
             {
                 Name = ActivityName.Text,
                 Description = ActivityDecription.Text
             };
-            if (App.Database.GetTask(newTask).Result == null)
-                newTask.TaskId = App.Database.SaveTask(newTask).Result;
+            if (await App.Database.GetTask(newTask) == null)
+                newTask.TaskId = await App.Database.SaveTask(newTask);
             else
-                newTask = App.Database.GetTask(newTask).Result;
+                newTask = await App.Database.GetTask(newTask);
             var newActivity = new Activities()
             {
                 UserId = 1,
                 TaskId = newTask.TaskId,
                 GroupId = 1
             };
-            newActivity.ActivityId = App.Database.SaveActivity(newActivity).Result;
+            newActivity.ActivityId = await App.Database.SaveActivity(newActivity);
             string start = PlanTaskStartTime.Time + " " + PlanTaskStartDate.Date.ToShortDateString();
             string end = PlanTaskStopTime.Time + " " + PlanTaskStopDate.Date.ToShortDateString();
             var part = new PartsOfActivity()
@@ -43,8 +43,8 @@ namespace TaskMaster
                 Start = start,
                 Stop = end
             };
-            App.Database.SavePartOfTask(part);
-            Navigation.PopAsync();
+            await App.Database.SavePartOfTask(part);
+            await Navigation.PopAsync();
         }
 	}
 }
