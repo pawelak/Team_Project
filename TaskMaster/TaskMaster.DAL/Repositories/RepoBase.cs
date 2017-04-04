@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Data.Entity;
+using TaskMaster.DAL.Context;
 
-namespace TaskMaster.DAL
+namespace TaskMaster.DAL.Repositories
 {
      public class RepoBase<T> where T : class
      {
-            Context db = new Context();
+            protected Context.DatabaseContext db = new Context.DatabaseContext();
 
             public void Add(T X)
             {
@@ -27,10 +28,10 @@ namespace TaskMaster.DAL
                 return db.Set<T>().ToList<T>();
             }
 
-            public T Get(T X)
-            {
-                return db.Set<T>().FirstOrDefault<T>();
-            }
+            //public T Get(int ID)
+            //{
+            //    return db.Set<T>().FirstOrDefault<>();
+            //}
 
             public void Edit(T X)
             {
