@@ -31,7 +31,7 @@ namespace TaskMaster
 	    }
         private void CalendarButton_OnClicked(object sender, EventArgs e)
         {
-            Navigation.PushAsync(new CallendarPage());
+            Navigation.PushAsync(new CalendarPage());
         }
     }
 }

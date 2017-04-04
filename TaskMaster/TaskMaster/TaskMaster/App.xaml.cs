@@ -28,7 +28,7 @@ namespace TaskMaster
 			MainPage = new NavigationPage(new MainPage());
             var user = new User()
             {
-                name = "Patryk"
+                Name = "Patryk"
             };
             Database.SaveUser(user);
 		}
