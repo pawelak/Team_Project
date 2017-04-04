@@ -11,11 +11,11 @@ using XamForms.Controls;
 namespace TaskMaster
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class CallendarPage : ContentPage
+    public partial class CalendarPage : ContentPage
     {
         XamForms.Controls.Calendar calendar = new XamForms.Controls.Calendar();
         List<PartsOfActivity> parts;
-        public CallendarPage()
+        public CalendarPage()
         {
            
             parts = App.Database.GetPartsList().Result;
@@ -23,7 +23,7 @@ namespace TaskMaster
          
             foreach (PartsOfActivity p in parts)
             {
-                calendar.SpecialDates.Add(new SpecialDate(Convert.ToDateTime(p.start)) { BackgroundColor = Color.Green, TextColor = Color.Black, BorderColor = Color.Blue, BorderWidth = 8 });
+                calendar.SpecialDates.Add(new SpecialDate(Convert.ToDateTime(p.Start)) { BackgroundColor = Color.Green, TextColor = Color.Black, BorderColor = Color.Blue, BorderWidth = 8 });
             }
             calendar.RaiseSpecialDatesChanged();//refresh
             InitializeComponent ();

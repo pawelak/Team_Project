@@ -8,10 +8,10 @@ namespace TaskMaster.Models
     public class User
     {
         [PrimaryKey,AutoIncrement]
-        public int userId { get; set; }
-        public string name { get; set; }
-        public string description { get; set; }
-        public string token { get; set; }
-        public string kind { get; set; }
+        public int UserId { get; set; }
+        public string Name { get; set; }
+        public string Description { get; set; }
+        public string Token { get; set; }
+        public string TypeOfRegistration { get; set; }
     }
 }

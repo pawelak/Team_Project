@@ -9,8 +9,8 @@ namespace TaskMaster.Models
     public class Favorites
     {
         [PrimaryKey, AutoIncrement]
-        public int favoriteId { get; set; }
-        public int userId { get; set; }
-        public int taskId { get; set; }
+        public int FavoriteId { get; set; }
+        public int UserId { get; set; }
+        public int TaskId { get; set; }
     }
 }

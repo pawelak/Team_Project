@@ -17,7 +17,7 @@
             <Button Text="{x:StaticResource PlanTaskText}" x:Name="PlanTaskButton" Clicked="PlanTaskButton_OnClicked"/>
             <Button Text="{x:StaticResource FastTaskText}" x:Name="FastTaskButton" Clicked="FastTaskButton_OnClicked"/>
             <Button Text="{x:StaticResource StatisticText}" x:Name="StatisticsButton" Clicked="StatisticsButton_OnClicked"></Button>
-            <Button Text="{x:StaticResource CalendarText}" x:Name="CallenButton" Clicked="CallendarButton_OnClicked"></Button>
+            <Button Text="{x:StaticResource CalendarText}" x:Name="CalendarButton" Clicked="CalendarButton_OnClicked"></Button>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

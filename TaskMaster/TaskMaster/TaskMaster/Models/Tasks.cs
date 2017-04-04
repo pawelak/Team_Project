@@ -8,9 +8,9 @@ namespace TaskMaster.Models
     public class Tasks
     {
         [PrimaryKey,AutoIncrement]
-        public int taskId { get; set; }
+        public int TaskId { get; set; }
         [Unique]
-        public string name { get; set; }
-        public string description { get; set; }
+        public string Name { get; set; }
+        public string Description { get; set; }
     }
 }
