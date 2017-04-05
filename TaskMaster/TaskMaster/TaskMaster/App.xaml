@@ -16,8 +16,6 @@
             <x:String x:Key="StartTaskText">Rozpocznij aktywność</x:String>
             <x:String x:Key="PlanTaskText">Zaplanuj aktywność</x:String>
             <x:String x:Key="FastTaskText">Rozpocznij szybką aktywność</x:String>
-            <x:String x:Key="StatisticText">Przeglądaj statystyki</x:String>
-            <x:String x:Key="CalendarText">Kalendarz</x:String>
             <x:String x:Key="ActiveText">Atywne Taski</x:String>
 
             <!-- Callender Page -->

@@ -74,34 +74,31 @@ namespace TaskMaster
             var resultInsert = await _database.ExecuteScalarAsync<int>("Select taskId FROM Tasks ORDER BY taskId DESC LIMIT 1");
             return resultInsert;
         }
-
         public async Task<Tasks> GetTask(Tasks task)
         {
             var result = await _database.Table<Tasks>().Where(t => t.Name == task.Name).FirstOrDefaultAsync();
             return result;
         }
-
         public async Task<List<PartsOfActivity>> GetPartsList()
         {
             var result = await _database.Table<PartsOfActivity>().ToListAsync();
             return result;
         }
-
         public async Task<Activities> GetActivity(int id)
         {
             var result = await _database.Table<Activities>().Where(t => t.ActivityId == id).FirstOrDefaultAsync();
             return result;
         }
-
         public async Task<Tasks> GetTaskById(int id)
         {
             var result = await _database.Table<Tasks>().Where(t => t.TaskId == id).FirstOrDefaultAsync();
             return result;
         }
-
         public async Task<List<Activities>> GetActivitiesByStatus(StatusType status)
         {
             var result = await _database.Table<Activities>().Where(t => t.Status == status).ToListAsync();
+            if (result == null)
+                return await Task.FromResult<List<Activities>>(null);
             return result;
         }
     }

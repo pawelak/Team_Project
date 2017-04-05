@@ -32,7 +32,17 @@ namespace TaskMaster
                 Name = "Patryk"
             };
             Database.SaveUser(user);
-		}
+		    var activity = new Activities()
+		    {
+		        Status = StatusType.Start,
+		        UserId = 1,
+		        TaskId = 1,
+                GroupId = 1
+		    };
+		    Database.SaveActivity(activity);
+		    var task = new Tasks() { Name = "test", Description = "test" };
+            Database.SaveTask(task);
+        }
 
 		protected override void OnStart ()
 		{

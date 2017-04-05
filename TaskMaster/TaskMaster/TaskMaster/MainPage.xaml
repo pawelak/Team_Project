@@ -21,9 +21,16 @@
             <Button Text="{x:StaticResource StartTaskText}" x:Name="StartTaskButton" Clicked="StartTaskButton_OnClicked"/>
             <Button Text="{x:StaticResource PlanTaskText}" x:Name="PlanTaskButton" Clicked="PlanTaskButton_OnClicked"/>
             <Button Text="{x:StaticResource FastTaskText}" x:Name="FastTaskButton" Clicked="FastTaskButton_OnClicked"/>
-            <Button Text="{x:StaticResource StatisticText}" x:Name="StatisticsButton" Clicked="StatisticsButton_OnClicked"/>
-            <Button Text="{x:StaticResource CalendarText}" x:Name="CalendarButton" Clicked="CalendarButton_OnClicked"/>
-            <Button Text="{x:StaticResource ActiveText}" x:Name="ActiveButton" Clicked="ActiveButton_OnClicked"/>
+            <!--<ListView x:Name="ActiveTasks" HasUnevenRows="False" Header="{x:StaticResource ActiveTasksHeader}" ItemSelected="ActiveTasks_OnItemSelected">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <TextCell Text="{Binding Name}"
+                                  Detail="{Binding Description}"
+                                  TextColor="#f35e20"
+                                  DetailColor="#503026" />
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>-->
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>
