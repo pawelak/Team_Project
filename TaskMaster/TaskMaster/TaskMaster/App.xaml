@@ -5,6 +5,9 @@
 	<Application.Resources>
 
 		<ResourceDictionary>
+            <!-- App Colors -->
+            <Color x:Key="BackgroundColor">Blue</Color>
+            <Color x:Key="TextColor">White</Color>
             <!-- Active Tasks Page -->
             <x:String x:Key="ActiveTasksHeader">Aktywne taski</x:String>
             

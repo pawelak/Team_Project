@@ -2,17 +2,22 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:local="clr-namespace:TaskMaster"
-             x:Class="TaskMaster.MainPage">
+             x:Class="TaskMaster.MainPage" BackgroundColor="{x:StaticResource BackgroundColor}">
     <ContentPage.Padding>
         <OnPlatform x:TypeArguments="Thickness"
                     iOS="20, 40, 20, 20"
                     Android="20, 20, 20, 20"
                     WinPhone="20, 20, 20, 20" />
     </ContentPage.Padding>
+    <ContentPage.ToolbarItems>
+        <ToolbarItem x:Name="MainPageItem" Order="Primary" Priority="0" Text="Test"/>
+        <ToolbarItem x:Name="CalendarPageItem" Order="Primary" Priority="1" Clicked="CalendarPageItem_OnClicked" Text="Testowy"/>
+        <ToolbarItem x:Name="HistoryPageItem" Order="Primary" Priority="2" Clicked="HistoryPageItem_OnClicked" Text="Teścik"/>
+    </ContentPage.ToolbarItems>
     <ContentPage.Content>
         <StackLayout HorizontalOptions="Center"
                      Spacing="15">
-            <Label Text="{x:StaticResource WelcomeText}" HorizontalOptions="FillAndExpand"/>
+            <Label Text="{x:StaticResource WelcomeText}" HorizontalOptions="FillAndExpand" TextColor="{x:StaticResource TextColor}"/>
             <Button Text="{x:StaticResource StartTaskText}" x:Name="StartTaskButton" Clicked="StartTaskButton_OnClicked"/>
             <Button Text="{x:StaticResource PlanTaskText}" x:Name="PlanTaskButton" Clicked="PlanTaskButton_OnClicked"/>
             <Button Text="{x:StaticResource FastTaskText}" x:Name="FastTaskButton" Clicked="FastTaskButton_OnClicked"/>
