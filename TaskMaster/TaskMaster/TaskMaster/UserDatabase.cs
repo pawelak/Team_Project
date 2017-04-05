@@ -101,5 +101,13 @@ namespace TaskMaster
                 return await Task.FromResult<List<Activities>>(null);
             return result;
         }
+        public async Task<PartsOfActivity> GetLastActivityPart(int id)
+        {
+            var result = await _database.Table<PartsOfActivity>()
+                .Where(t => t.ActivityId == id)
+                .OrderByDescending(t => t.PartId)
+                .FirstOrDefaultAsync();
+            return result;
+        }
     }
 }
