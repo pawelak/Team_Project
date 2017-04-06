@@ -5,14 +5,36 @@ using System.Threading.Tasks;
 using TaskMaster.Models;
 using TaskMaster.Pages;
 using Xamarin.Forms;
-
+using XamForms.Controls;
 namespace TaskMaster
 {
 
 	public partial class MainPage : ContentPage
 	{
-		public MainPage()
+        Calendar calendar;
+        List<PartsOfActivity> parts;
+        public MainPage()
 		{
+            calendar = new Calendar
+            {
+                MultiSelectDates = false,
+                DisableAllDates = false,
+                WeekdaysShow = true,
+                ShowNumberOfWeek = true,
+                ShowNumOfMonths = 1,
+                EnableTitleMonthYearView = true,
+                WeekdaysTextColor = Color.Teal,
+                StartDay = DayOfWeek.Monday,
+                SelectedTextColor = Color.Fuchsia,
+            };
+
+            calendar.DateClicked += (sender, e) => {
+                System.Diagnostics.Debug.WriteLine(calendar.SelectedDates);
+            };
+            var vm = new CalendarVM();
+            calendar.SetBinding(Calendar.DateCommandProperty, nameof(vm.DateChosen));
+            calendar.SetBinding(Calendar.SelectedDateProperty, nameof(vm.Date));
+            calendar.BindingContext = vm;
             InitializeComponent ();
 		    ListInitiate();
 		}
@@ -64,8 +86,22 @@ namespace TaskMaster
         }
 	    private async void CalendarPageItem_OnClicked(object sender, EventArgs e)
 	    {
-	        await Navigation.PushModalAsync(new CalendarPage());
-	    }
+            fillCalendar();
+            await Navigation.PushModalAsync(new CalendarPage
+            {
+                BackgroundColor = Color.White,
+                Content = new ScrollView
+                {
+                    Content = new StackLayout
+                    {
+                        Padding = new Thickness(5, Device.OS == TargetPlatform.iOS ? 25 : 5, 5, 5),
+                        Children = {
+                            calendar
+                        }
+                    }
+                }
+            });
+        }
 
 	    private async void HistoryPageItem_OnClicked(object sender, EventArgs e)
 	    {
@@ -76,5 +112,18 @@ namespace TaskMaster
 	    {
 	        throw new NotImplementedException();
 	    }
-	}
+        private async void fillCalendar()
+        {
+            parts = await App.Database.GetPartsList();
+
+
+
+
+            foreach (PartsOfActivity p in parts)
+            {
+                calendar.SpecialDates.Add(new SpecialDate(Convert.ToDateTime(p.Start)) { BackgroundColor = Color.Green, TextColor = Color.Black, BorderColor = Color.Blue, BorderWidth = 8, Selectable = true });
+            }
+            calendar.RaiseSpecialDatesChanged();//refresh
+        }
+    }
 }
