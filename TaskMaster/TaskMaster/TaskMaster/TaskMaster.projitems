@@ -12,11 +12,11 @@
     <Compile Include="$(MSBuildThisFileDirectory)App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)CalendarVM.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\Activities.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\Favorites.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\PartsOfActivity.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\Tasks.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Pages\CalendarVM.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Pages\ResultPage.xaml.cs">
       <SubType>Code</SubType>
     </Compile>

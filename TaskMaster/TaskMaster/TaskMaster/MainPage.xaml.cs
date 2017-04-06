@@ -44,19 +44,30 @@ namespace TaskMaster
 	        ListInitiate();
 	    }
 
-        private async void ListInitiate()
-        {
-            var result = await App.Database.GetActivitiesByStatus(StatusType.Start);
-            List<Tasks> activeTasks = new List<Tasks>();
-            foreach (var activity in result)
-            {
-                var task = await App.Database.GetTaskById(activity.TaskId);
-                activeTasks.Add(task);
-            }
-            ActiveTasks.ItemsSource = activeTasks;
-        }
-        
-	    private async void StartTaskButton_OnClicked(object sender, EventArgs e)
+	    private async void ListInitiate()
+	    {
+	        var result = await App.Database.GetActivitiesByStatus(StatusType.Start);
+	        List<Tasks> activeTasks = new List<Tasks>();
+	        foreach (var activity in result)
+	        {
+	            if (activity.TaskId == 0)
+	            {
+	                var task = new Tasks()
+	                {
+	                    Name = "Unnamed Activity " + activity.ActivityId,
+	                };
+	                activeTasks.Add(task);
+	            }
+	            else
+	            {
+	                var task2 = await App.Database.GetTaskById(activity.TaskId);
+	                activeTasks.Add(task2);
+	            }
+	        }
+	        ActiveTasks.ItemsSource = activeTasks;
+	    }
+
+        private async void StartTaskButton_OnClicked(object sender, EventArgs e)
 	    {
 	        await Navigation.PushModalAsync(new StartTaskPage());
 	    }
@@ -68,25 +79,31 @@ namespace TaskMaster
 
 	    private async void FastTaskButton_OnClicked(object sender, EventArgs e)
 	    {
+	        var task = new Tasks()
+	        {
+	            TaskId = 0
+	        };
+	        await App.Database.SaveTask(task);
 	        var activity = new Activities()
 	        {
 	            Status = StatusType.Start
 	        };
 	        activity.ActivityId = await App.Database.SaveActivity(activity);
-            DateTime now = DateTime.Now;
-            var part = new PartsOfActivity()
-            {
-                ActivityId = activity.ActivityId,
-                Start = now.ToString("HH:mm:ss dd/MM/yyyy")
-            };
+	        DateTime now = DateTime.Now;
+	        var part = new PartsOfActivity()
+	        {
+	            ActivityId = activity.ActivityId,
+	            Start = now.ToString("HH:mm:ss dd/MM/yyyy")
+	        };
 	        await App.Database.SavePartOfTask(part);
-            Stopwatch sw = new Stopwatch();
-            App.Stopwatches.Add(sw);
-            App.Stopwatches[App.Stopwatches.Count-1].Start();
-        }
-	    private async void CalendarPageItem_OnClicked(object sender, EventArgs e)
+	        Stopwatch sw = new Stopwatch();
+	        App.Stopwatches.Add(sw);
+	        App.Stopwatches[App.Stopwatches.Count - 1].Start();
+	        ListInitiate();
+	    }
+        private async void CalendarPageItem_OnClicked(object sender, EventArgs e)
 	    {
-            fillCalendar();
+            FillCalendar();
             await Navigation.PushModalAsync(new CalendarPage
             {
                 BackgroundColor = Color.White,
@@ -112,12 +129,9 @@ namespace TaskMaster
 	    {
 	        throw new NotImplementedException();
 	    }
-        private async void fillCalendar()
+        private async void FillCalendar()
         {
             parts = await App.Database.GetPartsList();
-
-
-
 
             foreach (PartsOfActivity p in parts)
             {

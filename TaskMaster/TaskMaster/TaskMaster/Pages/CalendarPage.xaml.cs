@@ -16,12 +16,7 @@ namespace TaskMaster
 
         public CalendarPage()
         {
-
-
-
             InitializeComponent();
-
-
             // Activities actitivity = App.Database.GetActivity(parts[1].activityID).Result;
             // Tasks task = App.Database.GetTaskById(actitivity.taskId).Result;
             //DisplayAlert("Task",parts[0].start,"Task","Task");
