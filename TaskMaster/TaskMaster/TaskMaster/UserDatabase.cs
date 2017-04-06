@@ -11,11 +11,11 @@ namespace TaskMaster
         public UserDatabase (string dbpath)
         {
             _database = new SQLiteAsyncConnection(dbpath);
-            /*_database.DropTableAsync<Activities>();
+            _database.DropTableAsync<Activities>();
             _database.DropTableAsync<Favorites>();
             _database.DropTableAsync<PartsOfActivity>();
             _database.DropTableAsync<Tasks>();
-            _database.DropTableAsync<User>();*/
+            _database.DropTableAsync<User>();
             _database.CreateTablesAsync<Activities, Favorites, PartsOfActivity, Tasks, User>().Wait();
         }
 

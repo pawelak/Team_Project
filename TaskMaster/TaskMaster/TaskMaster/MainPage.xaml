@@ -37,7 +37,8 @@
                             <TextCell Text="{Binding Name}"
                                       Detail="{Binding Description}"
                                       TextColor="#f35e20"
-                                      DetailColor="#503026" />
+                                      DetailColor="#503026" 
+                                      x:Name="{Binding TaskId}"/>
                         </DataTemplate>
                     </ListView.ItemTemplate>
                 </ListView>
