@@ -17,10 +17,10 @@
     <Compile Include="$(MSBuildThisFileDirectory)Models\Favorites.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\PartsOfActivity.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\Tasks.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Pages\ResultPage.xaml.cs">
+    <Compile Include="$(MSBuildThisFileDirectory)Pages\EditTaskPage.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="$(MSBuildThisFileDirectory)Pages\TimePage.xaml.cs">
+    <Compile Include="$(MSBuildThisFileDirectory)Pages\ResultPage.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)UserDatabase.cs" />
@@ -65,12 +65,12 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Pages\TimePage.xaml">
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Pages\ResultPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Pages\ResultPage.xaml">
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Pages\EditTaskPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
   </ItemGroup>

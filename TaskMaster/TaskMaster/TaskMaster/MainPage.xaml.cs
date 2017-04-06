@@ -101,7 +101,8 @@ namespace TaskMaster
 	        App.Stopwatches[App.Stopwatches.Count - 1].Start();
 	        ListInitiate();
 	    }
-        private async void CalendarPageItem_OnClicked(object sender, EventArgs e)
+
+	    private async void CalendarPageItem_OnClicked(object sender, EventArgs e)
 	    {
             FillCalendar();
             await Navigation.PushModalAsync(new CalendarPage
@@ -127,8 +128,9 @@ namespace TaskMaster
 
 	    private void ActiveTasks_OnItemSelected(object sender, SelectedItemChangedEventArgs e)
 	    {
-	        throw new NotImplementedException();
-	    }
+	        //DisplayAlert("test", sender.ToString(), "a", "f");
+	        //throw new NotImplementedException();
+        }
         private async void FillCalendar()
         {
             parts = await App.Database.GetPartsList();
