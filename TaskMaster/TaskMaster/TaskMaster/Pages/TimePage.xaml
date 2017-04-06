@@ -11,7 +11,7 @@
     <ContentPage.Content>
         <StackLayout HorizontalOptions="Center"
                      Spacing="15">
-            <Label Text="Miejsce na timer"/>
+            <Label x:Name="Time" HorizontalOptions="CenterAndExpand" Text="{Binding time}"/>
             <Button x:Name="ResumeButton" Text="{x:StaticResource ResumeButtonText}" Clicked="ResumeButton_OnClicked"/>
             <Button x:Name="PauseButton" Text="{x:StaticResource PauseButtonText}" Clicked="PauseButton_OnClicked"/>
             <Button x:Name="StopButton" Text="{x:StaticResource StopButtonText}" Clicked="StopButton_OnClicked"/>

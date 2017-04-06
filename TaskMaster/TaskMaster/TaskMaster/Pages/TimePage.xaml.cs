@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using TaskMaster.Models;
 using Xamarin.Forms;
@@ -20,8 +21,15 @@ namespace TaskMaster.Pages
 		{
 			InitializeComponent ();
 		    _stopwatch = App.Stopwatches.ElementAt(part.PartId-1);
-		    _actual = part;
-        }
+            TimeSpan t = TimeSpan.FromMilliseconds(_stopwatch.ElapsedMilliseconds);
+		    string answer = string.Format("{0:D2}h:{1:D2}m:{2:D2}s:{3:D3}ms",
+		        t.Hours,
+		        t.Minutes,
+		        t.Seconds,
+		        t.Milliseconds);
+            _actual = part;
+		    Time.BindingContext = answer;
+		}
 
 	    private async void StopButton_OnClicked(object sender, EventArgs e)
 	    {
@@ -39,7 +47,7 @@ namespace TaskMaster.Pages
 	        //await Navigation.PushAsync(new ResultPage(_actual));
 	    }
 
-	    private void PauseButton_OnClicked(object sender, EventArgs e)
+        private void PauseButton_OnClicked(object sender, EventArgs e)
 	    {
 	        throw new NotImplementedException();
 	    }

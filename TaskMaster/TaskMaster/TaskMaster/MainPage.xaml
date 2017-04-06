@@ -15,22 +15,33 @@
         <ToolbarItem x:Name="HistoryPageItem" Order="Primary" Priority="2" Clicked="HistoryPageItem_OnClicked" Text="Teścik"/>
     </ContentPage.ToolbarItems>
     <ContentPage.Content>
-        <StackLayout HorizontalOptions="Center"
-                     Spacing="15">
-            <Label Text="{x:StaticResource WelcomeText}" HorizontalOptions="FillAndExpand" TextColor="{x:StaticResource TextColor}"/>
-            <Button Text="{x:StaticResource StartTaskText}" x:Name="StartTaskButton" Clicked="StartTaskButton_OnClicked"/>
-            <Button Text="{x:StaticResource PlanTaskText}" x:Name="PlanTaskButton" Clicked="PlanTaskButton_OnClicked"/>
-            <Button Text="{x:StaticResource FastTaskText}" x:Name="FastTaskButton" Clicked="FastTaskButton_OnClicked"/>
-            <!--<ListView x:Name="ActiveTasks" HasUnevenRows="False" Header="{x:StaticResource ActiveTasksHeader}" ItemSelected="ActiveTasks_OnItemSelected">
-                <ListView.ItemTemplate>
-                    <DataTemplate>
-                        <TextCell Text="{Binding Name}"
-                                  Detail="{Binding Description}"
-                                  TextColor="#f35e20"
-                                  DetailColor="#503026" />
-                    </DataTemplate>
-                </ListView.ItemTemplate>
-            </ListView>-->
+        <StackLayout Orientation="Vertical">
+            <StackLayout Orientation="Horizontal" Spacing="1" HeightRequest="100">
+                <Button Text="{x:StaticResource StartTaskText}" x:Name="StartTaskButton" HorizontalOptions="Fill" WidthRequest="100" Clicked="StartTaskButton_OnClicked"/>
+                <Button Text="{x:StaticResource PlanTaskText}" x:Name="PlanTaskButton" HorizontalOptions="Fill" WidthRequest="100" Clicked="PlanTaskButton_OnClicked"/>
+                <Button Text="{x:StaticResource FastTaskText}" x:Name="FastTaskButton" HorizontalOptions="Fill" WidthRequest="100" Clicked="FastTaskButton_OnClicked"/>
+            </StackLayout>
+            <StackLayout Spacing="0" HeightRequest="10">
+                <Label Text="{x:StaticResource WelcomeText}" HorizontalOptions="FillAndExpand" VerticalOptions="Center" TextColor="{x:StaticResource TextColor}"/>
+            </StackLayout>
+            <StackLayout HeightRequest="20">
+                
+            </StackLayout>
+            <StackLayout>
+                <ListView x:Name="ActiveTasks" HasUnevenRows="False" ItemSelected="ActiveTasks_OnItemSelected">
+                    <ListView.Header>
+                        <Label Text="{x:StaticResource ActiveTasksHeader}" TextColor="{x:StaticResource TextColor}" />
+                    </ListView.Header>
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <TextCell Text="{Binding Name}"
+                                      Detail="{Binding Description}"
+                                      TextColor="#f35e20"
+                                      DetailColor="#503026" />
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </StackLayout>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

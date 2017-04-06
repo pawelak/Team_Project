@@ -19,32 +19,43 @@ namespace TaskMaster
 
 	    private async void PlanTaskStartButton_OnClicked(object sender, EventArgs e)
         {
-            var newTask = new Tasks()
+            try
             {
-                Name = ActivityName.Text,
-                Description = ActivityDecription.Text
-            };
-            if (await App.Database.GetTask(newTask) == null)
-                newTask.TaskId = await App.Database.SaveTask(newTask);
-            else
-                newTask = await App.Database.GetTask(newTask);
-            var newActivity = new Activities()
+                if (ActivityName != null)
+                {
+                    var newTask = new Tasks()
+                    {
+                        Name = ActivityName.Text,
+                        Description = ActivityDescription.Text
+                    };
+                    if (await App.Database.GetTask(newTask) == null)
+                        newTask.TaskId = await App.Database.SaveTask(newTask);
+                    else
+                        newTask = await App.Database.GetTask(newTask);
+                    var newActivity = new Activities()
+                    {
+                        UserId = 1,
+                        TaskId = newTask.TaskId,
+                        GroupId = 1
+                    };
+                    newActivity.ActivityId = await App.Database.SaveActivity(newActivity);
+                    var start = PlanTaskStartTime.Time + " " + PlanTaskStartDate.Date.ToShortDateString();
+                    var end = PlanTaskStopTime.Time + " " + PlanTaskStopDate.Date.ToShortDateString();
+                    var part = new PartsOfActivity()
+                    {
+                        ActivityId = newActivity.ActivityId,
+                        Start = start,
+                        Stop = end
+                    };
+                    await App.Database.SavePartOfTask(part);
+                }
+                //await Navigation.PopAsync();
+            }
+            catch (SystemException o)
             {
-                UserId = 1,
-                TaskId = newTask.TaskId,
-                GroupId = 1
-            };
-            newActivity.ActivityId = await App.Database.SaveActivity(newActivity);
-            string start = PlanTaskStartTime.Time + " " + PlanTaskStartDate.Date.ToShortDateString();
-            string end = PlanTaskStopTime.Time + " " + PlanTaskStopDate.Date.ToShortDateString();
-            var part = new PartsOfActivity()
-            {
-                ActivityId = newActivity.ActivityId,
-                Start = start,
-                Stop = end
-            };
-            await App.Database.SavePartOfTask(part);
-            await Navigation.PopAsync();
+                await DisplayAlert("Test", o.ToString(), "e", "f");
+            }
+
         }
 	}
 }

@@ -16,5 +16,15 @@ namespace TaskMaster
 		{
 			InitializeComponent();
 		}
+
+	    private async void MainPageItem_OnClicked(object sender, EventArgs e)
+	    {
+	        await Navigation.PushModalAsync(new MainPage());
+	    }
+
+	    private async void CalendarPageItem_OnClicked(object sender, EventArgs e)
+	    {
+	        await Navigation.PushModalAsync(new CalendarPage());
+	    }
 	}
 }

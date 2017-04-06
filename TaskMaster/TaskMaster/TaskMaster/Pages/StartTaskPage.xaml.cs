@@ -44,7 +44,7 @@ namespace TaskMaster
             Stopwatch sw = new Stopwatch();
             App.Stopwatches.Add(sw);
 	        App.Stopwatches[0].Start();
-            await Navigation.PushAsync(new TimePage(part));
+            //await Navigation.PushAsync(new TimePage(part));
 	    }
 	}
 }
