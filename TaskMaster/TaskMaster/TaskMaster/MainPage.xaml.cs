@@ -116,23 +116,16 @@ namespace TaskMaster
             await Navigation.PushModalAsync(new CalendarPage
             {
                 BackgroundColor = Color.White,
-
                 Content = new ScrollView
                 {
-                  
                     Content = new StackLayout
                     {
                         Padding = new Thickness(5, Device.OS == TargetPlatform.iOS ? 25 : 5, 5, 5),
-                        VerticalOptions = LayoutOptions.Center,
-                        
-                      
+                        VerticalOptions = LayoutOptions.Center, 
                         Children = {
-                            MSG,
-                            calendar
-                        
+                            MSG, calendar
                         }
                     }
-
                 }
             });
         }

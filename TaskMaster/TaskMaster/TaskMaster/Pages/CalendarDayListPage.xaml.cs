@@ -17,7 +17,7 @@ namespace TaskMaster.Pages
         {
             this.calendarDay = dateTime;
             InitializeComponent();
-             ListInitiate(); 
+            ListInitiate();
             //DisplayAlert("Task", calendarDay.ToString(), "Task", "Task");
         }
         protected override void OnAppearing()
@@ -28,12 +28,11 @@ namespace TaskMaster.Pages
         private async void ListInitiate()
         {
             var result = await App.Database.GetActivitiesByStatus(StatusType.Stop);
-            
             List<CustomList> dayPlan = new List<CustomList>();
             foreach (var activity in result)
             {
                 long time = 0;
-                var parts = await App.Database.GetPartsOfActivityByStatus(calendarDay, activity.ActivityId);
+                var parts = await App.Database.GetPartsOfActivityByActivityId(activity.ActivityId);
                 foreach (var part in parts)
                 {
                     time += long.Parse(part.Duration);
@@ -43,7 +42,7 @@ namespace TaskMaster.Pages
                 {
                     Name = task.Name,
                     Description = task.Description,
-                    Time = DateTime.Parse(time.ToString("HH:mm")).ToShortTimeString()
+                    Time = time.ToString()
                 };
                 dayPlan.Add(element);
             }
@@ -51,17 +50,20 @@ namespace TaskMaster.Pages
             foreach (var activity in result2)
             {
                 long time = 0;
-                var parts = await App.Database.GetPartsOfActivityByStatus(calendarDay, activity.ActivityId);
+                var parts = await App.Database.GetPartsOfActivityByActivityId(activity.ActivityId);
                 foreach (var part in parts)
                 {
-                    time += long.Parse(part.Duration);
+                    if (DateTime.Parse(part.Start).ToString("dd/MM/yyyy").Equals(calendarDay.ToString("dd/MM/yyyy")))
+                    {
+                        time += long.Parse(part.Duration);
+                    }
                 }
                 var task = await App.Database.GetTaskById(activity.TaskId);
                 var element = new CustomList()
                 {
                     Name = task.Name,
                     Description = task.Description,
-                    Time = DateTime.Parse(time.ToString("HH:mm")).ToShortTimeString()
+                    Time = time.ToString()
                 };
                 dayPlan.Add(element);
             }
@@ -69,9 +71,9 @@ namespace TaskMaster.Pages
         }
         public struct CustomList
         {
-            public string Name;
-            public string Description;
-            public string Time;
+            public string Name { get; set; }
+            public string Description { get; set; }
+            public string Time { get;set }
         }
     }
 }

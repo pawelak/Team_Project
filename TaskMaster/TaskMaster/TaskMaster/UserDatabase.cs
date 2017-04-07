@@ -12,11 +12,11 @@ namespace TaskMaster
         public UserDatabase (string dbpath)
         {
             _database = new SQLiteAsyncConnection(dbpath);
-            _database.DropTableAsync<Activities>();
+            /*_database.DropTableAsync<Activities>();
             _database.DropTableAsync<Favorites>();
             _database.DropTableAsync<PartsOfActivity>();
             _database.DropTableAsync<Tasks>();
-            _database.DropTableAsync<User>();
+            _database.DropTableAsync<User>();*/
             _database.CreateTablesAsync<Activities, Favorites, PartsOfActivity, Tasks, User>().Wait();
         }
 
@@ -110,11 +110,10 @@ namespace TaskMaster
                 .FirstOrDefaultAsync();
             return result;
         }
-        
-        public async Task<List<PartsOfActivity>> GetPartsOfActivityByStatus(DateTime Start,int id)
-        {
 
-            var result = await _database.Table<PartsOfActivity>().Where(t => t.ActivityId == id && Convert.ToDateTime(t.Start).Day == Start.Day && Convert.ToDateTime(t.Start).Month == Start.Month && Convert.ToDateTime(t.Start).Year == Start.Year).ToListAsync();
+        public async Task<List<PartsOfActivity>> GetPartsOfActivityByActivityId(int id)
+        {
+            var result = await _database.Table<PartsOfActivity>().Where(t => t.ActivityId == id).ToListAsync();
             return result;
         }
     }

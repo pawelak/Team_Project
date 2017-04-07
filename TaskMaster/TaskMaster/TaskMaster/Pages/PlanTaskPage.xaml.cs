@@ -46,7 +46,8 @@ namespace TaskMaster
                     {
                         ActivityId = newActivity.ActivityId,
                         Start = start,
-                        Stop = end
+                        Stop = end,
+                        Duration = "0"
                     };
                     await App.Database.SavePartOfTask(part);
                 }
