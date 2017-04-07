@@ -18,7 +18,6 @@ namespace TaskMaster.Pages
             this.calendarDay = dateTime;
             InitializeComponent();
             ListInitiate();
-            //DisplayAlert("Task", calendarDay.ToString(), "Task", "Task");
         }
         protected override void OnAppearing()
         {
@@ -73,7 +72,7 @@ namespace TaskMaster.Pages
         {
             public string Name { get; set; }
             public string Description { get; set; }
-            public string Time { get;set }
+            public string Time { get; set; }
         }
     }
 }

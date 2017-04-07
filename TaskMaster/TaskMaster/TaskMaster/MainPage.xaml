@@ -10,9 +10,9 @@
                     WinPhone="20, 20, 20, 20" />
     </ContentPage.Padding>
     <ContentPage.ToolbarItems>
-        <ToolbarItem x:Name="MainPageItem" Order="Primary" Priority="0" Text="Test"/>
-        <ToolbarItem x:Name="CalendarPageItem" Order="Primary" Priority="1" Clicked="CalendarPageItem_OnClicked" Text="Testowy"/>
-        <ToolbarItem x:Name="HistoryPageItem" Order="Primary" Priority="2" Clicked="HistoryPageItem_OnClicked" Text="Teścik"/>
+        <ToolbarItem x:Name="MainPageItem" Order="Primary" Priority="0" Text="Main"/>
+        <ToolbarItem x:Name="CalendarPageItem" Order="Primary" Priority="1" Clicked="CalendarPageItem_OnClicked" Text="Cal"/>
+        <ToolbarItem x:Name="HistoryPageItem" Order="Primary" Priority="2" Clicked="HistoryPageItem_OnClicked" Text="His"/>
     </ContentPage.ToolbarItems>
     <ContentPage.Content>
         <StackLayout Orientation="Vertical">
@@ -36,9 +36,8 @@
                         <DataTemplate>
                             <TextCell Text="{Binding Name}"
                                       Detail="{Binding Description}"
-                                      TextColor="#f35e20"
-                                      DetailColor="#503026" 
-                                      x:Name="{Binding TaskId}"/>
+                                      TextColor="{x:StaticResource TextColor}"
+                                      DetailColor="{x:StaticResource TextColor}" />
                         </DataTemplate>
                     </ListView.ItemTemplate>
                 </ListView>

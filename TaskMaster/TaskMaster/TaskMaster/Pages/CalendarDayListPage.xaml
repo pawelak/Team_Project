@@ -17,12 +17,12 @@
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>
-                            <StackLayout BackgroundColor="{x:StaticResource BackgroundColor}" Orientation="Vertical">
+                            <StackLayout BackgroundColor="{x:StaticResource BackgroundButtonColor}" Orientation="Vertical">
                                 <StackLayout Orientation="Horizontal">
-                                    <Label Text="{Binding Name}" TextColor="#f35e20" />
-                                    <Label Text="{Binding Time}" HorizontalOptions="EndAndExpand" TextColor="#f35e20" />
+                                    <Label Text="{Binding Name}" TextColor="{x:StaticResource TextColor}" />
+                                    <Label Text="{Binding Time}" HorizontalOptions="EndAndExpand" TextColor="{x:StaticResource TextColor}" />
                                 </StackLayout>
-                                <Label Text="{Binding Description}" TextColor="#f35e20" />
+                                <Label Text="{Binding Description}" TextColor="{x:StaticResource TextColor}" />
                             </StackLayout>
                         </ViewCell>
                     </DataTemplate>

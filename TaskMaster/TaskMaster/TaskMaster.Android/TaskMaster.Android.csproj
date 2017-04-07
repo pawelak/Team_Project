@@ -163,6 +163,25 @@
   <ItemGroup>
     <None Include="Properties\AndroidManifest.xml" />
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="Resources\Drawable\acceptButton.png" />
+    <Content Include="Resources\Drawable\callendarActive.png" />
+    <Content Include="Resources\Drawable\callendarInactive.png" />
+    <Content Include="Resources\Drawable\facebook.png" />
+    <Content Include="Resources\Drawable\fastStart.png" />
+    <Content Include="Resources\Drawable\google.png" />
+    <Content Include="Resources\Drawable\historyActive.png" />
+    <Content Include="Resources\Drawable\historyInactive.png" />
+    <Content Include="Resources\Drawable\homeActive.png" />
+    <Content Include="Resources\Drawable\homeInactive.png" />
+    <Content Include="Resources\Drawable\loginImg.png" />
+    <Content Include="Resources\Drawable\logo.png" />
+    <Content Include="Resources\Drawable\passwordImg.png" />
+    <Content Include="Resources\Drawable\pauseButton.png" />
+    <Content Include="Resources\Drawable\planTaskStopwatch.png" />
+    <Content Include="Resources\Drawable\playButton.png" />
+    <Content Include="Resources\Drawable\stopButton.png" />
+  </ItemGroup>
   <Import Project="..\TaskMaster\TaskMaster.projitems" Label="Shared" Condition="Exists('..\TaskMaster\TaskMaster.projitems')" />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <Import Project="..\..\packages\Xamarin.Android.Support.Vector.Drawable.23.3.0\build\Xamarin.Android.Support.Vector.Drawable.targets" Condition="Exists('..\..\packages\Xamarin.Android.Support.Vector.Drawable.23.3.0\build\Xamarin.Android.Support.Vector.Drawable.targets')" />

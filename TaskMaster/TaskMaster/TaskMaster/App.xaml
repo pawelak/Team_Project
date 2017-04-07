@@ -4,12 +4,21 @@
              x:Class="TaskMaster.App">
 	<Application.Resources>
 
-		<ResourceDictionary>
+        <ResourceDictionary>
             <!-- App Colors -->
-            <Color x:Key="BackgroundColor">Blue</Color>
+            <Color x:Key="BackgroundColor">#2049A5</Color>
+            <Color x:Key="BackgroundButtonColor">#2E52A8</Color>
             <Color x:Key="TextColor">White</Color>
+
             <!-- Active Tasks Page -->
             <x:String x:Key="ActiveTasksHeader">Aktywne taski</x:String>
+
+            <!-- Edit Task Page -->
+            <x:String x:Key="ResumeButtonText">Wznów aktywność</x:String>
+            <x:String x:Key="PauseButtonText">Zapauzuj aktywność</x:String>
+            <x:String x:Key="StopButtonText">Zakończ aktywność</x:String>
+            
+            <!-- History Page -->
             
             <!-- Main Page -->
             <x:String x:Key="WelcomeText">Witaj w TaskMaster!</x:String>
@@ -18,10 +27,9 @@
             <x:String x:Key="FastTaskText">Rozpocznij szybką aktywność</x:String>
             <x:String x:Key="ActiveText">Atywne Taski</x:String>
 
-            <!-- Callender Page -->
-
-            <!-- Callender Day List Page -->
+            <!-- Calender Day List Page -->
             <x:String x:Key="DayPlan">Plan Dnia</x:String>
+
             <!-- Plan Task Page -->
             <x:String x:Key="NameText">nazwa:</x:String>
             <x:String x:Key="DescriptionText">komentarz:</x:String>
@@ -33,16 +41,6 @@
             <x:String x:Key="StartNameText">Podaj nazwę aktywnościa</x:String>
             <x:String x:Key="StartDescriptionText">Podaj opis aktywności</x:String>
             <x:String x:Key="StartTaskButtonText">Rozpocznij aktywność</x:String>
-
-            <!-- Statistic Page -->
-
-
-            <!-- Timer Page -->
-            <x:String x:Key="ResumeButtonText">Wznów aktywność</x:String>
-            <x:String x:Key="PauseButtonText">Zapauzuj aktywność</x:String>
-            <x:String x:Key="StopButtonText">Zakończ aktywność</x:String>
-
         </ResourceDictionary>
-
-	</Application.Resources>
+    </Application.Resources>
 </Application>

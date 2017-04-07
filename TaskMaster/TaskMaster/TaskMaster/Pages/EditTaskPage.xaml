@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="TaskMaster.Pages.EditTaskPage">
+             x:Class="TaskMaster.Pages.EditTaskPage" BackgroundColor="{x:StaticResource BackgroundColor}">
     <ContentPage.Padding>
         <OnPlatform x:TypeArguments="Thickness"
                     iOS="20, 40, 20, 20"
@@ -11,7 +11,7 @@
     <ContentPage.Content>
         <StackLayout Orientation="Vertical">
             <StackLayout HeightRequest="50">
-                <StackLayout Orientation="Vertical">
+                <StackLayout Orientation="Vertical" BackgroundColor="{x:StaticResource BackgroundButtonColor}">
                     <Label x:Name="TaskName" HorizontalOptions="CenterAndExpand" TextColor="{x:StaticResource TextColor}"/>
                     <Label x:Name="TaskDescription" HorizontalOptions="CenterAndExpand" TextColor="{x:StaticResource TextColor}"/>
                     <Label x:Name="TaskDate" HorizontalOptions="CenterAndExpand" TextColor="{x:StaticResource TextColor}"/>
@@ -19,19 +19,19 @@
             </StackLayout>
             <StackLayout Orientation="Horizontal" Spacing="2" VerticalOptions="Center">
                 <Label Text="{x:StaticResource NameText}" WidthRequest="70" HorizontalTextAlignment="End" VerticalOptions="Center" TextColor="{x:StaticResource TextColor}"/>
-                <Entry x:Name="ActivityName" HorizontalOptions="FillAndExpand" TextColor="{x:StaticResource TextColor}" Unfocused="ActivityName_OnUnfocused"/>
+                <Entry x:Name="ActivityName" HorizontalOptions="FillAndExpand" TextColor="{x:StaticResource TextColor}" Unfocused="ActivityName_OnUnfocused"  BackgroundColor="{x:StaticResource BackgroundButtonColor}"/>
             </StackLayout>
             <StackLayout Orientation="Horizontal" Spacing="2">
                 <Label Text="{x:StaticResource DateStartText}" WidthRequest="70" HorizontalTextAlignment="End" VerticalOptions="Center" TextColor="{x:StaticResource TextColor}"/>
-                <Label x:Name="TaskDates" HorizontalOptions="FillAndExpand" TextColor="{x:StaticResource TextColor}"/>
+                <Label x:Name="TaskDates" HorizontalOptions="FillAndExpand" TextColor="{x:StaticResource TextColor}" BackgroundColor="{x:StaticResource BackgroundButtonColor}"/>
             </StackLayout>
             <StackLayout Orientation="Horizontal" Spacing="2">
                 <Label Text="{x:StaticResource DescriptionText}" WidthRequest="70" HorizontalTextAlignment="End" VerticalOptions="Center" TextColor="{x:StaticResource TextColor}"/>
-                <Entry x:Name="ActivityDescription" HorizontalOptions="FillAndExpand" TextColor="{x:StaticResource TextColor}" Unfocused="ActivityDescription_OnUnfocused"/>
+                <Entry x:Name="ActivityDescription" HorizontalOptions="FillAndExpand" TextColor="{x:StaticResource TextColor}" Unfocused="ActivityDescription_OnUnfocused" BackgroundColor="{x:StaticResource BackgroundButtonColor}"/>
             </StackLayout>
-            <Button x:Name="ResumeButton" Text="{x:StaticResource ResumeButtonText}" Clicked="ResumeButton_OnClicked"/>
-            <Button x:Name="PauseButton" Text="{x:StaticResource PauseButtonText}" Clicked="PauseButton_OnClicked"/>
-            <Button x:Name="StopButton" Text="{x:StaticResource StopButtonText}" Clicked="StopButton_OnClicked"/>
+            <Button x:Name="ResumeButton" Text="{x:StaticResource ResumeButtonText}" Clicked="ResumeButton_OnClicked" BackgroundColor="{x:StaticResource BackgroundButtonColor}"/>
+            <Button x:Name="PauseButton" Text="{x:StaticResource PauseButtonText}" Clicked="PauseButton_OnClicked" BackgroundColor="{x:StaticResource BackgroundButtonColor}"/>
+            <Button x:Name="StopButton" Text="{x:StaticResource StopButtonText}" Clicked="StopButton_OnClicked" BackgroundColor="{x:StaticResource BackgroundButtonColor}"/>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

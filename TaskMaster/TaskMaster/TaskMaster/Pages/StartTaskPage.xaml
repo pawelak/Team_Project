@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="TaskMaster.StartTaskPage">
+             x:Class="TaskMaster.StartTaskPage" BackgroundColor="{x:StaticResource BackgroundColor}">
     <ContentPage.Padding>
         <OnPlatform x:TypeArguments="Thickness"
                     iOS="20, 40, 20, 20"
@@ -12,9 +12,9 @@
         <StackLayout HorizontalOptions="Center"
                      Spacing="15">
             <Label Text="{x:StaticResource StartNameText}"/>
-            <Entry x:Name="StartTaskName"/>
+            <Entry x:Name="StartTaskName" BackgroundColor="{x:StaticResource BackgroundButtonColor}"/>
             <Label Text="{x:StaticResource StartDescriptionText}"/>
-            <Entry x:Name="StartTaskDescription"/>
+            <Entry x:Name="StartTaskDescription" BackgroundColor="{x:StaticResource BackgroundButtonColor}"/>
             <Button Text="{x:StaticResource StartTaskButtonText}" x:Name="StartTaskButton" Clicked="StartTaskButton_OnClicked"/>
         </StackLayout>
         
