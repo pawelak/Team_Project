@@ -17,6 +17,9 @@
     <Compile Include="$(MSBuildThisFileDirectory)Models\Favorites.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\PartsOfActivity.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\Tasks.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Pages\CalendarDayListPage.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Pages\EditTaskPage.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
