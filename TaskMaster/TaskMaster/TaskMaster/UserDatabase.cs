@@ -111,11 +111,10 @@ namespace TaskMaster
             return result;
         }
         
-        public async Task<List<PartsOfActivity>> GetPartsOfActivityByStatus(DateTime Start)
+        public async Task<List<PartsOfActivity>> GetPartsOfActivityByStatus(DateTime Start,int id)
         {
-          
-            var result = await _database.Table<PartsOfActivity>().ToListAsync();
 
+            var result = await _database.Table<PartsOfActivity>().Where(t => t.ActivityId == id && Convert.ToDateTime(t.Start).Day == Start.Day && Convert.ToDateTime(t.Start).Month == Start.Month && Convert.ToDateTime(t.Start).Year == Start.Year).ToListAsync();
             return result;
         }
     }
