@@ -28,10 +28,29 @@ namespace TaskMaster.Pages
         private async void ListInitiate()
         {
             var result = await App.Database.GetActivitiesByStatus(StatusType.Stop);
-            long time=0;
+            
             List<CustomList> dayPlan = new List<CustomList>();
             foreach (var activity in result)
             {
+                long time = 0;
+                var parts = await App.Database.GetPartsOfActivityByStatus(calendarDay, activity.ActivityId);
+                foreach (var part in parts)
+                {
+                    time += long.Parse(part.Duration);
+                }
+                var task = await App.Database.GetTaskById(activity.TaskId);
+                var element = new CustomList()
+                {
+                    Name = task.Name,
+                    Description = task.Description,
+                    Time = DateTime.Parse(time.ToString("HH:mm")).ToShortTimeString()
+                };
+                dayPlan.Add(element);
+            }
+            var result2 = await App.Database.GetActivitiesByStatus(StatusType.Planned);
+            foreach (var activity in result2)
+            {
+                long time = 0;
                 var parts = await App.Database.GetPartsOfActivityByStatus(calendarDay, activity.ActivityId);
                 foreach (var part in parts)
                 {

@@ -36,7 +36,8 @@ namespace TaskMaster
                     {
                         UserId = 1,
                         TaskId = newTask.TaskId,
-                        GroupId = 1
+                        GroupId = 1,
+                        Status = StatusType.Planned
                     };
                     newActivity.ActivityId = await App.Database.SaveActivity(newActivity);
                     var start = PlanTaskStartTime.Time + " " + PlanTaskStartDate.Date.ToShortDateString();

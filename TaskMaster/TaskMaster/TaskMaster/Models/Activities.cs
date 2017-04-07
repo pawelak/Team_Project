@@ -18,6 +18,6 @@ namespace TaskMaster.Models
 
     public enum StatusType
     {
-        Start,Pause,Stop
+        Start,Pause,Stop,Planned
     }
 }
