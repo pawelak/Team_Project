@@ -57,5 +57,26 @@ namespace TaskMaster
             }
 
         }
+
+	    private void ActivityName_OnUnfocused(object sender, FocusEventArgs e)
+	    {
+	        TaskName.Text = ActivityName.Text;
+        }
+
+	    private void PlanTaskStartDate_OnUnfocused(object sender, FocusEventArgs e)
+	    {
+	        
+	        TaskDate.Text = PlanTaskStartTime.Time + " " + PlanTaskStartDate.Date.ToShortDateString();
+        }
+
+	    private void PlanTaskStartTime_OnUnfocused(object sender, FocusEventArgs e)
+	    {
+	        throw new NotImplementedException();
+	    }
+
+	    private void ActivityDescription_OnUnfocused(object sender, FocusEventArgs e)
+	    {
+	        TaskDescription.Text = ActivityDescription.Text;
+        }
 	}
 }
