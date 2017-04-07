@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using SQLite;
 using TaskMaster.Models;
+using System;
 
 namespace TaskMaster
 {
@@ -107,6 +108,16 @@ namespace TaskMaster
                 .Where(t => t.ActivityId == id)
                 .OrderByDescending(t => t.PartId)
                 .FirstOrDefaultAsync();
+            return result;
+        }
+        public async Task<List<PartsOfActivity>> GetPartsOfActivityByStatus(DateTime Start)
+        {
+          
+            var result = await _database.Table<PartsOfActivity>().Where(t => Convert.ToDateTime(t.Start).Day == Start.Day&& Convert.ToDateTime(t.Start).Month == Start.Month && Convert.ToDateTime(t.Start).Year == Start.Year).ToListAsync();
+            if (result == null)
+                return await Task.FromResult<List<PartsOfActivity>>(null);
+            
+
             return result;
         }
     }

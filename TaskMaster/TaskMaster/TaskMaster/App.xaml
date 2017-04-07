@@ -20,6 +20,8 @@
 
             <!-- Callender Page -->
 
+            <!-- Callender Day List Page -->
+            <x:String x:Key="DayPlan">Plan Dnia</x:String>
             <!-- Plan Task Page -->
             <x:String x:Key="NameText">nazwa:</x:String>
             <x:String x:Key="DescriptionText">komentarz:</x:String>

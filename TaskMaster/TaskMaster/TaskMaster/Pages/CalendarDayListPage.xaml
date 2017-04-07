@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="TaskMaster.Pages.CalendarDayListPage" BackgroundColor="{x:StaticResource BackgroundColor}">
+    <ContentPage.Padding>
+        <OnPlatform x:TypeArguments="Thickness"
+                    iOS="20, 40, 20, 20"
+                    Android="20, 20, 20, 20"
+                    WinPhone="20, 20, 20, 20" />
+    </ContentPage.Padding>
+    <ContentPage.Content>
+    <StackLayout>
+        <ListView x:Name="DayPlan" HasUnevenRows="False" >
+            <ListView.Header>
+                    <Label Text="{x:StaticResource DayPlan}" TextColor="{x:StaticResource TextColor}" HorizontalOptions="Center" FontSize="20" />
+            </ListView.Header>
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                        <TextCell Text="{Binding Name}"
+                                      Start="{Binding Start}"
+                                      Stop="{Binding Stop}"
+                                      Duration="{Binding Duration}"
+                                      TextColor="#f35e20"
+                                      StartColor="#503026" 
+                                      StopColor="#503026" 
+                                      DurationColor="#503026" />
+
+                    </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+    </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

@@ -12,9 +12,16 @@ namespace TaskMaster
 	public partial class MainPage : ContentPage
 	{
         Calendar calendar;
+        Label MSG;
         List<PartsOfActivity> parts;
         public MainPage()
 		{
+            MSG = new Label
+            {
+                Text = "Wybierz Dzień",
+                FontSize = 25,
+                HorizontalOptions = LayoutOptions.Center
+            };
             calendar = new Calendar
             {
                 MultiSelectDates = false,
@@ -29,7 +36,8 @@ namespace TaskMaster
             };
 
             calendar.DateClicked += (sender, e) => {
-                System.Diagnostics.Debug.WriteLine(calendar.SelectedDates);
+                 Navigation.PushModalAsync(new CalendarDayListPage((calendar.SelectedDates[0])));
+               
             };
             var vm = new CalendarVM();
             calendar.SetBinding(Calendar.DateCommandProperty, nameof(vm.DateChosen));
@@ -107,15 +115,23 @@ namespace TaskMaster
             await Navigation.PushModalAsync(new CalendarPage
             {
                 BackgroundColor = Color.White,
+
                 Content = new ScrollView
                 {
+                  
                     Content = new StackLayout
                     {
                         Padding = new Thickness(5, Device.OS == TargetPlatform.iOS ? 25 : 5, 5, 5),
+                        VerticalOptions = LayoutOptions.Center,
+                        
+                      
                         Children = {
+                            MSG,
                             calendar
+                        
                         }
                     }
+
                 }
             });
         }
