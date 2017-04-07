@@ -16,14 +16,25 @@
                 </ListView.Header>
                 <ListView.ItemTemplate>
                     <DataTemplate>
-                        <TextCell Text="{Binding Name}"
-                                  Start="{Binding Start}"
-                                  Stop="{Binding Stop}"
-                                  Duration="{Binding Duration}"
-                                  TextColor="#f35e20"
-                                  StartColor="#503026" 
-                                  StopColor="#503026" 
-                                  DurationColor="#503026" />
+                        <ViewCell>
+                            <StackLayout BackgroundColor="{x:StaticResource BackgroundColor}"
+                        Orientation="Vertical">
+                                <StackLayout Orientation="Horizontal">
+                                    <Label Text="{Binding Name}"
+                                  TextColor="#f35e20" />
+                            <Label Text="{Binding Start}"
+                                      HorizontalOptions="EndAndExpand"
+                                  TextColor="#f35e20" />
+                            <Label Text="{Binding Stop}"
+                                      HorizontalOptions="EndAndExpand"
+                                  TextColor="#f35e20" />
+                            <Label Text="{Binding Duration}"
+                                      HorizontalOptions="EndAndExpand"
+                                  TextColor="#f35e20" />
+                                   
+                                </StackLayout>
+                            </StackLayout>
+                        </ViewCell>
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>

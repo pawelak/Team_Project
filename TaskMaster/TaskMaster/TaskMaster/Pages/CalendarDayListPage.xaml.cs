@@ -17,7 +17,7 @@ namespace TaskMaster.Pages
         {
             this.calendarDay = dateTime;
             InitializeComponent();
-            // ListInitiate();
+             ListInitiate(); 
             //DisplayAlert("Task", calendarDay.ToString(), "Task", "Task");
         }
         protected override void OnAppearing()
@@ -34,10 +34,10 @@ namespace TaskMaster.Pages
             {
                 var task = new CustomList()
                 {
-                    Name = part.PartId,
-                    Start = part.Start,
-                    Stop = part.Stop,
-                    Duration = part.Duration,
+                     App.Database.GetActivity(part.ActivityId)
+                    Start =Convert.ToDateTime(part.Start).TimeOfDay.ToString(),
+                    Stop = Convert.ToDateTime(part.Stop).TimeOfDay.ToString()
+                    //Duration = part.Duration,
                 };
                 dayPlan.Add(task);
             }
@@ -45,10 +45,10 @@ namespace TaskMaster.Pages
         }
         public struct CustomList
         {
-            public int Name;
-            public string Start;
-            public string Stop;
-            public string Duration;
+            public string Name {get; set; }
+            public string Start { get; set; }
+            public string Stop { get; set; }
+           // public string Duration { get; set; }
         }
     }
 }
