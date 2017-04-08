@@ -40,11 +40,11 @@ namespace TaskMaster
                 ActivityId = newActivity.ActivityId,
                 Start = date
             };
-            part.PartId = await App.Database.SavePartOfTask(part);
+            await App.Database.SavePartOfTask(part);
             Stopwatch sw = new Stopwatch();
             App.Stopwatches.Add(sw);
-	        App.Stopwatches[0].Start();
-            //await Navigation.PushAsync(new TimePage(part));
+	        App.Stopwatches[App.Stopwatches.Count - 1].Start();
+	        await Navigation.PushModalAsync(new MainPage());
 	    }
 	}
 }

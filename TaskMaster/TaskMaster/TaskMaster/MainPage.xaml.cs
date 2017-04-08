@@ -85,7 +85,32 @@ namespace TaskMaster
 	                activeTasks.Add(item);
 	            }
 	        }
-	        ActiveTasks.ItemsSource = activeTasks;
+	        var result2 = await App.Database.GetActivitiesByStatus(StatusType.Pause);
+	        foreach (var activity in result2)
+	        {
+	            if (activity.TaskId == 0)
+	            {
+	                var item = new ElemList()
+	                {
+	                    Name = "Unnamed Activity " + activity.ActivityId,
+	                    ActivityId = activity.ActivityId
+	                };
+	                activeTasks.Add(item);
+	            }
+	            else
+	            {
+	                var task = await App.Database.GetTaskById(activity.TaskId);
+	                var item = new ElemList()
+	                {
+	                    Name = task.Name,
+	                    Description = task.Description,
+	                    ActivityId = activity.ActivityId,
+	                    TaskId = task.TaskId
+	                };
+	                activeTasks.Add(item);
+	            }
+	        }
+            ActiveTasks.ItemsSource = activeTasks;
 	    }
 
         private async void StartTaskButton_OnClicked(object sender, EventArgs e)
@@ -107,7 +132,9 @@ namespace TaskMaster
 	        await App.Database.SaveTask(task);
 	        var activity = new Activities()
 	        {
-	            Status = StatusType.Start
+	            Status = StatusType.Start,
+                UserId = 1,
+                GroupId = 1
 	        };
 	        activity.ActivityId = await App.Database.SaveActivity(activity);
 	        DateTime now = DateTime.Now;

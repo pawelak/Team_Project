@@ -41,8 +41,8 @@ namespace TaskMaster.Pages
                 TaskId = item.TaskId
             };
             TaskDates.Text = _actual.Start;
-            /*_stopwatch = App.Stopwatches.ElementAt(_actual.PartId - 1);
-            TimeSpan t = TimeSpan.FromMilliseconds(_stopwatch.ElapsedMilliseconds);
+            _stopwatch = App.Stopwatches.ElementAt(_actual.PartId - 1);
+            /*TimeSpan t = TimeSpan.FromMilliseconds(_stopwatch.ElapsedMilliseconds);
             string answer = string.Format("{0:D2}h:{1:D2}m:{2:D2}s:{3:D3}ms",
                 t.Hours,
                 t.Minutes,
@@ -55,17 +55,15 @@ namespace TaskMaster.Pages
         {
             PauseButton.IsEnabled = _activity.Status == StatusType.Start;
             ResumeButton.IsEnabled = _activity.Status == StatusType.Pause;
-            StopButton.IsEnabled = _activity.Status == StatusType.Planned;
+            StopButton.IsEnabled = _activity.Status != StatusType.Planned;
         }
         private async void StopButton_OnClicked(object sender, EventArgs e)
         {
-            //_stopwatch.Stop();
-            //await DisplayAlert("Tytul", _stopwatch.ElapsedMilliseconds.ToString(), "E", "F");
-            //long mili = _stopwatch.ElapsedMilliseconds;
-            DateTime now = DateTime.Now;
-            string date = now.ToString("HH:mm:ss dd/MM/yyyy");
+            _stopwatch.Stop();
+            _now = DateTime.Now;
+            string date = _now.ToString("HH:mm:ss dd/MM/yyyy");
             _actual.Stop = date;
-            //_actual.Duration = mili.ToString();
+            _actual.Duration = _stopwatch.ElapsedMilliseconds.ToString();
             _activity.Status = StatusType.Stop;
             await App.Database.SaveActivity(_activity);
             await App.Database.SavePartOfTask(_actual);
@@ -75,10 +73,11 @@ namespace TaskMaster.Pages
         private async void PauseButton_OnClicked(object sender, EventArgs e)
         {
             _activity.Status = StatusType.Pause;
+            _now = DateTime.Now;
             string date = _now.ToString("HH:mm:ss dd/MM/yyyy");
             _actual.Stop = date;
-            //_stopwatch.Stop();
-            //_actual.Duration = _stopwatch.ElapsedMilliseconds.ToString(); 
+            _stopwatch.Stop();
+            _actual.Duration = _stopwatch.ElapsedMilliseconds.ToString(); 
             await App.Database.SaveActivity(_activity);
             await App.Database.SavePartOfTask(_actual);
             UpdateButtons();
@@ -87,17 +86,20 @@ namespace TaskMaster.Pages
         private async void ResumeButton_OnClicked(object sender, EventArgs e)
         {
             _activity.Status = StatusType.Start;
+            _now = DateTime.Now;
             string date = _now.ToString("HH:mm:ss dd/MM/yyyy");
             var part = new PartsOfActivity()
             {
                 ActivityId = _activity.ActivityId,
                 Start = date
             };
-            //Stopwatch sw = new Stopwatch();
-            //App.Stopwatches.Add(sw);
-            //App.Stopwatches[idk].Start();
             await App.Database.SavePartOfTask(part);
+            Stopwatch sw = new Stopwatch();
+            App.Stopwatches.Add(sw);
+            App.Stopwatches[App.Stopwatches.Count - 1].Start();
             _actual = part;
+            await App.Database.SaveActivity(_activity);
+            UpdateButtons();
         }
 
         private void ActivityDescription_OnUnfocused(object sender, FocusEventArgs e)
