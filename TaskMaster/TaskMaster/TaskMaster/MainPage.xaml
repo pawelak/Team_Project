@@ -3,9 +3,21 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:local="clr-namespace:TaskMaster"
              x:Class="TaskMaster.MainPage">
-
-	<Label Text="Welcome to Xamarin Forms!" 
-           VerticalOptions="Center" 
-           HorizontalOptions="Center" />
-
+    <ContentPage.Padding>
+        <OnPlatform x:TypeArguments="Thickness"
+                    iOS="20, 40, 20, 20"
+                    Android="20, 20, 20, 20"
+                    WinPhone="20, 20, 20, 20" />
+    </ContentPage.Padding>
+    <ContentPage.Content>
+        <StackLayout HorizontalOptions="Center"
+                     Spacing="15">
+            <Label Text="{x:StaticResource WelcomeText}" HorizontalOptions="FillAndExpand"/>
+            <Button Text="{x:StaticResource StartTaskText}" x:Name="StartTaskButton" Clicked="StartTaskButton_OnClicked"/>
+            <Button Text="{x:StaticResource PlanTaskText}" x:Name="PlanTaskButton" Clicked="PlanTaskButton_OnClicked"/>
+            <Button Text="{x:StaticResource FastTaskText}" x:Name="FastTaskButton" Clicked="FastTaskButton_OnClicked"/>
+            <Button Text="{x:StaticResource StatisticText}" x:Name="StatisticsButton" Clicked="StatisticsButton_OnClicked"></Button>
+            <Button Text="{x:StaticResource CalendarText}" x:Name="CallenButton" Clicked="CallendarButton_OnClicked"></Button>
+        </StackLayout>
+    </ContentPage.Content>
 </ContentPage>

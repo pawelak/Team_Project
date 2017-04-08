@@ -2,18 +2,35 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using Xamarin.Forms;
+using TaskMaster.Models;
 
 namespace TaskMaster
 {
 	public partial class App : Application
 	{
+	    static UserDatabase _database;
+
+	    public static UserDatabase Database
+	    {
+	        get
+	        {
+	            if (_database == null)
+	            {
+	                _database = new UserDatabase(DependencyService.Get<IFileHelper>().GetLocalFilePath("UserSQlite.db3"));
+	            }
+                return _database;
+            }
+	    } 
 		public App ()
 		{
 			InitializeComponent();
-
-			MainPage = new TaskMaster.MainPage();
+			MainPage = new NavigationPage(new MainPage());
+            var user = new User()
+            {
+                name = "Patryk"
+            };
+            Database.SaveUser(user);
 		}
 
 		protected override void OnStart ()
