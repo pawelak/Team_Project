@@ -7,19 +7,19 @@ using TaskMaster.DAL.Models;
 
 namespace TaskMaster.DAL.DTOModels
 {
-    public class PartsOfActivity
+    public class PartsOfActivityDto
     {
-        public PartsOfActivity(Models.PartsOfActivity X)
+        public PartsOfActivityDto(Models.PartsOfActivity X)
         {
-            Mapper.Initialize(cfg => cfg.CreateMap<Models.PartsOfActivity, PartsOfActivity>());
-            Mapper.Map<Models.PartsOfActivity, PartsOfActivity>(X, this);
+            Mapper.Initialize(cfg => cfg.CreateMap<Models.PartsOfActivity, PartsOfActivityDto>());
+            Mapper.Map<Models.PartsOfActivity, PartsOfActivityDto>(X, this);
         }
         
         public DateTime Start { get; set; }
         public DateTime Stop { get; set; }
         public DateTime Duration { get; set; }
 
-        public Activity Activity { get; set; }
+        public ActivityDto Activity { get; set; }
 
     }
 }

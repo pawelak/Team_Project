@@ -7,19 +7,19 @@ using TaskMaster.DAL.Models;
 
 namespace TaskMaster.DAL.DTOModels
 {
-    public class Tokens
+    public class TokensDto
     {
-        public Tokens(Models.Tokens X)
+        public TokensDto(Models.Tokens X)
         {
-            Mapper.Initialize(cfg => cfg.CreateMap<Models.Tokens, Tokens>());
-            Mapper.Map<Models.Tokens, Tokens>(X, this);
+            Mapper.Initialize(cfg => cfg.CreateMap<Models.Tokens, TokensDto>());
+            Mapper.Map<Models.Tokens, TokensDto>(X, this);
         }
 
         public string Token { get; set; }
         public BrowserType BrowserType { get; set; }
         public PlatformType PlatformType { get; set; }
 
-        public User User { get; set; }
+        public UserDto User { get; set; }
     }
 
         public enum BrowserType
