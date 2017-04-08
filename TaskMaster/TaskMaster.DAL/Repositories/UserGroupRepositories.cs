@@ -2,13 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using TaskMaster.DAL.Models;
 
-namespace TaskMaster.DAL
+namespace TaskMaster.DAL.Repositories
 {
     public class UserGroupRepositories : RepoBase<UserGroup>
     {
-        Context db = new Context();
-
         public UserGroupRepositories()
         {
 
