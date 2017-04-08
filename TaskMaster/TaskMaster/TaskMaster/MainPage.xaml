@@ -10,9 +10,9 @@
                     WinPhone="20, 20, 20, 20" />
     </ContentPage.Padding>
     <ContentPage.ToolbarItems>
-        <ToolbarItem x:Name="MainPageItem" Order="Primary" Priority="0" Text="Main"/>
-        <ToolbarItem x:Name="CalendarPageItem" Order="Primary" Priority="1" Clicked="CalendarPageItem_OnClicked" Text="Cal"/>
-        <ToolbarItem x:Name="HistoryPageItem" Order="Primary" Priority="2" Clicked="HistoryPageItem_OnClicked" Text="His"/>
+        <ToolbarItem x:Name="MainPageItem" Order="Default" Priority="0" Text="Main"/>
+        <ToolbarItem x:Name="CalendarPageItem" Order="Default" Priority="1" Clicked="CalendarPageItem_OnClicked" Text="Cal"/>
+        <ToolbarItem x:Name="HistoryPageItem" Order="Default" Priority="2" Clicked="HistoryPageItem_OnClicked" Text="His"/>
     </ContentPage.ToolbarItems>
     <ContentPage.Content>
         <StackLayout Orientation="Vertical">
@@ -28,7 +28,7 @@
                 
             </StackLayout>
             <StackLayout>
-                <ListView x:Name="ActiveTasks" HasUnevenRows="False" ItemSelected="ActiveTasks_OnItemSelected">
+                <ListView x:Name="ActiveTasks" HasUnevenRows="False" ItemTapped="ActiveTasks_OnItemTapped">
                     <ListView.Header>
                         <Label Text="{x:StaticResource ActiveTasksHeader}" TextColor="{x:StaticResource TextColor}" />
                     </ListView.Header>

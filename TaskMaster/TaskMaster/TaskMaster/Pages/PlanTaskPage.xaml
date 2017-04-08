@@ -10,6 +10,9 @@
     </ContentPage.Padding>
     <ContentPage.Content>
         <StackLayout Orientation="Vertical">
+            <StackLayout Padding="5">
+                <Label x:Name="PlanTitle" Text="{x:StaticResource PlanLabel}" TextColor="{x:StaticResource TextColor}" FontSize="24"/>
+            </StackLayout>
             <StackLayout HeightRequest="50" Padding="10">
                 <StackLayout Orientation="Vertical"  BackgroundColor="{x:StaticResource BackgroundButtonColor}">
                     <Label x:Name="TaskName" HorizontalOptions="CenterAndExpand" TextColor="{x:StaticResource TextColor}"/>
@@ -35,7 +38,9 @@
                 <Label Text="{x:StaticResource DescriptionText}" WidthRequest="70" HorizontalTextAlignment="End" VerticalOptions="Center" TextColor="{x:StaticResource TextColor}"/>
                 <Entry x:Name="ActivityDescription" HorizontalOptions="FillAndExpand" TextColor="{x:StaticResource TextColor}" Unfocused="ActivityDescription_OnUnfocused" BackgroundColor="{x:StaticResource BackgroundButtonColor}"/>
             </StackLayout>
-            <Button Text="{x:StaticResource StartPlanText}" x:Name="PlanTaskStartButton" Clicked="PlanTaskStartButton_OnClicked"/>
+            <StackLayout VerticalOptions="EndAndExpand">
+                <Button Text="{x:StaticResource StartPlanText}" x:Name="PlanTaskStartButton" Clicked="PlanTaskStartButton_OnClicked"/>
+            </StackLayout>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

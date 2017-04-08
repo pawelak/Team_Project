@@ -5,10 +5,17 @@ using System.Threading.Tasks;
 using TaskMaster.Models;
 using TaskMaster.Pages;
 using Xamarin.Forms;
+using Xamarin.Forms.Xaml;
 using XamForms.Controls;
 namespace TaskMaster
 {
-
+    public struct ElemList
+    {
+        public string Name { get; set; }
+        public int ActivityId { get; set; }
+        public int TaskId { get; set; }
+        public string Description { get; set; }
+    }
 	public partial class MainPage : ContentPage
 	{
         Calendar calendar;
@@ -34,10 +41,8 @@ namespace TaskMaster
                 StartDay = DayOfWeek.Monday,
                 SelectedTextColor = Color.Fuchsia,
             };
-
             calendar.DateClicked += (sender, e) => {
-                 Navigation.PushModalAsync(new CalendarDayListPage((calendar.SelectedDates[0])));
-               
+                Navigation.PushModalAsync(new CalendarDayListPage(calendar.SelectedDates[0]));
             };
             var vm = new CalendarVM();
             calendar.SetBinding(Calendar.DateCommandProperty, nameof(vm.DateChosen));
@@ -55,21 +60,29 @@ namespace TaskMaster
 	    private async void ListInitiate()
 	    {
 	        var result = await App.Database.GetActivitiesByStatus(StatusType.Start);
-	        List<Tasks> activeTasks = new List<Tasks>();
+	        List<ElemList> activeTasks = new List<ElemList>();
 	        foreach (var activity in result)
 	        {
 	            if (activity.TaskId == 0)
 	            {
-	                var task = new Tasks()
+	                var item = new ElemList()
 	                {
 	                    Name = "Unnamed Activity " + activity.ActivityId,
+                        ActivityId = activity.ActivityId
 	                };
-	                activeTasks.Add(task);
+	                activeTasks.Add(item);
 	            }
 	            else
 	            {
-	                var task2 = await App.Database.GetTaskById(activity.TaskId);
-	                activeTasks.Add(task2);
+	                var task = await App.Database.GetTaskById(activity.TaskId);
+                    var item = new ElemList()
+                    {
+                        Name = task.Name,
+                        Description = task.Description,
+                        ActivityId = activity.ActivityId,
+                        TaskId = task.TaskId
+                    };
+	                activeTasks.Add(item);
 	            }
 	        }
 	        ActiveTasks.ItemsSource = activeTasks;
@@ -135,20 +148,20 @@ namespace TaskMaster
 	        await Navigation.PushModalAsync(new HistoryPage());
 	    }
 
-	    private void ActiveTasks_OnItemSelected(object sender, SelectedItemChangedEventArgs e)
-	    {
-	        //DisplayAlert("test", sender.ToString(), "a", "f");
-	        //throw new NotImplementedException();
-        }
         private async void FillCalendar()
         {
             parts = await App.Database.GetPartsList();
-
             foreach (PartsOfActivity p in parts)
             {
                 calendar.SpecialDates.Add(new SpecialDate(Convert.ToDateTime(p.Start)) { BackgroundColor = Color.Green, TextColor = Color.Black, BorderColor = Color.Blue, BorderWidth = 8, Selectable = true });
             }
             calendar.RaiseSpecialDatesChanged();//refresh
         }
-    }
+
+	    private async void ActiveTasks_OnItemTapped(object sender, ItemTappedEventArgs e)
+	    {
+	        var item = (ElemList)e.Item;
+	        await Navigation.PushModalAsync(new EditTaskPage(item));
+	    }
+	}
 }

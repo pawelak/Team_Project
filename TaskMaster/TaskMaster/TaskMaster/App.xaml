@@ -14,6 +14,7 @@
             <x:String x:Key="ActiveTasksHeader">Aktywne taski</x:String>
 
             <!-- Edit Task Page -->
+            <x:String x:Key="EditTitle">Edytuj task</x:String>
             <x:String x:Key="ResumeButtonText">Wznów aktywność</x:String>
             <x:String x:Key="PauseButtonText">Zapauzuj aktywność</x:String>
             <x:String x:Key="StopButtonText">Zakończ aktywność</x:String>
@@ -23,14 +24,15 @@
             <!-- Main Page -->
             <x:String x:Key="WelcomeText">Witaj w TaskMaster!</x:String>
             <x:String x:Key="StartTaskText">Rozpocznij aktywność</x:String>
-            <x:String x:Key="PlanTaskText">Zaplanuj aktywność</x:String>
-            <x:String x:Key="FastTaskText">Rozpocznij szybką aktywność</x:String>
-            <x:String x:Key="ActiveText">Atywne Taski</x:String>
+            <x:String x:Key="PlanTaskText">Zaplanuj task</x:String>
+            <x:String x:Key="FastTaskText">Szybki start</x:String>
+            <x:String x:Key="ActiveText">Twoje Taski</x:String>
 
             <!-- Calender Day List Page -->
             <x:String x:Key="DayPlan">Plan Dnia</x:String>
 
             <!-- Plan Task Page -->
+            <x:String x:Key="PlanLabel">Zaplanuj task</x:String>
             <x:String x:Key="NameText">nazwa:</x:String>
             <x:String x:Key="DescriptionText">komentarz:</x:String>
             <x:String x:Key="DateStartText">data roz:</x:String>
