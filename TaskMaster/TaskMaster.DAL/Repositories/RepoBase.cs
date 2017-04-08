@@ -4,28 +4,34 @@ using System.Linq;
 using System.Web;
 using System.Data.Entity;
 using TaskMaster.DAL.Context;
+using TaskMaster.DAL.Models;
 
 namespace TaskMaster.DAL.Repositories
 {
      public class RepoBase<T> where T : class
      {
-            protected Context.DatabaseContext db = new Context.DatabaseContext();
+            protected Context.DatabaseContext DatabaseContext = new Context.DatabaseContext();
 
-            public void Add(T X)
+            public T Get(int x)
             {
-                db.Set<T>().Add(X);
-                db.SaveChanges();
+                return DatabaseContext.Set<T>().Find(x);
             }
 
-            public void Delete(T X)
+            public void Add(T x)
             {
-                db.Set<T>().Remove(X);
-                db.SaveChanges();
+                DatabaseContext.Set<T>().Add(x);
+                DatabaseContext.SaveChanges();
+            }
+
+            public void Delete(T x)
+            {
+                DatabaseContext.Set<T>().Remove(x);
+                DatabaseContext.SaveChanges();
             }
 
             public IList<T> GetAll()
             {
-                return db.Set<T>().ToList<T>();
+                return DatabaseContext.Set<T>().ToList<T>();
             }
 
             //public T Get(int ID)
@@ -33,16 +39,16 @@ namespace TaskMaster.DAL.Repositories
             //    return db.Set<T>().FirstOrDefault<>();
             //}
 
-            public void Edit(T X)
+            public void Edit(T x)
             {
                 // Proszę o zwórcenie bacznej uwagi na kod ponizej i informacje o jego poprawnosci
-                db.Entry(X).State = EntityState.Modified;
-                db.SaveChanges();
+                DatabaseContext.Entry(x).State = EntityState.Modified;
+                DatabaseContext.SaveChanges();
             }
 
             public int Count()
             {
-                return db.Set<T>().Count<T>();
+                return DatabaseContext.Set<T>().Count<T>();
             }
         }
 }

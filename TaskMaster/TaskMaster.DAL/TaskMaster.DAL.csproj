@@ -43,8 +43,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="AutoMapper, Version=6.0.2.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
-      <HintPath>..\packages\AutoMapper.6.0.2\lib\net45\AutoMapper.dll</HintPath>
+    <Reference Include="AutoMapper, Version=5.1.1.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
+      <HintPath>..\packages\AutoMapper.5.1.1\lib\net45\AutoMapper.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
@@ -122,14 +122,14 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DTOModels\Activity.cs" />
-    <Compile Include="DTOModels\Favorites.cs" />
-    <Compile Include="DTOModels\Group.cs" />
-    <Compile Include="DTOModels\PartsOfActivity.cs" />
-    <Compile Include="DTOModels\Task.cs" />
-    <Compile Include="DTOModels\Tokens.cs" />
-    <Compile Include="DTOModels\User.cs" />
-    <Compile Include="DTOModels\UserGroup.cs" />
+    <Compile Include="DTOModels\ActivityDto.cs" />
+    <Compile Include="DTOModels\FavoritesDto.cs" />
+    <Compile Include="DTOModels\GroupDto.cs" />
+    <Compile Include="DTOModels\PartsOfActivityDto.cs" />
+    <Compile Include="DTOModels\TaskDto.cs" />
+    <Compile Include="DTOModels\TokensDto.cs" />
+    <Compile Include="DTOModels\UserDto.cs" />
+    <Compile Include="DTOModels\UserGroupDto.cs" />
     <Compile Include="Models\Favorites.cs" />
     <Compile Include="Models\UserGroup.cs" />
     <Compile Include="DatabaseInitializer.cs" />
