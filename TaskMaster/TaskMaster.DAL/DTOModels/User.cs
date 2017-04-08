@@ -2,13 +2,19 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using AutoMapper;
+using TaskMaster.DAL.Models;
 
-namespace TaskMaster.DAL.Models
+namespace TaskMaster.DAL.DTOModels
 {
     public class User
     {
-        public User() { }
-        public int UserId { get; set; }
+        public User(Models.User X)
+        {
+            Mapper.Initialize(cfg => cfg.CreateMap<Models.User, User>());
+            Mapper.Map<Models.User, User>(X, this);
+        }
+
         public string Email { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }

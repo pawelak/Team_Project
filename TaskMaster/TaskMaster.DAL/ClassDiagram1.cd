@@ -1,0 +1,235 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="TaskMaster.DAL.Context.DatabaseContext" Collapsed="true">
+    <Position X="22.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAEAAAIAAAAAAAAAAAAAAEAAAAAAAAECAAEABAgA=</HashCode>
+      <FileName>Context\DatabaseContext.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TaskMaster.DAL.DatabaseInitializer" Collapsed="true">
+    <Position X="24" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>DatabaseInitializer.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TaskMaster.DAL.DTOModels.Activity" Collapsed="true">
+    <Position X="18.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAEAEAAAAAAAAAAAAAAAAAAAAAAAAAEAABAAAAgA=</HashCode>
+      <FileName>DTOModels\Activity.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TaskMaster.DAL.DTOModels.Favorites" Collapsed="true">
+    <Position X="25.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAA=</HashCode>
+      <FileName>DTOModels\Favorites.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TaskMaster.DAL.DTOModels.Group" Collapsed="true">
+    <Position X="20.5" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAACAEAAAAA=</HashCode>
+      <FileName>DTOModels\Group.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TaskMaster.DAL.DTOModels.PartsOfActivity" Collapsed="true">
+    <Position X="24" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACACAAAAAAAAAAAAAAAAAAAAIAAAAEAAAAA=</HashCode>
+      <FileName>DTOModels\PartsOfActivity.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TaskMaster.DAL.DTOModels.Task" Collapsed="true">
+    <Position X="18.75" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAgAAAAAAAAAAQAAAAAAAAAAACAAEAAAAA=</HashCode>
+      <FileName>DTOModels\Task.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TaskMaster.DAL.DTOModels.Tokens" Collapsed="true">
+    <Position X="22.25" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAAAAAAAAAAAAMAAAAAAAAAAAAAAAAAAAAAABAAA=</HashCode>
+      <FileName>DTOModels\Tokens.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TaskMaster.DAL.DTOModels.User" Collapsed="true">
+    <Position X="25.75" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAKAgAAAAAAAAAAQAAAAAAAAAAACAAEABAAA=</HashCode>
+      <FileName>DTOModels\User.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TaskMaster.DAL.DTOModels.UserGroup" Collapsed="true">
+    <Position X="20.5" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>DTOModels\UserGroup.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TaskMaster.DAL.Models.Activity" Collapsed="true">
+    <Position X="20.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAEAEAAAAAEAAAAAAAAgAAAgAAAAAAEAABAAAAgA=</HashCode>
+      <FileName>Models\Activity.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TaskMaster.DAL.Models.Favorites" Collapsed="true">
+    <Position X="18.75" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABABAAAAAAAAAAAAAAAAgAAAgAAAAAAEAAAAAAAAA=</HashCode>
+      <FileName>Models\Favorites.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TaskMaster.DAL.Models.Group" Collapsed="true">
+    <Position X="22.25" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAEAIAAAAAAAAAAAAAAAAAAAAAAAAACAEAAAAA=</HashCode>
+      <FileName>Models\Group.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TaskMaster.DAL.Models.PartsOfActivity" Collapsed="true">
+    <Position X="25.75" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACAGAEAAAAAAAAAAAAAAAAAAIAAAAEAAAAA=</HashCode>
+      <FileName>Models\PartsOfActivity.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TaskMaster.DAL.Models.Task" Collapsed="true">
+    <Position X="20.5" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAgAAAAAAAAAAQAAAgAAAAAAACAAEAAAAA=</HashCode>
+      <FileName>Models\Task.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TaskMaster.DAL.Models.Tokens" Collapsed="true">
+    <Position X="24" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAAAAACAAAAAAMAAAAAgAAAAAAAAAAAAAAAABAAA=</HashCode>
+      <FileName>Models\Tokens.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TaskMaster.DAL.Models.User" Collapsed="true">
+    <Position X="18.75" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAKAgAAAAAAAAAAwAAAAAAAAAAACAAEABAAA=</HashCode>
+      <FileName>Models\User.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TaskMaster.DAL.Models.UserGroup" Collapsed="true">
+    <Position X="22.25" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABEEAEAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\UserGroup.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TaskMaster.DAL.Repositories.ActivityRepositories" Collapsed="true">
+    <Position X="0.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Repositories\ActivityRepositories.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TaskMaster.DAL.Repositories.FavoritiesRepositories" Collapsed="true">
+    <Position X="5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Repositories\FavoritiesRepositories.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TaskMaster.DAL.Repositories.GroupRepositories" Collapsed="true">
+    <Position X="9.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Repositories\GroupRepositories.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TaskMaster.DAL.Repositories.PartsOfActivityRepositories" Collapsed="true">
+    <Position X="14" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Repositories\PartsOfActivityRepositories.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TaskMaster.DAL.Repositories.RepoBase&lt;T&gt;" Collapsed="true">
+    <Position X="8.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIAAAAAAAAQAAAAAAAAAAQAAAEAAAACAgAAAAAAAAA=</HashCode>
+      <FileName>Repositories\RepoBase.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TaskMaster.DAL.Repositories.TaskRepositories" Collapsed="true">
+    <Position X="16.25" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Repositories\TaskRepositories.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TaskMaster.DAL.Repositories.TokensRepositories" Collapsed="true">
+    <Position X="2.75" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Repositories\TokensRepositories.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TaskMaster.DAL.Repositories.UserGroupRepositories" Collapsed="true">
+    <Position X="7.25" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Repositories\UserGroupRepositories.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TaskMaster.DAL.Repositories.UserRepositories" Collapsed="true">
+    <Position X="11.75" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Repositories\UserRepositories.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Enum Name="TaskMaster.DAL.DTOModels.State" Collapsed="true">
+    <Position X="25.75" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAgAAAAAAAAAAEAAAAAAAAAAAIAAAAAAAIAAAAAAAA=</HashCode>
+      <FileName>DTOModels\Activity.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="TaskMaster.DAL.DTOModels.BrowserType" Collapsed="true">
+    <Position X="18.75" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAACAAgRAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>DTOModels\Tokens.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="TaskMaster.DAL.DTOModels.PlatformType" Collapsed="true">
+    <Position X="22.25" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAACAAAAAAAAAAAAAAABAAAAEAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>DTOModels\Tokens.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="TaskMaster.DAL.Models.State" Collapsed="true">
+    <Position X="18.75" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAgAAAAAAAAAAEAAAAAAAAAAAIAAAAAAAIAAAAAAAA=</HashCode>
+      <FileName>Models\Activity.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="TaskMaster.DAL.Models.BrowserType" Collapsed="true">
+    <Position X="20.5" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAACAAgRAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\Tokens.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="TaskMaster.DAL.Models.PlatformType" Collapsed="true">
+    <Position X="24" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAACAAAAAAAAAAAAAAABAAAAEAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\Tokens.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
