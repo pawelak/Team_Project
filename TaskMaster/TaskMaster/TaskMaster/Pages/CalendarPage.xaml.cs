@@ -17,11 +17,17 @@ namespace TaskMaster
         public CalendarPage()
         {
             InitializeComponent();
-            // Activities actitivity = App.Database.GetActivity(parts[1].activityID).Result;
-            // Tasks task = App.Database.GetTaskById(actitivity.taskId).Result;
-            //DisplayAlert("Task",parts[0].start,"Task","Task");
         }
 
+        private async void MainPageItem_OnClicked(object sender, EventArgs e)
+        {
+            await Navigation.PushModalAsync(new MainPage());
+        }
+
+        private async void HistoryPageItem_OnClicked(object sender, EventArgs e)
+        {
+            await Navigation.PushModalAsync(new HistoryPage());
+        }
     }
 }
 

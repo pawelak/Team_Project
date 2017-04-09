@@ -9,9 +9,9 @@
                     WinPhone="20, 20, 20, 20" />
     </ContentPage.Padding>
     <ContentPage.ToolbarItems>
-        <ToolbarItem x:Name="MainPageItem" Order="Primary" Priority="0" Clicked="MainPageItem_OnClicked" Text="Test"/>
-        <ToolbarItem x:Name="CalendarPageItem" Order="Primary" Priority="1" Clicked="CalendarPageItem_OnClicked" Text="Testowy"/>
-        <ToolbarItem x:Name="HistoryPageItem" Order="Primary" Priority="2" Text="Teścik"/>
+        <ToolbarItem x:Name="MainPageItem" Order="Default" Priority="0" Clicked="MainPageItem_OnClicked" Icon="homeInactive.png"  />
+        <ToolbarItem x:Name="CalendarPageItem" Order="Default" Priority="1" Clicked="CalendarPageItem_OnClicked" Icon="callendarInactive.png"/>
+        <ToolbarItem x:Name="HistoryPageItem" Order="Default" Priority="2" Icon="historyActive.png"/>
     </ContentPage.ToolbarItems>
     <ContentPage.Content>
         <StackLayout HorizontalOptions="Center" Spacing="15">
