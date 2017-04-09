@@ -31,8 +31,8 @@ namespace TaskMaster.DAL.Repositories
             var listOut = GetAll().Select(Mapper.Map<User, UserDto>).ToList();
 
             //--------------test dodania-------------------
-            var test = new User {Name = "Dziala"};
-            listOut.Add(Mapper.Map<User, UserDto>(test));
+           // var test = new User {Name = "Dziala"};
+           // listOut.Add(Mapper.Map<User, UserDto>(test));
             //---------------------------------------------
 
             return listOut;

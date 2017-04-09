@@ -27,20 +27,21 @@ namespace TaskMaster.WebApi.Controllers
         //    return _testService.PrintAll();
         //}
 
+        //GET: api/Test/1/2
+        public UserDto Get(int id =1)
+        {
+            
+            return _testService.GetUserByIde(id);
+        }
 
 
-
-        // GET: api/Test/all
+        // GET: api/Test/cos
         public List<UserDto> Get()
         {
             return _testService.GetAllInList();
         }
 
-        // GET: api/Test/1
-        public UserDto Get(int id)
-        {
-            return _testService.GetUserByIde(id);
-        }
+
 
         // POST: api/Test
         public void Post([FromBody]string value)

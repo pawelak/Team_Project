@@ -199,6 +199,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LandingPageController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\TestController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -267,6 +268,8 @@
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\LandingPage\Index.cshtml" />
+    <Content Include="Views\Test\Index.cshtml" />
+    <Content Include="Views\Test\Cos.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -283,6 +286,10 @@
     <ProjectReference Include="..\TaskMaster.BLL\TaskMaster.BLL.csproj">
       <Project>{d23c4515-617c-448e-b626-af0a7a3cd991}</Project>
       <Name>TaskMaster.BLL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TaskMaster.DAL\TaskMaster.DAL.csproj">
+      <Project>{C7B3C125-E62F-4B1A-9773-85493987B815}</Project>
+      <Name>TaskMaster.DAL</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
