@@ -4,40 +4,47 @@
              x:Class="TaskMaster.App">
 	<Application.Resources>
 
-		<ResourceDictionary>
+        <ResourceDictionary>
+            <!-- App Colors -->
+            <Color x:Key="BackgroundColor">#2049A5</Color>
+            <Color x:Key="BackgroundButtonColor">#2E52A8</Color>
+            <Color x:Key="TextColor">White</Color>
+
+            <!-- Active Tasks Page -->
+            <x:String x:Key="ActiveTasksHeader">Aktywne taski</x:String>
+
+            <!-- Edit Task Page -->
+            <x:String x:Key="EditTitle">Edytuj task</x:String>
+            <x:String x:Key="ResumeButtonText">Wznów aktywność</x:String>
+            <x:String x:Key="PauseButtonText">Zapauzuj aktywność</x:String>
+            <x:String x:Key="StopButtonText">Zakończ aktywność</x:String>
+            
+            <!-- History Page -->
+            <x:String x:Key="History">Historia</x:String>
             <!-- Main Page -->
             <x:String x:Key="WelcomeText">Witaj w TaskMaster!</x:String>
             <x:String x:Key="StartTaskText">Rozpocznij aktywność</x:String>
-            <x:String x:Key="PlanTaskText">Zaplanuj aktywność</x:String>
-            <x:String x:Key="FastTaskText">Rozpocznij szybką aktywność</x:String>
-            <x:String x:Key="StatisticText">Przeglądaj statystyki</x:String>
-            <x:String x:Key="CalendarText">Kalendarz</x:String>
+            <x:String x:Key="PlanTaskText">Zaplanuj task</x:String>
+            <x:String x:Key="FastTaskText">Szybki start</x:String>
+            <x:String x:Key="ActiveText">Twoje Taski</x:String>
 
-            <!-- Callender Page -->
-            
-            
-            <!-- Fast Task Page -->
-            <x:String x:Key="StartFastText">Rozpocznij aktywność bez podawania danych</x:String>
+            <!-- Calender Day List Page -->
+            <x:String x:Key="DayPlan">Plan Dnia</x:String>
 
             <!-- Plan Task Page -->
-            <x:String x:Key="NameText">Podaj nazwę aktywności</x:String>
-            <x:String x:Key="DescriptionText">Podaj opis aktywności</x:String>
-            <x:String x:Key="DateStartText">Podaj datę i godzinę rozpoczęcia aktywności</x:String>
-            <x:String x:Key="DateStopText">Podaj datę i godzinę zakończenia aktywności</x:String>
+            <x:String x:Key="PlanLabel">Zaplanuj task</x:String>
+            <x:String x:Key="NameText">nazwa:</x:String>
+            <x:String x:Key="DescriptionText">komentarz:</x:String>
+            <x:String x:Key="DateStartText">data roz:</x:String>
+            <x:String x:Key="DateStopText">data kon:</x:String>
             <x:String x:Key="StartPlanText">Zaplanuj aktywność</x:String>
 
             <!-- Start Task Page -->
             <x:String x:Key="StartNameText">Podaj nazwę aktywnościa</x:String>
             <x:String x:Key="StartDescriptionText">Podaj opis aktywności</x:String>
             <x:String x:Key="StartTaskButtonText">Rozpocznij aktywność</x:String>
-
-            <!-- Statistic Page -->
-
-
-            <!-- Timer Page -->
-            <x:String x:Key="StopButtonText">Zakończ aktywność</x:String>
-
+            
+            
         </ResourceDictionary>
-
-	</Application.Resources>
+    </Application.Resources>
 </Application>

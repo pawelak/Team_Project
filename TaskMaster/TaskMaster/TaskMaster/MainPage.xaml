@@ -2,22 +2,46 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:local="clr-namespace:TaskMaster"
-             x:Class="TaskMaster.MainPage">
+             x:Class="TaskMaster.MainPage" BackgroundColor="{x:StaticResource BackgroundColor}">
     <ContentPage.Padding>
         <OnPlatform x:TypeArguments="Thickness"
                     iOS="20, 40, 20, 20"
                     Android="20, 20, 20, 20"
                     WinPhone="20, 20, 20, 20" />
     </ContentPage.Padding>
+    <ContentPage.ToolbarItems>
+        <ToolbarItem x:Name="MainPageItem" Order="Default" Priority="0" Icon="homeActive.png"  />
+        <ToolbarItem x:Name="CalendarPageItem" Order="Default" Priority="1" Clicked="CalendarPageItem_OnClicked" Icon="callendarInactive.png"/>
+        <ToolbarItem x:Name="HistoryPageItem" Order="Default" Priority="2" Clicked="HistoryPageItem_OnClicked" Icon="historyInactive.png"/>
+    </ContentPage.ToolbarItems>
     <ContentPage.Content>
-        <StackLayout HorizontalOptions="Center"
-                     Spacing="15">
-            <Label Text="{x:StaticResource WelcomeText}" HorizontalOptions="FillAndExpand"/>
-            <Button Text="{x:StaticResource StartTaskText}" x:Name="StartTaskButton" Clicked="StartTaskButton_OnClicked"/>
-            <Button Text="{x:StaticResource PlanTaskText}" x:Name="PlanTaskButton" Clicked="PlanTaskButton_OnClicked"/>
-            <Button Text="{x:StaticResource FastTaskText}" x:Name="FastTaskButton" Clicked="FastTaskButton_OnClicked"/>
-            <Button Text="{x:StaticResource StatisticText}" x:Name="StatisticsButton" Clicked="StatisticsButton_OnClicked"></Button>
-            <Button Text="{x:StaticResource CalendarText}" x:Name="CallenButton" Clicked="CallendarButton_OnClicked"></Button>
+        <StackLayout Orientation="Vertical">
+            <StackLayout Orientation="Horizontal" Spacing="1" HeightRequest="100">
+                <Button Text="{x:StaticResource StartTaskText}" x:Name="StartTaskButton" HorizontalOptions="Fill" WidthRequest="100" Clicked="StartTaskButton_OnClicked" BackgroundColor="{x:StaticResource BackgroundButtonColor}"/>
+                <Button Text="{x:StaticResource PlanTaskText}" FontSize="8" Image="planTaskStopwatch.png" ContentLayout="Bottom,0" x:Name="PlanTaskButton" HorizontalOptions="Fill"  WidthRequest="100"  HeightRequest="100" Clicked="PlanTaskButton_OnClicked" BackgroundColor="{x:StaticResource BackgroundButtonColor}"/>
+                <Button Text="{x:StaticResource FastTaskText}" FontSize="8" Image="fastStart.png" ContentLayout="Bottom,0" x:Name="FastTaskButton" HorizontalOptions="Fill"  WidthRequest="100" HeightRequest="100"  Clicked="FastTaskButton_OnClicked" BackgroundColor="{x:StaticResource BackgroundButtonColor}"/>
+            </StackLayout>
+            <StackLayout Spacing="0" HeightRequest="10">
+                <Label Text="{x:StaticResource WelcomeText}" HorizontalOptions="FillAndExpand" VerticalOptions="Center" TextColor="{x:StaticResource TextColor}"/>
+            </StackLayout>
+            <StackLayout HeightRequest="20">
+                
+            </StackLayout>
+            <StackLayout>
+                <ListView x:Name="ActiveTasks" HasUnevenRows="False" ItemTapped="ActiveTasks_OnItemTapped">
+                    <ListView.Header>
+                        <Label Text="{x:StaticResource ActiveTasksHeader}" TextColor="{x:StaticResource TextColor}" />
+                    </ListView.Header>
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <TextCell Text="{Binding Name}"
+                                      Detail="{Binding Description}"
+                                      TextColor="{x:StaticResource TextColor}"
+                                      DetailColor="{x:StaticResource TextColor}" />
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </StackLayout>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

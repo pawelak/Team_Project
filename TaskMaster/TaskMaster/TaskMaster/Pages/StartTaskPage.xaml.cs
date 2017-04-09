@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using TaskMaster.Models;
@@ -19,31 +16,41 @@ namespace TaskMaster
 			InitializeComponent ();
 		}
 
-	    private void StartTaskButton_OnClicked(object sender, EventArgs e)
+	    private async void StartTaskButton_OnClicked(object sender, EventArgs e)
 	    {
-            var taskon = new Tasks()
-            {
-                name = StartTaskName.Text,
-                description = StartTaskDescription.Text
-            };
-            if (App.Database.GetTask(taskon).Result == null)
-	            taskon.taskId = App.Database.SaveTask(taskon).Result;
+	        if (StartTaskName.Text != null)
+	        {
+	            var newTask = new Tasks()
+	            {
+	                Name = StartTaskName.Text,
+	                Description = StartTaskDescription.Text
+	            };
+	            if (await App.Database.GetTask(newTask) == null)
+	                newTask.TaskId = await App.Database.SaveTask(newTask);
+	            else
+	                newTask = App.Database.GetTask(newTask).Result;
+	            var newActivity = new Activities
+	            {
+	                TaskId = newTask.TaskId,
+	                UserId = 1,
+	                Status = StatusType.Start
+	            };
+	            newActivity.ActivityId = await App.Database.SaveActivity(newActivity);
+	            DateTime now = DateTime.Now;
+	            string date = now.ToString("HH:mm:ss dd/MM/yyyy");
+	            var part = new PartsOfActivity
+	            {
+	                ActivityId = newActivity.ActivityId,
+	                Start = date
+	            };
+	            await App.Database.SavePartOfTask(part);
+	            Stopwatch sw = new Stopwatch();
+	            App.Stopwatches.Add(sw);
+	            App.Stopwatches[App.Stopwatches.Count - 1].Start();
+	            await Navigation.PopModalAsync();
+	        }
 	        else
-	            taskon = App.Database.GetTask(taskon).Result;
-	        var activity = new Activities {
-                taskId = taskon.taskId,
-                userId = 1
-            };
-            activity.activityId = App.Database.SaveActivity(activity).Result;
-            DateTime now = DateTime.Now;
-	        string date = now.ToString("HH:mm:ss dd/MM/yyyy");
-            var part = new PartsOfActivity
-            {
-                activityID = activity.activityId,
-                start = date
-            };
-            App.Database.SavePartOfTask(part);
-	        Navigation.PushAsync(new TimePage(part));
+	            await DisplayAlert("Error", "Nie podałeś nazwy aktywności", "Ok");
 	    }
 	}
 }

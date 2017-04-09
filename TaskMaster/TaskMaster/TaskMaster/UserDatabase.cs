@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-//using Android.Support.V7.View.Menu;
 using SQLite;
 using TaskMaster.Models;
+using System;
 
 namespace TaskMaster
 {
@@ -22,61 +20,101 @@ namespace TaskMaster
             _database.CreateTablesAsync<Activities, Favorites, PartsOfActivity, Tasks, User>().Wait();
         }
 
-        public Task<int> SaveActivity(Activities activity)
+        public async Task<int> SaveActivity(Activities activity)
         {
-            if (activity.activityId != 0)
-                return _database.UpdateAsync(activity);
-            _database.InsertAsync(activity);
-            return _database.ExecuteScalarAsync<int>("Select activityId From Activities Order By activityId Desc Limit 1");
+            if (activity.ActivityId != 0)
+            {
+                var resultUpdate = await _database.UpdateAsync(activity);
+                return resultUpdate;
+            }
+            await _database.InsertAsync(activity);
+            var resultInsert = await _database.ExecuteScalarAsync<int>("Select activityId From Activities Order By activityId Desc Limit 1");
+            return resultInsert;
+        }
+        public async Task<int> SaveFavorite(Favorites favorite)
+        {
+            if (favorite.FavoriteId != 0)
+            {
+                var resultUpdate = await _database.UpdateAsync(favorite);
+                return resultUpdate;
+            }
+            await _database.InsertAsync(favorite);
+            var resultInsert = await _database.ExecuteScalarAsync<int>("Select favoriteId From Favorites Order By favoriteId Desc Limit 1");
+            return resultInsert;
+        }
+        public async Task<int> SavePartOfTask(PartsOfActivity part)
+        {
+            if (part.PartId != 0)
+            {
+                var resultUpdate = await _database.UpdateAsync(part);
+                return resultUpdate;
+            }
+            await _database.InsertAsync(part);
+            var resultInsert = await _database.ExecuteScalarAsync<int>("Select partId From PartsOfActivity Order By partId Desc Limit 1");
+            return resultInsert;
+        }
+        public async Task<int> SaveUser(User user)
+        {
+            if (user.UserId != 0)
+            {
+                var resultUpdate = await _database.UpdateAsync(user);
+                return resultUpdate;
+            }
+            await _database.InsertAsync(user);
+            var resultInsert = await _database.ExecuteScalarAsync<int>("Select userId From User Order By userId Desc Limit 1");
+            return resultInsert;
+        }
+        public async Task<int> SaveTask(Tasks task)
+        {
+            if (task.TaskId != 0)
+            {
+                var resultUpdate = await _database.UpdateAsync(task);
+                return resultUpdate;
+            }
+            await _database.InsertAsync(task);
+            var resultInsert = await _database.ExecuteScalarAsync<int>("Select taskId FROM Tasks ORDER BY taskId DESC LIMIT 1");
+            return resultInsert;
+        }
+        public async Task<Tasks> GetTask(Tasks task)
+        {
+            var result = await _database.Table<Tasks>().Where(t => t.Name == task.Name).FirstOrDefaultAsync();
+            return result;
+        }
+        public async Task<List<PartsOfActivity>> GetPartsList()
+        {
+            var result = await _database.Table<PartsOfActivity>().ToListAsync();
+            return result;
+        }
+        public async Task<Activities> GetActivity(int id)
+        {
+            var result = await _database.Table<Activities>().Where(t => t.ActivityId == id).FirstOrDefaultAsync();
+            return result;
+        }
+        public async Task<Tasks> GetTaskById(int id)
+        {
+            var result = await _database.Table<Tasks>().Where(t => t.TaskId == id).FirstOrDefaultAsync();
+            return result;
+        }
+        public async Task<List<Activities>> GetActivitiesByStatus(StatusType status)
+        {
+            var result = await _database.Table<Activities>().Where(t => t.Status == status).ToListAsync();
+            if (result == null)
+                return await Task.FromResult<List<Activities>>(null);
+            return result;
+        }
+        public async Task<PartsOfActivity> GetLastActivityPart(int id)
+        {
+            var result = await _database.Table<PartsOfActivity>()
+                .Where(t => t.ActivityId == id)
+                .OrderByDescending(t => t.PartId)
+                .FirstOrDefaultAsync();
+            return result;
+        }
 
-        }
-        public Task<int> SaveFavorite(Favorites favorite)
+        public async Task<List<PartsOfActivity>> GetPartsOfActivityByActivityId(int id)
         {
-            if (favorite.favoriteId != 0)
-                return _database.UpdateAsync(favorite);
-            _database.InsertAsync(favorite);
-            return _database.ExecuteScalarAsync<int>("Select favoriteId From Favorites Order By favoriteId Desc Limit 1");
-        }
-        public Task<int> SavePartOfTask(PartsOfActivity part)
-        {
-            if (part.partId != 0)
-                return _database.UpdateAsync(part);
-            _database.InsertAsync(part);
-            return _database.ExecuteScalarAsync<int>("Select partId From PartsOfActivity Order By partId Desc Limit 1");
-        }
-        public Task<int> SaveUser(User user)
-        {
-            if (user.userId != 0)
-                return _database.UpdateAsync(user);
-            _database.InsertAsync(user);
-            return _database.ExecuteScalarAsync<int>("Select userId From User Order By userId Desc Limit 1");
-        }
-        public Task<int> SaveTask(Tasks task)
-        {
-            if (task.taskId != 0)
-                return _database.UpdateAsync(task);
-            _database.InsertAsync(task);
-            return _database.ExecuteScalarAsync<int>("Select taskid FROM Tasks ORDER BY taskId DESC LIMIT 1");
-        }
-
-        public Task<Tasks> GetTask(Tasks task)
-        {
-            return _database.Table<Tasks>().Where(t => t.name == task.name).FirstOrDefaultAsync();
-        }
-
-        public Task<List<PartsOfActivity>> GetPartsList()
-        {
-            return _database.Table<PartsOfActivity>().ToListAsync();
-        }
-
-        public Task<Activities> GetActivity(int id)
-        {
-            return _database.Table<Activities>().Where(t => t.activityId == id).FirstOrDefaultAsync();
-        }
-
-        public Task<Tasks> GetTaskById(int id)
-        {
-            return _database.Table<Tasks>().Where(t => t.taskId == id).FirstOrDefaultAsync();
+            var result = await _database.Table<PartsOfActivity>().Where(t => t.ActivityId == id).ToListAsync();
+            return result;
         }
     }
 }

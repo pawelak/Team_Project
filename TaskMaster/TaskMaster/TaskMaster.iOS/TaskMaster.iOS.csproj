@@ -171,6 +171,25 @@
       <Private>True</Private>
     </Reference>
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="Resources\acceptButton.png" />
+    <Content Include="Resources\callendarActive.png" />
+    <Content Include="Resources\callendarInactive.png" />
+    <Content Include="Resources\facebook.png" />
+    <Content Include="Resources\fastStart.png" />
+    <Content Include="Resources\google.png" />
+    <Content Include="Resources\historyActive.png" />
+    <Content Include="Resources\historyInactive.png" />
+    <Content Include="Resources\homeActive.png" />
+    <Content Include="Resources\homeInactive.png" />
+    <Content Include="Resources\loginImg.png" />
+    <Content Include="Resources\logo.png" />
+    <Content Include="Resources\passwordImg.png" />
+    <Content Include="Resources\pauseButton.png" />
+    <Content Include="Resources\planTaskStopwatch.png" />
+    <Content Include="Resources\playButton.png" />
+    <Content Include="Resources\stopButton.png" />
+  </ItemGroup>
   <Import Project="..\TaskMaster\TaskMaster.projitems" Label="Shared" Condition="Exists('..\TaskMaster\TaskMaster.projitems')" />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <Import Project="..\..\packages\Xamarin.Forms.2.3.3.193\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+Xamarin.iOS10+xamarinmac20\Xamarin.Forms.targets" Condition="Exists('..\..\packages\Xamarin.Forms.2.3.3.193\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+Xamarin.iOS10+xamarinmac20\Xamarin.Forms.targets')" />

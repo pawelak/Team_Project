@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using Xamarin.Forms;
@@ -9,8 +10,8 @@ namespace TaskMaster
 {
 	public partial class App : Application
 	{
-	    static UserDatabase _database;
-
+	    private static UserDatabase _database;
+	    public static List<Stopwatch> Stopwatches = new List<Stopwatch>();
 	    public static UserDatabase Database
 	    {
 	        get
@@ -28,10 +29,10 @@ namespace TaskMaster
 			MainPage = new NavigationPage(new MainPage());
             var user = new User()
             {
-                name = "Patryk"
+                Name = "Patryk"
             };
             Database.SaveUser(user);
-		}
+        }
 
 		protected override void OnStart ()
 		{
