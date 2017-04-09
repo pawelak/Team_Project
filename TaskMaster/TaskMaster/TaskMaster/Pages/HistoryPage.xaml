@@ -15,7 +15,24 @@
     </ContentPage.ToolbarItems>
     <ContentPage.Content>
         <StackLayout HorizontalOptions="Center" Spacing="15">
-            <Label Text="Miejsce na statystyki. Podział również na kalendarz oraz dodatkowe elementy"  BackgroundColor="{x:StaticResource BackgroundButtonColor}"/>
+            <ListView x:Name="DayPlan" HasUnevenRows="False" >
+                <ListView.Header>
+                    <Label Text="{x:StaticResource History}" TextColor="{x:StaticResource TextColor}" HorizontalOptions="Center" FontSize="20" />
+                </ListView.Header>
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <StackLayout BackgroundColor="{x:StaticResource BackgroundButtonColor}" Orientation="Vertical">
+                                <StackLayout Orientation="Horizontal">
+                                    <Label Text="{Binding Name}" TextColor="{x:StaticResource TextColor}" />
+                                    <Label Text="{Binding Time}" HorizontalOptions="EndAndExpand" TextColor="{x:StaticResource TextColor}" />
+                                </StackLayout>
+                                <Label Text="{Binding Description}" TextColor="{x:StaticResource TextColor}" />
+                            </StackLayout>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

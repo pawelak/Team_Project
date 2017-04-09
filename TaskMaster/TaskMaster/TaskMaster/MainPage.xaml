@@ -10,16 +10,16 @@
                     WinPhone="20, 20, 20, 20" />
     </ContentPage.Padding>
     <ContentPage.ToolbarItems>
-        <ToolbarItem x:Name="MainPageItem" Order="Default" Priority="0" Text="Main"/>
-        <ToolbarItem x:Name="CalendarPageItem" Order="Default" Priority="1" Clicked="CalendarPageItem_OnClicked" Text="Cal"/>
-        <ToolbarItem x:Name="HistoryPageItem" Order="Default" Priority="2" Clicked="HistoryPageItem_OnClicked" Text="His"/>
+        <ToolbarItem x:Name="MainPageItem" Order="Default" Priority="0" Icon="homeInactive.png"  />
+        <ToolbarItem x:Name="CalendarPageItem" Order="Default" Priority="1" Clicked="CalendarPageItem_OnClicked" Icon="callendarActive.png"/>
+        <ToolbarItem x:Name="HistoryPageItem" Order="Default" Priority="2" Clicked="HistoryPageItem_OnClicked" Icon="historyActive.png"/>
     </ContentPage.ToolbarItems>
     <ContentPage.Content>
         <StackLayout Orientation="Vertical">
             <StackLayout Orientation="Horizontal" Spacing="1" HeightRequest="100">
                 <Button Text="{x:StaticResource StartTaskText}" x:Name="StartTaskButton" HorizontalOptions="Fill" WidthRequest="100" Clicked="StartTaskButton_OnClicked"/>
-                <Button Text="{x:StaticResource PlanTaskText}" x:Name="PlanTaskButton" HorizontalOptions="Fill" WidthRequest="100" Clicked="PlanTaskButton_OnClicked"/>
-                <Button Text="{x:StaticResource FastTaskText}" x:Name="FastTaskButton" HorizontalOptions="Fill" WidthRequest="100" Clicked="FastTaskButton_OnClicked"/>
+                <Button Text="{x:StaticResource PlanTaskText}" Font = "8"   Image="planTaskStopwatch.png" ContentLayout="Bottom,0" x:Name="PlanTaskButton" HorizontalOptions="Fill"  WidthRequest="100"  HeightRequest="100" Clicked="PlanTaskButton_OnClicked"/>
+                <Button   Text="{x:StaticResource FastTaskText}" Font = "8"   Image="fastStart.png" ContentLayout="Bottom,0" x:Name="FastTaskButton" HorizontalOptions="Fill"  WidthRequest="100" HeightRequest="100"  Clicked="FastTaskButton_OnClicked"/>
             </StackLayout>
             <StackLayout Spacing="0" HeightRequest="10">
                 <Label Text="{x:StaticResource WelcomeText}" HorizontalOptions="FillAndExpand" VerticalOptions="Center" TextColor="{x:StaticResource TextColor}"/>

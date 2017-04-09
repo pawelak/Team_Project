@@ -20,7 +20,7 @@
             <x:String x:Key="StopButtonText">Zakończ aktywność</x:String>
             
             <!-- History Page -->
-            
+            <x:String x:Key="History">Historia</x:String>
             <!-- Main Page -->
             <x:String x:Key="WelcomeText">Witaj w TaskMaster!</x:String>
             <x:String x:Key="StartTaskText">Rozpocznij aktywność</x:String>
@@ -43,6 +43,8 @@
             <x:String x:Key="StartNameText">Podaj nazwę aktywnościa</x:String>
             <x:String x:Key="StartDescriptionText">Podaj opis aktywności</x:String>
             <x:String x:Key="StartTaskButtonText">Rozpocznij aktywność</x:String>
+            
+            
         </ResourceDictionary>
     </Application.Resources>
 </Application>
