@@ -122,20 +122,20 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DTOModels\Activity.cs" />
-    <Compile Include="DTOModels\Favorites.cs" />
-    <Compile Include="DTOModels\Group.cs" />
-    <Compile Include="DTOModels\PartsOfActivity.cs" />
-    <Compile Include="DTOModels\Task.cs" />
-    <Compile Include="DTOModels\Tokens.cs" />
-    <Compile Include="DTOModels\User.cs" />
-    <Compile Include="DTOModels\UserGroup.cs" />
+    <Compile Include="DTOModels\ActivityDto.cs" />
+    <Compile Include="DTOModels\FavoritesDto.cs" />
+    <Compile Include="DTOModels\GroupDto.cs" />
+    <Compile Include="DTOModels\PartsOfActivityDto.cs" />
+    <Compile Include="DTOModels\TaskDto.cs" />
+    <Compile Include="DTOModels\TokensDto.cs" />
+    <Compile Include="DTOModels\UserDto.cs" />
+    <Compile Include="DTOModels\UserGroupDto.cs" />
     <Compile Include="Models\Favorites.cs" />
     <Compile Include="Models\UserGroup.cs" />
     <Compile Include="DatabaseInitializer.cs" />
     <Compile Include="Repositories\ActivityRepositories.cs" />
     <Compile Include="Context\DatabaseContext.cs" />
-    <Compile Include="Repositories\FavoritiesRepositories.cs" />
+    <Compile Include="Repositories\FavoritesRepositories.cs" />
     <Compile Include="Models\Activity.cs" />
     <Compile Include="Models\Group.cs" />
     <Compile Include="Repositories\GroupRepositories.cs" />
@@ -143,6 +143,14 @@
     <Compile Include="Models\Task.cs" />
     <Compile Include="Models\Tokens.cs" />
     <Compile Include="Models\User.cs" />
+    <Compile Include="Interface\IActivityRepositories.cs" />
+    <Compile Include="Interface\IFavoritesRepositories.cs" />
+    <Compile Include="Interface\IGroupRepositories.cs" />
+    <Compile Include="Interface\IPartsOfActivityRepositories.cs" />
+    <Compile Include="Interface\ITaskRepositories.cs" />
+    <Compile Include="Interface\ITokensRepositories.cs" />
+    <Compile Include="Interface\IUserGroupRepositories.cs" />
+    <Compile Include="Interface\IUserRepositories.cs" />
     <Compile Include="Repositories\PartsOfActivityRepositories.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\RepoBase.cs" />
