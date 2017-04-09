@@ -21,12 +21,12 @@ namespace TaskMaster
 
         private async void MainPageItem_OnClicked(object sender, EventArgs e)
         {
-            await Navigation.PushModalAsync(new MainPage());
+            await Navigation.PushModalAsync(new NavigationPage(new MainPage()));
         }
 
         private async void HistoryPageItem_OnClicked(object sender, EventArgs e)
         {
-            await Navigation.PushModalAsync(new HistoryPage());
+            await Navigation.PushModalAsync(new NavigationPage(new HistoryPage()));
         }
     }
 }

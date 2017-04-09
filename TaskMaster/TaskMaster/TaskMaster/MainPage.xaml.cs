@@ -153,7 +153,7 @@ namespace TaskMaster
 	    private async void CalendarPageItem_OnClicked(object sender, EventArgs e)
 	    {
             FillCalendar();
-            await Navigation.PushModalAsync(new CalendarPage
+            await Navigation.PushModalAsync(new NavigationPage(new CalendarPage
             {
                 BackgroundColor = Color.White,
                 Content = new ScrollView
@@ -167,12 +167,12 @@ namespace TaskMaster
                         }
                     }
                 }
-            });
+            }));
         }
 
 	    private async void HistoryPageItem_OnClicked(object sender, EventArgs e)
-	    {
-	        await Navigation.PushModalAsync(new HistoryPage());
+        { 
+            await Navigation.PushModalAsync(new NavigationPage(new HistoryPage()));
 	    }
 
         private async void FillCalendar()
