@@ -42,12 +42,6 @@ namespace TaskMaster.Pages
             };
             TaskDates.Text = _actual.Start;
             _stopwatch = App.Stopwatches.ElementAt(_actual.PartId - 1);
-            /*TimeSpan t = TimeSpan.FromMilliseconds(_stopwatch.ElapsedMilliseconds);
-            string answer = string.Format("{0:D2}h:{1:D2}m:{2:D2}s:{3:D3}ms",
-                t.Hours,
-                t.Minutes,
-                t.Seconds,
-                t.Milliseconds);*/
             UpdateButtons();
         }
 

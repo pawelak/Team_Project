@@ -17,6 +17,5 @@
             <Entry x:Name="StartTaskDescription" BackgroundColor="{x:StaticResource BackgroundButtonColor}"/>
             <Button Text="{x:StaticResource StartTaskButtonText}" x:Name="StartTaskButton" Clicked="StartTaskButton_OnClicked"/>
         </StackLayout>
-        
     </ContentPage.Content>
 </ContentPage>
