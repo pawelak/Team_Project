@@ -1,20 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
-namespace TaskMaster.DAL
+namespace TaskMaster.DAL.Models
 {
     public class Group
     {
         public Group() { }
-        [Key]
-        public int groupId { get; set; }
-        public string nameGroup { get; set; }
+        public int GroupId { get; set; }
+        public string NameGroup { get; set; }
  
-        public ICollection<Activity> activity { get; set; }
-        public ICollection<UserGroup> userGroup { get; set; }
+        public ICollection<Activity> Activity { get; set; }
+        public ICollection<UserGroup> UserGroup { get; set; }
 
     }
 }

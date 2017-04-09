@@ -1,24 +1,32 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
-namespace TaskMaster.DAL
+namespace TaskMaster.DAL.Models
 {
     public class Activity
     {
         public Activity() { }
-        [Key]
-        public int activityId { get; set; }
-        public int state { get; set; }
-        public string comment { get; set; }
+        public int ActivityId { get; set; }
+        public State State { get; set; }
+        public string Comment { get; set; }
 
-        public User user { get; set; }
-        public Group group { get; set; }
-        public Task task { get; set; }
+        public int UserId { get; set; }
+        public User User { get; set; }
+        public int GroupId { get; set; }
+        public Group Group { get; set; }
+        public int TaskId { get; set; }
+        public Task Task { get; set; }
 
-        public ICollection<PartsOfActivity> partsOfActivity { get; set; }
-        
+        public ICollection<PartsOfActivity> PartsOfActivity { get; set; }
+    }
+
+    public enum State
+    {
+        Planed,
+        Started,
+        Paused,
+        Ended
     }
 }

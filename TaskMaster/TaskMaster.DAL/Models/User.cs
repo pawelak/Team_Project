@@ -1,24 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
-namespace TaskMaster.DAL
+namespace TaskMaster.DAL.Models
 {
     public class User
     {
         public User() { }
-        [Key]
-        public int userId { get; set; }
-        public string email { get; set; }
-        public string name { get; set; }
-        public string description { get; set; }
+        public int UserId { get; set; }
+        public string Email { get; set; }
+        public string Name { get; set; }
+        public string Description { get; set; }
         
-        public ICollection<Activity> activity { get; set; }
-        public ICollection<Tokens> tokens { get; set; }
-        public ICollection<UserGroup> userGroup { get; set; }
-        public ICollection<Favorities> favorities { get; set; }
+        public ICollection<Activity> Activity { get; set; }
+        public ICollection<Tokens> Tokens { get; set; }
+        public ICollection<UserGroup> UserGroup { get; set; }
+        public ICollection<Favorites> Favorites { get; set; }
 
     }
 }

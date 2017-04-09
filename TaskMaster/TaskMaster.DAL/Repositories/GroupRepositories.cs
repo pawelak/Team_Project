@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using TaskMaster.DAL.Models;
 
-namespace TaskMaster.DAL
+namespace TaskMaster.DAL.Repositories
 {
     public class GroupRepositories : RepoBase<Group>
     {
-        Context db = new Context();
         public GroupRepositories()
         {
 

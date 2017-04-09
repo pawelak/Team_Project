@@ -1,21 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
-namespace TaskMaster.DAL
+namespace TaskMaster.DAL.Models
 {
     public class PartsOfActivity
     {
         public PartsOfActivity() { }
-        [Key]
-        public int partsOfActivityId { get; set; }
-        public DateTime start { get; set; }
-        public DateTime stop { get; set; }
-        public DateTime duration { get; set; }
+        public int PartsOfActivityId { get; set; }
+        public DateTime Start { get; set; }
+        public DateTime Stop { get; set; }
+        public DateTime Duration { get; set; }
 
-        public Activity activity { get; set; }
-
+        public int ActivityId { get; set; }
+        public Activity Activity { get; set; }
     }
 }

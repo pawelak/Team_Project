@@ -1,20 +1,34 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
-namespace TaskMaster.DAL
+namespace TaskMaster.DAL.Models
 {
     public class Tokens
     {
         public Tokens() { }
-        [Key]
-        public int tokensId { get; set; }
-        public string token { get; set; }
-        public int kind { get; set; }
-        public int platform { get; set; }
+        public int TokensId { get; set; }
+        public string Token { get; set; }
+        public BrowserType BrowserType { get; set; }
+        public PlatformType PlatformType { get; set; }
 
-        public User user { get; set; }   
+        public int UserId { get; set; }
+        public User User { get; set; }   
+    }
+
+    public enum BrowserType
+    {
+        Firefox,
+        Chrome,
+        Opera,
+        Safari
+    }
+
+    public enum PlatformType
+    {
+        Android,
+        WindowsPhone,
+        Ios
     }
 }

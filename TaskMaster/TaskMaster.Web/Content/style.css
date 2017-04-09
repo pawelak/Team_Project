@@ -1,0 +1,64 @@
+﻿body {
+    font-family: 'Quicksand', sans-serif;
+    
+}
+
+
+
+.navbar {
+    margin-bottom: 0px;
+    padding-bottom: 10px;
+    padding-top:10px;
+    
+}
+
+
+
+
+
+.navbar img {
+    width: 10%; 
+}
+
+.navbar-right {
+    font-size: 14px;
+    
+}
+
+
+.loggingSection {
+    margin-top: 140px;
+    position: static;
+    
+}
+
+button img {
+    width: 60%;
+}
+
+.howItWorksSection {
+    background-color: #375a7f;
+    text-align: center;
+    width: auto;
+    margin-top: 100px;
+    padding-top: 20px;
+
+
+    position: fixed;
+    bottom: 0;
+}
+
+
+.howItWorksSection h3 {
+    padding-bottom: 30px;
+}
+
+.howItWorksSection p {
+    padding: 0px 60px 50px 60px;
+}
+/*.fillScreen {
+    background-size: cover;
+    background-position: center;
+    
+}*/
+
