@@ -1,10 +1,11 @@
-﻿using SQLite;
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
 
-namespace TaskMaster.Models
+namespace TaskMaster.ModelsDto
 {
-    public class PartsOfActivity
+    public class PartsOfActivityDto
     {
-        [PrimaryKey,AutoIncrement]
         public int PartId { get; set; }
         public int ActivityId { get; set; }
         public string Start { get; set; }

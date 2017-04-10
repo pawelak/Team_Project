@@ -1,25 +1,20 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-using TaskMaster.Models;
+using TaskMaster.ModelsDto;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
 namespace TaskMaster.Pages
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class EditTaskPage : ContentPage
+    public partial class EditTaskPage
     {
         private Stopwatch _stopwatch;
-        private PartsOfActivity _actual;
-        private Activities _activity;
-        private Tasks _task;
-        private DateTime _now = new DateTime();
+        private PartsOfActivityDto _actual;
+        private ActivitiesDto _activity;
+        private TasksDto _task;
+        private DateTime _now;
         public EditTaskPage(ElemList item)
         {
             InitializeComponent();
@@ -34,7 +29,7 @@ namespace TaskMaster.Pages
         {
             _activity = await App.Database.GetActivity(item.ActivityId);
             _actual = await App.Database.GetLastActivityPart(_activity.ActivityId);
-            _task = new Tasks()
+            _task = new TasksDto()
             {
                 Name = item.Name,
                 Description = item.Description,
@@ -59,8 +54,8 @@ namespace TaskMaster.Pages
             _actual.Stop = date;
             _actual.Duration = _stopwatch.ElapsedMilliseconds.ToString();
             _activity.Status = StatusType.Stop;
-            await App.Database.SaveActivity(_activity);
-            await App.Database.SavePartOfTask(_actual);
+            //await App.Database.SaveActivity(_activity);
+            //await App.Database.SavePartOfTask(_actual);
             await Navigation.PushModalAsync(new MainPage());
         }
 
@@ -72,8 +67,8 @@ namespace TaskMaster.Pages
             _actual.Stop = date;
             _stopwatch.Stop();
             _actual.Duration = _stopwatch.ElapsedMilliseconds.ToString(); 
-            await App.Database.SaveActivity(_activity);
-            await App.Database.SavePartOfTask(_actual);
+            //await App.Database.SaveActivity(_activity);
+            //await App.Database.SavePartOfTask(_actual);
             UpdateButtons();
         }
 
@@ -82,17 +77,17 @@ namespace TaskMaster.Pages
             _activity.Status = StatusType.Start;
             _now = DateTime.Now;
             string date = _now.ToString("HH:mm:ss dd/MM/yyyy");
-            var part = new PartsOfActivity()
+            var part = new PartsOfActivityDto()
             {
                 ActivityId = _activity.ActivityId,
                 Start = date
             };
-            await App.Database.SavePartOfTask(part);
+            //await App.Database.SavePartOfTask(part);
             Stopwatch sw = new Stopwatch();
             App.Stopwatches.Add(sw);
             App.Stopwatches[App.Stopwatches.Count - 1].Start();
             _actual = part;
-            await App.Database.SaveActivity(_activity);
+            //await App.Database.SaveActivity(_activity);
             UpdateButtons();
         }
 
@@ -114,9 +109,9 @@ namespace TaskMaster.Pages
             {
                 if (await App.Database.GetTask(_task) == null)
                 {
-                    var result = await App.Database.SaveTask(_task);
+                    /*var result = await App.Database.SaveTask(_task);
                     _activity.TaskId = result;
-                    await App.Database.SaveActivity(_activity);
+                    await App.Database.SaveActivity(_activity);*/
                 }
 
             }

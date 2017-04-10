@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using SQLite;
 using TaskMaster.Models;
-using System;
+using TaskMaster.ModelsDto;
 
 namespace TaskMaster
 {
@@ -20,101 +20,127 @@ namespace TaskMaster
             _database.CreateTablesAsync<Activities, Favorites, PartsOfActivity, Tasks, User>().Wait();
         }
 
-        public async Task<int> SaveActivity(Activities activity)
+        public async Task<int> UpdateActivity(ActivitiesDto activitiesDto)
         {
-            if (activity.ActivityId != 0)
-            {
-                var resultUpdate = await _database.UpdateAsync(activity);
-                return resultUpdate;
-            }
+            var activity = AutoMapper.Mapper.Map<Activities>(activitiesDto);
+            await _database.UpdateAsync(activity);
+            return activity.ActivityId;
+        }
+
+        public async Task<int> InsertActivity(ActivitiesDto activityDto)
+        {
+            var activity = AutoMapper.Mapper.Map<Activities>(activityDto);
             await _database.InsertAsync(activity);
-            var resultInsert = await _database.ExecuteScalarAsync<int>("Select activityId From Activities Order By activityId Desc Limit 1");
-            return resultInsert;
+            return activity.ActivityId;
         }
-        public async Task<int> SaveFavorite(Favorites favorite)
+
+        public async Task<int> UpdateFavorites(FavoritesDto favoritesDto)
         {
-            if (favorite.FavoriteId != 0)
-            {
-                var resultUpdate = await _database.UpdateAsync(favorite);
-                return resultUpdate;
-            }
+            var favorite = AutoMapper.Mapper.Map<Favorites>(favoritesDto);
+            await _database.UpdateAsync(favorite);
+            return favorite.FavoriteId;
+        }
+
+        public async Task<int> InsertFavorite(FavoritesDto favoritesDto)
+        {
+            var favorite = AutoMapper.Mapper.Map<Favorites>(favoritesDto);
             await _database.InsertAsync(favorite);
-            var resultInsert = await _database.ExecuteScalarAsync<int>("Select favoriteId From Favorites Order By favoriteId Desc Limit 1");
-            return resultInsert;
+            return favorite.FavoriteId;
         }
-        public async Task<int> SavePartOfTask(PartsOfActivity part)
+
+        public async Task<int> InsertPartOfActivity(PartsOfActivityDto partsOfActivityDto)
         {
-            if (part.PartId != 0)
-            {
-                var resultUpdate = await _database.UpdateAsync(part);
-                return resultUpdate;
-            }
-            await _database.InsertAsync(part);
-            var resultInsert = await _database.ExecuteScalarAsync<int>("Select partId From PartsOfActivity Order By partId Desc Limit 1");
-            return resultInsert;
+            var partOfActivity = AutoMapper.Mapper.Map<PartsOfActivity>(partsOfActivityDto);
+            await _database.InsertAsync(partOfActivity);
+            return partOfActivity.PartId;
         }
-        public async Task<int> SaveUser(User user)
+
+        public async Task<int> UpdatePartOfActivity(PartsOfActivityDto partOfActivityDto)
         {
-            if (user.UserId != 0)
-            {
-                var resultUpdate = await _database.UpdateAsync(user);
-                return resultUpdate;
-            }
+            var partOfActivity = AutoMapper.Mapper.Map<PartsOfActivity>(partOfActivityDto);
+            await _database.UpdateAsync(partOfActivity);
+            return partOfActivity.PartId;
+        }
+
+        public async Task<int> InsertUser(UserDto userDto)
+        {
+            var user = AutoMapper.Mapper.Map<User>(userDto);
             await _database.InsertAsync(user);
-            var resultInsert = await _database.ExecuteScalarAsync<int>("Select userId From User Order By userId Desc Limit 1");
-            return resultInsert;
+            return user.UserId;
         }
-        public async Task<int> SaveTask(Tasks task)
+
+        public async Task<int> UpdateUser(UserDto userDto)
         {
-            if (task.TaskId != 0)
-            {
-                var resultUpdate = await _database.UpdateAsync(task);
-                return resultUpdate;
-            }
+            var user = AutoMapper.Mapper.Map<User>(userDto);
+            await _database.UpdateAsync(user);
+            return user.UserId;
+        }
+
+        public async Task<int> InsertTask(TasksDto tasksDto)
+        {
+            var task = AutoMapper.Mapper.Map<Tasks>(tasksDto);
             await _database.InsertAsync(task);
-            var resultInsert = await _database.ExecuteScalarAsync<int>("Select taskId FROM Tasks ORDER BY taskId DESC LIMIT 1");
-            return resultInsert;
+            return task.TaskId;
         }
-        public async Task<Tasks> GetTask(Tasks task)
+
+        public async Task<int> UpdateTask(TasksDto taskDto)
         {
-            var result = await _database.Table<Tasks>().Where(t => t.Name == task.Name).FirstOrDefaultAsync();
-            return result;
+            var task = AutoMapper.Mapper.Map<Tasks>(taskDto);
+            await _database.UpdateAsync(task);           
+            return task.TaskId;
         }
-        public async Task<List<PartsOfActivity>> GetPartsList()
+
+        public async Task<TasksDto> GetTask(TasksDto taskDto)
+        {
+            var task = AutoMapper.Mapper.Map<Tasks>(taskDto);
+            var result = await _database.Table<Tasks>().Where(t => t.Name == task.Name).FirstOrDefaultAsync();
+            taskDto = AutoMapper.Mapper.Map<TasksDto>(result);
+            return taskDto;
+        }
+
+        public async Task<List<PartsOfActivityDto>> GetPartsList()
         {
             var result = await _database.Table<PartsOfActivity>().ToListAsync();
-            return result;
+            var list = AutoMapper.Mapper.Map <List<PartsOfActivityDto>>(result);
+            return list;
         }
-        public async Task<Activities> GetActivity(int id)
+
+        public async Task<ActivitiesDto> GetActivity(int id)
         {
             var result = await _database.Table<Activities>().Where(t => t.ActivityId == id).FirstOrDefaultAsync();
-            return result;
+            var activity = AutoMapper.Mapper.Map<ActivitiesDto>(result);
+            return activity;
         }
-        public async Task<Tasks> GetTaskById(int id)
+
+        public async Task<TasksDto> GetTaskById(int id)
         {
             var result = await _database.Table<Tasks>().Where(t => t.TaskId == id).FirstOrDefaultAsync();
-            return result;
+            var task = AutoMapper.Mapper.Map<TasksDto>(result);
+            return task;
         }
-        public async Task<List<Activities>> GetActivitiesByStatus(StatusType status)
+
+        public async Task<List<ActivitiesDto>> GetActivitiesByStatus(StatusType status)
         {
             var result = await _database.Table<Activities>().Where(t => t.Status == status).ToListAsync();
-            if (result == null)
-                return await Task.FromResult<List<Activities>>(null);
-            return result;
+            var list = AutoMapper.Mapper.Map<List<ActivitiesDto>>(result);
+            return list;
         }
-        public async Task<PartsOfActivity> GetLastActivityPart(int id)
+
+        public async Task<PartsOfActivityDto> GetLastActivityPart(int id)
         {
             var result = await _database.Table<PartsOfActivity>()
                 .Where(t => t.ActivityId == id)
                 .OrderByDescending(t => t.PartId)
                 .FirstOrDefaultAsync();
-            return result;
+            var part = AutoMapper.Mapper.Map<PartsOfActivityDto>(result);
+            return part;
         }
 
-        public async Task<List<PartsOfActivity>> GetPartsOfActivityByActivityId(int id)
+        public async Task<List<PartsOfActivityDto>> GetPartsOfActivityByActivityId(int id)
         {
             var result = await _database.Table<PartsOfActivity>().Where(t => t.ActivityId == id).ToListAsync();
-            return result;
+            var list = AutoMapper.Mapper.Map<List<PartsOfActivityDto>>(result);
+            return list;
         }
     }
 }

@@ -1,21 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using TaskMaster.Models;
-using Xamarin.Forms;
+﻿using TaskMaster.ModelsDto;
 using Xamarin.Forms.Xaml;
 
 namespace TaskMaster.Pages
 {
 	[XamlCompilation(XamlCompilationOptions.Compile)]
-	public partial class ResultPage : ContentPage
+	public partial class ResultPage
 	{
-	    private PartsOfActivity _activity;
-	    private Tasks _task;
-	    private Activities _active;
-		public ResultPage (PartsOfActivity part)
+	    private PartsOfActivityDto _activity;
+	    private TasksDto _task;
+	    private ActivitiesDto _active;
+		public ResultPage (PartsOfActivityDto part)
 		{
 			InitializeComponent ();
 		    _activity = part;

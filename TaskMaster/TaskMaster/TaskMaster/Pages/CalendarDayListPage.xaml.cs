@@ -1,21 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.Threading.Tasks;
-using TaskMaster.Models;
-using TaskMaster.Pages;
-using Xamarin.Forms;
-using XamForms.Controls;
+
 namespace TaskMaster.Pages
 {
 
-    public partial class CalendarDayListPage : ContentPage
+    public partial class CalendarDayListPage
     {
-        private DateTime calendarDay;
+        private DateTime _calendarDay;
 
         public CalendarDayListPage(DateTime dateTime)
         {
-            this.calendarDay = dateTime;
+            _calendarDay = dateTime;
             InitializeComponent();
             ListInitiate();
         }
@@ -52,7 +47,7 @@ namespace TaskMaster.Pages
                 var parts = await App.Database.GetPartsOfActivityByActivityId(activity.ActivityId);
                 foreach (var part in parts)
                 {
-                    if (DateTime.Parse(part.Start).ToString("dd/MM/yyyy").Equals(calendarDay.ToString("dd/MM/yyyy")))
+                    if (DateTime.Parse(part.Start).ToString("dd/MM/yyyy").Equals(_calendarDay.ToString("dd/MM/yyyy")))
                     {
                         time += long.Parse(part.Duration);
                     }
@@ -67,12 +62,6 @@ namespace TaskMaster.Pages
                 dayPlan.Add(element);
             }
             DayPlan.ItemsSource = dayPlan;
-        }
-        public struct CustomList
-        {
-            public string Name { get; set; }
-            public string Description { get; set; }
-            public string Time { get; set; }
         }
     }
 }

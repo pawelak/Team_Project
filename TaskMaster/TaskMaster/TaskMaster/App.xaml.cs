@@ -27,11 +27,11 @@ namespace TaskMaster
 		{
 			InitializeComponent();
 			MainPage = new NavigationPage(new MainPage());
-            var user = new User()
+            /*var user = new User()
             {
                 Name = "Patryk"
             };
-            Database.SaveUser(user);
+            Database.SaveUser(user);*/
         }
 
 		protected override void OnStart ()

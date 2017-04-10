@@ -1,26 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Threading.Tasks;
-using TaskMaster.Models;
+using TaskMaster.ModelsDto;
 using TaskMaster.Pages;
 using Xamarin.Forms;
-using Xamarin.Forms.Xaml;
 using XamForms.Controls;
 namespace TaskMaster
 {
-    public struct ElemList
-    {
-        public string Name { get; set; }
-        public int ActivityId { get; set; }
-        public int TaskId { get; set; }
-        public string Description { get; set; }
-    }
-	public partial class MainPage : ContentPage
+	public partial class MainPage
 	{
-        Calendar calendar;
-        Label MSG;
-        List<PartsOfActivity> parts;
+        private Calendar calendar;
+        private Label MSG;
+        private List<PartsOfActivityDto> parts;
         public MainPage()
 		{
             MSG = new Label
@@ -44,7 +35,7 @@ namespace TaskMaster
             calendar.DateClicked += (sender, e) => {
                 Navigation.PushModalAsync(new CalendarDayListPage(calendar.SelectedDates[0]));
             };
-            var vm = new CalendarVM();
+            var vm = new CalendarVm();
             calendar.SetBinding(Calendar.DateCommandProperty, nameof(vm.DateChosen));
             calendar.SetBinding(Calendar.SelectedDateProperty, nameof(vm.Date));
             calendar.BindingContext = vm;
@@ -125,25 +116,25 @@ namespace TaskMaster
 
 	    private async void FastTaskButton_OnClicked(object sender, EventArgs e)
 	    {
-	        var task = new Tasks()
+	        var task = new TasksDto
 	        {
 	            TaskId = 0
 	        };
-	        await App.Database.SaveTask(task);
-	        var activity = new Activities()
+	        //await App.Database.SaveTask(task);
+	        var activity = new ActivitiesDto
 	        {
 	            Status = StatusType.Start,
                 UserId = 1,
                 GroupId = 1
 	        };
-	        activity.ActivityId = await App.Database.SaveActivity(activity);
+	        //activity.ActivityId = await App.Database.SaveActivity(activity);
 	        DateTime now = DateTime.Now;
-	        var part = new PartsOfActivity()
+	        var part = new PartsOfActivityDto
 	        {
 	            ActivityId = activity.ActivityId,
 	            Start = now.ToString("HH:mm:ss dd/MM/yyyy")
 	        };
-	        await App.Database.SavePartOfTask(part);
+	        //await App.Database.SavePartOfTask(part);
 	        Stopwatch sw = new Stopwatch();
 	        App.Stopwatches.Add(sw);
 	        App.Stopwatches[App.Stopwatches.Count - 1].Start();
@@ -178,7 +169,7 @@ namespace TaskMaster
         private async void FillCalendar()
         {
             parts = await App.Database.GetPartsList();
-            foreach (PartsOfActivity p in parts)
+            foreach (PartsOfActivityDto p in parts)
             {
                 calendar.SpecialDates.Add(new SpecialDate(Convert.ToDateTime(p.Start)) { BackgroundColor = Color.Green, TextColor = Color.Black, BorderColor = Color.Blue, BorderWidth = 8, Selectable = true });
             }

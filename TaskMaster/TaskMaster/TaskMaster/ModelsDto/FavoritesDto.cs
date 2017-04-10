@@ -1,10 +1,11 @@
-﻿using SQLite;
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
 
-namespace TaskMaster.Models
+namespace TaskMaster.ModelsDto
 {
-    public class Favorites
+    public class FavoritesDto
     {
-        [PrimaryKey, AutoIncrement]
         public int FavoriteId { get; set; }
         public int UserId { get; set; }
         public int TaskId { get; set; }

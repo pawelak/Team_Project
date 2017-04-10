@@ -1,17 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.Threading.Tasks;
-using TaskMaster.Models;
-using TaskMaster.Pages;
 using Xamarin.Forms;
-using XamForms.Controls;
-
 
 namespace TaskMaster
 {
 	
-	public partial class HistoryPage : ContentPage
+	public partial class HistoryPage
 	{
 		public HistoryPage ()
 		{
@@ -56,12 +50,6 @@ namespace TaskMaster
             }
            
             DayPlan.ItemsSource = dayPlan;
-        }
-        public struct CustomList
-        {
-            public string Name { get; set; }
-            public string Description { get; set; }
-            public string Time { get; set; }
         }
 	}
 }
