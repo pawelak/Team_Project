@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Cryptography.X509Certificates;
-using System.Web;
+﻿using System.Collections.Generic;
+using AutoMapper;
 using TaskMaster.DAL.Models;
 using TaskMaster.DAL.DTOModels;
+using TaskMaster.DAL.Interface;
 
 
 namespace TaskMaster.DAL.Repositories
@@ -13,40 +11,37 @@ namespace TaskMaster.DAL.Repositories
     {
         public ActivityRepositories()
         {
-            
+            Mapper.Initialize(ctg => ctg.AddProfile(new MapperProfil()));
         }
 
         public void Add(ActivityDto dto)
         {
-            Activity entity = dto.ToActivity();
-            base.Add(entity);
+            base.Add(Mapper.Map<Activity>(dto));
         }
 
         public void Delete(ActivityDto dto)
         {
-            Activity entity = dto.ToActivity();
-            base.Delete(entity);
+            base.Delete(Mapper.Map<Activity>(dto));
         }
 
-        public IList<ActivityDto> GetAll()
+        public new IList<ActivityDto> GetAll()
         {
             IList < ActivityDto > list = new List<ActivityDto>();
             foreach (var VARIABLE in base.GetAll())
             {
-                list.Add(new ActivityDto(VARIABLE));
+                list.Add(Mapper.Map<ActivityDto>(VARIABLE));
             }
             return list;
         }
 
-        public ActivityDto Get(int ID)
+        public new ActivityDto Get(int ID)
         {
-            return new ActivityDto(base.Get(ID));
+            return Mapper.Map<ActivityDto>(base.Get(ID));
         }
 
         public void Edit(ActivityDto dto)
         {
-            Activity entity = dto.ToActivity();
-            base.Edit(entity);
+            base.Edit(Mapper.Map<Activity>(dto));
         }
 
     }

@@ -123,13 +123,17 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DTOModels\ActivityDto.cs" />
+    <Compile Include="Enum\BrowserType.cs" />
     <Compile Include="DTOModels\FavoritesDto.cs" />
     <Compile Include="DTOModels\GroupDto.cs" />
     <Compile Include="DTOModels\PartsOfActivityDto.cs" />
+    <Compile Include="Enum\PlatformType.cs" />
+    <Compile Include="Enum\State.cs" />
     <Compile Include="DTOModels\TaskDto.cs" />
     <Compile Include="DTOModels\TokensDto.cs" />
     <Compile Include="DTOModels\UserDto.cs" />
     <Compile Include="DTOModels\UserGroupDto.cs" />
+    <Compile Include="MapperProfil.cs" />
     <Compile Include="Models\Favorites.cs" />
     <Compile Include="Models\UserGroup.cs" />
     <Compile Include="DatabaseInitializer.cs" />

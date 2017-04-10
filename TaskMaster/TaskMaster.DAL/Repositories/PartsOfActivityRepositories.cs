@@ -1,8 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using System.Collections.Generic;
+using AutoMapper;
 using TaskMaster.DAL.DTOModels;
+using TaskMaster.DAL.Interface;
 using TaskMaster.DAL.Models;
 
 namespace TaskMaster.DAL.Repositories
@@ -11,18 +10,16 @@ namespace TaskMaster.DAL.Repositories
     {
         public PartsOfActivityRepositories()
         {
-            
+            Mapper.Initialize(ctg => ctg.AddProfile(new MapperProfil()));
         }
         public void Add(PartsOfActivityDto dto)
         {
-            PartsOfActivity entity = dto.ToPartsOfActivity();
-            base.Add(entity);
+            base.Add(Mapper.Map<PartsOfActivity>(dto));
         }
 
         public void Delete(PartsOfActivityDto dto)
         {
-            PartsOfActivity entity = dto.ToPartsOfActivity();
-            base.Delete(entity);
+            base.Delete(Mapper.Map<PartsOfActivity>(dto));
         }
 
         public IList<PartsOfActivityDto> GetAll()
@@ -30,20 +27,19 @@ namespace TaskMaster.DAL.Repositories
             IList<PartsOfActivityDto> list = new List<PartsOfActivityDto>();
             foreach (var VARIABLE in base.GetAll())
             {
-                list.Add(new PartsOfActivityDto(VARIABLE));
+                list.Add(Mapper.Map<PartsOfActivityDto>(VARIABLE));
             }
             return list;
         }
 
-        public PartsOfActivityDto Get(int ID)
+        public new PartsOfActivityDto Get(int ID)
         {
-            return new PartsOfActivityDto(base.Get(ID));
+            return Mapper.Map<PartsOfActivityDto>(base.Get(ID));
         }
 
         public void Edit(PartsOfActivityDto dto)
         {
-            PartsOfActivity entity = dto.ToPartsOfActivity();
-            base.Edit(entity);
+            base.Edit(Mapper.Map<PartsOfActivity>(dto));
         }
     }
 }

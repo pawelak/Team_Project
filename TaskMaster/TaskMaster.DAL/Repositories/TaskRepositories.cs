@@ -1,8 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using System.Collections.Generic;
+using AutoMapper;
 using TaskMaster.DAL.DTOModels;
+using TaskMaster.DAL.Interface;
 using TaskMaster.DAL.Models;
 
 namespace TaskMaster.DAL.Repositories
@@ -11,18 +10,16 @@ namespace TaskMaster.DAL.Repositories
     {
         public TaskRepositories()
         {
-            
+            Mapper.Initialize(ctg => ctg.AddProfile(new MapperProfil()));
         }
         public void Add(TaskDto dto)
         {
-            Task entity = dto.ToTask();
-            base.Add(entity);
+            base.Add(Mapper.Map<Task>(dto));
         }
 
         public void Delete(TaskDto dto)
         {
-            Task entity = dto.ToTask();
-            base.Delete(entity);
+            base.Delete(Mapper.Map<Task>(dto));
         }
 
         public IList<TaskDto> GetAll()
@@ -30,20 +27,19 @@ namespace TaskMaster.DAL.Repositories
             IList<TaskDto> list = new List<TaskDto>();
             foreach (var VARIABLE in base.GetAll())
             {
-                list.Add(new TaskDto(VARIABLE));
+                list.Add(Mapper.Map<TaskDto>(VARIABLE));
             }
             return list;
         }
 
-        public TaskDto Get(int ID)
+        public new TaskDto Get(int ID)
         {
-            return new TaskDto(base.Get(ID));
+            return Mapper.Map<TaskDto>(base.Get(ID));
         }
 
         public void Edit(TaskDto dto)
         {
-            Task entity = dto.ToTask();
-            base.Edit(entity);
+            base.Edit(Mapper.Map<Task>(dto));
         }
     }
 }

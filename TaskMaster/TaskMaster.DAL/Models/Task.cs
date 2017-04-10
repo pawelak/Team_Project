@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using System.Collections.Generic;
 
 namespace TaskMaster.DAL.Models
 {
@@ -14,6 +11,5 @@ namespace TaskMaster.DAL.Models
 
         public ICollection<Activity> Activity { get; set; }
         public ICollection<Favorites> Favorites { get; set; }
-
     }
 }

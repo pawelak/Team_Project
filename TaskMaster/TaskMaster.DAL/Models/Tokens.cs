@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using TaskMaster.DAL.Enum;
 
 namespace TaskMaster.DAL.Models
 {
@@ -15,20 +12,5 @@ namespace TaskMaster.DAL.Models
 
         public int UserId { get; set; }
         public User User { get; set; }   
-    }
-
-    public enum BrowserType
-    {
-        Firefox,
-        Chrome,
-        Opera,
-        Safari
-    }
-
-    public enum PlatformType
-    {
-        Android,
-        WindowsPhone,
-        Ios
     }
 }

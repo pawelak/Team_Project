@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using System.Collections.Generic;
+using TaskMaster.DAL.Enum;
 
 namespace TaskMaster.DAL.Models
 {
@@ -20,13 +18,5 @@ namespace TaskMaster.DAL.Models
         public Task Task { get; set; }
 
         public ICollection<PartsOfActivity> PartsOfActivity { get; set; }
-    }
-
-    public enum State
-    {
-        Planed,
-        Started,
-        Paused,
-        Ended
     }
 }

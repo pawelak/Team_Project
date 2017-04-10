@@ -1,8 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using System.Collections.Generic;
+using AutoMapper;
 using TaskMaster.DAL.DTOModels;
+using TaskMaster.DAL.Interface;
 using TaskMaster.DAL.Models;
 
 namespace TaskMaster.DAL.Repositories
@@ -11,18 +10,16 @@ namespace TaskMaster.DAL.Repositories
     {
         public UserGroupRepositories()
         {
-            
+            Mapper.Initialize(ctg => ctg.AddProfile(new MapperProfil()));
         }
         public void Add(UserGroupDto dto)
         {
-            UserGroup entity = dto.ToUserGroup();
-            base.Add(entity);
+            base.Add(Mapper.Map<UserGroup>(dto));
         }
 
         public void Delete(UserGroupDto dto)
         {
-            UserGroup entity = dto.ToUserGroup();
-            base.Delete(entity);
+            base.Delete(Mapper.Map<UserGroup>(dto));
         }
 
         public IList<UserGroupDto> GetAll()
@@ -30,20 +27,19 @@ namespace TaskMaster.DAL.Repositories
             IList<UserGroupDto> list = new List<UserGroupDto>();
             foreach (var VARIABLE in base.GetAll())
             {
-                list.Add(new UserGroupDto(VARIABLE));
+                list.Add(Mapper.Map<UserGroupDto>(VARIABLE));
             }
             return list;
         }
 
-        public UserGroupDto Get(int ID)
+        public new UserGroupDto Get(int ID)
         {
-            return new UserGroupDto(base.Get(ID));
+            return Mapper.Map<UserGroupDto>(base.Get(ID));
         }
 
         public void Edit(UserGroupDto dto)
         {
-            UserGroup entity = dto.ToUserGroup();
-            base.Edit(entity);
+            base.Edit(Mapper.Map<UserGroup>(dto));
         }
     }
 }
