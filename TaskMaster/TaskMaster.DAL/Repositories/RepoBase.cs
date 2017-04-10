@@ -4,44 +4,51 @@ using System.Linq;
 using System.Web;
 using System.Data.Entity;
 using TaskMaster.DAL.Context;
+using TaskMaster.DAL.Models;
 
 namespace TaskMaster.DAL.Repositories
 {
      public class RepoBase<T> where T : class
      {
-            protected Context.DatabaseContext db = new Context.DatabaseContext();
+            protected Context.DatabaseContext DatabaseContext = new Context.DatabaseContext();
 
-            protected void Add(T X)
+            public T Get(int x)
             {
-                db.Set<T>().Add(X);
-                db.SaveChanges();
+                return DatabaseContext.Set<T>().Find(x);
             }
 
-            protected void Delete(T X)
+            public void Add(T x)
             {
-                db.Set<T>().Remove(X);
-                db.SaveChanges();
+                DatabaseContext.Set<T>().Add(x);
+                DatabaseContext.SaveChanges();
             }
 
-            protected IList<T> GetAll()
+            public void Delete(T x)
             {
-                return db.Set<T>().ToList<T>();
+                DatabaseContext.Set<T>().Remove(x);
+                DatabaseContext.SaveChanges();
             }
 
-             protected T Get(int ID)
+            public IList<T> GetAll()
             {
-                return db.Set<T>().Find(ID);
+                return DatabaseContext.Set<T>().ToList<T>();
             }
 
-            protected void Edit(T X)
+            //public T Get(int ID)
+            //{
+            //    return db.Set<T>().FirstOrDefault<>();
+            //}
+
+            public void Edit(T x)
             {
-                db.Entry(X).State = EntityState.Modified;
-                db.SaveChanges();
+                // Proszę o zwórcenie bacznej uwagi na kod ponizej i informacje o jego poprawnosci
+                DatabaseContext.Entry(x).State = EntityState.Modified;
+                DatabaseContext.SaveChanges();
             }
 
-            protected int Count()
+            public int Count()
             {
-                return db.Set<T>().Count<T>();
+                return DatabaseContext.Set<T>().Count<T>();
             }
         }
 }
