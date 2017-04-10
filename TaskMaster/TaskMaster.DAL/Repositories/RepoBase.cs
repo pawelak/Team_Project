@@ -11,36 +11,35 @@ namespace TaskMaster.DAL.Repositories
      {
             protected Context.DatabaseContext db = new Context.DatabaseContext();
 
-            public void Add(T X)
+            protected void Add(T X)
             {
                 db.Set<T>().Add(X);
                 db.SaveChanges();
             }
 
-            public void Delete(T X)
+            protected void Delete(T X)
             {
                 db.Set<T>().Remove(X);
                 db.SaveChanges();
             }
 
-            public IList<T> GetAll()
+            protected IList<T> GetAll()
             {
                 return db.Set<T>().ToList<T>();
             }
 
-            //public T Get(int ID)
-            //{
-            //    return db.Set<T>().FirstOrDefault<>();
-            //}
-
-            public void Edit(T X)
+             protected T Get(int ID)
             {
-                // Proszę o zwórcenie bacznej uwagi na kod ponizej i informacje o jego poprawnosci
+                return db.Set<T>().Find(ID);
+            }
+
+            protected void Edit(T X)
+            {
                 db.Entry(X).State = EntityState.Modified;
                 db.SaveChanges();
             }
 
-            public int Count()
+            protected int Count()
             {
                 return db.Set<T>().Count<T>();
             }
