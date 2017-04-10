@@ -8,6 +8,7 @@ namespace TaskMaster
 	[XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class PlanTaskPage
 	{
+        private readonly UserServices _userServices = new UserServices();
 		public PlanTaskPage ()
 		{
 			InitializeComponent ();
@@ -22,10 +23,10 @@ namespace TaskMaster
 	                Name = ActivityName.Text,
 	                Description = ActivityDescription.Text
 	            };
-	            /*if (await App.Database.GetTask(newTask) == null)
-	                newTask.TaskId = await App.Database.SaveTask(newTask);
+	            if (await _userServices.GetTask(newTask) == null)
+	                newTask.TaskId = await _userServices.SaveTask(newTask);
 	            else
-	                newTask = await App.Database.GetTask(newTask);*/
+	                newTask = await _userServices.GetTask(newTask);
 	            var newActivity = new ActivitiesDto()
 	            {
 	                UserId = 1,
@@ -33,7 +34,7 @@ namespace TaskMaster
 	                GroupId = 1,
 	                Status = StatusType.Planned
 	            };
-	            //newActivity.ActivityId = await App.Database.SaveActivity(newActivity);
+	            newActivity.ActivityId = await _userServices.SaveActivity(newActivity);
 	            var start = PlanTaskStartTime.Time + " " + PlanTaskStartDate.Date.ToShortDateString();
 	            var end = PlanTaskStopTime.Time + " " + PlanTaskStopDate.Date.ToShortDateString();
 	            var part = new PartsOfActivityDto()
@@ -43,7 +44,7 @@ namespace TaskMaster
 	                Stop = end,
 	                Duration = "0"
 	            };
-	            //await App.Database.SavePartOfTask(part);
+	            await _userServices.SavePartOfActivity(part);
 	            await Navigation.PopAsync();
 	        }
 	        else
@@ -64,8 +65,8 @@ namespace TaskMaster
 
 	    private void PlanTaskStartTime_OnUnfocused(object sender, FocusEventArgs e)
 	    {
-	        throw new NotImplementedException();
-	    }
+	        TaskDate.Text = PlanTaskStartTime.Time + " " + PlanTaskStartDate.Date.ToShortDateString();
+        }
 
 	    private void ActivityDescription_OnUnfocused(object sender, FocusEventArgs e)
 	    {

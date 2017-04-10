@@ -25,7 +25,7 @@ namespace TaskMaster.Droid
             LoadApplication (new TaskMaster.App ());
 		}
 
-	    protected override void OnDestroy()
+	    /*protected override void OnDestroy()
 	    {
 	        PauseActivities();
 	    }
@@ -45,7 +45,7 @@ namespace TaskMaster.Droid
 	            await App.Database.SaveActivity(activity);
 	            await App.Database.SavePartOfTask(part);
 	        }
-	    }
+	    }*/
 	}
 }
 

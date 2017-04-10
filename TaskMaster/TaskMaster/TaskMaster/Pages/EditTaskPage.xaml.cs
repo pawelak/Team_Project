@@ -10,6 +10,7 @@ namespace TaskMaster.Pages
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class EditTaskPage
     {
+        private readonly UserServices _userServices = new UserServices();
         private Stopwatch _stopwatch;
         private PartsOfActivityDto _actual;
         private ActivitiesDto _activity;
@@ -27,8 +28,8 @@ namespace TaskMaster.Pages
 
         private async void Initial(ElemList item)
         {
-            _activity = await App.Database.GetActivity(item.ActivityId);
-            _actual = await App.Database.GetLastActivityPart(_activity.ActivityId);
+            _activity = await _userServices.GetActivity(item.ActivityId);
+            _actual = await _userServices.GetLastActivityPart(_activity.ActivityId);
             _task = new TasksDto()
             {
                 Name = item.Name,
@@ -54,8 +55,8 @@ namespace TaskMaster.Pages
             _actual.Stop = date;
             _actual.Duration = _stopwatch.ElapsedMilliseconds.ToString();
             _activity.Status = StatusType.Stop;
-            //await App.Database.SaveActivity(_activity);
-            //await App.Database.SavePartOfTask(_actual);
+            await _userServices.SaveActivity(_activity);
+            await _userServices.SavePartOfActivity(_actual);
             await Navigation.PushModalAsync(new MainPage());
         }
 
@@ -67,8 +68,8 @@ namespace TaskMaster.Pages
             _actual.Stop = date;
             _stopwatch.Stop();
             _actual.Duration = _stopwatch.ElapsedMilliseconds.ToString(); 
-            //await App.Database.SaveActivity(_activity);
-            //await App.Database.SavePartOfTask(_actual);
+            await _userServices.SaveActivity(_activity);
+            await _userServices.SavePartOfActivity(_actual);
             UpdateButtons();
         }
 
@@ -82,12 +83,12 @@ namespace TaskMaster.Pages
                 ActivityId = _activity.ActivityId,
                 Start = date
             };
-            //await App.Database.SavePartOfTask(part);
+            await _userServices.SavePartOfActivity(part);
             Stopwatch sw = new Stopwatch();
             App.Stopwatches.Add(sw);
             App.Stopwatches[App.Stopwatches.Count - 1].Start();
             _actual = part;
-            //await App.Database.SaveActivity(_activity);
+            await _userServices.SaveActivity(_activity);
             UpdateButtons();
         }
 
@@ -107,11 +108,11 @@ namespace TaskMaster.Pages
         {
             if (_task.TaskId == 0)
             {
-                if (await App.Database.GetTask(_task) == null)
+                if (await _userServices.GetTask(_task) == null)
                 {
-                    /*var result = await App.Database.SaveTask(_task);
+                    var result = await _userServices.SaveTask(_task);
                     _activity.TaskId = result;
-                    await App.Database.SaveActivity(_activity);*/
+                    await _userServices.SaveActivity(_activity);
                 }
 
             }

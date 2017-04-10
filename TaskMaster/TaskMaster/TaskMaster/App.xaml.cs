@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
 using Xamarin.Forms;
-using TaskMaster.Models;
 
 namespace TaskMaster
 {
-	public partial class App : Application
+	public partial class App
 	{
 	    private static UserDatabase _database;
 	    public static List<Stopwatch> Stopwatches = new List<Stopwatch>();

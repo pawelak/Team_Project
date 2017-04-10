@@ -9,18 +9,19 @@ namespace TaskMaster
 {
 	public partial class MainPage
 	{
-        private Calendar calendar;
-        private Label MSG;
-        private List<PartsOfActivityDto> parts;
+	    private readonly UserServices _userServices = new UserServices();
+        private readonly Calendar _calendar;
+        private readonly Label _msg;
+        private List<PartsOfActivityDto> _parts;
         public MainPage()
 		{
-            MSG = new Label
+            _msg = new Label
             {
                 Text = "Wybierz Dzień",
                 FontSize = 25,
                 HorizontalOptions = LayoutOptions.Center
             };
-            calendar = new Calendar
+            _calendar = new Calendar
             {
                 MultiSelectDates = false,
                 DisableAllDates = false,
@@ -32,25 +33,23 @@ namespace TaskMaster
                 StartDay = DayOfWeek.Monday,
                 SelectedTextColor = Color.Fuchsia,
             };
-            calendar.DateClicked += (sender, e) => {
-                Navigation.PushModalAsync(new CalendarDayListPage(calendar.SelectedDates[0]));
+            _calendar.DateClicked += (sender, e) => {
+                Navigation.PushModalAsync(new CalendarDayListPage(_calendar.SelectedDates[0]));
             };
             var vm = new CalendarVm();
-            calendar.SetBinding(Calendar.DateCommandProperty, nameof(vm.DateChosen));
-            calendar.SetBinding(Calendar.SelectedDateProperty, nameof(vm.Date));
-            calendar.BindingContext = vm;
+            _calendar.SetBinding(Calendar.DateCommandProperty, nameof(vm.DateChosen));
+            _calendar.SetBinding(Calendar.SelectedDateProperty, nameof(vm.Date));
+            _calendar.BindingContext = vm;
             InitializeComponent ();
 		    ListInitiate();
 		}
-
 	    protected override void OnAppearing()
 	    {
 	        ListInitiate();
 	    }
-
-	    private async void ListInitiate()
+        private async void ListInitiate()
 	    {
-	        var result = await App.Database.GetActivitiesByStatus(StatusType.Start);
+	        var result = await _userServices.GetActivitiesByStatus(StatusType.Start);
 	        List<ElemList> activeTasks = new List<ElemList>();
 	        foreach (var activity in result)
 	        {
@@ -65,7 +64,7 @@ namespace TaskMaster
 	            }
 	            else
 	            {
-	                var task = await App.Database.GetTaskById(activity.TaskId);
+	                var task = await _userServices.GetTaskById(activity.TaskId);
                     var item = new ElemList()
                     {
                         Name = task.Name,
@@ -76,7 +75,7 @@ namespace TaskMaster
 	                activeTasks.Add(item);
 	            }
 	        }
-	        var result2 = await App.Database.GetActivitiesByStatus(StatusType.Pause);
+	        var result2 = await _userServices.GetActivitiesByStatus(StatusType.Pause);
 	        foreach (var activity in result2)
 	        {
 	            if (activity.TaskId == 0)
@@ -90,7 +89,7 @@ namespace TaskMaster
 	            }
 	            else
 	            {
-	                var task = await App.Database.GetTaskById(activity.TaskId);
+	                var task = await _userServices.GetTaskById(activity.TaskId);
 	                var item = new ElemList()
 	                {
 	                    Name = task.Name,
@@ -103,38 +102,35 @@ namespace TaskMaster
 	        }
             ActiveTasks.ItemsSource = activeTasks;
 	    }
-
         private async void StartTaskButton_OnClicked(object sender, EventArgs e)
 	    {
 	        await Navigation.PushModalAsync(new StartTaskPage());
 	    }
-
 	    private async void PlanTaskButton_OnClicked(object sender, EventArgs e)
 	    {
 	        await Navigation.PushModalAsync(new PlanTaskPage());
 	    }
-
 	    private async void FastTaskButton_OnClicked(object sender, EventArgs e)
 	    {
 	        var task = new TasksDto
 	        {
 	            TaskId = 0
 	        };
-	        //await App.Database.SaveTask(task);
+	        await _userServices.SaveTask(task);
 	        var activity = new ActivitiesDto
 	        {
 	            Status = StatusType.Start,
                 UserId = 1,
                 GroupId = 1
 	        };
-	        //activity.ActivityId = await App.Database.SaveActivity(activity);
+	        activity.ActivityId = await _userServices.SaveActivity(activity);
 	        DateTime now = DateTime.Now;
 	        var part = new PartsOfActivityDto
 	        {
 	            ActivityId = activity.ActivityId,
 	            Start = now.ToString("HH:mm:ss dd/MM/yyyy")
 	        };
-	        //await App.Database.SavePartOfTask(part);
+	        await _userServices.SavePartOfActivity(part);
 	        Stopwatch sw = new Stopwatch();
 	        App.Stopwatches.Add(sw);
 	        App.Stopwatches[App.Stopwatches.Count - 1].Start();
@@ -154,7 +150,7 @@ namespace TaskMaster
                         Padding = new Thickness(5, Device.OS == TargetPlatform.iOS ? 25 : 5, 5, 5),
                         VerticalOptions = LayoutOptions.Center, 
                         Children = {
-                            MSG, calendar
+                            _msg, _calendar
                         }
                     }
                 }
@@ -168,12 +164,12 @@ namespace TaskMaster
 
         private async void FillCalendar()
         {
-            parts = await App.Database.GetPartsList();
-            foreach (PartsOfActivityDto p in parts)
+            _parts = await _userServices.GetPartsOfActivityList();
+            foreach (PartsOfActivityDto p in _parts)
             {
-                calendar.SpecialDates.Add(new SpecialDate(Convert.ToDateTime(p.Start)) { BackgroundColor = Color.Green, TextColor = Color.Black, BorderColor = Color.Blue, BorderWidth = 8, Selectable = true });
+                _calendar.SpecialDates.Add(new SpecialDate(Convert.ToDateTime(p.Start)) { BackgroundColor = Color.Green, TextColor = Color.Black, BorderColor = Color.Blue, BorderWidth = 8, Selectable = true });
             }
-            calendar.RaiseSpecialDatesChanged();//refresh
+            _calendar.RaiseSpecialDatesChanged();//refresh
         }
 
 	    private async void ActiveTasks_OnItemTapped(object sender, ItemTappedEventArgs e)

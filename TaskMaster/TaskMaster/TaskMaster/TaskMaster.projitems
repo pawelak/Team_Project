@@ -30,9 +30,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Pages\EditTaskPage.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="$(MSBuildThisFileDirectory)Pages\ResultPage.xaml.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)StatusType.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserDatabase.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)IFileHelper.cs" />
@@ -52,6 +49,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Pages\HistoryPage.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)UserMapProfile.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserServices.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -73,11 +71,6 @@
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Include="$(MSBuildThisFileDirectory)Pages\HistoryPage.xaml">
-      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-    </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Pages\ResultPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
   </ItemGroup>

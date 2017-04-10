@@ -8,6 +8,7 @@ namespace TaskMaster
 	[XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class StartTaskPage
 	{
+        private readonly UserServices _userServices = new UserServices();
 		public StartTaskPage ()
 		{
 			InitializeComponent ();
@@ -22,17 +23,17 @@ namespace TaskMaster
 	                Name = StartTaskName.Text,
 	                Description = StartTaskDescription.Text
 	            };
-	            /*if (await App.Database.GetTask(newTask) == null)
-	                newTask.TaskId = await App.Database.SaveTask(newTask);
+	            if (await _userServices.GetTask(newTask) == null)
+	                newTask.TaskId = await _userServices.SaveTask(newTask);
 	            else
-	                newTask = App.Database.GetTask(newTask).Result;*/
+	                newTask = _userServices.GetTask(newTask).Result;
 	            var newActivity = new ActivitiesDto
 	            {
 	                TaskId = newTask.TaskId,
 	                UserId = 1,
 	                Status = StatusType.Start
 	            };
-	            //newActivity.ActivityId = await App.Database.SaveActivity(newActivity);
+	            newActivity.ActivityId = await _userServices.SaveActivity(newActivity);
 	            DateTime now = DateTime.Now;
 	            string date = now.ToString("HH:mm:ss dd/MM/yyyy");
 	            var part = new PartsOfActivityDto
@@ -40,7 +41,7 @@ namespace TaskMaster
 	                ActivityId = newActivity.ActivityId,
 	                Start = date
 	            };
-	            //await App.Database.SavePartOfTask(part);
+	            await _userServices.SavePartOfActivity(part);
 	            Stopwatch sw = new Stopwatch();
 	            App.Stopwatches.Add(sw);
 	            App.Stopwatches[App.Stopwatches.Count - 1].Start();
