@@ -1,7 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using SQLite;
-using TaskMaster.Models;
 using TaskMaster.ModelsDto;
 
 namespace TaskMaster
