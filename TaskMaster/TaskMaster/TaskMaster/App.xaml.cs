@@ -4,7 +4,7 @@ using Xamarin.Forms;
 
 namespace TaskMaster
 {
-	public partial class App
+	public partial class App : Application
 	{
 	    private static UserDatabase _database;
 	    public static List<Stopwatch> Stopwatches = new List<Stopwatch>();

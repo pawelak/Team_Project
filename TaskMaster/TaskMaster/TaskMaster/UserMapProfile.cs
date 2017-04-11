@@ -13,7 +13,11 @@ namespace TaskMaster
             CreateMap<Activities, ActivitiesDto>();
             CreateMap<PartsOfActivity, PartsOfActivityDto>();
             CreateMap<Tasks, TasksDto>();
-            //CreateMap<UserDto, User>();
+            CreateMap<UserDto, User>();
+            CreateMap<FavoritesDto, Favorites>();
+            CreateMap<ActivitiesDto, Activities>();
+            CreateMap<PartsOfActivityDto, PartsOfActivity>();
+            CreateMap<TasksDto, Tasks>();
         }
     }
 }

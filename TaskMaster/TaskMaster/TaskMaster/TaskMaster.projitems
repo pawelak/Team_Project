@@ -14,7 +14,7 @@
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)CalendarVm.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)CustomList.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)ElemList.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)MainPageList.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ModelsDto\ActivitiesDto.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ModelsDto\FavoritesDto.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ModelsDto\PartsOfActivityDto.cs" />
@@ -28,6 +28,9 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Pages\EditTaskPage.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Pages\FillInformationPage.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)StatusType.cs" />
@@ -81,6 +84,11 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="$(MSBuildThisFileDirectory)Pages\CalendarDayListPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Pages\FillInformationPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
   </ItemGroup>

@@ -42,67 +42,69 @@ namespace TaskMaster
             _calendar.BindingContext = vm;
             InitializeComponent ();
 		    ListInitiate();
-		}
-	    protected override void OnAppearing()
+        }
+
+	    private async void ListInitiate()
 	    {
-	        ListInitiate();
-	    }
-        private async void ListInitiate()
-	    {
-	        var result = await _userServices.GetActivitiesByStatus(StatusType.Start);
-	        List<ElemList> activeTasks = new List<ElemList>();
+	        var activeTasksList = new List<MainPageList>();
+            var result = await _userServices.GetActivitiesByStatus(StatusType.Start);
 	        foreach (var activity in result)
 	        {
 	            if (activity.TaskId == 0)
 	            {
-	                var item = new ElemList()
+	                var item = new MainPageList
 	                {
 	                    Name = "Unnamed Activity " + activity.ActivityId,
-                        ActivityId = activity.ActivityId
+	                    ActivityId = activity.ActivityId,
+	                    Duration = "0"
 	                };
-	                activeTasks.Add(item);
+	                activeTasksList.Add(item);
 	            }
 	            else
 	            {
 	                var task = await _userServices.GetTaskById(activity.TaskId);
-                    var item = new ElemList()
-                    {
-                        Name = task.Name,
-                        Description = task.Description,
-                        ActivityId = activity.ActivityId,
-                        TaskId = task.TaskId
-                    };
-	                activeTasks.Add(item);
-	            }
-	        }
-	        var result2 = await _userServices.GetActivitiesByStatus(StatusType.Pause);
-	        foreach (var activity in result2)
-	        {
-	            if (activity.TaskId == 0)
-	            {
-	                var item = new ElemList()
-	                {
-	                    Name = "Unnamed Activity " + activity.ActivityId,
-	                    ActivityId = activity.ActivityId
-	                };
-	                activeTasks.Add(item);
-	            }
-	            else
-	            {
-	                var task = await _userServices.GetTaskById(activity.TaskId);
-	                var item = new ElemList()
+	                var item = new MainPageList
 	                {
 	                    Name = task.Name,
 	                    Description = task.Description,
 	                    ActivityId = activity.ActivityId,
-	                    TaskId = task.TaskId
+	                    TaskId = task.TaskId,
+	                    Duration = "0"
 	                };
-	                activeTasks.Add(item);
+	                activeTasksList.Add(item);
 	            }
 	        }
-            ActiveTasks.ItemsSource = activeTasks;
+            var result2 = await _userServices.GetActivitiesByStatus(StatusType.Pause);
+	        foreach (var activity in result2)
+	        {
+	            if (activity.TaskId == 0)
+	            {
+	                var item = new MainPageList
+	                {
+	                    Name = "Unnamed Activity " + activity.ActivityId,
+	                    ActivityId = activity.ActivityId,
+	                    Duration = "0"
+	                };
+	                activeTasksList.Add(item);
+	            }
+	            else
+	            {
+	                var task = await _userServices.GetTaskById(activity.TaskId);
+	                var item = new MainPageList
+	                {
+	                    Name = task.Name,
+	                    Description = task.Description,
+	                    ActivityId = activity.ActivityId,
+	                    TaskId = task.TaskId,
+	                    Duration = "0"
+	                };
+	                activeTasksList.Add(item);
+	            }
+	        }
+            ActiveTasks.ItemsSource = activeTasksList;
 	    }
-        private async void StartTaskButton_OnClicked(object sender, EventArgs e)
+
+	    private async void StartTaskButton_OnClicked(object sender, EventArgs e)
 	    {
 	        await Navigation.PushModalAsync(new StartTaskPage());
 	    }
@@ -110,18 +112,15 @@ namespace TaskMaster
 	    {
 	        await Navigation.PushModalAsync(new PlanTaskPage());
 	    }
+
 	    private async void FastTaskButton_OnClicked(object sender, EventArgs e)
 	    {
-	        var task = new TasksDto
-	        {
-	            TaskId = 0
-	        };
-	        await _userServices.SaveTask(task);
 	        var activity = new ActivitiesDto
 	        {
 	            Status = StatusType.Start,
-                UserId = 1,
-                GroupId = 1
+	            UserId = 1,
+	            GroupId = 1,
+                TaskId = 0
 	        };
 	        activity.ActivityId = await _userServices.SaveActivity(activity);
 	        DateTime now = DateTime.Now;
@@ -174,8 +173,8 @@ namespace TaskMaster
 
 	    private async void ActiveTasks_OnItemTapped(object sender, ItemTappedEventArgs e)
 	    {
-	        var item = (ElemList)e.Item;
+	        var item = (MainPageList)e.Item;
 	        await Navigation.PushModalAsync(new EditTaskPage(item));
-	    }
+        }
 	}
 }

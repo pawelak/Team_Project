@@ -40,11 +40,17 @@ namespace TaskMaster
                     time += long.Parse(part.Duration);
                 }
                 var task = await App.Database.GetTaskById(activity.TaskId);
+                TimeSpan t = TimeSpan.FromMilliseconds(time);
+                string answer = string.Format("{0:D2}h:{1:D2}m:{2:D2}s:{3:D3}ms",
+                    t.Hours,
+                    t.Minutes,
+                    t.Seconds,
+                    t.Milliseconds);
                 var element = new CustomList()
                 {
                     Name = task.Name,
                     Description = task.Description,
-                    Time = time.ToString()
+                    Time = answer
                 };
                 dayPlan.Add(element);
             }

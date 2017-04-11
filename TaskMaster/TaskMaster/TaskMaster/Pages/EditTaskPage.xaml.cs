@@ -16,7 +16,7 @@ namespace TaskMaster.Pages
         private ActivitiesDto _activity;
         private TasksDto _task;
         private DateTime _now;
-        public EditTaskPage(ElemList item)
+        public EditTaskPage(MainPageList item)
         {
             InitializeComponent();
             Initial(item);
@@ -26,11 +26,11 @@ namespace TaskMaster.Pages
             TaskDescription.Text = item.Description;
         }
 
-        private async void Initial(ElemList item)
+        private async void Initial(MainPageList item)
         {
             _activity = await _userServices.GetActivity(item.ActivityId);
             _actual = await _userServices.GetLastActivityPart(_activity.ActivityId);
-            _task = new TasksDto()
+            _task = new TasksDto
             {
                 Name = item.Name,
                 Description = item.Description,
@@ -108,13 +108,7 @@ namespace TaskMaster.Pages
         {
             if (_task.TaskId == 0)
             {
-                if (await _userServices.GetTask(_task) == null)
-                {
-                    var result = await _userServices.SaveTask(_task);
-                    _activity.TaskId = result;
-                    await _userServices.SaveActivity(_activity);
-                }
-
+                await Navigation.PushModalAsync(new FillInformationPage(_activity));
             }
         }
     }

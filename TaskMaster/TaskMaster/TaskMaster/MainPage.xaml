@@ -2,11 +2,11 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:local="clr-namespace:TaskMaster"
-             x:Class="TaskMaster.MainPage" BackgroundColor="{x:StaticResource BackgroundColor}">
+             x:Class="TaskMaster.MainPage" BackgroundColor="{x:StaticResource BackgroundColor}" >
     <ContentPage.Padding>
         <OnPlatform x:TypeArguments="Thickness"
                     iOS="20, 40, 20, 20"
-                    Android="20, 20, 20, 20"
+                    Android="0, 0, 0, 0"
                     WinPhone="20, 20, 20, 20" />
     </ContentPage.Padding>
     <ContentPage.ToolbarItems>
@@ -34,10 +34,17 @@
                     </ListView.Header>
                     <ListView.ItemTemplate>
                         <DataTemplate>
-                            <TextCell Text="{Binding Name}"
-                                      Detail="{Binding Description}"
-                                      TextColor="{x:StaticResource TextColor}"
-                                      DetailColor="{x:StaticResource TextColor}" />
+                            <ViewCell>
+                                <StackLayout Orientation="Vertical" BackgroundColor="{x:StaticResource BackgroundButtonColor}">
+                                    <StackLayout Orientation="Horizontal">
+                                        <Label Text="{Binding Name}" TextColor="{x:StaticResource TextColor}"/>
+                                        <Label Text="{Binding Duration}" TextColor="{x:StaticResource TextColor}" HorizontalOptions="EndAndExpand"/>
+                                    </StackLayout>
+                                    <StackLayout>
+                                        <Label Text="{Binding Description}" TextColor="{x:StaticResource TextColor}"/>
+                                    </StackLayout>
+                                </StackLayout>
+                            </ViewCell>
                         </DataTemplate>
                     </ListView.ItemTemplate>
                 </ListView>

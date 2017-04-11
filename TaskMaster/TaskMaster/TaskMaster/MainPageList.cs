@@ -1,10 +1,11 @@
 ﻿namespace TaskMaster
 {
-    public class ElemList
+    public class MainPageList
     {
         public string Name { get; set; }
         public int ActivityId { get; set; }
         public int TaskId { get; set; }
         public string Description { get; set; }
+        public string Duration { get; set; }
     }
 }
