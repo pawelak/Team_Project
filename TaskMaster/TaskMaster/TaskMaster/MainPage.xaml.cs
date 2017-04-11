@@ -44,6 +44,11 @@ namespace TaskMaster
 		    ListInitiate();
         }
 
+	    protected override void OnAppearing()
+	    {
+	        ListInitiate();
+	    }
+
 	    private async void ListInitiate()
 	    {
 	        var activeTasksList = new List<MainPageList>();
@@ -173,8 +178,8 @@ namespace TaskMaster
 
 	    private async void ActiveTasks_OnItemTapped(object sender, ItemTappedEventArgs e)
 	    {
-	        var item = (MainPageList)e.Item;
+	        var item = (MainPageList) e.Item;
 	        await Navigation.PushModalAsync(new EditTaskPage(item));
-        }
+	    }
 	}
 }
