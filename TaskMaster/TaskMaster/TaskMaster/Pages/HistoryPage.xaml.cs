@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using TaskMaster.Pages;
 using Xamarin.Forms;
 
 namespace TaskMaster
@@ -20,8 +21,8 @@ namespace TaskMaster
 
 	    private async void CalendarPageItem_OnClicked(object sender, EventArgs e)
 	    {
-	        await Navigation.PushModalAsync(new NavigationPage(new CalendarPage()));
-	    }
+            await Navigation.PushModalAsync(new NavigationPage(new InitializeCalendar()));
+        }
         protected override void OnAppearing()
         {
             ListInitiate();
