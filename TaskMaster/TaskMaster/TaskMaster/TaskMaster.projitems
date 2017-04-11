@@ -33,9 +33,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Pages\FillInformationPage.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="$(MSBuildThisFileDirectory)Pages\LoginPage.xaml.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)StatusType.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserDatabase.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)IFileHelper.cs" />
@@ -92,11 +89,6 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="$(MSBuildThisFileDirectory)Pages\FillInformationPage.xaml">
-      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-    </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Pages\LoginPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
   </ItemGroup>

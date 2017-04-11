@@ -19,11 +19,6 @@ namespace TaskMaster.Droid
 			ToolbarResource = Resource.Layout.Toolbar;
             base.OnCreate (bundle);
 
-            Xamarin.Auth.Presenters.OAuthLoginPresenter.PlatformLogin = (authenticator) =>
-		    {
-		        var oAuthLogin = new OAuthLoginPresenter();
-		        oAuthLogin.Login(authenticator);
-		    };
             Xamarin.Forms.Forms.Init (this, bundle);
             XamForms.Controls.Droid.Calendar.Init();
             LoadApplication (new App ());
