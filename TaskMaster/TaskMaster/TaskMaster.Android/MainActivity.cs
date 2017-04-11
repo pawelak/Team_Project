@@ -16,13 +16,18 @@ namespace TaskMaster.Droid
 		protected override void OnCreate (Bundle bundle)
 		{
 			TabLayoutResource = Resource.Layout.Tabbar;
-			ToolbarResource = Resource.Layout.Toolbar; 
+			ToolbarResource = Resource.Layout.Toolbar;
+            base.OnCreate (bundle);
 
-			base.OnCreate (bundle);
-
-			Xamarin.Forms.Forms.Init (this, bundle);
+            Xamarin.Auth.Presenters.OAuthLoginPresenter.PlatformLogin = (authenticator) =>
+		    {
+		        var oAuthLogin = new OAuthLoginPresenter();
+		        oAuthLogin.Login(authenticator);
+		    };
+            Xamarin.Forms.Forms.Init (this, bundle);
             XamForms.Controls.Droid.Calendar.Init();
             LoadApplication (new App ());
+
 		}
 
 	    /*protected override void OnDestroy()
