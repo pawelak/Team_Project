@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Data.Entity;
-using TaskMaster.DAL.Context;
-using TaskMaster.DAL.Models;
+
 
 namespace TaskMaster.DAL.Repositories
 {
@@ -31,7 +28,7 @@ namespace TaskMaster.DAL.Repositories
 
             public IList<T> GetAll()
             {
-                return DatabaseContext.Set<T>().ToList<T>();
+                return DatabaseContext.Set<T>().ToList();
             }
 
             //public T Get(int ID)
@@ -48,7 +45,7 @@ namespace TaskMaster.DAL.Repositories
 
             public int Count()
             {
-                return DatabaseContext.Set<T>().Count<T>();
+                return DatabaseContext.Set<T>().Count();
             }
         }
 }

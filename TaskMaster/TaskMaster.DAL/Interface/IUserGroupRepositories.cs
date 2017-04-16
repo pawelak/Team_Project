@@ -8,7 +8,7 @@ namespace TaskMaster.DAL.Interface
         void Add(UserGroupDto dto);
         void Delete(UserGroupDto dto);
         IList<UserGroupDto> GetAll();
-        UserGroupDto Get(int ID);
+        UserGroupDto Get(int id);
         void Edit(UserGroupDto dto);
     }
 }

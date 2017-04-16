@@ -8,7 +8,7 @@ namespace TaskMaster.DAL.Interface
         void Add(PartsOfActivityDto dto);
         void Delete(PartsOfActivityDto dto);
         IList<PartsOfActivityDto> GetAll();
-        PartsOfActivityDto Get(int ID);
+        PartsOfActivityDto Get(int id);
         void Edit(PartsOfActivityDto dto);
     }
 }

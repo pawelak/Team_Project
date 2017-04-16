@@ -1,47 +1,25 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
+﻿using System.Collections.Generic;
 using System.Web.Http;
-using TaskMaster.DAL.DTOModels;
 using TaskMaster.BLL.Services;
+using TaskMaster.DAL.DTOModels;
 
 namespace TaskMaster.WebApi.Controllers
 {
+    
     public class TestController : ApiController
     {
-        private readonly TestService _testService = new TestService();
-
-        //// GET: api/Test/getone/1
-        //public UserDto Get(int id)
-        //{
-        //    UserDto user = new UserDto();
-        //    user.Name = "dupek:";
-        //    return _testService.GetUserByIde(id);
-        //}
-
-        //// GET: api/Test/getall
-        //public List<UserDto> Get()
-        //{
-        //    return _testService.PrintAll();
-        //}
-
-        //GET: api/Test/1/2
-        public UserDto Get(int id =1)
+        TestService _testService = new TestService();
+        // GET: api/Test
+        public IEnumerable<string> Get()
         {
-            
+            return new string[] { "value1", "value2" };
+        }
+
+        // GET: api/Test/5
+        public UserDto Get(int id)
+        {
             return _testService.GetUserByIde(id);
         }
-
-
-        // GET: api/Test/cos
-        public List<UserDto> Get()
-        {
-            return _testService.GetAllInList();
-        }
-
-
 
         // POST: api/Test
         public void Post([FromBody]string value)

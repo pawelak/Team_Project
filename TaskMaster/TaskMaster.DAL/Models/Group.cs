@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using System.Collections.Generic;
 
 namespace TaskMaster.DAL.Models
 {
@@ -10,9 +7,7 @@ namespace TaskMaster.DAL.Models
         public Group() { }
         public int GroupId { get; set; }
         public string NameGroup { get; set; }
- 
         public ICollection<Activity> Activity { get; set; }
         public ICollection<UserGroup> UserGroup { get; set; }
-
     }
 }

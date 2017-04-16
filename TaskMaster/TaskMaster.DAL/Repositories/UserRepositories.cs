@@ -10,7 +10,7 @@ namespace TaskMaster.DAL.Repositories
     {
         public UserRepositories()
         {
-            Mapper.Initialize(cfg => cfg.CreateMap<Models.User, UserDto>());
+            Mapper.Initialize(cfg => cfg.CreateMap<User, UserDto>());
         }
 
         public UserDto GetUserById(int id)

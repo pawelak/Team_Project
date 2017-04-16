@@ -1,18 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using AutoMapper;
-using TaskMaster.DAL.Models;
-
-namespace TaskMaster.DAL.DTOModels
+﻿namespace TaskMaster.DAL.DTOModels
 {
     public class TokensDto
     {
         public string Token { get; set; }
         public BrowserType BrowserType { get; set; }
         public PlatformType PlatformType { get; set; }
-
         public UserDto User { get; set; }
     }
 

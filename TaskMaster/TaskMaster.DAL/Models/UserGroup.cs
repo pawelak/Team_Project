@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-
-namespace TaskMaster.DAL.Models
+﻿namespace TaskMaster.DAL.Models
 {
     public class UserGroup
     {
