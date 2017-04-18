@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Linq;
-using System.Threading.Tasks;
 using TaskMaster.ModelsDto;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -89,7 +88,7 @@ namespace TaskMaster.Pages
             _activity.Status = StatusType.Start;
             _now = DateTime.Now;
             string date = _now.ToString("HH:mm:ss dd/MM/yyyy");
-            var part = new PartsOfActivityDto()
+            var part = new PartsOfActivityDto
             {
                 ActivityId = _activity.ActivityId,
                 Start = date
