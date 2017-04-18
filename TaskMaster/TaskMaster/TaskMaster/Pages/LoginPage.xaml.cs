@@ -1,20 +1,18 @@
 ﻿using System;
-using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
-using Xamarin.Forms.OAuth;
 namespace TaskMaster.Pages
 {
 	[XamlCompilation(XamlCompilationOptions.Compile)]
-	public partial class LoginPage : ContentPage
+	public partial class LoginPage
 	{
 		public LoginPage ()
 		{
 			InitializeComponent ();
 		}
 
-	    private async void Google_OnClicked(object sender, EventArgs e)
+	    private void Google_OnClicked(object sender, EventArgs e)
 	    {
-	        var authenticationResult = await OAuthAuthenticator.Authenticate();
+	        throw new NotImplementedException();
         }
 
 	    private void Facebook_OnClicked(object sender, EventArgs e)

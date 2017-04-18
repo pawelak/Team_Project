@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Linq;
+using System.Threading.Tasks;
 using TaskMaster.ModelsDto;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -37,7 +38,7 @@ namespace TaskMaster.Pages
                 TaskId = item.TaskId
             };
             TaskDates.Text = _actual.Start;
-            _stopwatch = App.Stopwatches.ElementAt(_actual.PartId - 1);
+            _stopwatch = App.Stopwatches.FirstOrDefault(s => s.GetPartId() == _actual.PartId).GetStopwatch();
             UpdateButtons();
         }
 
@@ -57,7 +58,17 @@ namespace TaskMaster.Pages
             _activity.Status = StatusType.Stop;
             await _userServices.SaveActivity(_activity);
             await _userServices.SavePartOfActivity(_actual);
-            await Navigation.PushModalAsync(new MainPage());
+            if (_task.TaskId == 0)
+            {
+                await Navigation.PushModalAsync(new FillInformationPage(_activity));
+            }
+            else
+            {
+                _task.TaskId = await _userServices.SaveTask(_task);
+                _activity.TaskId = _task.TaskId;
+                await _userServices.SaveActivity(_activity);
+                await Navigation.PushModalAsync(new MainPage());
+            }
         }
 
         private async void PauseButton_OnClicked(object sender, EventArgs e)
@@ -83,9 +94,10 @@ namespace TaskMaster.Pages
                 ActivityId = _activity.ActivityId,
                 Start = date
             };
-            await _userServices.SavePartOfActivity(part);
+            var result = await _userServices.SavePartOfActivity(part);
             Stopwatch sw = new Stopwatch();
-            App.Stopwatches.Add(sw);
+            Stopwatches stopwatch = new Stopwatches(sw,result);
+            App.Stopwatches.Add(stopwatch);
             App.Stopwatches[App.Stopwatches.Count - 1].Start();
             _actual = part;
             await _userServices.SaveActivity(_activity);
@@ -95,21 +107,38 @@ namespace TaskMaster.Pages
         private void ActivityDescription_OnUnfocused(object sender, FocusEventArgs e)
         {
             TaskDescription.Text = ActivityDescription.Text;
-            _task.Description = ActivityDescription.Text;
         }
 
         private void ActivityName_OnUnfocused(object sender, FocusEventArgs e)
         {
             TaskName.Text = ActivityName.Text;
-            _task.Name = ActivityName.Text;
         }
 
         private async void AcceptButton_OnClicked(object sender, EventArgs e)
         {
             if (_task.TaskId == 0)
-            {
                 await Navigation.PushModalAsync(new FillInformationPage(_activity));
+            else
+            {
+                _task.Description = ActivityDescription.Text;
+                _task.Name = ActivityName.Text;
+                _task.TaskId = await _userServices.SaveTask(_task);
+                _activity.TaskId = _task.TaskId;
+                await _userServices.SaveActivity(_activity);
             }
+        }
+
+        protected override bool OnBackButtonPressed()
+        {
+            if (_task.Name == ActivityName.Text)
+                return false;
+            Device.BeginInvokeOnMainThread(async () =>
+            {
+                var result = await DisplayAlert("Error", "Niezapisane dane zostaną utracone. Czy kontynuować",
+                    "Tak", "Nie");
+                if (result) await Navigation.PopModalAsync();
+            });
+            return true;
         }
     }
 }

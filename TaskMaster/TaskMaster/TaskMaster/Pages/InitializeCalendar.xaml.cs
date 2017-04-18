@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using TaskMaster.ModelsDto;
-using TaskMaster.Pages;
 using Xamarin.Forms;
 using XamForms.Controls;
 namespace TaskMaster.Pages

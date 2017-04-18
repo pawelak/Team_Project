@@ -4,7 +4,6 @@ using System.Diagnostics;
 using TaskMaster.ModelsDto;
 using TaskMaster.Pages;
 using Xamarin.Forms;
-using XamForms.Controls;
 namespace TaskMaster
 {
 	public partial class MainPage
@@ -107,9 +106,10 @@ namespace TaskMaster
 	            ActivityId = activity.ActivityId,
 	            Start = now.ToString("HH:mm:ss dd/MM/yyyy")
 	        };
-	        await _userServices.SavePartOfActivity(part);
+	        var result = await _userServices.SavePartOfActivity(part);
 	        Stopwatch sw = new Stopwatch();
-	        App.Stopwatches.Add(sw);
+            Stopwatches stopwatch = new Stopwatches(sw,result);
+	        App.Stopwatches.Add(stopwatch);
 	        App.Stopwatches[App.Stopwatches.Count - 1].Start();
 	        ListInitiate();
 	    }

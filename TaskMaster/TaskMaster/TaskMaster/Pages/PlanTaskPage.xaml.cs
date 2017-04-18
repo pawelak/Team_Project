@@ -18,7 +18,7 @@ namespace TaskMaster
 	    {
 	        if (ActivityName != null)
 	        {
-	            var newTask = new TasksDto()
+	            var newTask = new TasksDto
 	            {
 	                Name = ActivityName.Text,
 	                Description = ActivityDescription.Text
@@ -27,7 +27,7 @@ namespace TaskMaster
 	                newTask.TaskId = await _userServices.SaveTask(newTask);
 	            else
 	                newTask = await _userServices.GetTask(newTask);
-	            var newActivity = new ActivitiesDto()
+	            var newActivity = new ActivitiesDto
 	            {
 	                UserId = 1,
 	                TaskId = newTask.TaskId,
@@ -37,7 +37,7 @@ namespace TaskMaster
 	            newActivity.ActivityId = await _userServices.SaveActivity(newActivity);
 	            var start = PlanTaskStartTime.Time + " " + PlanTaskStartDate.Date.ToShortDateString();
 	            var end = PlanTaskStopTime.Time + " " + PlanTaskStopDate.Date.ToShortDateString();
-	            var part = new PartsOfActivityDto()
+	            var part = new PartsOfActivityDto
 	            {
 	                ActivityId = newActivity.ActivityId,
 	                Start = start,
@@ -59,7 +59,6 @@ namespace TaskMaster
 
 	    private void PlanTaskStartDate_OnUnfocused(object sender, FocusEventArgs e)
 	    {
-	        
 	        TaskDate.Text = PlanTaskStartTime.Time + " " + PlanTaskStartDate.Date.ToShortDateString();
         }
 

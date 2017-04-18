@@ -18,7 +18,7 @@ namespace TaskMaster
 	    {
 	        if (StartTaskName.Text != null)
 	        {
-	            var newTask = new TasksDto()
+	            var newTask = new TasksDto
 	            {
 	                Name = StartTaskName.Text,
 	                Description = StartTaskDescription.Text
@@ -41,9 +41,10 @@ namespace TaskMaster
 	                ActivityId = newActivity.ActivityId,
 	                Start = date
 	            };
-	            await _userServices.SavePartOfActivity(part);
+	            var result = await _userServices.SavePartOfActivity(part);
 	            Stopwatch sw = new Stopwatch();
-	            App.Stopwatches.Add(sw);
+                Stopwatches stopwatch = new Stopwatches(sw,result);
+	            App.Stopwatches.Add(stopwatch);
 	            App.Stopwatches[App.Stopwatches.Count - 1].Start();
 	            await Navigation.PopModalAsync();
 	        }

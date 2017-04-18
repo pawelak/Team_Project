@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using TaskMaster.ModelsDto;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -55,6 +51,12 @@ namespace TaskMaster.Pages
 	        {
 	            await DisplayAlert("Error", "Nie wprowadziłeś danych", "Ok");
 	        }
+	    }
+
+	    protected override bool OnBackButtonPressed()
+	    {
+	        DisplayAlert("Error", "Nie możesz opuścić tej strony bez wprowadzenia danych", "OK");
+	        return true;
 	    }
     }
 }
