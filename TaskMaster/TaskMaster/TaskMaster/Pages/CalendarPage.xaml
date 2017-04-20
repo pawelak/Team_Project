@@ -6,9 +6,8 @@
 
     <ContentPage.Padding>
         <OnPlatform x:TypeArguments="Thickness"
-                    iOS="20, 40, 20, 20"
-                    Android="0, 0, 0, 0"
-                    WinPhone="20, 20, 20, 20" />
+                    iOS="0, 20, 0, 0"
+                    Android="0, 0, 0, 0" />
     </ContentPage.Padding>
     <ContentPage.ToolbarItems>
         <ToolbarItem x:Name="MainPageItem" Order="Default" Priority="0" Clicked="MainPageItem_OnClicked" Icon="homeInactive.png"  />
