@@ -11,18 +11,25 @@
     <ContentPage.Content>
         <StackLayout Orientation="Vertical">
             <StackLayout>
-                <Label Text="Podaj dane aktywności" FontSize="24"/>
+                <Label Text="{x:StaticResource StartTaskHeader}"
+                       FontFamily="{x:StaticResource Font}" FontSize="{x:StaticResource Header}"/>
             </StackLayout>
             <StackLayout Orientation="Horizontal">
-                <Label Text="{x:StaticResource StartNameText}" WidthRequest="70" TextColor="{x:StaticResource TextColor}" HorizontalTextAlignment="End"/>
-                <Entry x:Name="StartTaskName" BackgroundColor="{x:StaticResource BackgroundButtonColor}" TextColor="{x:StaticResource TextColor}" HorizontalOptions="FillAndExpand"/>
+                <Label Text="{x:StaticResource StartNameText}" WidthRequest="70" TextColor="{x:StaticResource TextColor}" HorizontalTextAlignment="End"
+                       FontFamily="{x:StaticResource Font}" FontSize="{x:StaticResource Field}"/>
+                <Entry x:Name="StartTaskName" BackgroundColor="{x:StaticResource BackgroundButtonColor}" TextColor="{x:StaticResource TextColor}" HorizontalOptions="FillAndExpand"
+                       FontFamily="{x:StaticResource Font}" FontSize="{x:StaticResource Field}"/>
             </StackLayout>
             <StackLayout Orientation="Horizontal">
-                <Label Text="{x:StaticResource StartDescriptionText}" WidthRequest="70" TextColor="{x:StaticResource TextColor}" HorizontalTextAlignment="End"/>
-                <Entry x:Name="StartTaskDescription" BackgroundColor="{x:StaticResource BackgroundButtonColor}" TextColor="{x:StaticResource TextColor}" HorizontalOptions="FillAndExpand"/>
+                <Label Text="{x:StaticResource StartDescriptionText}" WidthRequest="70" TextColor="{x:StaticResource TextColor}" HorizontalTextAlignment="End"
+                       FontFamily="{x:StaticResource Font}" FontSize="{x:StaticResource Field}"/>
+                <Entry x:Name="StartTaskDescription" BackgroundColor="{x:StaticResource BackgroundButtonColor}" TextColor="{x:StaticResource TextColor}" HorizontalOptions="FillAndExpand"
+                       FontFamily="{x:StaticResource Font}" FontSize="{x:StaticResource Field}"/>
             </StackLayout>
             <StackLayout VerticalOptions="EndAndExpand">
-                <Button Text="{x:StaticResource StartTaskButtonText}" x:Name="StartTaskButton" Clicked="StartTaskButton_OnClicked" TextColor="{x:StaticResource TextColor}" BackgroundColor="{x:StaticResource BackgroundButtonColor}"/>
+                <Button Text="{x:StaticResource StartTaskButtonText}" x:Name="StartTaskButton" Clicked="StartTaskButton_OnClicked" TextColor="{x:StaticResource TextColor}" 
+                        BackgroundColor="{x:StaticResource BackgroundButtonColor}"
+                        FontFamily="{x:StaticResource Font}" FontSize="{x:StaticResource Medium}"/>
             </StackLayout>
         </StackLayout>
     </ContentPage.Content>
