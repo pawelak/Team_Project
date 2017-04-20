@@ -1,16 +1,14 @@
 ﻿using System;
 using System.Diagnostics;
-using System.Linq;
-using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
-using TaskMaster.Models;
-using TaskMaster.Pages;
+using TaskMaster.ModelsDto;
 
 namespace TaskMaster
 {
 	[XamlCompilation(XamlCompilationOptions.Compile)]
-	public partial class StartTaskPage : ContentPage
+	public partial class StartTaskPage
 	{
+        private readonly UserServices _userServices = new UserServices();
 		public StartTaskPage ()
 		{
 			InitializeComponent ();
@@ -20,32 +18,33 @@ namespace TaskMaster
 	    {
 	        if (StartTaskName.Text != null)
 	        {
-	            var newTask = new Tasks()
+	            var newTask = new TasksDto
 	            {
 	                Name = StartTaskName.Text,
 	                Description = StartTaskDescription.Text
 	            };
-	            if (await App.Database.GetTask(newTask) == null)
-	                newTask.TaskId = await App.Database.SaveTask(newTask);
+	            if (await _userServices.GetTask(newTask) == null)
+	                newTask.TaskId = await _userServices.SaveTask(newTask);
 	            else
-	                newTask = App.Database.GetTask(newTask).Result;
-	            var newActivity = new Activities
+	                newTask = _userServices.GetTask(newTask).Result;
+	            var newActivity = new ActivitiesDto
 	            {
 	                TaskId = newTask.TaskId,
 	                UserId = 1,
 	                Status = StatusType.Start
 	            };
-	            newActivity.ActivityId = await App.Database.SaveActivity(newActivity);
+	            newActivity.ActivityId = await _userServices.SaveActivity(newActivity);
 	            DateTime now = DateTime.Now;
 	            string date = now.ToString("HH:mm:ss dd/MM/yyyy");
-	            var part = new PartsOfActivity
+	            var part = new PartsOfActivityDto
 	            {
 	                ActivityId = newActivity.ActivityId,
 	                Start = date
 	            };
-	            await App.Database.SavePartOfTask(part);
+	            var result = await _userServices.SavePartOfActivity(part);
 	            Stopwatch sw = new Stopwatch();
-	            App.Stopwatches.Add(sw);
+                Stopwatches stopwatch = new Stopwatches(sw,result);
+	            App.Stopwatches.Add(stopwatch);
 	            App.Stopwatches[App.Stopwatches.Count - 1].Start();
 	            await Navigation.PopModalAsync();
 	        }

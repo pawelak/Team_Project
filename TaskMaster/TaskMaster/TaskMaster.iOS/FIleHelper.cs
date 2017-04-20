@@ -2,12 +2,6 @@ using System;
 using System.IO;
 using Xamarin.Forms;
 using TaskMaster.iOS;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-using Foundation;
-using UIKit;
 
 [assembly: Dependency(typeof(FileHelper))]
 namespace TaskMaster.iOS

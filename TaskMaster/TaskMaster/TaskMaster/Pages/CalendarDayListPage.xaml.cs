@@ -1,21 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.Threading.Tasks;
-using TaskMaster.Models;
-using TaskMaster.Pages;
-using Xamarin.Forms;
-using XamForms.Controls;
+
 namespace TaskMaster.Pages
 {
 
-    public partial class CalendarDayListPage : ContentPage
+    public partial class CalendarDayListPage
     {
-        private DateTime calendarDay;
-
+        private DateTime _calendarDay;
+        private readonly UserServices _userServices = new UserServices();
         public CalendarDayListPage(DateTime dateTime)
         {
-            this.calendarDay = dateTime;
+            _calendarDay = dateTime;
             InitializeComponent();
             ListInitiate();
         }
@@ -26,17 +21,17 @@ namespace TaskMaster.Pages
 
         private async void ListInitiate()
         {
-            var result = await App.Database.GetActivitiesByStatus(StatusType.Stop);
+            var result = await _userServices.GetActivitiesByStatus(StatusType.Stop);
             List<CustomList> dayPlan = new List<CustomList>();
             foreach (var activity in result)
             {
                 long time = 0;
-                var parts = await App.Database.GetPartsOfActivityByActivityId(activity.ActivityId);
+                var parts = await _userServices.GetPartsOfActivityByActivityId(activity.ActivityId);
                 foreach (var part in parts)
                 {
                     time += long.Parse(part.Duration);
                 }
-                var task = await App.Database.GetTaskById(activity.TaskId);
+                var task = await _userServices.GetTaskById(activity.TaskId);
                 var element = new CustomList()
                 {
                     Name = task.Name,
@@ -45,19 +40,19 @@ namespace TaskMaster.Pages
                 };
                 dayPlan.Add(element);
             }
-            var result2 = await App.Database.GetActivitiesByStatus(StatusType.Planned);
+            var result2 = await _userServices.GetActivitiesByStatus(StatusType.Planned);
             foreach (var activity in result2)
             {
                 long time = 0;
-                var parts = await App.Database.GetPartsOfActivityByActivityId(activity.ActivityId);
+                var parts = await _userServices.GetPartsOfActivityByActivityId(activity.ActivityId);
                 foreach (var part in parts)
                 {
-                    if (DateTime.Parse(part.Start).ToString("dd/MM/yyyy").Equals(calendarDay.ToString("dd/MM/yyyy")))
+                    if (DateTime.Parse(part.Start).ToString("dd/MM/yyyy").Equals(_calendarDay.ToString("dd/MM/yyyy")))
                     {
                         time += long.Parse(part.Duration);
                     }
                 }
-                var task = await App.Database.GetTaskById(activity.TaskId);
+                var task = await _userServices.GetTaskById(activity.TaskId);
                 var element = new CustomList()
                 {
                     Name = task.Name,
@@ -67,12 +62,6 @@ namespace TaskMaster.Pages
                 dayPlan.Add(element);
             }
             DayPlan.ItemsSource = dayPlan;
-        }
-        public struct CustomList
-        {
-            public string Name { get; set; }
-            public string Description { get; set; }
-            public string Time { get; set; }
         }
     }
 }

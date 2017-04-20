@@ -1,17 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.Threading.Tasks;
-using TaskMaster.Models;
 using TaskMaster.Pages;
 using Xamarin.Forms;
-using XamForms.Controls;
-
 
 namespace TaskMaster
 {
 	
-	public partial class HistoryPage : ContentPage
+	public partial class HistoryPage
 	{
 		public HistoryPage ()
 		{
@@ -26,8 +21,8 @@ namespace TaskMaster
 
 	    private async void CalendarPageItem_OnClicked(object sender, EventArgs e)
 	    {
-	        await Navigation.PushModalAsync(new NavigationPage(new CalendarPage()));
-	    }
+            await Navigation.PushModalAsync(new NavigationPage(new InitializeCalendar()));
+        }
         protected override void OnAppearing()
         {
             ListInitiate();
@@ -46,22 +41,22 @@ namespace TaskMaster
                     time += long.Parse(part.Duration);
                 }
                 var task = await App.Database.GetTaskById(activity.TaskId);
+                TimeSpan t = TimeSpan.FromMilliseconds(time);
+                string answer = string.Format("{0:D2}h:{1:D2}m:{2:D2}s:{3:D3}ms",
+                    t.Hours,
+                    t.Minutes,
+                    t.Seconds,
+                    t.Milliseconds);
                 var element = new CustomList()
                 {
                     Name = task.Name,
                     Description = task.Description,
-                    Time = time.ToString()
+                    Time = answer
                 };
                 dayPlan.Add(element);
             }
            
             DayPlan.ItemsSource = dayPlan;
-        }
-        public struct CustomList
-        {
-            public string Name { get; set; }
-            public string Description { get; set; }
-            public string Time { get; set; }
         }
 	}
 }

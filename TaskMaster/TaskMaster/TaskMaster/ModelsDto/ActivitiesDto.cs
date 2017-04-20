@@ -1,13 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using SQLite;
-
-namespace TaskMaster.Models
+﻿namespace TaskMaster.ModelsDto
 {
-    public class Activities
+    public class ActivitiesDto
     {
-        [PrimaryKey,AutoIncrement]
         public int ActivityId { get; set; }
         public string Comment { get; set; }
         public int UserId { get; set; }

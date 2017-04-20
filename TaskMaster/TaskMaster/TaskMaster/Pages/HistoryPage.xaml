@@ -17,17 +17,21 @@
         <StackLayout HorizontalOptions="Center" Spacing="15">
             <ListView x:Name="DayPlan" HasUnevenRows="False" >
                 <ListView.Header>
-                    <Label Text="{x:StaticResource History}" TextColor="{x:StaticResource TextColor}" HorizontalOptions="Center" FontSize="20" />
+                    <Label Text="{x:StaticResource History}" TextColor="{x:StaticResource TextColor}" HorizontalOptions="Center" 
+                           FontFamily="{x:StaticResource Font}" FontSize="{x:StaticResource Header}"/>
                 </ListView.Header>
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>
                             <StackLayout BackgroundColor="{x:StaticResource BackgroundButtonColor}" Orientation="Vertical">
                                 <StackLayout Orientation="Horizontal">
-                                    <Label Text="{Binding Name}" TextColor="{x:StaticResource TextColor}" />
-                                    <Label Text="{Binding Time}" HorizontalOptions="EndAndExpand" TextColor="{x:StaticResource TextColor}" />
+                                    <Label Text="{Binding Name}" TextColor="{x:StaticResource TextColor}" 
+                                           FontFamily="{x:StaticResource Font}" FontSize="{x:StaticResource Medium}"/>
+                                    <Label Text="{Binding Time}" HorizontalOptions="EndAndExpand" TextColor="{x:StaticResource TextColor}" 
+                                           FontFamily="{x:StaticResource Font}" FontSize="{x:StaticResource Medium}"/>
                                 </StackLayout>
-                                <Label Text="{Binding Description}" TextColor="{x:StaticResource TextColor}" />
+                                <Label Text="{Binding Description}" TextColor="{x:StaticResource TextColor}" 
+                                       FontFamily="{x:StaticResource Font}" FontSize="{x:StaticResource Medium}"/>
                             </StackLayout>
                         </ViewCell>
                     </DataTemplate>

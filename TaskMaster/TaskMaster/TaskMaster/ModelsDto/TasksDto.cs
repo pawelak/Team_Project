@@ -1,12 +1,8 @@
-﻿using SQLite;
-
-namespace TaskMaster.Models
+﻿namespace TaskMaster.ModelsDto
 {
-    public class Tasks
+    public class TasksDto
     {
-        [PrimaryKey,AutoIncrement]
         public int TaskId { get; set; }
-        [Unique]
         public string Name { get; set; }
         public string Description { get; set; }
     }

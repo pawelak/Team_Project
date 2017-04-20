@@ -1,17 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using TaskMaster.Models;
+using TaskMaster.ModelsDto;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
 namespace TaskMaster
 {
 	[XamlCompilation(XamlCompilationOptions.Compile)]
-	public partial class PlanTaskPage : ContentPage
+	public partial class PlanTaskPage
 	{
+        private readonly UserServices _userServices = new UserServices();
 		public PlanTaskPage ()
 		{
 			InitializeComponent ();
@@ -21,33 +18,33 @@ namespace TaskMaster
 	    {
 	        if (ActivityName != null)
 	        {
-	            var newTask = new Tasks()
+	            var newTask = new TasksDto
 	            {
 	                Name = ActivityName.Text,
 	                Description = ActivityDescription.Text
 	            };
-	            if (await App.Database.GetTask(newTask) == null)
-	                newTask.TaskId = await App.Database.SaveTask(newTask);
+	            if (await _userServices.GetTask(newTask) == null)
+	                newTask.TaskId = await _userServices.SaveTask(newTask);
 	            else
-	                newTask = await App.Database.GetTask(newTask);
-	            var newActivity = new Activities()
+	                newTask = await _userServices.GetTask(newTask);
+	            var newActivity = new ActivitiesDto
 	            {
 	                UserId = 1,
 	                TaskId = newTask.TaskId,
 	                GroupId = 1,
 	                Status = StatusType.Planned
 	            };
-	            newActivity.ActivityId = await App.Database.SaveActivity(newActivity);
+	            newActivity.ActivityId = await _userServices.SaveActivity(newActivity);
 	            var start = PlanTaskStartTime.Time + " " + PlanTaskStartDate.Date.ToShortDateString();
 	            var end = PlanTaskStopTime.Time + " " + PlanTaskStopDate.Date.ToShortDateString();
-	            var part = new PartsOfActivity()
+	            var part = new PartsOfActivityDto
 	            {
 	                ActivityId = newActivity.ActivityId,
 	                Start = start,
 	                Stop = end,
 	                Duration = "0"
 	            };
-	            await App.Database.SavePartOfTask(part);
+	            await _userServices.SavePartOfActivity(part);
 	            await Navigation.PopAsync();
 	        }
 	        else
@@ -62,14 +59,13 @@ namespace TaskMaster
 
 	    private void PlanTaskStartDate_OnUnfocused(object sender, FocusEventArgs e)
 	    {
-	        
 	        TaskDate.Text = PlanTaskStartTime.Time + " " + PlanTaskStartDate.Date.ToShortDateString();
         }
 
 	    private void PlanTaskStartTime_OnUnfocused(object sender, FocusEventArgs e)
 	    {
-	        throw new NotImplementedException();
-	    }
+	        TaskDate.Text = PlanTaskStartTime.Time + " " + PlanTaskStartDate.Date.ToShortDateString();
+        }
 
 	    private void ActivityDescription_OnUnfocused(object sender, FocusEventArgs e)
 	    {

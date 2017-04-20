@@ -14,7 +14,7 @@ namespace TaskMaster
         }
     }
 
-    public class CalendarVM : BaseViewModel
+    public class CalendarVm : BaseViewModel
     {
         private DateTime? _date;
         public DateTime? Date
