@@ -1,7 +1,5 @@
-﻿using System;
+﻿
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 
 namespace TaskMaster.DAL.Models
 {
@@ -11,14 +9,12 @@ namespace TaskMaster.DAL.Models
         public int ActivityId { get; set; }
         public State State { get; set; }
         public string Comment { get; set; }
-
         public int UserId { get; set; }
         public User User { get; set; }
         public int GroupId { get; set; }
         public Group Group { get; set; }
         public int TaskId { get; set; }
         public Task Task { get; set; }
-
         public ICollection<PartsOfActivity> PartsOfActivity { get; set; }
     }
 
