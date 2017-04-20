@@ -210,6 +210,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <AndroidAsset Include="Assets\Quicksand-Regular.ttf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </AndroidAsset>
     <None Include="packages.config" />
     <None Include="Resources\AboutResources.txt" />
     <None Include="Assets\AboutAssets.txt" />

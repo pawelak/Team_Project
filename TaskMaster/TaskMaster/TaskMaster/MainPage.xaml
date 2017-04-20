@@ -1,8 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:local="clr-namespace:TaskMaster"
-             x:Class="TaskMaster.MainPage" BackgroundColor="{x:StaticResource BackgroundColor}" >
+             x:Class="TaskMaster.MainPage" BackgroundColor="{x:StaticResource BackgroundColor}">
     <ContentPage.Padding>
         <OnPlatform x:TypeArguments="Thickness"
                     iOS="20, 40, 20, 20"
@@ -17,7 +16,14 @@
     <ContentPage.Content>
         <StackLayout Orientation="Vertical">
             <StackLayout Orientation="Horizontal" Spacing="1" HeightRequest="100">
-                <Button Text="{x:StaticResource StartTaskText}" x:Name="StartTaskButton" HorizontalOptions="Fill" WidthRequest="100" Clicked="StartTaskButton_OnClicked" BackgroundColor="{x:StaticResource BackgroundButtonColor}"/>
+                <Button Text="{x:StaticResource StartTaskText}" 
+                        x:Name="StartTaskButton" 
+                        HorizontalOptions="Fill" 
+                        WidthRequest="100" 
+                        Clicked="StartTaskButton_OnClicked" 
+                        BackgroundColor="{x:StaticResource BackgroundButtonColor}" 
+                        FontFamily="{x:StaticResource Font}" 
+                        FontSize="{x:StaticResource Medium}"/>
                 <Button Text="{x:StaticResource PlanTaskText}" FontSize="8" Image="planTaskStopwatch.png" ContentLayout="Bottom,0" x:Name="PlanTaskButton" HorizontalOptions="Fill"  WidthRequest="100"  HeightRequest="100" Clicked="PlanTaskButton_OnClicked" BackgroundColor="{x:StaticResource BackgroundButtonColor}"/>
                 <Button Text="{x:StaticResource FastTaskText}" FontSize="8" Image="fastStart.png" ContentLayout="Bottom,0" x:Name="FastTaskButton" HorizontalOptions="Fill"  WidthRequest="100" HeightRequest="100"  Clicked="FastTaskButton_OnClicked" BackgroundColor="{x:StaticResource BackgroundButtonColor}"/>
             </StackLayout>
@@ -30,7 +36,7 @@
             <StackLayout>
                 <ListView x:Name="ActiveTasks" HasUnevenRows="False" ItemTapped="ActiveTasks_OnItemTapped">
                     <ListView.Header>
-                        <Label Text="{x:StaticResource ActiveTasksHeader}" TextColor="{x:StaticResource TextColor}" />
+                        <Label Text="{x:StaticResource ActiveTasksHeader}" TextColor="{x:StaticResource TextColor}" FontFamily="{x:StaticResource Font}" FontSize="{x:StaticResource Medium}"/>
                     </ListView.Header>
                     <ListView.ItemTemplate>
                         <DataTemplate>
