@@ -28,6 +28,7 @@ namespace TaskMaster.Droid
 		{
 			global::PCLCrypto.Resource.String.ApplicationName = global::TaskMaster.Droid.Resource.String.ApplicationName;
 			global::PCLCrypto.Resource.String.Hello = global::TaskMaster.Droid.Resource.String.Hello;
+			global::Plugin.LocalNotifications.Resource.Drawable.plugin_lc_smallicon = global::TaskMaster.Droid.Resource.Drawable.plugin_lc_smallicon;
 			global::Xamarin.Auth.Resource.Id.webview = global::TaskMaster.Droid.Resource.Id.webview;
 			global::Xamarin.Auth.Resource.Layout.activity_webview = global::TaskMaster.Droid.Resource.Layout.activity_webview;
 			global::Xamarin.Auth.Resource.String.ApplicationName = global::TaskMaster.Droid.Resource.String.ApplicationName;
@@ -2243,8 +2244,8 @@ namespace TaskMaster.Droid
 			// aapt resource value: 0x7f0200ac
 			public const int mr_ic_play_light = 2130837676;
 			
-			// aapt resource value: 0x7f0200b2
-			public const int notification_template_icon_bg = 2130837682;
+			// aapt resource value: 0x7f0200b3
+			public const int notification_template_icon_bg = 2130837683;
 			
 			// aapt resource value: 0x7f0200ad
 			public const int passwordImg = 2130837677;
@@ -2259,7 +2260,10 @@ namespace TaskMaster.Droid
 			public const int playButton = 2130837680;
 			
 			// aapt resource value: 0x7f0200b1
-			public const int stopButton = 2130837681;
+			public const int plugin_lc_smallicon = 2130837681;
+			
+			// aapt resource value: 0x7f0200b2
+			public const int stopButton = 2130837682;
 			
 			static Drawable()
 			{
