@@ -10,7 +10,7 @@ namespace TaskMaster.Droid
 {
     public class LoginRenderer : PageRenderer
     {
-        bool showLogin = true;
+        private bool _showLogin = true;
         protected override void OnElementChanged(ElementChangedEventArgs<Page> e)
         {
             base.OnElementChanged(e);
@@ -19,9 +19,9 @@ namespace TaskMaster.Droid
                 var loginPage = Element as ProviderLoginPage;
                 string providerName = loginPage.ProviderName;
                 var activity = Context as Activity;
-                if (showLogin)
+                if (_showLogin)
                 {
-                    showLogin = false;
+                    _showLogin = false;
                     OAuthProviderSetting oauth = new OAuthProviderSetting();
                     var auth = oauth.LoginWithProvider(providerName);
                     auth.Completed += (sender, eventArgs) =>
