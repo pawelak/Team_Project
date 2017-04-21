@@ -1,6 +1,5 @@
 ﻿using Android.App;
 using Android.Support.CustomTabs;
-using Java.IO;
 using Xamarin.Forms.Platform.Android;
 using Xamarin.Forms;
 using TaskMaster.Droid;
