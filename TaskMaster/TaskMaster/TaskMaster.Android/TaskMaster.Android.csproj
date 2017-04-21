@@ -61,7 +61,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="FormsViewGroup, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Xamarin.Forms.2.3.4.224\lib\MonoAndroid10\FormsViewGroup.dll</HintPath>
+      <HintPath>..\..\packages\Xamarin.Forms.2.3.4.231\lib\MonoAndroid10\FormsViewGroup.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
@@ -143,7 +143,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="Xamarin.Android.Support.CustomTabs, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Xamarin.Android.Support.CustomTabs.23.0.1.1\lib\MonoAndroid403\Xamarin.Android.Support.CustomTabs.dll</HintPath>
+      <HintPath>..\..\packages\Xamarin.Android.Support.CustomTabs.23.3.0\lib\MonoAndroid403\Xamarin.Android.Support.CustomTabs.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Xamarin.Android.Support.Design, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
@@ -174,24 +174,24 @@
       <HintPath>..\..\packages\Xamarin.Android.Support.Vector.Drawable.23.3.0\lib\MonoAndroid403\Xamarin.Android.Support.Vector.Drawable.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Xamarin.Auth, Version=1.3.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Xamarin.Auth.1.4.1.0\lib\MonoAndroid10\Xamarin.Auth.dll</HintPath>
+    <Reference Include="Xamarin.Auth, Version=1.5.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Xamarin.Auth.1.5.0-alpha-04\lib\MonoAndroid10\Xamarin.Auth.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Xamarin.Forms.Core, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Xamarin.Forms.2.3.4.224\lib\MonoAndroid10\Xamarin.Forms.Core.dll</HintPath>
+      <HintPath>..\..\packages\Xamarin.Forms.2.3.4.231\lib\MonoAndroid10\Xamarin.Forms.Core.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Xamarin.Forms.Platform, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Xamarin.Forms.2.3.4.224\lib\MonoAndroid10\Xamarin.Forms.Platform.dll</HintPath>
+      <HintPath>..\..\packages\Xamarin.Forms.2.3.4.231\lib\MonoAndroid10\Xamarin.Forms.Platform.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Xamarin.Forms.Platform.Android, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Xamarin.Forms.2.3.4.224\lib\MonoAndroid10\Xamarin.Forms.Platform.Android.dll</HintPath>
+      <HintPath>..\..\packages\Xamarin.Forms.2.3.4.231\lib\MonoAndroid10\Xamarin.Forms.Platform.Android.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Xamarin.Forms.Xaml, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Xamarin.Forms.2.3.4.224\lib\MonoAndroid10\Xamarin.Forms.Xaml.dll</HintPath>
+      <HintPath>..\..\packages\Xamarin.Forms.2.3.4.231\lib\MonoAndroid10\Xamarin.Forms.Xaml.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="XamForms.Controls.Calendar, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
@@ -205,7 +205,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="FileHelper.cs" />
+    <Compile Include="LoginRenderer.cs" />
     <Compile Include="MainActivity.cs" />
+    <Compile Include="OAuthProviderSetting.cs" />
     <Compile Include="Resources\Resource.Designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -255,11 +257,11 @@
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
     <Error Condition="!Exists('..\..\packages\Xamarin.Android.Support.Vector.Drawable.23.3.0\build\Xamarin.Android.Support.Vector.Drawable.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\Xamarin.Android.Support.Vector.Drawable.23.3.0\build\Xamarin.Android.Support.Vector.Drawable.targets'))" />
-    <Error Condition="!Exists('..\..\packages\Xamarin.Forms.2.3.4.224\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+Xamarin.iOS10+xamarinmac20\Xamarin.Forms.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\Xamarin.Forms.2.3.4.224\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+Xamarin.iOS10+xamarinmac20\Xamarin.Forms.targets'))" />
     <Error Condition="!Exists('..\..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets'))" />
+    <Error Condition="!Exists('..\..\packages\Xamarin.Forms.2.3.4.231\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+Xamarin.iOS10+xamarinmac20\Xamarin.Forms.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\Xamarin.Forms.2.3.4.231\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+Xamarin.iOS10+xamarinmac20\Xamarin.Forms.targets'))" />
   </Target>
-  <Import Project="..\..\packages\Xamarin.Forms.2.3.4.224\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+Xamarin.iOS10+xamarinmac20\Xamarin.Forms.targets" Condition="Exists('..\..\packages\Xamarin.Forms.2.3.4.224\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+Xamarin.iOS10+xamarinmac20\Xamarin.Forms.targets')" />
   <Import Project="..\..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets" Condition="Exists('..\..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" />
+  <Import Project="..\..\packages\Xamarin.Forms.2.3.4.231\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+Xamarin.iOS10+xamarinmac20\Xamarin.Forms.targets" Condition="Exists('..\..\packages\Xamarin.Forms.2.3.4.231\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+Xamarin.iOS10+xamarinmac20\Xamarin.Forms.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
      Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
