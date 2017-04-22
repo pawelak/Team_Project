@@ -29,18 +29,18 @@ namespace TaskMaster.Pages
 	        }
 	        TimeSpan t = TimeSpan.FromMilliseconds(_duration);
 	        string answer = $"{t.Hours:D2}h:{t.Minutes:D2}m:{t.Seconds:D2}s";
-	        TaskDuration.Text = answer;
-        }
+	        FillTaskDuration.Text = answer;
+	    }
 
         private void ActivityDescription_OnUnfocused(object sender, FocusEventArgs e)
 	    {
-	        TaskDescription.Text = ActivityDescription.Text;
+	        FillTaskDescription.Text = ActivityDescription.Text;
 	        _task.Description = ActivityDescription.Text;
 	    }
 
 	    private void ActivityName_OnUnfocused(object sender, FocusEventArgs e)
 	    {
-	        TaskName.Text = ActivityName.Text;
+	        FillTaskName.Text = ActivityName.Text;
 	        _task.Name = ActivityName.Text;
 	    }
 

@@ -19,19 +19,19 @@
                         <Label Text="Obraz" TextColor="{x:StaticResource TextColor}"/>
                     </StackLayout>
                     <StackLayout Orientation="Vertical" HorizontalOptions="FillAndExpand">
-                        <Label x:Name="TaskName" HorizontalOptions="CenterAndExpand" TextColor="{x:StaticResource TextColor}"
+                        <Label x:Name="FillTaskName" HorizontalOptions="CenterAndExpand" TextColor="{x:StaticResource TextColor}"
                                FontFamily="{x:StaticResource Font}" FontSize="{x:StaticResource Medium}"/>
-                        <Label x:Name="TaskDescription" HorizontalOptions="CenterAndExpand" TextColor="{x:StaticResource TextColor}"
+                        <Label x:Name="FillTaskDescription" HorizontalOptions="CenterAndExpand" TextColor="{x:StaticResource TextColor}"
                                FontFamily="{x:StaticResource Font}" FontSize="{x:StaticResource Medium}"/>
-                        <Label x:Name="TaskDate" HorizontalOptions="CenterAndExpand" TextColor="{x:StaticResource TextColor}"
+                        <Label x:Name="FillTaskDate" HorizontalOptions="CenterAndExpand" TextColor="{x:StaticResource TextColor}"
                                FontFamily="{x:StaticResource Font}" FontSize="{x:StaticResource Medium}"/>
                     </StackLayout>
                     <StackLayout VerticalOptions="CenterAndExpand" WidthRequest="80">
-                        <Label x:Name="TaskDuration" TextColor="{x:StaticResource TextColor}"
+                        <Label x:Name="FillTaskDuration" TextColor="{x:StaticResource TextColor}"
                                FontFamily="{x:StaticResource Font}" FontSize="{x:StaticResource Field}"/>
                     </StackLayout>
                 </StackLayout>
-            </StackLayout>>
+            </StackLayout>
             <StackLayout Orientation="Horizontal" Padding="5" VerticalOptions="Center">
                 <Label Text="{x:StaticResource NameText}" WidthRequest="70" HorizontalTextAlignment="End" VerticalOptions="Center" TextColor="{x:StaticResource TextColor}"
                        FontFamily="{x:StaticResource Font}" FontSize="{x:StaticResource Medium}"/>

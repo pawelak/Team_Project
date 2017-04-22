@@ -30,7 +30,7 @@ namespace TaskMaster.Droid
                         "email",
                         new Uri("https://www.facebook.com/v2.9/dialog/oauth?client_id=647866935403018&redirect_uri=http://www.facebook.com/connect/login_success.html"),
                         new Uri("http://www.facebook.com/connect/login_success.html"),
-                        isUsingNativeUI: false
+                        isUsingNativeUI: true
                     );
                     break;
                 }
