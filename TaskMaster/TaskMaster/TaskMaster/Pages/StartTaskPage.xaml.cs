@@ -39,7 +39,8 @@ namespace TaskMaster
 	            var part = new PartsOfActivityDto
 	            {
 	                ActivityId = newActivity.ActivityId,
-	                Start = date
+	                Start = date,
+                    Duration = "0"
 	            };
 	            var result = await _userServices.SavePartOfActivity(part);
 	            Stopwatch sw = new Stopwatch();

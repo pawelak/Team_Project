@@ -14,6 +14,7 @@
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)CalendarVm.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)CustomList.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)HistoryList.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)MainPageList.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ModelsDto\ActivitiesDto.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ModelsDto\FavoritesDto.cs" />

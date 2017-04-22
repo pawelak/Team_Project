@@ -22,16 +22,25 @@
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>
-                            <StackLayout BackgroundColor="{x:StaticResource BackgroundButtonColor}" Orientation="Vertical">
-                                <StackLayout Orientation="Horizontal">
-                                    <Label Text="{Binding Name}" TextColor="{x:StaticResource TextColor}" 
-                                           FontFamily="{x:StaticResource Font}" FontSize="{x:StaticResource Medium}"/>
-                                    <Label Text="{Binding Time}" HorizontalOptions="EndAndExpand" TextColor="{x:StaticResource TextColor}" 
-                                           FontFamily="{x:StaticResource Font}" FontSize="{x:StaticResource Medium}"/>
+                            <StackLayout>
+                                <StackLayout Orientation="Horizontal" BackgroundColor="{x:StaticResource BackgroundButtonColor}">
+                                    <StackLayout WidthRequest="50">
+                                        <Label Text="Obraz" TextColor="{x:StaticResource TextColor}"/>
+                                    </StackLayout>
+                                    <StackLayout Orientation="Vertical" HorizontalOptions="FillAndExpand">
+                                        <Label Text="{Binding Name}" HorizontalOptions="CenterAndExpand" TextColor="{x:StaticResource TextColor}"
+                                               FontFamily="{x:StaticResource Font}" FontSize="{x:StaticResource Medium}"/>
+                                        <Label Text="{Binding Description}" HorizontalOptions="CenterAndExpand" TextColor="{x:StaticResource TextColor}"
+                                               FontFamily="{x:StaticResource Font}" FontSize="{x:StaticResource Medium}"/>
+                                        <Label Text="{Binding Date}"  HorizontalOptions="CenterAndExpand" TextColor="{x:StaticResource TextColor}"
+                                               FontFamily="{x:StaticResource Font}" FontSize="{x:StaticResource Medium}"/>
+                                    </StackLayout>
+                                    <StackLayout VerticalOptions="CenterAndExpand" WidthRequest="80">
+                                        <Label Text="{Binding Time}" TextColor="{x:StaticResource TextColor}"
+                                               FontFamily="{x:StaticResource Font}" FontSize="{x:StaticResource Field}"/>
+                                    </StackLayout>
                                 </StackLayout>
-                                <Label Text="{Binding Description}" TextColor="{x:StaticResource TextColor}" 
-                                       FontFamily="{x:StaticResource Font}" FontSize="{x:StaticResource Medium}"/>
-                            </StackLayout>
+                            </StackLayout> >
                         </ViewCell>
                     </DataTemplate>
                 </ListView.ItemTemplate>

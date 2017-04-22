@@ -11,7 +11,6 @@ namespace TaskMaster
         private readonly UserServices _userServices = new UserServices();
         public MainPage()
 		{
-            
             InitializeComponent ();
 		    ListInitiate();
         }
@@ -104,7 +103,8 @@ namespace TaskMaster
 	        var part = new PartsOfActivityDto
 	        {
 	            ActivityId = activity.ActivityId,
-	            Start = now.ToString("HH:mm:ss dd/MM/yyyy")
+	            Start = now.ToString("HH:mm:ss dd/MM/yyyy"),
+                Duration = "0"
 	        };
 	        var result = await _userServices.SavePartOfActivity(part);
 	        Stopwatch sw = new Stopwatch();

@@ -31,7 +31,7 @@ namespace TaskMaster
         private async void ListInitiate()
         {
             var result = await App.Database.GetActivitiesByStatus(StatusType.Stop);
-            List<CustomList> dayPlan = new List<CustomList>();
+            List<HistoryList> dayPlan = new List<HistoryList>();
             foreach (var activity in result)
             {
                 long time = 0;
@@ -47,15 +47,15 @@ namespace TaskMaster
                     t.Minutes,
                     t.Seconds,
                     t.Milliseconds);
-                var element = new CustomList()
+                var element = new HistoryList
                 {
                     Name = task.Name,
                     Description = task.Description,
-                    Time = answer
+                    Time = answer,
+                    Date = ""
                 };
                 dayPlan.Add(element);
             }
-           
             DayPlan.ItemsSource = dayPlan;
         }
 	}
