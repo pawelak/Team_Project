@@ -64,7 +64,7 @@
                                 <StackLayout Orientation="Vertical" BackgroundColor="{x:StaticResource BackgroundButtonColor}">
                                     <StackLayout Orientation="Horizontal">
                                         <StackLayout WidthRequest="50">
-                                            <Label Text="{Binding Image}" TextColor="{x:StaticResource TextColor}"
+                                            <Label Text="Typ stop" TextColor="{x:StaticResource TextColor}"
                                                    FontFamily="{x:StaticResource Font}" FontSize="{x:StaticResource Medium}"/>
                                         </StackLayout>
                                         <StackLayout Orientation="Vertical" HorizontalOptions="FillAndExpand">

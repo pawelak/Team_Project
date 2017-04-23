@@ -2,6 +2,7 @@
 using Xamarin.Forms;
 using System;
 using System.Diagnostics;
+using Android.App;
 using Plugin.LocalNotifications;
 using TaskMaster.ModelsDto;
 
@@ -23,7 +24,7 @@ namespace TaskMaster
         }
 
         protected override async void OnStart()
-        {
+        {            
             var result2 = await _userServices.GetActivitiesByStatus(StatusType.Planned);
             foreach (var activity in result2)
             {
