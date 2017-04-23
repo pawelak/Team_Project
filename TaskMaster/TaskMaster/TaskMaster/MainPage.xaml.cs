@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Threading.Tasks;
 using TaskMaster.ModelsDto;
 using TaskMaster.Pages;
 using Xamarin.Forms;
@@ -22,22 +23,27 @@ namespace TaskMaster
             var result = await _userServices.GetActivitiesByStatus(StatusType.Pause);
             foreach (var activity in result)
             {
-                var decision = await DisplayAlert("Wznowienie", "Czy chcesz wznowić aktywność", "Tak", "Nie");
-                if (decision)
+                bool decision;
+                if (activity.TaskId == 0)
                 {
-                    activity.Status = StatusType.Start;
-                    var part = new PartsOfActivityDto
-                    {
-                        ActivityId = activity.ActivityId,
-                        Start = now.ToString("HH:mm:ss dd/MM/yyyy")
-                    };
-                    part.PartId = await _userServices.SavePartOfActivity(part);
-                    var sw = new Stopwatch();
-                    Stopwatches stopwatch = new Stopwatches(sw, part.PartId);
-                    App.Stopwatches.Add(stopwatch);
-                    App.Stopwatches[App.Stopwatches.Count - 1].Start();
-                    await _userServices.SaveActivity(activity);
+                    var task = await _userServices.GetTaskById(activity.TaskId);
+                    decision = await DisplayAlert("Wznowienie", "Czy chcesz wznowić aktywność " + task.Name + "?", "Tak", "Nie");
                 }
+                else
+                    decision = await DisplayAlert("Wznowienie", "Czy chcesz wznowić aktywność Unnamed Activity" + activity.ActivityId + "?", "Tak", "Nie");
+                if (!decision) continue;
+                activity.Status = StatusType.Start;
+                var part = new PartsOfActivityDto
+                {
+                    ActivityId = activity.ActivityId,
+                    Start = now.ToString("HH:mm:ss dd/MM/yyyy")
+                };
+                part.PartId = await _userServices.SavePartOfActivity(part);
+                var sw = new Stopwatch();
+                Stopwatches stopwatch = new Stopwatches(sw, part.PartId);
+                App.Stopwatches.Add(stopwatch);
+                App.Stopwatches[App.Stopwatches.Count - 1].Start();
+                await _userServices.SaveActivity(activity);
             }
         }
 	    protected override void OnAppearing()
