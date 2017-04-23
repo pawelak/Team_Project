@@ -16,6 +16,7 @@ namespace TaskMaster.Pages
         private ActivitiesDto _activity;
         private TasksDto _task;
         private DateTime _now;
+        private long _duration;
         public EditTaskPage(MainPageList item)
         {
             InitializeComponent();
@@ -37,10 +38,27 @@ namespace TaskMaster.Pages
                 TaskId = item.TaskId
             };
             TaskDates.Text = _actual.Start;
-            _stopwatch = App.Stopwatches.FirstOrDefault(s => s.GetPartId() == _actual.PartId).GetStopwatch();
+            var parts = await _userServices.GetPartsOfActivityByActivityId(_activity.ActivityId);
+            foreach (var part in parts)
+            {
+                _duration +=long.Parse(part.Duration);
+            }
+            var firstOrDefault = App.Stopwatches.FirstOrDefault(s => s.GetPartId() == _actual.PartId);
+            if (firstOrDefault != null)
+                _stopwatch = firstOrDefault.GetStopwatch();
+            Device.StartTimer(TimeSpan.FromSeconds(1), UpdateTime);
             UpdateButtons();
         }
 
+        private bool UpdateTime()
+        {
+            if (_activity.Status == StatusType.Stop || _activity.Status == StatusType.Planned)
+                return false;
+            TimeSpan t = TimeSpan.FromMilliseconds(_duration + _stopwatch.ElapsedMilliseconds);
+            string answer = $"{t.Hours:D2}h:{t.Minutes:D2}m:{t.Seconds:D2}s";
+            TaskDuration.Text = answer;
+            return true;
+        }
         private void UpdateButtons()
         {
             PauseButton.IsEnabled = _activity.Status == StatusType.Start;
@@ -77,7 +95,7 @@ namespace TaskMaster.Pages
             string date = _now.ToString("HH:mm:ss dd/MM/yyyy");
             _actual.Stop = date;
             _stopwatch.Stop();
-            _actual.Duration = _stopwatch.ElapsedMilliseconds.ToString(); 
+            _actual.Duration = _stopwatch.ElapsedMilliseconds.ToString();
             await _userServices.SaveActivity(_activity);
             await _userServices.SavePartOfActivity(_actual);
             UpdateButtons();
@@ -91,7 +109,8 @@ namespace TaskMaster.Pages
             var part = new PartsOfActivityDto
             {
                 ActivityId = _activity.ActivityId,
-                Start = date
+                Start = date,
+                Duration = "0"
             };
             var result = await _userServices.SavePartOfActivity(part);
             Stopwatch sw = new Stopwatch();

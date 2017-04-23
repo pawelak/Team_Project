@@ -11,20 +11,36 @@ namespace TaskMaster.Pages
         private readonly UserServices _userServices = new UserServices();
         private TasksDto _task = new TasksDto();
 	    private readonly ActivitiesDto _activity;
-		public FillInformationPage (ActivitiesDto item)
+	    private long _duration;
+
+        public FillInformationPage (ActivitiesDto item)
 		{
 		    _activity = item;
-			InitializeComponent ();
+		    Init();
+            InitializeComponent();
 		}
-	    private void ActivityDescription_OnUnfocused(object sender, FocusEventArgs e)
+
+	    private async void Init()
 	    {
-	        TaskDescription.Text = ActivityDescription.Text;
+	        var parts = await _userServices.GetPartsOfActivityByActivityId(_activity.ActivityId);
+	        foreach (var part in parts)
+	        {
+	            _duration += long.Parse(part.Duration);
+	        }
+	        TimeSpan t = TimeSpan.FromMilliseconds(_duration);
+	        string answer = $"{t.Hours:D2}h:{t.Minutes:D2}m:{t.Seconds:D2}s";
+	        FillTaskDuration.Text = answer;
+	    }
+
+        private void ActivityDescription_OnUnfocused(object sender, FocusEventArgs e)
+	    {
+	        FillTaskDescription.Text = ActivityDescription.Text;
 	        _task.Description = ActivityDescription.Text;
 	    }
 
 	    private void ActivityName_OnUnfocused(object sender, FocusEventArgs e)
 	    {
-	        TaskName.Text = ActivityName.Text;
+	        FillTaskName.Text = ActivityName.Text;
 	        _task.Name = ActivityName.Text;
 	    }
 

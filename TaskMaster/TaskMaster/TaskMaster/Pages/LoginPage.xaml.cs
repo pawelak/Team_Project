@@ -10,14 +10,14 @@ namespace TaskMaster.Pages
 			InitializeComponent ();
 		}
 
-	    private void Google_OnClicked(object sender, EventArgs e)
+	    private async void Google_OnClicked(object sender, EventArgs e)
 	    {
-	        throw new NotImplementedException();
+	        await Navigation.PushModalAsync(new ProviderLoginPage("Google"));
         }
 
-	    private void Facebook_OnClicked(object sender, EventArgs e)
+	    private async void Facebook_OnClicked(object sender, EventArgs e)
 	    {
-	        throw new NotImplementedException();
-	    }
+	        await Navigation.PushModalAsync(new ProviderLoginPage("FaceBook"));
+        }
 	}
 }

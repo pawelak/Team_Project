@@ -1,15 +1,19 @@
 ﻿using System.Collections.Generic;
-using System.Diagnostics;
-using System.Threading.Tasks;
 using Xamarin.Forms;
 using System;
+using System.Diagnostics;
+using Android.App;
 using Plugin.LocalNotifications;
+using TaskMaster.ModelsDto;
 
 namespace TaskMaster
 {
 	public partial class App
 	{
-	    private static UserDatabase _database;
+        DateTime _now;
+        private PartsOfActivityDto _actual;
+        private ActivitiesDto _activity;
+        private static UserDatabase _database;
 	    public static List<Stopwatches> Stopwatches = new List<Stopwatches>();
         private readonly UserServices _userServices = new UserServices();
         public static UserDatabase Database => _database ?? (_database = new UserDatabase(DependencyService.Get<IFileHelper>().GetLocalFilePath("UserSQLite.db3")));
@@ -20,7 +24,7 @@ namespace TaskMaster
         }
 
         protected override async void OnStart()
-        {
+        {            
             var result2 = await _userServices.GetActivitiesByStatus(StatusType.Planned);
             foreach (var activity in result2)
             {
@@ -42,5 +46,6 @@ namespace TaskMaster
 		{
 			// Handle when your app resumes
 		}
-	}
+       
+    }
 }

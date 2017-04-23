@@ -11,10 +11,9 @@ namespace TaskMaster
         private readonly UserServices _userServices = new UserServices();
         public MainPage()
 		{
-            
             InitializeComponent ();
 		    ListInitiate();
-        }
+		}
 
 	    protected override void OnAppearing()
 	    {
@@ -29,9 +28,10 @@ namespace TaskMaster
 	        {
 	            if (activity.TaskId == 0)
 	            {
-	                var item = new MainPageList
-	                {
-	                    Name = "Unnamed Activity " + activity.ActivityId,
+                    var item = new MainPageList
+                    {
+                        MyImageSource = ImageChoice(activity.Status),
+                        Name = "Unnamed Activity " + activity.ActivityId,
 	                    ActivityId = activity.ActivityId,
 	                    Duration = "0"
 	                };
@@ -42,7 +42,8 @@ namespace TaskMaster
 	                var task = await _userServices.GetTaskById(activity.TaskId);
 	                var item = new MainPageList
 	                {
-	                    Name = task.Name,
+                        MyImageSource = ImageChoice(activity.Status),
+                        Name = task.Name,
 	                    Description = task.Description,
 	                    ActivityId = activity.ActivityId,
 	                    TaskId = task.TaskId,
@@ -58,7 +59,8 @@ namespace TaskMaster
 	            {
 	                var item = new MainPageList
 	                {
-	                    Name = "Unnamed Activity " + activity.ActivityId,
+                        MyImageSource =  ImageChoice(activity.Status),
+                        Name = "Unnamed Activity " + activity.ActivityId,
 	                    ActivityId = activity.ActivityId,
 	                    Duration = "0"
 	                };
@@ -69,6 +71,7 @@ namespace TaskMaster
 	                var task = await _userServices.GetTaskById(activity.TaskId);
 	                var item = new MainPageList
 	                {
+                        MyImageSource = ImageChoice(activity.Status),
 	                    Name = task.Name,
 	                    Description = task.Description,
 	                    ActivityId = activity.ActivityId,
@@ -81,7 +84,12 @@ namespace TaskMaster
             ActiveTasks.ItemsSource = activeTasksList;
 	    }
 
-	    private async void StartTaskButton_OnClicked(object sender, EventArgs e)
+        private static string ImageChoice(StatusType status)
+        {
+            return status==StatusType.Start ? "playButton.png" : "pauseButton.png";
+        }
+
+        private async void StartTaskButton_OnClicked(object sender, EventArgs e)
 	    {
 	        await Navigation.PushModalAsync(new StartTaskPage());
 	    }
@@ -104,7 +112,8 @@ namespace TaskMaster
 	        var part = new PartsOfActivityDto
 	        {
 	            ActivityId = activity.ActivityId,
-	            Start = now.ToString("HH:mm:ss dd/MM/yyyy")
+	            Start = now.ToString("HH:mm:ss dd/MM/yyyy"),
+                Duration = "0"
 	        };
 	        var result = await _userServices.SavePartOfActivity(part);
 	        Stopwatch sw = new Stopwatch();
@@ -124,8 +133,6 @@ namespace TaskMaster
         { 
             await Navigation.PushModalAsync(new NavigationPage(new HistoryPage()));
 	    }
-
-       
 
 	    private async void ActiveTasks_OnItemTapped(object sender, ItemTappedEventArgs e)
 	    {

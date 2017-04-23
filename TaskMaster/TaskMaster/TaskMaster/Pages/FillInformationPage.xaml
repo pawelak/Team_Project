@@ -4,9 +4,8 @@
              x:Class="TaskMaster.Pages.FillInformationPage" BackgroundColor="{x:StaticResource BackgroundColor}">
     <ContentPage.Padding>
         <OnPlatform x:TypeArguments="Thickness"
-                    iOS="20, 40, 20, 20"
-                    Android="0, 0, 0, 0"
-                    WinPhone="20, 20, 20, 20" />
+                    iOS="0, 20, 0, 0"
+                    Android="0, 0, 0, 0" />
     </ContentPage.Padding>
     <ContentPage.Content>
         <StackLayout Orientation="Vertical">
@@ -14,14 +13,23 @@
                 <Label Text="{x:StaticResource FillTitle}" TextColor="{x:StaticResource TextColor}" 
                        FontFamily="{x:StaticResource Font}" FontSize="{x:StaticResource Header}"/>
             </StackLayout>
-            <StackLayout HeightRequest="50">
-                <StackLayout Orientation="Vertical" BackgroundColor="{x:StaticResource BackgroundButtonColor}">
-                    <Label x:Name="TaskName" HorizontalOptions="CenterAndExpand" TextColor="{x:StaticResource TextColor}"
-                           FontFamily="{x:StaticResource Font}" FontSize="{x:StaticResource Medium}"/>
-                    <Label x:Name="TaskDescription" HorizontalOptions="CenterAndExpand" TextColor="{x:StaticResource TextColor}"
-                           FontFamily="{x:StaticResource Font}" FontSize="{x:StaticResource Medium}"/>
-                    <Label x:Name="TaskDate" HorizontalOptions="CenterAndExpand" TextColor="{x:StaticResource TextColor}"
-                           FontFamily="{x:StaticResource Font}" FontSize="{x:StaticResource Medium}"/>
+            <StackLayout HeightRequest="50" Margin="10">
+                <StackLayout Orientation="Horizontal" BackgroundColor="{x:StaticResource BackgroundButtonColor}">
+                    <StackLayout WidthRequest="50">
+                        <Label Text="Obraz" TextColor="{x:StaticResource TextColor}"/>
+                    </StackLayout>
+                    <StackLayout Orientation="Vertical" HorizontalOptions="FillAndExpand">
+                        <Label x:Name="FillTaskName" HorizontalOptions="CenterAndExpand" TextColor="{x:StaticResource TextColor}"
+                               FontFamily="{x:StaticResource Font}" FontSize="{x:StaticResource Medium}"/>
+                        <Label x:Name="FillTaskDescription" HorizontalOptions="CenterAndExpand" TextColor="{x:StaticResource TextColor}"
+                               FontFamily="{x:StaticResource Font}" FontSize="{x:StaticResource Medium}"/>
+                        <Label x:Name="FillTaskDate" HorizontalOptions="CenterAndExpand" TextColor="{x:StaticResource TextColor}"
+                               FontFamily="{x:StaticResource Font}" FontSize="{x:StaticResource Medium}"/>
+                    </StackLayout>
+                    <StackLayout VerticalOptions="CenterAndExpand" WidthRequest="80">
+                        <Label x:Name="FillTaskDuration" TextColor="{x:StaticResource TextColor}"
+                               FontFamily="{x:StaticResource Font}" FontSize="{x:StaticResource Field}"/>
+                    </StackLayout>
                 </StackLayout>
             </StackLayout>
             <StackLayout Orientation="Horizontal" Padding="5" VerticalOptions="Center">

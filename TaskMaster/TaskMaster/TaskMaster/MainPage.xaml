@@ -13,64 +13,69 @@
         <ToolbarItem x:Name="HistoryPageItem" Order="Default" Priority="2" Clicked="HistoryPageItem_OnClicked" Icon="historyInactive.png"/>
     </ContentPage.ToolbarItems>
     <ContentPage.Content>
-        <StackLayout Orientation="Vertical">
-            <StackLayout Orientation="Horizontal" Spacing="1" HeightRequest="100">
+        <StackLayout Orientation="Vertical" Margin="0,40,0,40">
+            <StackLayout Orientation="Horizontal" HeightRequest="100" Padding="5">
                 <Button Text="{x:StaticResource StartTaskText}" 
                         x:Name="StartTaskButton" 
                         HorizontalOptions="Fill" 
-                        WidthRequest="100" 
+                        WidthRequest="110" 
                         Clicked="StartTaskButton_OnClicked" 
                         BackgroundColor="{x:StaticResource BackgroundButtonColor}" 
                         FontFamily="{x:StaticResource Font}" 
-                        FontSize="{x:StaticResource Button}"/>
+                        FontSize="{x:StaticResource Button}"
+                        TextColor="{x:StaticResource TextColor}"/>
                 <Button Text="{x:StaticResource PlanTaskText}" 
                         x:Name="PlanTaskButton" 
                         Image="planTaskStopwatch.png" 
                         ContentLayout="Bottom,0"
                         HorizontalOptions="Fill"  
-                        WidthRequest="100"  
-                        HeightRequest="100" 
+                        WidthRequest="110"  
+                        HeightRequest="150" 
                         Clicked="PlanTaskButton_OnClicked" 
                         BackgroundColor="{x:StaticResource BackgroundButtonColor}"
                         FontFamily="{x:StaticResource Font}" 
-                        FontSize="{x:StaticResource Button}" />
+                        FontSize="{x:StaticResource Button}"
+                        TextColor="{x:StaticResource TextColor}"/>
                 <Button Text="{x:StaticResource FastTaskText}" 
                         x:Name="FastTaskButton" 
-                        Image="fastStart.png" 
+                        Image="fastStartButton.png" 
                         ContentLayout="Bottom,0" 
                         HorizontalOptions="Fill"  
-                        WidthRequest="100" 
-                        HeightRequest="100"  
+                        WidthRequest="110" 
+                        HeightRequest="150"  
                         Clicked="FastTaskButton_OnClicked" 
                         BackgroundColor="{x:StaticResource BackgroundButtonColor}"
                         FontFamily="{x:StaticResource Font}" 
-                        FontSize="{x:StaticResource Button}"/>
+                        FontSize="{x:StaticResource Button}"
+                        TextColor="{x:StaticResource TextColor}"/>
             </StackLayout>
-            <StackLayout Spacing="0" HeightRequest="10">
+            <StackLayout Spacing="0" HeightRequest="10" Margin="0,20,0,20">
                 <Label Text="{x:StaticResource WelcomeText}" HorizontalOptions="FillAndExpand" VerticalOptions="Center" TextColor="{x:StaticResource TextColor}"
                        FontFamily="{x:StaticResource Font}" FontSize="{x:StaticResource Medium}" />
-            </StackLayout>
-            <StackLayout HeightRequest="20">
-                
             </StackLayout>
             <StackLayout>
                 <ListView x:Name="ActiveTasks" HasUnevenRows="False" ItemTapped="ActiveTasks_OnItemTapped">
                     <ListView.Header>
-                        <Label Text="{x:StaticResource ActiveTasksHeader}" TextColor="{x:StaticResource TextColor}" FontFamily="{x:StaticResource Font}" FontSize="{x:StaticResource Medium}"/>
+                        <Label Text="{x:StaticResource ActiveText}" TextColor="{x:StaticResource TextColor}" FontFamily="{x:StaticResource Font}" FontSize="{x:StaticResource Medium}"/>
                     </ListView.Header>
                     <ListView.ItemTemplate>
                         <DataTemplate>
                             <ViewCell>
                                 <StackLayout Orientation="Vertical" BackgroundColor="{x:StaticResource BackgroundButtonColor}">
                                     <StackLayout Orientation="Horizontal">
-                                        <Label Text="{Binding Name}" TextColor="{x:StaticResource TextColor}"
-                                               FontFamily="{x:StaticResource Font}" FontSize="{x:StaticResource Medium}" />
-                                        <Label Text="{Binding Duration}" TextColor="{x:StaticResource TextColor}" HorizontalOptions="EndAndExpand"
-                                               FontFamily="{x:StaticResource Font}" FontSize="{x:StaticResource Medium}"/>
-                                    </StackLayout>
-                                    <StackLayout>
-                                        <Label Text="{Binding Description}" TextColor="{x:StaticResource TextColor}"
-                                               FontFamily="{x:StaticResource Font}" FontSize="{x:StaticResource Medium}"/>
+                                        <StackLayout WidthRequest="50" VerticalOptions="Center" HorizontalOptions="Center">
+                                            <Image  Source="{Binding MyImageSource} "/>
+                                        </StackLayout>
+                                        <StackLayout Orientation="Vertical" HorizontalOptions="FillAndExpand">
+                                            <Label Text="{Binding Name}" TextColor="{x:StaticResource TextColor}"
+                                                   FontFamily="{x:StaticResource Font}" FontSize="{x:StaticResource Medium}" />
+                                            <Label Text="{Binding Description}" TextColor="{x:StaticResource TextColor}"
+                                                   FontFamily="{x:StaticResource Font}" FontSize="{x:StaticResource Field}"/>
+                                        </StackLayout>
+                                        <StackLayout>
+                                            <Label Text="{Binding Duration}" TextColor="{x:StaticResource TextColor}" HorizontalOptions="EndAndExpand"
+                                                   FontFamily="{x:StaticResource Font}" FontSize="{x:StaticResource Medium}"/>
+                                        </StackLayout>
                                     </StackLayout>
                                 </StackLayout>
                             </ViewCell>
