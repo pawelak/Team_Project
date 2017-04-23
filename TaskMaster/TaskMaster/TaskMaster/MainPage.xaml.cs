@@ -84,16 +84,9 @@ namespace TaskMaster
             ActiveTasks.ItemsSource = activeTasksList;
 	    }
 
-        private string ImageChoice(StatusType status)
+        private static string ImageChoice(StatusType status)
         {
-            if (status==StatusType.Start)
-            {
-                return "playButton.png";
-            }
-            else
-            {
-                return "pauseButton.png";
-            }
+            return status==StatusType.Start ? "playButton.png" : "pauseButton.png";
         }
 
         private async void StartTaskButton_OnClicked(object sender, EventArgs e)
@@ -140,8 +133,6 @@ namespace TaskMaster
         { 
             await Navigation.PushModalAsync(new NavigationPage(new HistoryPage()));
 	    }
-
-       
 
 	    private async void ActiveTasks_OnItemTapped(object sender, ItemTappedEventArgs e)
 	    {
