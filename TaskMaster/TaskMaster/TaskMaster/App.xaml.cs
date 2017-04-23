@@ -1,11 +1,7 @@
 ﻿using System.Collections.Generic;
-using System.Diagnostics;
-using System.Threading.Tasks;
 using Xamarin.Forms;
 using System;
-using System.Linq;
 using Plugin.LocalNotifications;
-using TaskMaster.Pages;
 using TaskMaster.ModelsDto;
 
 namespace TaskMaster
@@ -37,29 +33,6 @@ namespace TaskMaster
                     CrossLocalNotifications.Current.Show(task.Name, "Za 5 minut", part.PartId, DateTime.Parse(part.Start).AddMinutes(-5)); 
                 }
             }            
-        }
-        protected async void OnStop()
-        {
-          _now = DateTime.Now;
-            string date = _now.ToString("HH:mm:ss dd/MM/yyyy");
-           
-            var result = await _userServices.GetActivitiesByStatus(StatusType.Start);
-            foreach (var activity in result)
-            {
-                _activity = await _userServices.GetActivity(activity.ActivityId);
-                _activity.Status = StatusType.Pause;
-                _actual = await _userServices.GetLastActivityPart(activity.ActivityId);
-                _actual.Stop = date;
-                var sw = new Stopwatch();
-                var firstOrDefault = Stopwatches.FirstOrDefault(s => s.GetPartId() == _actual.PartId);
-                if (firstOrDefault != null)
-                    sw = firstOrDefault.GetStopwatch();
-                _actual.Duration = sw.ElapsedMilliseconds.ToString();
-                await _userServices.SaveActivity(_activity);
-                await _userServices.SavePartOfActivity(_actual);
-
-            }
-
         }
 
         protected override void OnSleep ()
