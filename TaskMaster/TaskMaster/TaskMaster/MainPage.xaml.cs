@@ -72,7 +72,8 @@ namespace TaskMaster
 	                    Description = task.Description,
 	                    ActivityId = activity.ActivityId,
 	                    TaskId = task.TaskId,
-	                    Duration = "0"
+	                    Duration = "0",
+                        Image = " "
 	                };
 	                activeTasksList.Add(item);
 	            }

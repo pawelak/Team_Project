@@ -11,16 +11,13 @@
             </OnPlatform>
             <!--App Font sizes-->
             <x:Double x:Key="Header">24</x:Double>
-            <x:Double x:Key="Field">10</x:Double>
+            <x:Double x:Key="Field">12</x:Double>
             <x:Double x:Key="Medium">18</x:Double>
             <x:Double x:Key="Button">8</x:Double>
             <!-- App Colors -->
             <Color x:Key="BackgroundColor">#2049A5</Color>
             <Color x:Key="BackgroundButtonColor">#2E52A8</Color>
             <Color x:Key="TextColor">White</Color>
-
-            <!-- Active Tasks Page -->
-            <x:String x:Key="ActiveTasksHeader">Aktywne taski</x:String>
 
             <!-- Edit Task Page -->
             <x:String x:Key="EditTitle">Edytuj task</x:String>
@@ -36,7 +33,7 @@
             <x:String x:Key="StartTaskText">Rozpocznij aktywność</x:String>
             <x:String x:Key="PlanTaskText">Zaplanuj task</x:String>
             <x:String x:Key="FastTaskText">Szybki start</x:String>
-            <x:String x:Key="ActiveText">Twoje Taski</x:String>
+            <x:String x:Key="ActiveText">Twoje Taski: </x:String>
 
             <!-- Calender Day List Page -->
             <x:String x:Key="DayPlan">Plan Dnia</x:String>

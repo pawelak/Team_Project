@@ -8,19 +8,19 @@
                     Android="0, 0, 0, 0" />
     </ContentPage.Padding>
     <ContentPage.Content>
-        <StackLayout Orientation="Vertical">
+        <StackLayout Orientation="Vertical" Padding="0,10,0,0">
             <StackLayout>
-                <Label Text="{x:StaticResource StartTaskHeader}"
+                <Label Text="{x:StaticResource StartTaskHeader}" TextColor="{x:StaticResource TextColor}"
                        FontFamily="{x:StaticResource Font}" FontSize="{x:StaticResource Header}"/>
             </StackLayout>
             <StackLayout Orientation="Horizontal">
-                <Label Text="{x:StaticResource StartNameText}" WidthRequest="70" TextColor="{x:StaticResource TextColor}" HorizontalTextAlignment="End"
+                <Label Text="{x:StaticResource StartNameText}" WidthRequest="70" TextColor="{x:StaticResource TextColor}" HorizontalTextAlignment="End" VerticalTextAlignment="Center"
                        FontFamily="{x:StaticResource Font}" FontSize="{x:StaticResource Field}"/>
                 <Entry x:Name="StartTaskName" BackgroundColor="{x:StaticResource BackgroundButtonColor}" TextColor="{x:StaticResource TextColor}" HorizontalOptions="FillAndExpand"
                        FontFamily="{x:StaticResource Font}" FontSize="{x:StaticResource Field}"/>
             </StackLayout>
             <StackLayout Orientation="Horizontal">
-                <Label Text="{x:StaticResource StartDescriptionText}" WidthRequest="70" TextColor="{x:StaticResource TextColor}" HorizontalTextAlignment="End"
+                <Label Text="{x:StaticResource StartDescriptionText}" WidthRequest="70" TextColor="{x:StaticResource TextColor}" HorizontalTextAlignment="End" VerticalTextAlignment="Center"
                        FontFamily="{x:StaticResource Font}" FontSize="{x:StaticResource Field}"/>
                 <Entry x:Name="StartTaskDescription" BackgroundColor="{x:StaticResource BackgroundButtonColor}" TextColor="{x:StaticResource TextColor}" HorizontalOptions="FillAndExpand"
                        FontFamily="{x:StaticResource Font}" FontSize="{x:StaticResource Field}"/>
