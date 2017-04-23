@@ -38,7 +38,7 @@
                         TextColor="{x:StaticResource TextColor}"/>
                 <Button Text="{x:StaticResource FastTaskText}" 
                         x:Name="FastTaskButton" 
-                        Image="fastStart.png" 
+                        Image="fastStartButton.png" 
                         ContentLayout="Bottom,0" 
                         HorizontalOptions="Fill"  
                         WidthRequest="110" 
