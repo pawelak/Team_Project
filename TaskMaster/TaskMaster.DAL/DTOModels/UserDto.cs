@@ -9,11 +9,7 @@ namespace TaskMaster.DAL.DTOModels
 {
     public class UserDto
     {
-        public UserDto(Models.User X)
-        {
-            Mapper.Initialize(cfg => cfg.CreateMap<Models.User, UserDto>());
-            Mapper.Map<Models.User, UserDto>(X, this);
-        }
+
 
         public string Email { get; set; }
         public string Name { get; set; }

@@ -2,9 +2,56 @@
 <Application xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="TaskMaster.App">
-	<Application.Resources>
+    <Application.Resources>
+        <ResourceDictionary>
+            <!-- App Font-->
+            <OnPlatform x:TypeArguments="x:String" x:Key="Font">
+                <OnPlatform.iOS>Quicksand-Regular</OnPlatform.iOS>
+                <OnPlatform.Android>Quicksand-Regular.ttf#Quicksand-Regular</OnPlatform.Android>
+            </OnPlatform>
+            <!--App Font sizes-->
+            <x:Double x:Key="Header">24</x:Double>
+            <x:Double x:Key="Field">12</x:Double>
+            <x:Double x:Key="Medium">18</x:Double>
+            <x:Double x:Key="Button">8</x:Double>
+            <!-- App Colors -->
+            <Color x:Key="BackgroundColor">#2049A5</Color>
+            <Color x:Key="BackgroundButtonColor">#2E52A8</Color>
+            <Color x:Key="TextColor">White</Color>
 
-		<!-- Application resource dictionary -->
+            <!-- Edit Task Page -->
+            <x:String x:Key="EditTitle">Edytuj task</x:String>
+            <x:String x:Key="ResumeButtonText">Wznów aktywność</x:String>
+            <x:String x:Key="PauseButtonText">Zapauzuj aktywność</x:String>
+            <x:String x:Key="StopButtonText">Zakończ aktywność</x:String>
+            <!-- Fill Information Page -->
+            <x:String x:Key="FillTitle">Uzupełnij informacje</x:String>
+            <!-- History Page -->
+            <x:String x:Key="History">Historia</x:String>
+            <!-- Main Page -->
+            <x:String x:Key="WelcomeText">Witaj w TaskMaster!</x:String>
+            <x:String x:Key="StartTaskText">Rozpocznij aktywność</x:String>
+            <x:String x:Key="PlanTaskText">Zaplanuj task</x:String>
+            <x:String x:Key="FastTaskText">Szybki start</x:String>
+            <x:String x:Key="ActiveText">Twoje Taski: </x:String>
 
-	</Application.Resources>
+            <!-- Calender Day List Page -->
+            <x:String x:Key="DayPlan">Plan Dnia</x:String>
+
+            <!-- Plan Task Page -->
+            <x:String x:Key="PlanLabel">Zaplanuj task</x:String>
+            <x:String x:Key="NameText">nazwa:</x:String>
+            <x:String x:Key="DescriptionText">komentarz:</x:String>
+            <x:String x:Key="DateStartText">data roz:</x:String>
+            <x:String x:Key="DateStopText">data kon:</x:String>
+            <x:String x:Key="StartPlanText">Zaplanuj aktywność</x:String>
+
+            <!-- Start Task Page -->
+            <x:String x:Key="StartTaskHeader">Podaj dane aktywności:</x:String>
+            <x:String x:Key="StartNameText">nazwa:</x:String>
+            <x:String x:Key="StartDescriptionText">komentarz:</x:String>
+            <x:String x:Key="StartTaskButtonText">Rozpocznij aktywność</x:String>
+            
+        </ResourceDictionary>
+    </Application.Resources>
 </Application>

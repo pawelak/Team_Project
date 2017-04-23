@@ -1,0 +1,62 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="TaskMaster.PlanTaskPage" BackgroundColor="{x:StaticResource BackgroundColor}">
+    <ContentPage.Padding>
+        <OnPlatform x:TypeArguments="Thickness"
+                    iOS="0, 20, 0, 0"
+                    Android="0, 0, 0, 0" />
+    </ContentPage.Padding>
+    <ContentPage.Content>
+        <StackLayout Orientation="Vertical">
+            <StackLayout Padding="5">
+                <Label x:Name="PlanTitle" Text="{x:StaticResource PlanLabel}" TextColor="{x:StaticResource TextColor}" 
+                       FontFamily="{x:StaticResource Font}" FontSize="{x:StaticResource Header}"/>
+            </StackLayout>
+            <StackLayout HeightRequest="50" Padding="10">
+                <StackLayout Orientation="Vertical"  BackgroundColor="{x:StaticResource BackgroundButtonColor}">
+                    <Label x:Name="TaskName" HorizontalOptions="CenterAndExpand" TextColor="{x:StaticResource TextColor}"
+                           FontFamily="{x:StaticResource Font}" FontSize="{x:StaticResource Medium}"/>
+                    <Label x:Name="TaskDescription" HorizontalOptions="CenterAndExpand" TextColor="{x:StaticResource TextColor}"
+                           FontFamily="{x:StaticResource Font}" FontSize="{x:StaticResource Medium}"/>
+                    <Label x:Name="TaskDate" HorizontalOptions="CenterAndExpand" TextColor="{x:StaticResource TextColor}"
+                           FontFamily="{x:StaticResource Font}" FontSize="{x:StaticResource Medium}"/>
+                </StackLayout>
+            </StackLayout>
+            <StackLayout Orientation="Horizontal" Spacing="2" Padding="10">
+                <Label Text="{x:StaticResource NameText}" WidthRequest="70" HorizontalTextAlignment="End" VerticalOptions="Center" TextColor="{x:StaticResource TextColor}"
+                       FontFamily="{x:StaticResource Font}" FontSize="{x:StaticResource Field}"/>
+                <Entry x:Name="ActivityName" HorizontalOptions="FillAndExpand" TextColor="{x:StaticResource TextColor}" Unfocused="ActivityName_OnUnfocused" 
+                       BackgroundColor="{x:StaticResource BackgroundButtonColor}"
+                       FontFamily="{x:StaticResource Font}" FontSize="{x:StaticResource Field}"/>
+            </StackLayout>
+            <StackLayout Orientation="Horizontal" Spacing="2" Padding="10">
+                <Label Text="{x:StaticResource DateStartText}" WidthRequest="70" HorizontalTextAlignment="End" VerticalOptions="Center" TextColor="{x:StaticResource TextColor}"
+                       FontFamily="{x:StaticResource Font}" FontSize="{x:StaticResource Field}"/>
+                <DatePicker x:Name="PlanTaskStartDate" Format="dd/MM/yyyy" HorizontalOptions="Fill" TextColor="{x:StaticResource TextColor}" Unfocused="PlanTaskStartDate_OnUnfocused" 
+                            BackgroundColor="{x:StaticResource BackgroundButtonColor}"/>
+                <TimePicker x:Name="PlanTaskStartTime" Format="HH:mm" HorizontalOptions="Fill" TextColor="{x:StaticResource TextColor}" Unfocused="PlanTaskStartTime_OnUnfocused" 
+                            BackgroundColor="{x:StaticResource BackgroundButtonColor}"/>
+            </StackLayout>
+            <StackLayout Orientation="Horizontal" Spacing="2" Padding="10">
+                <Label Text="{x:StaticResource DateStopText}" WidthRequest="70" HorizontalTextAlignment="End" VerticalOptions="Center" TextColor="{x:StaticResource TextColor}"
+                       FontFamily="{x:StaticResource Font}" FontSize="{x:StaticResource Field}"/>
+                <DatePicker x:Name="PlanTaskStopDate" Format="dd/MM/yyyy" HorizontalOptions="Fill" TextColor="{x:StaticResource TextColor}" 
+                            BackgroundColor="{x:StaticResource BackgroundButtonColor}"/>
+                <TimePicker x:Name="PlanTaskStopTime" Format="HH:mm" HorizontalOptions="Fill" TextColor="{x:StaticResource TextColor}" 
+                            BackgroundColor="{x:StaticResource BackgroundButtonColor}"/>
+            </StackLayout>
+            <StackLayout Orientation="Horizontal" Spacing="2" Padding="10">
+                <Label Text="{x:StaticResource DescriptionText}" WidthRequest="70" HorizontalTextAlignment="End" VerticalOptions="Center" TextColor="{x:StaticResource TextColor}"
+                       FontFamily="{x:StaticResource Font}" FontSize="{x:StaticResource Field}"/>
+                <Entry x:Name="ActivityDescription" HorizontalOptions="FillAndExpand" TextColor="{x:StaticResource TextColor}" Unfocused="ActivityDescription_OnUnfocused" 
+                       BackgroundColor="{x:StaticResource BackgroundButtonColor}"
+                       FontFamily="{x:StaticResource Font}" FontSize="{x:StaticResource Field}"/>
+            </StackLayout>
+            <StackLayout VerticalOptions="EndAndExpand">
+                <Button Text="{x:StaticResource StartPlanText}" x:Name="PlanTaskStartButton" Clicked="PlanTaskStartButton_OnClicked"
+                        FontFamily="{x:StaticResource Font}" FontSize="{x:StaticResource Medium}"/>
+            </StackLayout>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

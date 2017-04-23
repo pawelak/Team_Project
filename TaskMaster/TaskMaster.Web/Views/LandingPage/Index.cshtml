@@ -1,17 +1,105 @@
-﻿
-@{
+﻿@{
     Layout = null;
 }
 
 <!DOCTYPE html>
-
-<html>
+<html lang="pl">
 <head>
     <meta name="viewport" content="width=device-width" />
-    <title>Index</title>
+    <title>TaskMaster</title>   
+    <link rel="stylesheet" href="../../Content/bootstrap.min.css"/>
+    <link rel="stylesheet" href="../../Content/style.css" />
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Quicksand">   
+    <script type="text/javascript" src="../../Content/dictionary.json"> </script>
+    <script src="~/Scripts/jquery-3.1.1.min.js"></script>    
+    @*<script>
+        $.getJSON('./../../Content/dictionary.json', function(data){
+            console.log(data);            
+        });
+    </script>*@  
 </head>
 <body>
-    <div> 
+<nav class="navbar navbar-default">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#">
+                <img src="../../images/TMLogo3.png"/>
+            </a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="#">Logowanie</a></li>
+                <li><a href="#">Rejestracja</a></li>
+            </ul>
+        </div>
     </div>
+</nav>
+<div class="row loggingSection">
+    <div class="col-md-6 col-xs-12">
+        <div class="col-md-6 col-md-offset-4">
+            <h2>Zapanuj nad swoim czasem!</h2>
+            <p>Dzięki aplikacji TaskMaster możesz mierzyć czas wykonywania twoich zadań. </p>
+        </div>
+    </div>
+    <div class="col-md-6 col-xs-12">
+        <form class="form-horizontal">
+            <fieldset>
+                <div class="form-group">
+                    <div class="col-md-6 col-md-offset-3">
+                        <button class="googleButton btn btn-success "><img src="../../images/google.png"/></button>
+                        <button class="facebookButton btn btn-info"><img src="../../images/facebook.png"/></button>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-6 col-md-offset-3">
+                        <input type="text" class="form-control" id="inputEmail" placeholder="Email">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-6 col-md-offset-3">
+                        <input type="password" class="form-control" id="inputPassword" placeholder="Hasło">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-6 col-md-offset-3">
+                        <button type="submit" class="btn btn-primary">Zaloguj</button>
+                    </div>
+                </div>
+            </fieldset>
+        </form>
+    </div>
+</div>
+<div class="howItWorksSection">
+    <div class="row ">
+        <div class="col-md-6 col-md-offset-3">
+            <h3>Jak działa aplikacja?</h3>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+            <p>1. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam id tristique odio. Duis vitae odio nisi. Proin bibendum convallis gravida. Suspendisse non nulla convallis, tincidunt velit aliquet, semper elit.</p>
+        </div>
+        <div class="col-md-4">
+            <p>2. Fusce nec enim eu magna varius vulputate. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.</p>
+        </div>
+        <div class="col-md-4">
+            <p>3. Sed venenatis, quam vel hendrerit maximus, dui urna tempor leo, ullamcorper hendrerit diam magna ac ipsum.</p>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    $(".googleButton").click(function() {
+        $(this).css('border', "solid 2px red");
+    });
+</script>
+
 </body>
 </html>

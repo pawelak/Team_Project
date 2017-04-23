@@ -1,0 +1,27 @@
+﻿{
+  "pl": {
+    "landingPage": {
+      "navigationBar": {
+        "signUp": "Rejestracja",
+        "signIn": "Logowanie"
+      }
+    },
+    "mainPanel": {
+      "left": {
+        "mainText": "Zapanuj nad swoim czasem!",
+        "additionalText": "Dzięki aplikacji TaskMaster możesz mierzyć czas wykonywania twoich zadań."
+      },
+      "right": {
+        "email": "Email",
+        "password": "Hasło",
+        "signIn": "zaloguj"
+      }
+    },
+    "HowItWorksSection": {
+      "title": "Jak działa aplikacja?",
+      "1": "1. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam id tristique odio. Duis vitae odio nisi. Proin bibendum convallis gravida. Suspendisse non nulla convallis, tincidunt velit aliquet, semper elit.",
+      "2": "2. Fusce nec enim eu magna varius vulputate. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.",
+      "3": "3. Sed venenatis, quam vel hendrerit maximus, dui urna tempor leo, ullamcorper hendrerit diam magna ac ipsum." 
+    }  
+  } 
+}

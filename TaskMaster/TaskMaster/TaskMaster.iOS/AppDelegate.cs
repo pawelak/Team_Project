@@ -1,31 +1,43 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Foundation;
+using System;
+using System.Diagnostics;
 using System.Linq;
-
-using Foundation;
 using UIKit;
-
 namespace TaskMaster.iOS
 {
-	// The UIApplicationDelegate for the application. This class is responsible for launching the 
-	// User Interface of the application, as well as listening (and optionally responding) to 
-	// application events from iOS.
 	[Register("AppDelegate")]
-	public partial class AppDelegate : global::Xamarin.Forms.Platform.iOS.FormsApplicationDelegate
+	public class AppDelegate : Xamarin.Forms.Platform.iOS.FormsApplicationDelegate
 	{
-		//
-		// This method is invoked when the application has loaded and is ready to run. In this 
-		// method you should instantiate the window, load the UI into it and then make the window
-		// visible.
-		//
-		// You have 17 seconds to return from this method, or iOS will terminate your application.
-		//
-		public override bool FinishedLaunching(UIApplication app, NSDictionary options)
+        private readonly UserServices _userServices = new UserServices();
+        public override bool FinishedLaunching(UIApplication app, NSDictionary options)
 		{
-			global::Xamarin.Forms.Forms.Init ();
-			LoadApplication (new TaskMaster.App ());
-
+			Xamarin.Forms.Forms.Init ();
+            XamForms.Controls.iOS.Calendar.Init();
+            LoadApplication (new App ());
 			return base.FinishedLaunching (app, options);
 		}
-	}
+	    public override void DidEnterBackground(UIApplication application)
+	    {
+            PauseActivities();
+        }
+        private async void PauseActivities()
+        {
+            var now = DateTime.Now;
+            string date = now.ToString("HH:mm:ss dd/MM/yyyy");
+            var result = await _userServices.GetActivitiesByStatus(StatusType.Start);
+            foreach (var activity in result)
+            {
+                activity.Status = StatusType.Pause;
+                var actual = await _userServices.GetLastActivityPart(activity.ActivityId);
+                actual.Stop = date;
+                var sw = new Stopwatch();
+                var firstOrDefault = App.Stopwatches.FirstOrDefault(s => s.GetPartId() == actual.PartId);
+                if (firstOrDefault != null)
+                    sw = firstOrDefault.GetStopwatch();
+                actual.Duration = sw.ElapsedMilliseconds.ToString();
+                await _userServices.SaveActivity(activity);
+                await _userServices.SavePartOfActivity(actual);
+            }
+        }
+    }
 }

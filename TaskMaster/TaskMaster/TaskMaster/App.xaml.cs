@@ -1,27 +1,43 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
+﻿using System.Collections.Generic;
 using Xamarin.Forms;
+using System;
+using System.Diagnostics;
+using Android.App;
+using Plugin.LocalNotifications;
+using TaskMaster.ModelsDto;
 
 namespace TaskMaster
 {
-	public partial class App : Application
+	public partial class App
 	{
-		public App ()
+        DateTime _now;
+        private PartsOfActivityDto _actual;
+        private ActivitiesDto _activity;
+        private static UserDatabase _database;
+	    public static List<Stopwatches> Stopwatches = new List<Stopwatches>();
+        private readonly UserServices _userServices = new UserServices();
+        public static UserDatabase Database => _database ?? (_database = new UserDatabase(DependencyService.Get<IFileHelper>().GetLocalFilePath("UserSQLite.db3")));
+	    public App ()
 		{
-			InitializeComponent();
+            InitializeComponent();
+			MainPage = new NavigationPage(new MainPage());
+        }
 
-			MainPage = new TaskMaster.MainPage();
-		}
+        protected override async void OnStart()
+        {            
+            var result2 = await _userServices.GetActivitiesByStatus(StatusType.Planned);
+            foreach (var activity in result2)
+            {
+                var task = await _userServices.GetTaskById(activity.TaskId);
+                var parts = await _userServices.GetPartsOfActivityByActivityId(activity.ActivityId);
+                foreach (var part in parts)
+                {
+                    CrossLocalNotifications.Current.Show(task.Name, "Za 5 minut", part.PartId, DateTime.Parse(part.Start).AddMinutes(-5)); 
+                }
+            }            
+        }
 
-		protected override void OnStart ()
-		{
-			// Handle when your app starts
-		}
-
-		protected override void OnSleep ()
+        protected override void OnSleep ()
 		{
 			// Handle when your app sleeps
 		}
@@ -30,5 +46,6 @@ namespace TaskMaster
 		{
 			// Handle when your app resumes
 		}
-	}
+       
+    }
 }

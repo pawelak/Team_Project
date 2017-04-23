@@ -18,7 +18,7 @@ namespace TaskMaster.DAL
             deflautUsers.Add(new User() {Email = "dlapawela@gmail.com" , Name = "Pawełek" });
             deflautUsers.Add(new User() {Email = "dlabartosza@gmail.com",Name = "Bartoszek" });
 
-            foreach (User ELEM in deflautUsers) context.User.Add(ELEM);
+            foreach (User elem in deflautUsers) context.User.Add(elem);
 
             base.Seed(context);
 

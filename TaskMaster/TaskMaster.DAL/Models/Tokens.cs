@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-
-namespace TaskMaster.DAL.Models
+﻿namespace TaskMaster.DAL.Models
 {
     public class Tokens
     {
@@ -12,7 +7,6 @@ namespace TaskMaster.DAL.Models
         public string Token { get; set; }
         public BrowserType BrowserType { get; set; }
         public PlatformType PlatformType { get; set; }
-
         public int UserId { get; set; }
         public User User { get; set; }   
     }
