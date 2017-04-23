@@ -63,9 +63,8 @@
                             <ViewCell>
                                 <StackLayout Orientation="Vertical" BackgroundColor="{x:StaticResource BackgroundButtonColor}">
                                     <StackLayout Orientation="Horizontal">
-                                        <StackLayout WidthRequest="50">
-                                            <Label Text="Typ stop" TextColor="{x:StaticResource TextColor}"
-                                                   FontFamily="{x:StaticResource Font}" FontSize="{x:StaticResource Medium}"/>
+                                        <StackLayout WidthRequest="50" VerticalOptions="Center" HorizontalOptions="Center">
+                                            <Image  Source="{Binding MyImageSource} "/>
                                         </StackLayout>
                                         <StackLayout Orientation="Vertical" HorizontalOptions="FillAndExpand">
                                             <Label Text="{Binding Name}" TextColor="{x:StaticResource TextColor}"

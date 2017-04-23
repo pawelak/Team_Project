@@ -28,9 +28,10 @@ namespace TaskMaster
 	        {
 	            if (activity.TaskId == 0)
 	            {
-	                var item = new MainPageList
-	                {
-	                    Name = "Unnamed Activity " + activity.ActivityId,
+                    var item = new MainPageList
+                    {
+                        MyImageSource = ImageChoice(activity.Status),
+                        Name = "Unnamed Activity " + activity.ActivityId,
 	                    ActivityId = activity.ActivityId,
 	                    Duration = "0"
 	                };
@@ -41,7 +42,8 @@ namespace TaskMaster
 	                var task = await _userServices.GetTaskById(activity.TaskId);
 	                var item = new MainPageList
 	                {
-	                    Name = task.Name,
+                        MyImageSource = ImageChoice(activity.Status),
+                        Name = task.Name,
 	                    Description = task.Description,
 	                    ActivityId = activity.ActivityId,
 	                    TaskId = task.TaskId,
@@ -57,7 +59,8 @@ namespace TaskMaster
 	            {
 	                var item = new MainPageList
 	                {
-	                    Name = "Unnamed Activity " + activity.ActivityId,
+                        MyImageSource =  ImageChoice(activity.Status),
+                        Name = "Unnamed Activity " + activity.ActivityId,
 	                    ActivityId = activity.ActivityId,
 	                    Duration = "0"
 	                };
@@ -68,6 +71,7 @@ namespace TaskMaster
 	                var task = await _userServices.GetTaskById(activity.TaskId);
 	                var item = new MainPageList
 	                {
+                        MyImageSource = ImageChoice(activity.Status),
 	                    Name = task.Name,
 	                    Description = task.Description,
 	                    ActivityId = activity.ActivityId,
@@ -80,7 +84,19 @@ namespace TaskMaster
             ActiveTasks.ItemsSource = activeTasksList;
 	    }
 
-	    private async void StartTaskButton_OnClicked(object sender, EventArgs e)
+        private string ImageChoice(StatusType status)
+        {
+            if (status==StatusType.Start)
+            {
+                return "playButton.png";
+            }
+            else
+            {
+                return "pauseButton.png";
+            }
+        }
+
+        private async void StartTaskButton_OnClicked(object sender, EventArgs e)
 	    {
 	        await Navigation.PushModalAsync(new StartTaskPage());
 	    }
