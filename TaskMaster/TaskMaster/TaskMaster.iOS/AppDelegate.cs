@@ -10,8 +10,11 @@ namespace TaskMaster.iOS
 			Xamarin.Forms.Forms.Init ();
             XamForms.Controls.iOS.Calendar.Init();
             LoadApplication (new App ());
-
 			return base.FinishedLaunching (app, options);
 		}
-	}
+	    public override void DidEnterBackground(UIApplication application)
+	    {
+
+	    }
+    }
 }

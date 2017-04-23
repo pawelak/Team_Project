@@ -24,7 +24,7 @@ namespace TaskMaster.Droid
             LoadApplication(new App());
         }
 
-        protected override void OnPause()
+        protected override void OnStop()
         {
             PauseActivities();
         }
