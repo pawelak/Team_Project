@@ -13,8 +13,33 @@ namespace TaskMaster
 		{
             InitializeComponent ();
 		    ListInitiate();
-        }
+		    TasksRestart();
+		}
 
+        private async void TasksRestart()
+        {
+            DateTime now = new DateTime();
+            var result = await _userServices.GetActivitiesByStatus(StatusType.Pause);
+            foreach (var activity in result)
+            {
+                var decision = await DisplayAlert("Wznowienie", "Czy chcesz wznowić aktywność", "Tak", "Nie");
+                if (decision)
+                {
+                    activity.Status = StatusType.Start;
+                    var part = new PartsOfActivityDto
+                    {
+                        ActivityId = activity.ActivityId,
+                        Start = now.ToString("HH:mm:ss dd/MM/yyyy")
+                    };
+                    part.PartId = await _userServices.SavePartOfActivity(part);
+                    var sw = new Stopwatch();
+                    Stopwatches stopwatch = new Stopwatches(sw, part.PartId);
+                    App.Stopwatches.Add(stopwatch);
+                    App.Stopwatches[App.Stopwatches.Count - 1].Start();
+                    await _userServices.SaveActivity(activity);
+                }
+            }
+        }
 	    protected override void OnAppearing()
 	    {
 	        ListInitiate();
