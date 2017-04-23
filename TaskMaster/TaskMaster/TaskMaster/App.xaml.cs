@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 using System;
+using System.Linq;
 using Plugin.LocalNotifications;
 using TaskMaster.Pages;
 using TaskMaster.ModelsDto;
@@ -49,7 +50,11 @@ namespace TaskMaster
                 _activity.Status = StatusType.Pause;
                 _actual = await _userServices.GetLastActivityPart(activity.ActivityId);
                 _actual.Stop = date;
-                _actual.Duration = ((DateTime.Parse(_actual.Stop)- DateTime.Parse(_actual.Start)).ToString("HH:mm:ss"));
+                var sw = new Stopwatch();
+                var firstOrDefault = Stopwatches.FirstOrDefault(s => s.GetPartId() == _actual.PartId);
+                if (firstOrDefault != null)
+                    sw = firstOrDefault.GetStopwatch();
+                _actual.Duration = sw.ElapsedMilliseconds.ToString();
                 await _userServices.SaveActivity(_activity);
                 await _userServices.SavePartOfActivity(_actual);
 
