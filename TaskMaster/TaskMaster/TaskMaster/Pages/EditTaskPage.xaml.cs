@@ -10,6 +10,7 @@ namespace TaskMaster.Pages
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class EditTaskPage
     {
+        private bool _isPageNotChanged = true;
         private readonly UserService _userService = new UserService();
         private Stopwatch _stopwatch;
         private PartsOfActivityDto _actual;
@@ -39,29 +40,28 @@ namespace TaskMaster.Pages
             };
             TaskDates.Text = _actual.Start;
             var parts = await _userService.GetPartsOfActivityByActivityId(_activity.ActivityId);
-            foreach (var part in parts)
-            {
-                _duration +=long.Parse(part.Duration);
-            }
+            _duration = parts.Sum(part => long.Parse(part.Duration));
             var stopwatch = App.Stopwatches.FirstOrDefault(s => s.GetPartId() == _actual.PartId);
             if (stopwatch != null)
             {
                 _stopwatch = stopwatch.GetStopwatch();
             }
+            _duration += _stopwatch.ElapsedMilliseconds;
             Device.StartTimer(TimeSpan.FromSeconds(1), UpdateTime);
             UpdateButtons();
         }
 
         private bool UpdateTime()
         {
-            if (_activity.Status == StatusType.Stop || _activity.Status == StatusType.Planned)
+            if (_activity.Status != StatusType.Start)
             {
                 return false;
             }
-            var t = TimeSpan.FromMilliseconds(_duration + _stopwatch.ElapsedMilliseconds);
+            _duration += 1000;
+            var t = TimeSpan.FromMilliseconds(_duration);
             var answer = $"{t.Hours:D2}h:{t.Minutes:D2}m:{t.Seconds:D2}s";
             TaskDuration.Text = answer;
-            return true;
+            return _isPageNotChanged;
         }
         private void UpdateButtons()
         {
@@ -71,6 +71,7 @@ namespace TaskMaster.Pages
         }
         private async void StopButton_OnClicked(object sender, EventArgs e)
         {
+            _isPageNotChanged = false;
             _stopwatch.Stop();
             _now = DateTime.Now;
             var date = _now.ToString("HH:mm:ss dd/MM/yyyy");
@@ -123,6 +124,7 @@ namespace TaskMaster.Pages
             App.Stopwatches[App.Stopwatches.Count - 1].Start();
             _actual = part;
             await _userService.SaveActivity(_activity);
+            Device.StartTimer(TimeSpan.FromSeconds(1), UpdateTime);
             UpdateButtons();
         }
 
@@ -138,6 +140,7 @@ namespace TaskMaster.Pages
 
         private async void AcceptButton_OnClicked(object sender, EventArgs e)
         {
+            _isPageNotChanged = false;
             if (_task.TaskId == 0)
                 await Navigation.PushModalAsync(new FillInformationPage(_activity));
             else
@@ -160,6 +163,7 @@ namespace TaskMaster.Pages
                     "Tak", "Nie");
                 if (result)
                 {
+                    _isPageNotChanged = false;
                     await Navigation.PopModalAsync();
                 }
             });
