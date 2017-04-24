@@ -8,7 +8,7 @@ namespace TaskMaster
 	[XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class PlanTaskPage
 	{
-        private readonly UserServices _userServices = new UserServices();
+        private readonly UserService _userService = new UserService();
 		public PlanTaskPage ()
 		{
 			InitializeComponent ();
@@ -23,10 +23,10 @@ namespace TaskMaster
 	                Name = ActivityName.Text,
 	                Description = ActivityDescription.Text
 	            };
-	            if (await _userServices.GetTask(newTask) == null)
-	                newTask.TaskId = await _userServices.SaveTask(newTask);
+	            if (await _userService.GetTask(newTask) == null)
+	                newTask.TaskId = await _userService.SaveTask(newTask);
 	            else
-	                newTask = await _userServices.GetTask(newTask);
+	                newTask = await _userService.GetTask(newTask);
 	            var newActivity = new ActivitiesDto
 	            {
 	                UserId = 1,
@@ -34,7 +34,7 @@ namespace TaskMaster
 	                GroupId = 1,
 	                Status = StatusType.Planned
 	            };
-	            newActivity.ActivityId = await _userServices.SaveActivity(newActivity);
+	            newActivity.ActivityId = await _userService.SaveActivity(newActivity);
 	            var start = PlanTaskStartTime.Time + " " + PlanTaskStartDate.Date.ToShortDateString();
 	            var end = PlanTaskStopTime.Time + " " + PlanTaskStopDate.Date.ToShortDateString();
 	            var part = new PartsOfActivityDto
@@ -44,7 +44,7 @@ namespace TaskMaster
 	                Stop = end,
 	                Duration = "0"
 	            };
-	            await _userServices.SavePartOfActivity(part);
+	            await _userService.SavePartOfActivity(part);
 	            await Navigation.PopAsync();
 	        }
 	        else

@@ -8,5 +8,6 @@
         public int TaskId { get; set; }
         public string Description { get; set; }
         public string Duration { get; set; }
+        public long Time { get; set; }
     }
 }

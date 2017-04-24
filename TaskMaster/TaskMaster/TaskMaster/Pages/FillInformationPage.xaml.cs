@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using TaskMaster.ModelsDto;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -8,7 +9,7 @@ namespace TaskMaster.Pages
 	[XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class FillInformationPage
 	{
-        private readonly UserServices _userServices = new UserServices();
+        private readonly UserService _userService = new UserService();
         private TasksDto _task = new TasksDto();
 	    private readonly ActivitiesDto _activity;
 	    private long _duration;
@@ -22,13 +23,10 @@ namespace TaskMaster.Pages
 
 	    private async void Init()
 	    {
-	        var parts = await _userServices.GetPartsOfActivityByActivityId(_activity.ActivityId);
-	        foreach (var part in parts)
-	        {
-	            _duration += long.Parse(part.Duration);
-	        }
-	        TimeSpan t = TimeSpan.FromMilliseconds(_duration);
-	        string answer = $"{t.Hours:D2}h:{t.Minutes:D2}m:{t.Seconds:D2}s";
+	        var parts = await _userService.GetPartsOfActivityByActivityId(_activity.ActivityId);
+            _duration = parts.Sum(part => long.Parse(part.Duration));
+	        var t = TimeSpan.FromMilliseconds(_duration);
+	        var answer = $"{t.Hours:D2}h:{t.Minutes:D2}m:{t.Seconds:D2}s";
 	        FillTaskDuration.Text = answer;
 	    }
 
@@ -48,18 +46,18 @@ namespace TaskMaster.Pages
 	    {
 	        if (_task.Name != null)
 	        {
-	            if (await _userServices.GetTask(_task) == null)
+	            if (await _userService.GetTask(_task) == null)
 	            {
-	                var result = await _userServices.SaveTask(_task);
+	                var result = await _userService.SaveTask(_task);
 	                _activity.ActivityId = result;
-	                await _userServices.SaveActivity(_activity);
+	                await _userService.SaveActivity(_activity);
 	                await Navigation.PushModalAsync(new NavigationPage(new MainPage()));
 	            }
 	            else
 	            {
-	                _task = await _userServices.GetTask(_task);
+	                _task = await _userService.GetTask(_task);
 	                _activity.TaskId = _task.TaskId;
-	                await _userServices.SaveActivity(_activity);
+	                await _userService.SaveActivity(_activity);
 	                await Navigation.PushModalAsync(new NavigationPage(new MainPage()));
 	            }
             }

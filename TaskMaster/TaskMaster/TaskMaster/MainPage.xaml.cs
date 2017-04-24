@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using TaskMaster.ModelsDto;
 using TaskMaster.Pages;
 using Xamarin.Forms;
@@ -8,81 +9,140 @@ namespace TaskMaster
 {
 	public partial class MainPage
     {
-        private readonly UserServices _userServices = new UserServices();
+        private List<MainPageList> _activeTasksList = new List<MainPageList>();
+        private readonly UserService _userService = new UserService();
         public MainPage()
 		{
             InitializeComponent ();
 		    ListInitiate();
-		}
+        }
 
-	    protected override void OnAppearing()
+        protected override void OnAppearing()
 	    {
 	        ListInitiate();
 	    }
 
-	    private async void ListInitiate()
+        private bool UpdateTime()
+        {
+            if (_activeTasksList.Count <= 0)
+            {
+                return false;
+            }
+            foreach (var item in _activeTasksList)
+            {
+                item.Time += 1000;
+                var t = TimeSpan.FromMilliseconds(item.Time);
+                var answer = $"{t.Hours:D2}h:{t.Minutes:D2}m:{t.Seconds:D2}s";
+                item.Duration = answer;
+            }
+            Device.BeginInvokeOnMainThread(() =>
+            {
+                ActiveTasks.ItemsSource = _activeTasksList;
+            });
+            return true;
+        }
+
+        private async void ListInitiate()
 	    {
-	        var activeTasksList = new List<MainPageList>();
-            var result = await _userServices.GetActivitiesByStatus(StatusType.Start);
-	        foreach (var activity in result)
+            var activitiesStarted = await _userService.GetActivitiesByStatus(StatusType.Start);
+	        foreach (var activity in activitiesStarted)
 	        {
 	            if (activity.TaskId == 0)
 	            {
-                    var item = new MainPageList
-                    {
-                        MyImageSource = ImageChoice(activity.Status),
-                        Name = "Unnamed Activity " + activity.ActivityId,
+	                long time = 0;
+	                var lastPart = await _userService.GetLastActivityPart(activity.ActivityId);
+	                var stopwatch = App.Stopwatches.FirstOrDefault(s => s.GetPartId() == lastPart.PartId);
+	                if (stopwatch != null)
+	                {
+	                    time = stopwatch.GetStopwatch().ElapsedMilliseconds;
+	                }
+	                var item = new MainPageList
+	                {
+	                    MyImageSource = ImageChoice(activity.Status),
+	                    Name = "Unnamed Activity " + activity.ActivityId,
 	                    ActivityId = activity.ActivityId,
-	                    Duration = "0"
+	                    Duration = "0",
+	                    Time = time
 	                };
-	                activeTasksList.Add(item);
+	                _activeTasksList.Add(item);
 	            }
 	            else
 	            {
-	                var task = await _userServices.GetTaskById(activity.TaskId);
+	                var task = await _userService.GetTaskById(activity.TaskId);
+	                var parts = await _userService.GetPartsOfActivityByActivityId(activity.ActivityId);
+	                var time = parts.Sum(part => long.Parse(part.Duration));
+	                var lastPart = await _userService.GetLastActivityPart(activity.ActivityId);
+	                var stopwatch = App.Stopwatches.FirstOrDefault(s => s.GetPartId() == lastPart.PartId);
+	                if (stopwatch != null)
+	                {
+	                    time += stopwatch.GetStopwatch().ElapsedMilliseconds;
+	                }
 	                var item = new MainPageList
 	                {
-                        MyImageSource = ImageChoice(activity.Status),
-                        Name = task.Name,
+	                    MyImageSource = ImageChoice(activity.Status),
+	                    Name = task.Name,
 	                    Description = task.Description,
 	                    ActivityId = activity.ActivityId,
 	                    TaskId = task.TaskId,
-	                    Duration = "0"
+	                    Duration = "0",
+	                    Time = time
 	                };
-	                activeTasksList.Add(item);
+	                _activeTasksList.Add(item);
 	            }
-	        }
-            var result2 = await _userServices.GetActivitiesByStatus(StatusType.Pause);
+            }
+            var result2 = await _userService.GetActivitiesByStatus(StatusType.Pause);
 	        foreach (var activity in result2)
 	        {
 	            if (activity.TaskId == 0)
 	            {
-	                var item = new MainPageList
+	                long time = 0;
+	                var lastPart = await _userService.GetLastActivityPart(activity.ActivityId);
+	                var stopwatch = App.Stopwatches.FirstOrDefault(s => s.GetPartId() == lastPart.PartId);
+	                if (stopwatch != null)
+	                {
+	                    time = stopwatch.GetStopwatch().ElapsedMilliseconds;
+	                }
+                    var item = new MainPageList
 	                {
                         MyImageSource =  ImageChoice(activity.Status),
                         Name = "Unnamed Activity " + activity.ActivityId,
 	                    ActivityId = activity.ActivityId,
-	                    Duration = "0"
+	                    Duration = "0",
+                        Time = time
 	                };
-	                activeTasksList.Add(item);
+	                _activeTasksList.Add(item);
 	            }
 	            else
 	            {
-	                var task = await _userServices.GetTaskById(activity.TaskId);
-	                var item = new MainPageList
+	                var task = await _userService.GetTaskById(activity.TaskId);
+	                var parts = await _userService.GetPartsOfActivityByActivityId(activity.ActivityId);
+	                var time = parts.Sum(part => long.Parse(part.Duration));
+	                var lastPart = await _userService.GetLastActivityPart(activity.ActivityId);
+	                var stopwatch = App.Stopwatches.FirstOrDefault(s => s.GetPartId() ==lastPart.PartId);
+	                if (stopwatch != null)
+	                {
+	                    time += stopwatch.GetStopwatch().ElapsedMilliseconds;
+	                }
+                    var item = new MainPageList
 	                {
                         MyImageSource = ImageChoice(activity.Status),
 	                    Name = task.Name,
 	                    Description = task.Description,
 	                    ActivityId = activity.ActivityId,
 	                    TaskId = task.TaskId,
-	                    Duration = "0"
+	                    Duration = "0",
+                        Time = time
 	                };
-	                activeTasksList.Add(item);
+	                _activeTasksList.Add(item);
 	            }
 	        }
-            ActiveTasks.ItemsSource = activeTasksList;
-	    }
+
+	        Device.BeginInvokeOnMainThread(() =>
+	        {
+	            ActiveTasks.ItemsSource = _activeTasksList;
+	        });
+            Device.StartTimer(TimeSpan.FromSeconds(1), UpdateTime);
+        }
 
         private static string ImageChoice(StatusType status)
         {
@@ -107,7 +167,7 @@ namespace TaskMaster
 	            GroupId = 1,
                 TaskId = 0
 	        };
-	        activity.ActivityId = await _userServices.SaveActivity(activity);
+	        activity.ActivityId = await _userService.SaveActivity(activity);
 	        DateTime now = DateTime.Now;
 	        var part = new PartsOfActivityDto
 	        {
@@ -115,7 +175,7 @@ namespace TaskMaster
 	            Start = now.ToString("HH:mm:ss dd/MM/yyyy"),
                 Duration = "0"
 	        };
-	        var result = await _userServices.SavePartOfActivity(part);
+	        var result = await _userService.SavePartOfActivity(part);
 	        Stopwatch sw = new Stopwatch();
             Stopwatches stopwatch = new Stopwatches(sw,result);
 	        App.Stopwatches.Add(stopwatch);

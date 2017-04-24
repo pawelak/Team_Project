@@ -10,7 +10,7 @@ namespace TaskMaster.Pages
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class EditTaskPage
     {
-        private readonly UserServices _userServices = new UserServices();
+        private readonly UserService _userService = new UserService();
         private Stopwatch _stopwatch;
         private PartsOfActivityDto _actual;
         private ActivitiesDto _activity;
@@ -29,8 +29,8 @@ namespace TaskMaster.Pages
 
         private async void Initial(MainPageList item)
         {
-            _activity = await _userServices.GetActivity(item.ActivityId);
-            _actual = await _userServices.GetLastActivityPart(_activity.ActivityId);
+            _activity = await _userService.GetActivity(item.ActivityId);
+            _actual = await _userService.GetLastActivityPart(_activity.ActivityId);
             _task = new TasksDto
             {
                 Name = item.Name,
@@ -38,14 +38,16 @@ namespace TaskMaster.Pages
                 TaskId = item.TaskId
             };
             TaskDates.Text = _actual.Start;
-            var parts = await _userServices.GetPartsOfActivityByActivityId(_activity.ActivityId);
+            var parts = await _userService.GetPartsOfActivityByActivityId(_activity.ActivityId);
             foreach (var part in parts)
             {
                 _duration +=long.Parse(part.Duration);
             }
-            var firstOrDefault = App.Stopwatches.FirstOrDefault(s => s.GetPartId() == _actual.PartId);
-            if (firstOrDefault != null)
-                _stopwatch = firstOrDefault.GetStopwatch();
+            var stopwatch = App.Stopwatches.FirstOrDefault(s => s.GetPartId() == _actual.PartId);
+            if (stopwatch != null)
+            {
+                _stopwatch = stopwatch.GetStopwatch();
+            }
             Device.StartTimer(TimeSpan.FromSeconds(1), UpdateTime);
             UpdateButtons();
         }
@@ -53,9 +55,11 @@ namespace TaskMaster.Pages
         private bool UpdateTime()
         {
             if (_activity.Status == StatusType.Stop || _activity.Status == StatusType.Planned)
+            {
                 return false;
-            TimeSpan t = TimeSpan.FromMilliseconds(_duration + _stopwatch.ElapsedMilliseconds);
-            string answer = $"{t.Hours:D2}h:{t.Minutes:D2}m:{t.Seconds:D2}s";
+            }
+            var t = TimeSpan.FromMilliseconds(_duration + _stopwatch.ElapsedMilliseconds);
+            var answer = $"{t.Hours:D2}h:{t.Minutes:D2}m:{t.Seconds:D2}s";
             TaskDuration.Text = answer;
             return true;
         }
@@ -69,21 +73,21 @@ namespace TaskMaster.Pages
         {
             _stopwatch.Stop();
             _now = DateTime.Now;
-            string date = _now.ToString("HH:mm:ss dd/MM/yyyy");
+            var date = _now.ToString("HH:mm:ss dd/MM/yyyy");
             _actual.Stop = date;
             _actual.Duration = _stopwatch.ElapsedMilliseconds.ToString();
             _activity.Status = StatusType.Stop;
-            await _userServices.SaveActivity(_activity);
-            await _userServices.SavePartOfActivity(_actual);
+            await _userService.SaveActivity(_activity);
+            await _userService.SavePartOfActivity(_actual);
             if (_task.TaskId == 0)
             {
                 await Navigation.PushModalAsync(new FillInformationPage(_activity));
             }
             else
             {
-                _task.TaskId = await _userServices.SaveTask(_task);
+                _task.TaskId = await _userService.SaveTask(_task);
                 _activity.TaskId = _task.TaskId;
-                await _userServices.SaveActivity(_activity);
+                await _userService.SaveActivity(_activity);
                 await Navigation.PushModalAsync(new MainPage());
             }
         }
@@ -96,8 +100,8 @@ namespace TaskMaster.Pages
             _actual.Stop = date;
             _stopwatch.Stop();
             _actual.Duration = _stopwatch.ElapsedMilliseconds.ToString();
-            await _userServices.SaveActivity(_activity);
-            await _userServices.SavePartOfActivity(_actual);
+            await _userService.SaveActivity(_activity);
+            await _userService.SavePartOfActivity(_actual);
             UpdateButtons();
         }
 
@@ -105,20 +109,20 @@ namespace TaskMaster.Pages
         {
             _activity.Status = StatusType.Start;
             _now = DateTime.Now;
-            string date = _now.ToString("HH:mm:ss dd/MM/yyyy");
+            var date = _now.ToString("HH:mm:ss dd/MM/yyyy");
             var part = new PartsOfActivityDto
             {
                 ActivityId = _activity.ActivityId,
                 Start = date,
                 Duration = "0"
             };
-            var result = await _userServices.SavePartOfActivity(part);
-            Stopwatch sw = new Stopwatch();
-            Stopwatches stopwatch = new Stopwatches(sw,result);
+            var result = await _userService.SavePartOfActivity(part);
+            var sw = new Stopwatch();
+            var stopwatch = new Stopwatches(sw,result);
             App.Stopwatches.Add(stopwatch);
             App.Stopwatches[App.Stopwatches.Count - 1].Start();
             _actual = part;
-            await _userServices.SaveActivity(_activity);
+            await _userService.SaveActivity(_activity);
             UpdateButtons();
         }
 
@@ -140,9 +144,9 @@ namespace TaskMaster.Pages
             {
                 _task.Description = ActivityDescription.Text;
                 _task.Name = ActivityName.Text;
-                _task.TaskId = await _userServices.SaveTask(_task);
+                _task.TaskId = await _userService.SaveTask(_task);
                 _activity.TaskId = _task.TaskId;
-                await _userServices.SaveActivity(_activity);
+                await _userService.SaveActivity(_activity);
             }
         }
 
@@ -154,7 +158,10 @@ namespace TaskMaster.Pages
             {
                 var result = await DisplayAlert("Error", "Niezapisane dane zostaną utracone. Czy kontynuować",
                     "Tak", "Nie");
-                if (result) await Navigation.PopModalAsync();
+                if (result)
+                {
+                    await Navigation.PopModalAsync();
+                }
             });
             return true;
         }

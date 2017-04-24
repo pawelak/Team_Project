@@ -6,17 +6,14 @@ using XamForms.Controls;
 namespace TaskMaster.Pages
 {
    
-    public partial class InitializeCalendar : ContentPage
+    public partial class InitializeCalendar
     {
-        private readonly UserServices _userServices = new UserServices();
+        private readonly UserService _userService = new UserService();
         private readonly Calendar _calendar;
-        private readonly Label _msg;
         private List<PartsOfActivityDto> _parts;
         public InitializeCalendar()
         {
-
-
-            _msg = new Label
+            var msg = new Label
             {
                 Text = "Wybierz Dzień",
                 FontSize = 25,
@@ -52,7 +49,7 @@ namespace TaskMaster.Pages
                         Padding = new Thickness(5, Device.OS == TargetPlatform.iOS ? 25 : 5, 5, 5),
                         VerticalOptions = LayoutOptions.Center,
                         Children = {
-                            _msg, _calendar
+                            msg, _calendar
                         }
                     }
                 }
@@ -60,14 +57,14 @@ namespace TaskMaster.Pages
 
 
         }
-        protected async override void OnDisappearing()
+        protected override async void OnDisappearing()
         {
             await Navigation.PushModalAsync(new NavigationPage(new MainPage()));
         }
         private async void FillCalendar()
         {
-            _parts = await _userServices.GetPartsOfActivityList();
-            foreach (PartsOfActivityDto p in _parts)
+            _parts = await _userService.GetPartsOfActivityList();
+            foreach (var p in _parts)
             {
                 _calendar.SpecialDates.Add(new SpecialDate(Convert.ToDateTime(p.Start)) { BackgroundColor = Color.Green, TextColor = Color.Black, BorderColor = Color.Blue, BorderWidth = 8, Selectable = true });
             }

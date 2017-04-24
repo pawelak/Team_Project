@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace TaskMaster.Pages
 {
@@ -7,7 +8,7 @@ namespace TaskMaster.Pages
     public partial class CalendarDayListPage
     {
         private DateTime _calendarDay;
-        private readonly UserServices _userServices = new UserServices();
+        private readonly UserService _userService = new UserService();
         public CalendarDayListPage(DateTime dateTime)
         {
             _calendarDay = dateTime;
@@ -21,18 +22,14 @@ namespace TaskMaster.Pages
 
         private async void ListInitiate()
         {
-            var result = await _userServices.GetActivitiesByStatus(StatusType.Stop);
-            List<CustomList> dayPlan = new List<CustomList>();
+            var result = await _userService.GetActivitiesByStatus(StatusType.Stop);
+            var dayPlan = new List<CustomList>();
             foreach (var activity in result)
             {
-                long time = 0;
-                var parts = await _userServices.GetPartsOfActivityByActivityId(activity.ActivityId);
-                foreach (var part in parts)
-                {
-                    time += long.Parse(part.Duration);
-                }
-                var task = await _userServices.GetTaskById(activity.TaskId);
-                var element = new CustomList()
+                var parts = await _userService.GetPartsOfActivityByActivityId(activity.ActivityId);
+                var time = parts.Sum(part => long.Parse(part.Duration));
+                var task = await _userService.GetTaskById(activity.TaskId);
+                var element = new CustomList
                 {
                     Name = task.Name,
                     Description = task.Description,
@@ -40,20 +37,13 @@ namespace TaskMaster.Pages
                 };
                 dayPlan.Add(element);
             }
-            var result2 = await _userServices.GetActivitiesByStatus(StatusType.Planned);
+            var result2 = await _userService.GetActivitiesByStatus(StatusType.Planned);
             foreach (var activity in result2)
             {
-                long time = 0;
-                var parts = await _userServices.GetPartsOfActivityByActivityId(activity.ActivityId);
-                foreach (var part in parts)
-                {
-                    if (DateTime.Parse(part.Start).ToString("dd/MM/yyyy").Equals(_calendarDay.ToString("dd/MM/yyyy")))
-                    {
-                        time += long.Parse(part.Duration);
-                    }
-                }
-                var task = await _userServices.GetTaskById(activity.TaskId);
-                var element = new CustomList()
+                var parts = await _userService.GetPartsOfActivityByActivityId(activity.ActivityId);
+                var time = parts.Where(part => DateTime.Parse(part.Start).ToString("dd/MM/yyyy").Equals(_calendarDay.ToString("dd/MM/yyyy"))).Sum(part => long.Parse(part.Duration));
+                var task = await _userService.GetTaskById(activity.TaskId);
+                var element = new CustomList
                 {
                     Name = task.Name,
                     Description = task.Description,
