@@ -6,24 +6,24 @@ namespace TaskMaster.BLL.Services
 {
     public class TestService
     {
-        private readonly UserRepositories _userRepositories = new UserRepositories();
+        //private readonly UserRepositories _userRepositories = new UserRepositories();
 
-        public UserDto GetUserByIde(int id)
-        {
-            return _userRepositories.GetUserById(id);
-        }
-
-
-        public void AddUserToDatabase(UserDto userDto)
-        {
-            _userRepositories.AddToDatabase(userDto);
-        }
+        //public UserDto GetUserByIde(int id)
+        //{
+        //    return _userRepositories.GetUserById(id);
+        //}
 
 
-        public List<UserDto> GetAllInList()
-        {
-            return _userRepositories.GetAllToList();
-        }
+        //public void AddUserToDatabase(UserDto userDto)
+        //{
+        //    _userRepositories.AddToDatabase(userDto);
+        //}
+
+
+        //public List<UserDto> GetAllInList()
+        //{
+        //    return _userRepositories.GetAllToList();
+        //}
 
     }
 }
