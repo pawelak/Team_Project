@@ -11,6 +11,7 @@ namespace TaskMaster.Pages
         private readonly UserService _userService = new UserService();
         private readonly Calendar _calendar;
         private List<ActivitiesDto> _activities;
+        private List<PartsOfActivityDto> _parts;
 
         public InitializeCalendar()
         {
@@ -70,10 +71,14 @@ namespace TaskMaster.Pages
             foreach (var p in _activities)
             {
                 var last = await _userService.GetLastActivityPart(p.ActivityId);
-           
+
                 if (DateTime.Compare(DateTime.Now.AddDays(-7), DateTime.ParseExact(last.Start, "HH:mm:ss dd/MM/yyyy", null)) < 0)
                 {
-                    _calendar.SpecialDates.Add(new SpecialDate(DateTime.ParseExact(last.Start, "HH:mm:ss dd/MM/yyyy", null)) { BackgroundColor = Color.Green, TextColor = Color.Black, BorderColor = Color.Blue, BorderWidth = 8, Selectable = true });
+                    _parts = await _userService.GetPartsOfActivityByActivityId(p.ActivityId);
+                    foreach (var k in _parts)
+                    {
+                        _calendar.SpecialDates.Add(new SpecialDate(DateTime.ParseExact(k.Start, "HH:mm:ss dd/MM/yyyy", null)) { BackgroundColor = Color.Green, TextColor = Color.Black, BorderColor = Color.Blue, BorderWidth = 8, Selectable = true });
+                    }
                 }
             }
             _activities = await _userService.GetActivitiesByStatus(StatusType.Pause);
@@ -83,7 +88,11 @@ namespace TaskMaster.Pages
 
                 if (DateTime.Compare(DateTime.Now.AddDays(-7), DateTime.ParseExact(last.Start, "HH:mm:ss dd/MM/yyyy", null)) < 0)
                 {
-                    _calendar.SpecialDates.Add(new SpecialDate(DateTime.ParseExact(last.Start, "HH:mm:ss dd/MM/yyyy", null)) { BackgroundColor = Color.Green, TextColor = Color.Black, BorderColor = Color.Blue, BorderWidth = 8, Selectable = true });
+                    _parts = await _userService.GetPartsOfActivityByActivityId(p.ActivityId);
+                    foreach (var k in _parts)
+                    {
+                        _calendar.SpecialDates.Add(new SpecialDate(DateTime.ParseExact(k.Start, "HH:mm:ss dd/MM/yyyy", null)) { BackgroundColor = Color.Green, TextColor = Color.Black, BorderColor = Color.Blue, BorderWidth = 8, Selectable = true });
+                    }
                 }
             }
             _activities = await _userService.GetActivitiesByStatus(StatusType.Planned);
@@ -93,7 +102,11 @@ namespace TaskMaster.Pages
 
                 if (DateTime.Compare(DateTime.Now.AddDays(-7), DateTime.ParseExact(last.Start, "HH:mm:ss dd/MM/yyyy", null)) < 0)
                 {
-                    _calendar.SpecialDates.Add(new SpecialDate(DateTime.ParseExact(last.Start, "HH:mm:ss dd/MM/yyyy", null)) { BackgroundColor = Color.Green, TextColor = Color.Black, BorderColor = Color.Blue, BorderWidth = 8, Selectable = true });
+                    _parts = await _userService.GetPartsOfActivityByActivityId(p.ActivityId);
+                    foreach (var k in _parts)
+                    {
+                        _calendar.SpecialDates.Add(new SpecialDate(DateTime.ParseExact(k.Start, "HH:mm:ss dd/MM/yyyy", null)) { BackgroundColor = Color.Green, TextColor = Color.Black, BorderColor = Color.Blue, BorderWidth = 8, Selectable = true });
+                    }
                 }
             }
             _calendar.RaiseSpecialDatesChanged();//refresh

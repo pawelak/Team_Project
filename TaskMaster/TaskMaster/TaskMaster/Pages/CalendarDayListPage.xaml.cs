@@ -35,8 +35,8 @@ namespace TaskMaster.Pages
                   {
                     //  Name = task.Name,
                     //   Description = task.Description,
-                       Time = time.ToString()
-                   };
+                       Time = DateTime.Now.Date.AddMilliseconds(time).ToString("HH:mm:ss")
+                 };
                   dayPlan.Add(element);
             }
             var result2 = await _userService.GetActivitiesByStatus(StatusType.Planned);
@@ -49,11 +49,28 @@ namespace TaskMaster.Pages
                 {
                    // Name = task.Name,
                    // Description = task.Description,
-                    Time = time.ToString()
+                    Time = DateTime.Now.Date.AddMilliseconds(time).ToString("HH:mm:ss")
+                };
+                dayPlan.Add(element);
+            }
+            var result3 = await _userService.GetActivitiesByStatus(StatusType.Pause);
+            foreach (var activity in result3)
+            {
+                var parts = await _userService.GetPartsOfActivityByActivityId(activity.ActivityId);
+                var time = parts.Where(part => DateTime.ParseExact(part.Start, "HH:mm:ss dd/MM/yyyy", null).ToString("dd/MM/yyyy").Equals(_calendarDay.ToString("dd/MM/yyyy"))).Sum(part => long.Parse(part.Duration));
+                var task = await _userService.GetTaskById(activity.TaskId);
+
+
+                var element = new CustomList
+                {
+                    //  Name = task.Name,
+                    //   Description = task.Description,
+                    Time = DateTime.Now.Date.AddMilliseconds(time).ToString("HH:mm:ss")
                 };
                 dayPlan.Add(element);
             }
             DayPlan.ItemsSource = dayPlan;
         }
+       
     }
 }
