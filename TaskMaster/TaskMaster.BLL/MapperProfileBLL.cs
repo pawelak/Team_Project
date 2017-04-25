@@ -14,7 +14,7 @@ namespace TaskMaster.BLL
     {
         public MapperProfileBLL()
         {
-            this.CreateMap<UserDto, UserViewModels>();
+            this.CreateMap<UserDto, UserViewModels>().ReverseMap();
         }
     }
 }
