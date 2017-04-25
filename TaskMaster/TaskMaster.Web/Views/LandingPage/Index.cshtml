@@ -30,8 +30,8 @@
         </div>
         <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav navbar-right">
-                <li><a href="#">@LandingPageText.signIn</a></li>
-                <li><a href="#">@LandingPageText.signUp</a></li>
+                <li id="logIn"><a href="#">@LandingPageText.signIn</a></li>
+                <li id="register"><a href="#">@LandingPageText.signUp</a></li>
             </ul>
         </div>
     </div>
@@ -64,7 +64,7 @@
                 </div>
                 <div class="form-group">
                     <div class="col-md-6 col-md-offset-3">
-                        <button type="submit" class="btn btn-primary">@LandingPageText.signInButton</button>
+                        <button id="signInButton" type="submit" class="btn btn-primary">@LandingPageText.signInButton</button>
                     </div>
                 </div>
             </fieldset>
@@ -89,7 +89,22 @@
         </div>
     </div>
 </div>
+    
+<script>
+    $(document).ready(function() {
+        $("#register").click(function() {
+            $("#signInButton").replaceWith(
+                "<button id=\"signInButton\" type=\"submit\" class=\"btn btn-primary\">@LandingPageText.signUpButton</button>");
+        });
+    });
 
+    $(document).ready(function() {
+        $("#logIn").click(function() {
+            $("#signInButton").replaceWith(
+                "<button id=\"signInButton\" type=\"submit\" class=\"btn btn-primary\">@LandingPageText.signInButton</button>");
+        });
+    });
+</script>
 
 <script>
     $(".googleButton").click(function() {

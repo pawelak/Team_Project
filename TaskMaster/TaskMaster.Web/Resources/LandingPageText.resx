@@ -145,9 +145,12 @@
     <value>Logowanie</value>
   </data>
   <data name="signInButton" xml:space="preserve">
-    <value>zaloguj</value>
+    <value>Zaloguj</value>
   </data>
   <data name="signUp" xml:space="preserve">
     <value>Rejestracja</value>
+  </data>
+  <data name="signUpButton" xml:space="preserve">
+    <value>Zarejestruj</value>
   </data>
 </root>

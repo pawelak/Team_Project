@@ -142,7 +142,7 @@ namespace TaskMaster.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to zaloguj.
+        ///   Looks up a localized string similar to Zaloguj.
         /// </summary>
         public static string signInButton {
             get {
@@ -156,6 +156,15 @@ namespace TaskMaster.Web.Resources {
         public static string signUp {
             get {
                 return ResourceManager.GetString("signUp", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Zarejestruj.
+        /// </summary>
+        public static string signUpButton {
+            get {
+                return ResourceManager.GetString("signUpButton", resourceCulture);
             }
         }
     }
