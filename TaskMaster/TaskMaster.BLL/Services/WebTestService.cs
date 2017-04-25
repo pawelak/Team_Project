@@ -23,7 +23,7 @@ namespace TaskMaster.BLL.Services
         public UserViewModels GetUser()
         {
             UserDto obj = TestService.GetUserByIde(1);
-            Mapper.Configuration(ctg =>
+            Mapper.Initialize(ctg =>
                 {
                     ctg.AddProfile(new MapperProfileBLL());
                     //ctg.a
