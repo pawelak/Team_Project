@@ -39,6 +39,7 @@ namespace TaskMaster.Pages
                 TaskId = item.TaskId
             };
             TaskDates.Text = _actual.Start;
+            TaskDate.Text = _actual.Start;
             var parts = await _userService.GetPartsOfActivityByActivityId(_activity.ActivityId);
             _duration = parts.Sum(part => long.Parse(part.Duration));
             var stopwatch = App.Stopwatches.FirstOrDefault(s => s.GetPartId() == _actual.PartId);

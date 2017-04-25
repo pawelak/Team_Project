@@ -18,7 +18,7 @@ namespace TaskMaster
         {
             InitializeComponent();
             ListInitiate();
-            Device.StartTimer(TimeSpan.FromSeconds(1), UpdateTime);
+            Device.StartTimer(TimeSpan.FromSeconds(1), CheckList);
         }
 
         protected override void OnAppearing()
@@ -26,6 +26,12 @@ namespace TaskMaster
             ListInitiate();
         }
 
+        private bool CheckList()
+        {
+            if (_activeTasksList.Count <= 0) return true;
+            Device.StartTimer(TimeSpan.FromSeconds(1), UpdateTime);
+            return false;
+        }
         private bool UpdateTime()
         {
             if (_activeTasksList.Count <= 0)
@@ -212,7 +218,6 @@ namespace TaskMaster
             };
             _activeTasksList.Add(item);
             await UpdateList();
-            Device.StartTimer(TimeSpan.FromSeconds(1), UpdateTime);
         }
           
         private async void InitializeCalendarItem_OnClicked(object sender, EventArgs e)

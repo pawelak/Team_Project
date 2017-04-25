@@ -13,49 +13,55 @@ namespace TaskMaster.Pages
         private List<PartsOfActivityDto> _parts;
         public InitializeCalendar()
         {
-            var msg = new Label
+            try
             {
-                Text = "Wybierz Dzień",
-                FontSize = 25,
-                HorizontalOptions = LayoutOptions.Center
-            };
-            _calendar = new Calendar
-            {
-                MultiSelectDates = false,
-                DisableAllDates = false,
-                WeekdaysShow = true,
-                ShowNumberOfWeek = true,
-                ShowNumOfMonths = 1,
-                EnableTitleMonthYearView = true,
-                WeekdaysTextColor = Color.Teal,
-                StartDay = DayOfWeek.Monday,
-                SelectedTextColor = Color.Fuchsia,
-            };
-            _calendar.DateClicked += (sender, e) => {
-                Navigation.PushModalAsync(new CalendarDayListPage(_calendar.SelectedDates[0]));
-            };
-            var vm = new CalendarVm();
-            _calendar.SetBinding(Calendar.DateCommandProperty, nameof(vm.DateChosen));
-            _calendar.SetBinding(Calendar.SelectedDateProperty, nameof(vm.Date));
-            _calendar.BindingContext = vm;
-            FillCalendar();
-            Navigation.PushModalAsync(new NavigationPage(new CalendarPage
-            {
-                BackgroundColor = Color.White,
-                Content = new ScrollView
+                var msg = new Label
                 {
-                    Content = new StackLayout
+                    Text = "Wybierz Dzień",
+                    FontSize = 25,
+                    HorizontalOptions = LayoutOptions.Center
+                };
+                _calendar = new Calendar
+                {
+                    MultiSelectDates = false,
+                    DisableAllDates = false,
+                    WeekdaysShow = true,
+                    ShowNumberOfWeek = true,
+                    ShowNumOfMonths = 1,
+                    EnableTitleMonthYearView = true,
+                    WeekdaysTextColor = Color.Teal,
+                    StartDay = DayOfWeek.Monday,
+                    SelectedTextColor = Color.Fuchsia,
+                };
+                _calendar.DateClicked += (sender, e) => {
+                    Navigation.PushModalAsync(new CalendarDayListPage(_calendar.SelectedDates[0]));
+                };
+                var vm = new CalendarVm();
+                _calendar.SetBinding(Calendar.DateCommandProperty, nameof(vm.DateChosen));
+                _calendar.SetBinding(Calendar.SelectedDateProperty, nameof(vm.Date));
+                _calendar.BindingContext = vm;
+                FillCalendar();
+                Navigation.PushModalAsync(new NavigationPage(new CalendarPage
+                {
+                    BackgroundColor = Color.White,
+                    Content = new ScrollView
                     {
-                        Padding = new Thickness(5, Device.OS == TargetPlatform.iOS ? 25 : 5, 5, 5),
-                        VerticalOptions = LayoutOptions.Center,
-                        Children = {
-                            msg, _calendar
+                        Content = new StackLayout
+                        {
+                            Padding = new Thickness(5, Device.OS == TargetPlatform.iOS ? 25 : 5, 5, 5),
+                            VerticalOptions = LayoutOptions.Center,
+                            Children = {
+                                msg, _calendar
+                            }
                         }
                     }
-                }
-            }));
-
-
+                }));
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
         }
         protected override async void OnDisappearing()
         {
