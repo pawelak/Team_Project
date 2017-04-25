@@ -1,4 +1,5 @@
-﻿namespace TaskMaster.DAL.Models
+﻿
+namespace TaskMaster.DAL.Models
 {
     public class UserGroup
     {
@@ -9,6 +10,5 @@
         public User User { get; set; }
         public int GroupId { get; set; }
         public Group Group { get; set; }
-
     }
 }
