@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Threading.Tasks;
 using Android.App;
 using Android.Content;
 using Android.OS;
+using Android.Widget;
 using TaskMaster.ModelsDto;
 using Xamarin.Forms;
 
@@ -82,6 +84,7 @@ namespace TaskMaster.Droid
                 item.Stop();
             }
             _isWorking = false;
+            Console.WriteLine("Wykonało się");
             base.OnDestroy();
         }
     }
