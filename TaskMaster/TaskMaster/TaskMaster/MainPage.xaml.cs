@@ -11,6 +11,7 @@ namespace TaskMaster
     public partial class MainPage
     {
         private bool _isPageNotChanged = true;
+        private bool _isVisible = true;
         private readonly List<MainPageList> _activeTasksList = new List<MainPageList>();
         private readonly UserService _userService = new UserService();
 
@@ -29,7 +30,10 @@ namespace TaskMaster
 
         private bool CheckList()
         {
-            if (_activeTasksList.Count <= 0) return true;
+            if (_activeTasksList.Count <= 0)
+            {
+                return _isVisible;
+            }
             Device.StartTimer(TimeSpan.FromSeconds(1), UpdateTime);
             return false;
         }
@@ -243,7 +247,8 @@ namespace TaskMaster
         protected override bool OnBackButtonPressed()
         {
             _isPageNotChanged = false;
-            return false;
+            _isVisible = false;
+            return base.OnBackButtonPressed();
         }
     }
 }
