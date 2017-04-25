@@ -5,6 +5,8 @@
 }
 
 
+
+
 <!DOCTYPE html>
 <html lang="pl">
 <head>
@@ -40,7 +42,7 @@
         <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav navbar-right">
                 <li>@Html.ActionLink("Logowanie", "Home")</li>
-                <li>@Html.ActionLink("Rejestracja", "Register")</li>
+                <li>@ViewBag.Message </li>
             </ul>
         </div>
     </div>

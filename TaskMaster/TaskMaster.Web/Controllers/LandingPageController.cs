@@ -6,16 +6,19 @@ using System.Web.Mvc;
 using System.Web.UI;
 using Microsoft.Ajax.Utilities;
 using TaskMaster.Web.Models;
+using TaskMaster.BLL.Services;
 
 namespace TaskMaster.Web.Controllers
 {
     public class LandingPageController : Controller
     {
+        private readonly WebTestService _webTestService = new WebTestService();
+
         // GET: LandingPage
         public ActionResult Home()
         {
-
-            return View();
+          ViewBag.Message = _webTestService.GetUser();
+           return View();
         }
 
       
