@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Text;
-using System.Data.Entity;
+﻿using System.Data.Entity;
+using TaskMaster.DAL.Migrations;
 using TaskMaster.DAL.Models;
 
 
@@ -13,7 +9,7 @@ namespace TaskMaster.DAL.Context
     {
         public DatabaseContext(): base("name=TaskMasterBase")
         {
-            Database.SetInitializer(new DatabaseInitializer());
+            Database.SetInitializer(new MigrateDatabaseToLatestVersion<DatabaseContext, Configuration>());
         }
 
         public DbSet<Activity> Activity { get; set; }

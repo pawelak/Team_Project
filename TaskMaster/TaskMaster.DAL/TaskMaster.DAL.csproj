@@ -107,7 +107,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
-    <Content Include="ApplicationInsights.config">
+    <Content Include="Repositories\ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="ClassDiagram1.cd" />
@@ -134,9 +134,9 @@
     <Compile Include="DTOModels\UserDto.cs" />
     <Compile Include="DTOModels\UserGroupDto.cs" />
     <Compile Include="MapperProfil.cs" />
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Favorites.cs" />
     <Compile Include="Models\UserGroup.cs" />
-    <Compile Include="DatabaseInitializer.cs" />
     <Compile Include="Repositories\ActivityRepositories.cs" />
     <Compile Include="Context\DatabaseContext.cs" />
     <Compile Include="Repositories\FavoritesRepositories.cs" />
