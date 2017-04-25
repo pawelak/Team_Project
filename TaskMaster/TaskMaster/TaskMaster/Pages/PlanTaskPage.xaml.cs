@@ -35,8 +35,8 @@ namespace TaskMaster
 	                Status = StatusType.Planned
 	            };
 	            newActivity.ActivityId = await _userService.SaveActivity(newActivity);
-	            var start = PlanTaskStartTime.Time + " " + PlanTaskStartDate.Date.ToShortDateString();
-	            var end = PlanTaskStopTime.Time + " " + PlanTaskStopDate.Date.ToShortDateString();
+	            var start = PlanTaskStartTime.Time.ToString("HH:mm::ss") + " " + PlanTaskStartDate.Date.ToShortDateString();
+	            var end = PlanTaskStopTime.Time.ToString("HH:mm::ss") + " " + PlanTaskStopDate.Date.ToShortDateString();
 	            var part = new PartsOfActivityDto
 	            {
 	                ActivityId = newActivity.ActivityId,
