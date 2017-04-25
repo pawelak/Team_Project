@@ -13,6 +13,5 @@ namespace TaskMaster.DAL.Models
         public ICollection<Tokens> Tokens { get; set; }
         public ICollection<UserGroup> UserGroup { get; set; }
         public ICollection<Favorites> Favorites { get; set; }
-
     }
 }

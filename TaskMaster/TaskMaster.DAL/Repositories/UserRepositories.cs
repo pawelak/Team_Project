@@ -1,41 +1,45 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using AutoMapper;
 using TaskMaster.DAL.DTOModels;
+using TaskMaster.DAL.Interface;
 using TaskMaster.DAL.Models;
 
 namespace TaskMaster.DAL.Repositories
 {
-    public class UserRepositories : RepoBase<User>
+    public class UserRepositories : RepoBase<User>, IUserRepositories
     {
         public UserRepositories()
         {
-            Mapper.Initialize(cfg => cfg.CreateMap<User, UserDto>());
+            Mapper.Initialize(ctg => ctg.AddProfile(new MapperProfil()));
+        }
+        public void Add(UserDto dto)
+        {
+            base.Add(Mapper.Map<User>(dto));
         }
 
-        public UserDto GetUserById(int id)
+        public void Delete(UserDto dto)
         {
-            var user = this.Get(id);
-            var obj = Mapper.Map<User, UserDto>(user);
-            return obj;
+            base.Delete(Mapper.Map<User>(dto));
         }
 
-        public void AddToDatabase(UserDto userDto)
+        public IList<UserDto> GetAll()
         {
-            var obj = Mapper.Map<UserDto, User>(userDto);
-            this.Add(obj);
+            IList<UserDto> list = new List<UserDto>();
+            foreach (var VARIABLE in base.GetAll())
+            {
+                list.Add(Mapper.Map<UserDto>(VARIABLE));
+            }
+            return list;
         }
 
-        public List<UserDto> GetAllToList()
+        public new UserDto Get(int ID)
         {
-            var listOut = GetAll().Select(Mapper.Map<User, UserDto>).ToList();
+            return Mapper.Map<UserDto>(base.Get(ID));
+        }
 
-            //--------------test dodania-------------------
-           // var test = new User {Name = "Dziala"};
-           // listOut.Add(Mapper.Map<User, UserDto>(test));
-            //---------------------------------------------
-
-            return listOut;
+        public void Edit(UserDto dto)
+        {
+            base.Edit(Mapper.Map<User>(dto));
         }
     }
 }

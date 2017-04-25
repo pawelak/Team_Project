@@ -10,6 +10,5 @@ namespace TaskMaster.DAL.Models
         public string Descryption { get; set; }
         public ICollection<Activity> Activity { get; set; }
         public ICollection<Favorites> Favorites { get; set; }
-
     }
 }

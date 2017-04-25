@@ -1,4 +1,5 @@
 ﻿using System.Data.Entity;
+using TaskMaster.DAL.Migrations;
 using TaskMaster.DAL.Models;
 
 
@@ -8,7 +9,7 @@ namespace TaskMaster.DAL.Context
     {
         public DatabaseContext(): base("name=TaskMasterBase")
         {
-            Database.SetInitializer(new DatabaseInitializer());
+            Database.SetInitializer(new MigrateDatabaseToLatestVersion<DatabaseContext, Configuration>());
         }
 
         public DbSet<Activity> Activity { get; set; }
