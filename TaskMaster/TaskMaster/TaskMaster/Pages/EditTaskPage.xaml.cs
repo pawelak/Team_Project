@@ -157,16 +157,21 @@ namespace TaskMaster.Pages
         protected override bool OnBackButtonPressed()
         {
             if (_task.Name == ActivityName.Text)
-                return false;
+            {
+                Device.BeginInvokeOnMainThread(async () =>
+                {
+                    _isPageNotChanged = false;
+                    await Navigation.PopModalAsync();
+                });
+                return true;
+            }
             Device.BeginInvokeOnMainThread(async () =>
             {
                 var result = await DisplayAlert("Error", "Niezapisane dane zostaną utracone. Czy kontynuować",
                     "Tak", "Nie");
-                if (result)
-                {
-                    _isPageNotChanged = false;
-                    await Navigation.PopModalAsync();
-                }
+                if (!result) return;
+                _isPageNotChanged = false;
+                await Navigation.PopModalAsync();
             });
             return true;
         }

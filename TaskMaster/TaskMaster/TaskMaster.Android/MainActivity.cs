@@ -1,7 +1,4 @@
-﻿using System;
-using System.Diagnostics;
-using System.Linq;
-using Android.App;
+﻿using Android.App;
 using Android.Content.PM;
 using Android.OS;
 
@@ -15,6 +12,7 @@ namespace TaskMaster.Droid
 
         protected override void OnCreate(Bundle bundle)
         {
+
             TabLayoutResource = Resource.Layout.Tabbar;
             ToolbarResource = Resource.Layout.Toolbar;
             base.OnCreate(bundle);
@@ -23,29 +21,39 @@ namespace TaskMaster.Droid
             XamForms.Controls.Droid.Calendar.Init();
             LoadApplication(new App());
         }
-
+  
         protected override void OnStop()
         {
-            PauseActivities();
+            //PauseActivities();
+            //StartService(new Intent(this, typeof(BackgroundStopwatches)));
         }
 
-        private async void PauseActivities()
+        protected override void OnRestart()
         {
-            var now = DateTime.Now;
-            string date = now.ToString("HH:mm:ss dd/MM/yyyy");
-            var result = await _userService.GetActivitiesByStatus(StatusType.Start);
-            foreach (var activity in result)
+            //RestartActivities();
+            //StopService(new Intent(this, typeof(BackgroundStopwatches)));
+        }
+        private static void PauseActivities()
+        {
+            if (App.Stopwatches.Count == 0)
             {
-                activity.Status = StatusType.Pause;
-                var actual = await _userService.GetLastActivityPart(activity.ActivityId);
-                actual.Stop = date;
-                var sw = new Stopwatch();
-                var firstOrDefault = App.Stopwatches.FirstOrDefault(s => s.GetPartId() == actual.PartId);
-                if (firstOrDefault != null)
-                    sw = firstOrDefault.GetStopwatch();
-                actual.Duration = sw.ElapsedMilliseconds.ToString();
-                await _userService.SaveActivity(activity);
-                await _userService.SavePartOfActivity(actual);
+                return;
+            }
+            foreach (var item in App.Stopwatches)
+            {
+                item.Stop();
+            }
+        }
+
+        private static void RestartActivities()
+        {
+            if (App.Stopwatches.Count == 0)
+            {
+                return;
+            }
+            foreach (var item in App.Stopwatches)
+            {
+                item.Restart();
             }
         }
     }

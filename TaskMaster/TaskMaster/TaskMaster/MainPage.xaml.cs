@@ -24,6 +24,7 @@ namespace TaskMaster
         protected override void OnAppearing()
         {
             ListInitiate();
+            _isPageNotChanged = true;
         }
 
         private bool CheckList()
@@ -238,5 +239,11 @@ namespace TaskMaster
             var item = (MainPageList) e.Item;
 	        await Navigation.PushModalAsync(new EditTaskPage(item));
 	    }
-	}
+
+        protected override bool OnBackButtonPressed()
+        {
+            _isPageNotChanged = false;
+            return false;
+        }
+    }
 }

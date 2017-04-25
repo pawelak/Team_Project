@@ -204,6 +204,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BackgroundStopwatches.cs" />
     <Compile Include="FileHelper.cs" />
     <Compile Include="LoginRenderer.cs" />
     <Compile Include="MainActivity.cs" />

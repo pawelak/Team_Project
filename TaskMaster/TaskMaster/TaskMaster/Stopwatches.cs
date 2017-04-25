@@ -36,5 +36,10 @@ namespace TaskMaster
         {
             return _stopwatch.ElapsedMilliseconds;
         }
+
+        public void Restart()
+        {
+            _stopwatch.Restart();
+        }
     }
 }
