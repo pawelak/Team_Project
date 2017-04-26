@@ -204,6 +204,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ActivityCustomUrlSchemeInterceptor.cs" />
     <Compile Include="BackgroundStopwatches.cs" />
     <Compile Include="FileHelper.cs" />
     <Compile Include="LoginRenderer.cs" />
@@ -216,6 +217,7 @@
     <AndroidAsset Include="Assets\Quicksand-Regular.ttf">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </AndroidAsset>
+    <None Include="app.config" />
     <None Include="packages.config" />
     <None Include="Resources\AboutResources.txt" />
     <None Include="Assets\AboutAssets.txt" />

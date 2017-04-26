@@ -6,13 +6,14 @@ using Xamarin.Forms.Platform.Android;
 using Xamarin.Forms;
 using TaskMaster.Droid;
 using TaskMaster.Pages;
-using Application = Android.App.Application;
+using Xamarin.Auth;
 
 [assembly: ExportRenderer(typeof(ProviderLoginPage), typeof(LoginRenderer))]
 namespace TaskMaster.Droid
 {
     public class LoginRenderer : PageRenderer
     {
+        public static OAuth2Authenticator Auth;
         private bool _showLogin = true;
         protected override void OnElementChanged(ElementChangedEventArgs<Page> e)
         {
@@ -26,18 +27,19 @@ namespace TaskMaster.Droid
                 {
                     _showLogin = false;
                     OAuthProviderSetting oauth = new OAuthProviderSetting();
-                    var auth = oauth.LoginWithProvider(providerName);
-                    auth.Completed += (sender, eventArgs) =>
+                    Auth = oauth.LoginWithProvider(providerName);
+                    Auth.Completed += (sender, eventArgs) =>
                     {
+                        activity.Finish();
                         if (eventArgs.IsAuthenticated)
                         {
                             Toast.MakeText(activity,"Działa",ToastLength.Long).Show();
                         }
                     };
-                    System.Object uiObject = auth.GetUI(activity);
-                    if (auth.IsUsingNativeUI)
+                    System.Object uiObject = Auth.GetUI(activity);
+                    if (Auth.IsUsingNativeUI)
                     {
-                        System.Uri uriNetfx = auth.GetInitialUrlAsync().Result;
+                        System.Uri uriNetfx = Auth.GetInitialUrlAsync().Result;
                         Android.Net.Uri uriAndroid = Android.Net.Uri.Parse(uriNetfx.AbsoluteUri);
                         CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
                         CustomTabsIntent ctIntent = builder.Build();
