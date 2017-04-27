@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Threading;
 using System.Threading.Tasks;
 using Android.App;
 using Android.Content;
@@ -54,13 +55,14 @@ namespace TaskMaster.Droid
         {
             foreach (var item in _stopwatches)
             {
-                Device.BeginInvokeOnMainThread(async () =>
+                var t = new Thread(async () =>
                 {
                     var time = item.GetTime();
                     var part = await GetItem(item.GetPartId());
                     part.Duration = time.ToString();
                     SaveItem(part);
                 });
+                t.Start();
             }
             return _isWorking;
         }
@@ -77,6 +79,7 @@ namespace TaskMaster.Droid
 
         public override async void OnDestroy()
         {
+            base.OnDestroy();
             foreach (var item in _stopwatches)
             {
                 var time = item.GetTime();
@@ -87,7 +90,6 @@ namespace TaskMaster.Droid
             }
             _isWorking = false;
             Console.WriteLine("Wykonało się");
-            base.OnDestroy();
         }
     }
 }

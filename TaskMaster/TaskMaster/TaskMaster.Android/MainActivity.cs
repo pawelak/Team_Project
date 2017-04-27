@@ -29,16 +29,16 @@ namespace TaskMaster.Droid
   
         protected override void OnStop()
         {
+            base.OnStop();
             PauseActivities();
             StartService(new Intent(this, typeof(BackgroundStopwatches)));
-            base.OnStop();
         }
 
         protected override void OnRestart()
         {
+            base.OnRestart();
             RestartActivities();
             StopService(new Intent(this, typeof(BackgroundStopwatches)));
-            base.OnRestart();
         }
         private static void PauseActivities()
         {
@@ -83,10 +83,9 @@ namespace TaskMaster.Droid
                 const string errorFileName = "Fatal.log";
                 var libraryPath = System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal); // iOS: Environment.SpecialFolder.Resources
                 var errorFilePath = Path.Combine(libraryPath, errorFileName);
-                var errorMessage = $"Time: {DateTime.Now}\r\nError: Unhandled Exception\r\n{exception.ToString()}";
+                var errorMessage = $"Time: {DateTime.Now}\r\nError: Unhandled Exception\r\n{exception}";
                 File.WriteAllText(errorFilePath, errorMessage);
 
-                // Log to Android Device Logging.
                 Android.Util.Log.Error("Crash Report", errorMessage);
             }
             catch
@@ -95,10 +94,6 @@ namespace TaskMaster.Droid
             }
         }
 
-        /// <summary>
-        // If there is an unhandled exception, the exception information is diplayed 
-        // on screen the next time the app is started (only in debug configuration)
-        /// </summary>
         [Conditional("DEBUG")]
         private void DisplayCrashReport()
         {
@@ -119,7 +114,6 @@ namespace TaskMaster.Droid
                 })
                 .SetNegativeButton("Close", (sender, args) =>
                 {
-                    // User pressed Close.
                 })
                 .SetMessage(errorText)
                 .SetTitle("Crash Report")
