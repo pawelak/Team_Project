@@ -18,14 +18,13 @@ namespace TaskMaster
         public MainPage()
         {
             InitializeComponent();
-            ListInitiate();
-            Device.StartTimer(TimeSpan.FromSeconds(1), CheckList);
         }
 
         protected override void OnAppearing()
         {
             ListInitiate();
             _isPageNotChanged = true;
+            Device.StartTimer(TimeSpan.FromSeconds(1), CheckList);
         }
 
         private bool CheckList()
@@ -81,12 +80,20 @@ namespace TaskMaster
             {
                 if (activity.TaskId == 0)
                 {
-                    long time = 0;
                     var lastPart = await _userService.GetLastActivityPart(activity.ActivityId);
                     var stopwatch = App.Stopwatches.FirstOrDefault(s => s.GetPartId() == lastPart.PartId);
+                    var time = long.Parse(lastPart.Duration);
                     if (stopwatch != null)
                     {
-                        time = stopwatch.GetStopwatch().ElapsedMilliseconds;
+                        time += stopwatch.GetStopwatch().ElapsedMilliseconds;
+                        //await DisplayAlert("title", time.ToString(), "Ok");
+                    }
+                    else
+                    {
+                        var sw = new Stopwatch();
+                        var stopwatch2 = new Stopwatches(sw, lastPart.PartId);
+                        App.Stopwatches.Add(stopwatch2);
+                        App.Stopwatches[App.Stopwatches.Count - 1].Start();
                     }
                     var item = new MainPageList
                     {
@@ -108,6 +115,13 @@ namespace TaskMaster
                     if (stopwatch != null)
                     {
                         time += stopwatch.GetStopwatch().ElapsedMilliseconds;
+                    }
+                    else
+                    {
+                        var sw = new Stopwatch();
+                        var stopwatch2 = new Stopwatches(sw, lastPart.PartId);
+                        App.Stopwatches.Add(stopwatch2);
+                        App.Stopwatches[App.Stopwatches.Count - 1].Start();
                     }
                     var t = TimeSpan.FromMilliseconds(time);
                     var item = new MainPageList

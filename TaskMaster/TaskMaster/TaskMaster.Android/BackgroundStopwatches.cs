@@ -54,32 +54,34 @@ namespace TaskMaster.Droid
         {
             foreach (var item in _stopwatches)
             {
-                var time = item.GetTime();
-                var part = new PartsOfActivityDto
+                Device.BeginInvokeOnMainThread(async () =>
                 {
-                    PartId = item.GetPartId(),
-                    Duration = time.ToString()
-                };
-                SaveItem(part);
+                    var time = item.GetTime();
+                    var part = await GetItem(item.GetPartId());
+                    part.Duration = time.ToString();
+                    SaveItem(part);
+                });
             }
             return _isWorking;
         }
 
+        private async Task<PartsOfActivityDto> GetItem(int id)
+        {
+            var result = await _userService.GetPartsOfActivityById(id);
+            return result;
+        }
         private async void SaveItem(PartsOfActivityDto item)
         {
             await _userService.SavePartOfActivity(item);
         }
 
-        public override void OnDestroy()
+        public override async void OnDestroy()
         {
             foreach (var item in _stopwatches)
             {
                 var time = item.GetTime();
-                var part = new PartsOfActivityDto
-                {
-                    PartId = item.GetPartId(),
-                    Duration = time.ToString()
-                };
+                var part = await GetItem(item.GetPartId());
+                part.Duration = time.ToString();
                 SaveItem(part);
                 item.Stop();
             }

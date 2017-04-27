@@ -105,5 +105,10 @@ namespace TaskMaster
             var update = await Database.GetPartsOfActivityByActivityId(id);
             return update;
         }
+        public async Task<PartsOfActivityDto> GetPartsOfActivityById(int id)
+        {
+            var update = await Database.GetPartsOfActivityById(id);
+            return update;
+        }
     }
 }
