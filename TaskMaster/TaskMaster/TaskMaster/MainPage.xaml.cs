@@ -242,18 +242,21 @@ namespace TaskMaster
         private async void InitializeCalendarItem_OnClicked(object sender, EventArgs e)
         {
             _isPageNotChanged = false;
+            _isVisible = false;
             await Navigation.PushModalAsync(new NavigationPage(new InitializeCalendar()));
         }
 
 	    private async void HistoryPageItem_OnClicked(object sender, EventArgs e)
         {
             _isPageNotChanged = false;
+            _isVisible = false;
             await Navigation.PushModalAsync(new NavigationPage(new HistoryPage()));
 	    }
 
 	    private async void ActiveTasks_OnItemTapped(object sender, ItemTappedEventArgs e)
 	    {
 	        _isPageNotChanged = false;
+	        _isVisible = false;
             var item = (MainPageList) e.Item;
 	        await Navigation.PushModalAsync(new EditTaskPage(item));
 	    }

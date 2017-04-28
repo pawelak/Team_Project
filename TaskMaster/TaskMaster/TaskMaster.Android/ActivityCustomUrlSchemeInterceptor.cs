@@ -40,18 +40,18 @@ namespace TaskMaster.Droid
             base.OnCreate(savedInstanceState);
 
             // Create your application here
-            Android.Net.Uri uri_android = Intent.Data;
+            var uri_android = Intent.Data;
             
-            Uri uri = new Uri(uri_android.ToString());
+            var uri = new Uri(uri_android.ToString());
             IDictionary<string, string> fragment = Xamarin.Utilities.WebEx.FormDecode(uri.Fragment);
 
-            Account account = new Account
+            var account = new Account
             (
                 "username",
                 new Dictionary<string, string>(fragment)
             );
 
-            AuthenticatorCompletedEventArgs args_completed = new AuthenticatorCompletedEventArgs(account);
+            var args_completed = new AuthenticatorCompletedEventArgs(account);
 
             if (LoginRenderer.Auth != null)
             {

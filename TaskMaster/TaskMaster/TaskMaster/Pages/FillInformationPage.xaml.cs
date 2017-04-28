@@ -49,7 +49,7 @@ namespace TaskMaster.Pages
 	            if (await _userService.GetTask(_task) == null)
 	            {
 	                var result = await _userService.SaveTask(_task);
-	                _activity.ActivityId = result;
+	                _activity.TaskId = result;
 	                await _userService.SaveActivity(_activity);
 	                await Navigation.PushModalAsync(new NavigationPage(new MainPage()));
 	            }
