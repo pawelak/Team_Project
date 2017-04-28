@@ -157,7 +157,7 @@ namespace TaskMaster
                         ActivityId = activity.ActivityId,
                         Duration = $"{t.Hours:D2}h:{t.Minutes:D2}m:{t.Seconds:D2}s",
                         Time = time
-                };
+                    };
                     _activeTasksList.Add(item);
                 }
                 else

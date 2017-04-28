@@ -18,6 +18,13 @@ namespace TaskMaster
 	    {
 	        if (ActivityName != null)
 	        {
+	            var start = PlanTaskStartTime.Time + " " + PlanTaskStartDate.Date.ToString("dd/MM/yyyy");
+	            var time = DateTime.ParseExact(start,"HH:mm:ss dd/MM/yyyy",null);
+                if (time < DateTime.Now)
+                {
+                    await DisplayAlert("Error", "Wprowadzona data jest wcześniejsza niż obecna", "Ok");
+                    return;
+                }
 	            var newTask = new TasksDto
 	            {
 	                Name = ActivityName.Text,
@@ -35,17 +42,14 @@ namespace TaskMaster
 	                Status = StatusType.Planned
 	            };
 	            newActivity.ActivityId = await _userService.SaveActivity(newActivity);
-	            var start = PlanTaskStartTime.Time.ToString("HH:mm::ss") + " " + PlanTaskStartDate.Date.ToShortDateString();
-	            var end = PlanTaskStopTime.Time.ToString("HH:mm::ss") + " " + PlanTaskStopDate.Date.ToShortDateString();
 	            var part = new PartsOfActivityDto
 	            {
 	                ActivityId = newActivity.ActivityId,
 	                Start = start,
-	                Stop = end,
 	                Duration = "0"
 	            };
 	            await _userService.SavePartOfActivity(part);
-	            await Navigation.PopAsync();
+	            await Navigation.PopModalAsync();
 	        }
 	        else
 	            await DisplayAlert("Error", "Nie podałeś nazwy aktywności", "Ok");
@@ -59,12 +63,12 @@ namespace TaskMaster
 
 	    private void PlanTaskStartDate_OnUnfocused(object sender, FocusEventArgs e)
 	    {
-	        TaskDate.Text = PlanTaskStartTime.Time + " " + PlanTaskStartDate.Date.ToShortDateString();
+	        TaskDate.Text = PlanTaskStartTime.Time + " " + PlanTaskStartDate.Date.ToString("dd/MM/yyyy");
         }
 
 	    private void PlanTaskStartTime_OnUnfocused(object sender, FocusEventArgs e)
 	    {
-	        TaskDate.Text = PlanTaskStartTime.Time + " " + PlanTaskStartDate.Date.ToShortDateString();
+	        TaskDate.Text = PlanTaskStartTime.Time + " " + PlanTaskStartDate.Date.ToString("dd/MM/yyyy");
         }
 
 	    private void ActivityDescription_OnUnfocused(object sender, FocusEventArgs e)

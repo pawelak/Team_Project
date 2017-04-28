@@ -6,6 +6,7 @@ using Android.App;
 using Android.Content;
 using Android.Content.PM;
 using Android.OS;
+using Android.Widget;
 
 namespace TaskMaster.Droid
 {
@@ -13,6 +14,8 @@ namespace TaskMaster.Droid
         ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
     public class MainActivity : Xamarin.Forms.Platform.Android.FormsAppCompatActivity
     {
+        private bool _isServiceStarted;
+        private readonly UserService _userService = new UserService();
         protected override void OnCreate(Bundle bundle)
         {
             AppDomain.CurrentDomain.UnhandledException += CurrentDomainOnUnhandledException;
@@ -27,20 +30,23 @@ namespace TaskMaster.Droid
             LoadApplication(new App());
         }
   
-        protected override void OnStop()
+        protected override void OnPause()
         {
-            base.OnStop();
+            base.OnPause();
             PauseActivities();
             StartService(new Intent(this, typeof(BackgroundStopwatches)));
+            _isServiceStarted = true;
         }
 
-        protected override void OnRestart()
+        protected override void OnResume()
         {
-            base.OnRestart();
+            base.OnResume();
             RestartActivities();
-            StopService(new Intent(this, typeof(BackgroundStopwatches)));
+            if (!_isServiceStarted) return;
+            StopService(new Intent(this, typeof(BackgroundStopwatches)));            
+            _isServiceStarted = false;
         }
-        private static void PauseActivities()
+        private async void PauseActivities()
         {
             if (App.Stopwatches.Count == 0)
             {
@@ -48,6 +54,8 @@ namespace TaskMaster.Droid
             }
             foreach (var item in App.Stopwatches)
             {
+                var part = await _userService.GetPartsOfActivityById(item.GetPartId());
+                part.Duration = item.GetTime().ToString();
                 item.Stop();
             }
         }

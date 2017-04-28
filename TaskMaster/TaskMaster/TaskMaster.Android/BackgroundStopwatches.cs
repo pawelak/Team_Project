@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Threading;
 using System.Threading.Tasks;
 using Android.App;
 using Android.Content;
 using Android.OS;
-using Android.Widget;
 using TaskMaster.ModelsDto;
 using Xamarin.Forms;
 
@@ -53,17 +51,17 @@ namespace TaskMaster.Droid
 
         private bool UpdateTimes()
         {
-            foreach (var item in _stopwatches)
+            Task.Run(async () =>
             {
-                var t = new Thread(async () =>
+                foreach (var item in _stopwatches)
                 {
-                    var time = item.GetTime();
                     var part = await GetItem(item.GetPartId());
+                    var time = long.Parse(part.Duration) + 60000;
                     part.Duration = time.ToString();
                     SaveItem(part);
-                });
-                t.Start();
-            }
+                    item.Restart();
+                }
+            });
             return _isWorking;
         }
 
@@ -77,19 +75,21 @@ namespace TaskMaster.Droid
             await _userService.SavePartOfActivity(item);
         }
 
-        public override async void OnDestroy()
+        public override void OnDestroy()
         {
-            base.OnDestroy();
-            foreach (var item in _stopwatches)
+            Task.Run(async () =>
             {
-                var time = item.GetTime();
-                var part = await GetItem(item.GetPartId());
-                part.Duration = time.ToString();
-                SaveItem(part);
-                item.Stop();
-            }
-            _isWorking = false;
-            Console.WriteLine("Wykonało się");
+                foreach (var item in _stopwatches)
+                {
+                    var part = await GetItem(item.GetPartId());
+                    var time = long.Parse(part.Duration) + item.GetTime();
+                    part.Duration = time.ToString();
+                    SaveItem(part);
+                    item.Stop();
+                }
+                _isWorking = false;
+            });
+            base.OnDestroy();
         }
     }
 }

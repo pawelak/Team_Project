@@ -13,14 +13,19 @@
                 <Label x:Name="PlanTitle" Text="{x:StaticResource PlanLabel}" TextColor="{x:StaticResource TextColor}" 
                        FontFamily="{x:StaticResource Font}" FontSize="{x:StaticResource Header}"/>
             </StackLayout>
-            <StackLayout HeightRequest="50" Padding="10">
-                <StackLayout Orientation="Vertical"  BackgroundColor="{x:StaticResource BackgroundButtonColor}">
-                    <Label x:Name="TaskName" HorizontalOptions="CenterAndExpand" TextColor="{x:StaticResource TextColor}"
-                           FontFamily="{x:StaticResource Font}" FontSize="{x:StaticResource Medium}"/>
-                    <Label x:Name="TaskDescription" HorizontalOptions="CenterAndExpand" TextColor="{x:StaticResource TextColor}"
-                           FontFamily="{x:StaticResource Font}" FontSize="{x:StaticResource Medium}"/>
-                    <Label x:Name="TaskDate" HorizontalOptions="CenterAndExpand" TextColor="{x:StaticResource TextColor}"
-                           FontFamily="{x:StaticResource Font}" FontSize="{x:StaticResource Medium}"/>
+            <StackLayout HeightRequest="50" Margin="0,10,0,20">
+                <StackLayout Orientation="Horizontal" BackgroundColor="{x:StaticResource BackgroundButtonColor}">
+                    <StackLayout WidthRequest="50">
+                        <Label Text="Obraz" TextColor="{x:StaticResource TextColor}"/>
+                    </StackLayout>
+                    <StackLayout Orientation="Vertical" HorizontalOptions="FillAndExpand" Spacing="1">
+                        <Label x:Name="TaskName" TextColor="{x:StaticResource TextColor}"
+                               FontFamily="{x:StaticResource Font}" FontSize="{x:StaticResource Medium}"/>
+                        <Label x:Name="TaskDescription" TextColor="{x:StaticResource TextColor}"
+                               FontFamily="{x:StaticResource Font}" FontSize="{x:StaticResource Field}"/>
+                        <Label x:Name="TaskDate" TextColor="{x:StaticResource TextColor}"
+                               FontFamily="{x:StaticResource Font}" FontSize="{x:StaticResource Field}"/>
+                    </StackLayout>
                 </StackLayout>
             </StackLayout>
             <StackLayout Orientation="Horizontal" Spacing="2" Padding="10">
@@ -36,14 +41,6 @@
                 <DatePicker x:Name="PlanTaskStartDate" Format="dd/MM/yyyy" HorizontalOptions="Fill" TextColor="{x:StaticResource TextColor}" Unfocused="PlanTaskStartDate_OnUnfocused" 
                             BackgroundColor="{x:StaticResource BackgroundButtonColor}"/>
                 <TimePicker x:Name="PlanTaskStartTime" Format="HH:mm" HorizontalOptions="Fill" TextColor="{x:StaticResource TextColor}" Unfocused="PlanTaskStartTime_OnUnfocused" 
-                            BackgroundColor="{x:StaticResource BackgroundButtonColor}"/>
-            </StackLayout>
-            <StackLayout Orientation="Horizontal" Spacing="2" Padding="10">
-                <Label Text="{x:StaticResource DateStopText}" WidthRequest="70" HorizontalTextAlignment="End" VerticalOptions="Center" TextColor="{x:StaticResource TextColor}"
-                       FontFamily="{x:StaticResource Font}" FontSize="{x:StaticResource Field}"/>
-                <DatePicker x:Name="PlanTaskStopDate" Format="dd/MM/yyyy" HorizontalOptions="Fill" TextColor="{x:StaticResource TextColor}" 
-                            BackgroundColor="{x:StaticResource BackgroundButtonColor}"/>
-                <TimePicker x:Name="PlanTaskStopTime" Format="HH:mm" HorizontalOptions="Fill" TextColor="{x:StaticResource TextColor}" 
                             BackgroundColor="{x:StaticResource BackgroundButtonColor}"/>
             </StackLayout>
             <StackLayout Orientation="Horizontal" Spacing="2" Padding="10">
