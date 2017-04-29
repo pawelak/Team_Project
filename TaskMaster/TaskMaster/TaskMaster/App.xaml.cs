@@ -3,7 +3,6 @@ using Xamarin.Forms;
 using System;
 using System.Diagnostics;
 using System.Globalization;
-using AVFoundation;
 using Plugin.LocalNotifications;
 using TaskMaster.ModelsDto;
 
