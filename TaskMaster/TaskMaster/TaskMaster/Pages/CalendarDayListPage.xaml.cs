@@ -35,7 +35,7 @@ namespace TaskMaster.Pages
                     var element = new CustomList
                     {
                         Name = task.Name,
-                        Description = task.Description,
+                        Description = activity.Status.ToString(),
                         Time = $"{t.Hours:D2}h:{t.Minutes:D2}m:{t.Seconds:D2}s"
                     };
                     dayPlan.Add(element);
@@ -50,7 +50,7 @@ namespace TaskMaster.Pages
                     var element = new CustomList
                     {
                         Name = task.Name,
-                        Description = task.Description,
+                        Description = activity.Status.ToString(),
                         Time = $"{t.Hours:D2}h:{t.Minutes:D2}m:{t.Seconds:D2}s"
                     };
                     dayPlan.Add(element);
@@ -65,7 +65,7 @@ namespace TaskMaster.Pages
                     var element = new CustomList
                     {
                         Name = task.Name,
-                        Description = task.Description,
+                        Description = activity.Status.ToString(),
                         Time = $"{t.Hours:D2}h:{t.Minutes:D2}m:{t.Seconds:D2}s"
                     };
                     dayPlan.Add(element);

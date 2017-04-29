@@ -14,7 +14,7 @@
     </ContentPage.ToolbarItems>
     <ContentPage.Content>
         <StackLayout HorizontalOptions="Center" Spacing="15">
-            <ListView x:Name="DayPlan" HasUnevenRows="False" >
+            <ListView x:Name="HistoryPlan" HasUnevenRows="False" >
                 <ListView.Header>
                     <Label Text="{x:StaticResource History}" TextColor="{x:StaticResource TextColor}" HorizontalOptions="Center" 
                            FontFamily="{x:StaticResource Font}" FontSize="{x:StaticResource Header}"/>
@@ -22,25 +22,25 @@
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>
-                            <StackLayout>
-                                <StackLayout Orientation="Horizontal" BackgroundColor="{x:StaticResource BackgroundButtonColor}">
+                            <StackLayout Orientation="Vertical" BackgroundColor="{x:StaticResource BackgroundButtonColor}">
+                                <StackLayout Orientation="Horizontal">
                                     <StackLayout WidthRequest="50">
                                         <Label Text="Obraz" TextColor="{x:StaticResource TextColor}"/>
                                     </StackLayout>
-                                    <StackLayout Orientation="Vertical" HorizontalOptions="FillAndExpand">
-                                        <Label Text="{Binding Name}" HorizontalOptions="CenterAndExpand" TextColor="{x:StaticResource TextColor}"
-                                               FontFamily="{x:StaticResource Font}" FontSize="{x:StaticResource Medium}"/>
-                                        <Label Text="{Binding Description}" HorizontalOptions="CenterAndExpand" TextColor="{x:StaticResource TextColor}"
-                                               FontFamily="{x:StaticResource Font}" FontSize="{x:StaticResource Medium}"/>
-                                        <Label Text="{Binding Date}"  HorizontalOptions="CenterAndExpand" TextColor="{x:StaticResource TextColor}"
-                                               FontFamily="{x:StaticResource Font}" FontSize="{x:StaticResource Medium}"/>
+                                    <StackLayout Orientation="Vertical" HorizontalOptions="FillAndExpand" VerticalOptions="Fill" Spacing="1" Margin="2">
+                                        <Label Text="{Binding Name}" TextColor="{x:StaticResource TextColor}"
+                                               FontFamily="{x:StaticResource Font}" FontSize="{x:StaticResource Medium}" />
+                                        <Label Text="{Binding Date}" TextColor="{x:StaticResource TextColor}"
+                                               FontFamily="{x:StaticResource Font}" FontSize="{x:StaticResource Field}"/>
                                     </StackLayout>
-                                    <StackLayout VerticalOptions="CenterAndExpand" WidthRequest="80">
-                                        <Label Text="{Binding Time}" TextColor="{x:StaticResource TextColor}"
+                                    <StackLayout>
+                                        <Label Text="{Binding Time}" TextColor="{x:StaticResource TextColor}" HorizontalOptions="EndAndExpand"
+                                               FontFamily="{x:StaticResource Font}" FontSize="{x:StaticResource Medium}"/>
+                                        <Label Text="{Binding Description}" TextColor="{x:StaticResource TextColor}" HorizontalOptions="EndAndExpand"
                                                FontFamily="{x:StaticResource Font}" FontSize="{x:StaticResource Field}"/>
                                     </StackLayout>
                                 </StackLayout>
-                            </StackLayout> >
+                            </StackLayout>
                         </ViewCell>
                     </DataTemplate>
                 </ListView.ItemTemplate>
