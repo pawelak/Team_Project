@@ -175,7 +175,11 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="Xamarin.Auth, Version=1.5.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Xamarin.Auth.1.5.0-alpha-04\lib\MonoAndroid10\Xamarin.Auth.dll</HintPath>
+      <HintPath>..\..\packages\Xamarin.Auth.1.5.0-alpha-10\lib\MonoAndroid10\Xamarin.Auth.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Xamarin.Auth.XamarinForms, Version=1.5.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Xamarin.Auth.XamarinForms.1.5.0-alpha-10\lib\MonoAndroid10\Xamarin.Auth.XamarinForms.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Xamarin.Forms.Core, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
@@ -207,9 +211,7 @@
     <Compile Include="ActivityCustomUrlSchemeInterceptor.cs" />
     <Compile Include="BackgroundStopwatches.cs" />
     <Compile Include="FileHelper.cs" />
-    <Compile Include="LoginRenderer.cs" />
     <Compile Include="MainActivity.cs" />
-    <Compile Include="OAuthProviderSetting.cs" />
     <Compile Include="Resources\Resource.Designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
