@@ -82,7 +82,8 @@ namespace TaskMaster.Droid
                 foreach (var item in _stopwatches)
                 {
                     var part = await GetItem(item.GetPartId());
-                    var time = long.Parse(part.Duration) + item.GetTime();
+                    var t = item.GetTime();
+                    var time = long.Parse(part.Duration) + t;
                     part.Duration = time.ToString();
                     SaveItem(part);
                     item.Stop();

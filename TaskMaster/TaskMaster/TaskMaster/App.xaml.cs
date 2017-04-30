@@ -30,7 +30,7 @@ namespace TaskMaster
                     CrossLocalNotifications.Current.Show(task.Name, "Za 5 minut", part.PartId, DateTime.Parse(part.Start).AddMinutes(-5)); 
                 }
             }
-            var started = await _userService.GetActivitiesByStatus(StatusType.Start);
+            /*var started = await _userService.GetActivitiesByStatus(StatusType.Start);
             foreach (var start in started)
             {
                 var task = await _userService.GetTaskById(start.TaskId);
@@ -87,7 +87,7 @@ namespace TaskMaster
                 var stopwatch2 = new Stopwatches(sw2, part3.PartId);
                 Stopwatches.Add(stopwatch2);
                 Stopwatches[Stopwatches.Count - 1].Start();
-            }
+            }*/
         }
 
         protected override void OnSleep ()
