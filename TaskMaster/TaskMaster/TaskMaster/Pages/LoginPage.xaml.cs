@@ -52,7 +52,10 @@ namespace TaskMaster.Pages
 	            if (true)
 	            {
 	                // Renderers Implementaion
-	                await Navigation.PushModalAsync(new AuthenticatorPage());
+	                await Navigation.PushModalAsync(new AuthenticatorPage()
+	                {
+	                    Authenticator = auth
+	                });
 	            }
 	            else
 	            {
