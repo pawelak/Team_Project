@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-
 using Android.App;
 using Android.Content;
 using Android.OS;
-using Xamarin.Auth;
+using TaskMaster.Pages;
 
 namespace TaskMaster.Droid
 {
@@ -21,9 +19,10 @@ namespace TaskMaster.Droid
             },
             DataSchemes = new[]
             {
-                "http"
+                "TaskMaster.TaskMaster"
             },
-            DataHost = "localhost"
+            // DataHost = "localhost"
+            DataPath = "/oauth2redirect"
         )
     ]
     public class ActivityCustomUrlSchemeInterceptor : Activity
@@ -34,27 +33,22 @@ namespace TaskMaster.Droid
         {
             base.OnCreate(savedInstanceState);
 
-            // Create your application here
-            var uri_android = Intent.Data;
-            
-            var uri = new Uri(uri_android.ToString());
-            IDictionary<string, string> fragment = Xamarin.Utilities.WebEx.FormDecode(uri.Fragment);
+            Android.Net.Uri uri_android = Intent.Data;
 
-            var account = new Account
-            (
-                "username",
-                new Dictionary<string, string>(fragment)
-            );
+#if DEBUG
+            System.Text.StringBuilder sb = new System.Text.StringBuilder();
+            sb.AppendLine("ActivityCustomUrlSchemeInterceptor.OnCreate()");
+            sb.Append("     uri_android = ").AppendLine(uri_android.ToString());
+            System.Diagnostics.Debug.WriteLine(sb.ToString());
+#endif
 
-            var args_completed = new AuthenticatorCompletedEventArgs(account);
+            // Convert iOS NSUrl to C#/netxf/BCL System.Uri - common API
+            Uri uri_netfx = new Uri(uri_android.ToString());
 
-            if (LoginRenderer.Auth != null)
-            {
-                // call OnSucceeded to trigger OnCompleted event
-                LoginRenderer.Auth.OnSucceeded(account);
-            }
-            
-            Finish();
+            // load redirect_url Page
+            AuthenticationState.Authenticator.OnPageLoading(uri_netfx);
+
+            this.Finish();
         }
     }
 }

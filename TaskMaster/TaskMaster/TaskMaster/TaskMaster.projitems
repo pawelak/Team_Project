@@ -12,6 +12,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)AuthenticationState.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)CalendarVm.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Database\UserDatabase.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Interfaces\IFileHelper.cs" />
@@ -28,6 +29,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Models\Favorites.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\PartsOfActivity.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\Tasks.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)OAuthProviderSetting.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Pages\CalendarDayListPage.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
