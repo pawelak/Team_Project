@@ -51,7 +51,7 @@ namespace TaskMaster.Pages
 	            AuthenticationState.Authenticator = auth;
 	            if (true)
 	            {
-	                // Renderers Implementaion
+	                // Renderers Implementation
 	                await Navigation.PushModalAsync(new AuthenticatorPage()
 	                {
 	                    Authenticator = auth
