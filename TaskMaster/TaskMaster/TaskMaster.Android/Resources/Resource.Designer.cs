@@ -704,7 +704,6 @@ namespace TaskMaster.Droid
 			global::Xamarin.Auth.XamarinForms.Resource.Id.mr_chooser_route_name = global::TaskMaster.Droid.Resource.Id.mr_chooser_route_name;
 			global::Xamarin.Auth.XamarinForms.Resource.Id.mr_close = global::TaskMaster.Droid.Resource.Id.mr_close;
 			global::Xamarin.Auth.XamarinForms.Resource.Id.mr_control_divider = global::TaskMaster.Droid.Resource.Id.mr_control_divider;
-			global::Xamarin.Auth.XamarinForms.Resource.Id.mr_control_play_pause = global::TaskMaster.Droid.Resource.Id.mr_control_play_pause;
 			global::Xamarin.Auth.XamarinForms.Resource.Id.mr_control_subtitle = global::TaskMaster.Droid.Resource.Id.mr_control_subtitle;
 			global::Xamarin.Auth.XamarinForms.Resource.Id.mr_control_title = global::TaskMaster.Droid.Resource.Id.mr_control_title;
 			global::Xamarin.Auth.XamarinForms.Resource.Id.mr_control_title_container = global::TaskMaster.Droid.Resource.Id.mr_control_title_container;

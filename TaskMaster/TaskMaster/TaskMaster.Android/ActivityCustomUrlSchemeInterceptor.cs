@@ -1,12 +1,12 @@
 ﻿using System;
 using Android.App;
 using Android.Content;
+using Android.Content.PM;
 using Android.OS;
-using TaskMaster.Pages;
 
 namespace TaskMaster.Droid
 {
-    [Activity(Label = "ActivityCustomUrlSchemeInterceptor")]
+    [Activity(Label = "ActivityCustomUrlSchemeInterceptor", NoHistory = true, LaunchMode = LaunchMode.SingleTop)]
     [
         // App Linking - custom url schemes
         IntentFilter
@@ -19,7 +19,7 @@ namespace TaskMaster.Droid
             },
             DataSchemes = new[]
             {
-                "TaskMaster.TaskMaster"
+                "com.xamarin.traditional.standard.samples.oauth.providers.android"
             },
             // DataHost = "localhost"
             DataPath = "/oauth2redirect"
@@ -34,13 +34,6 @@ namespace TaskMaster.Droid
             base.OnCreate(savedInstanceState);
 
             Android.Net.Uri uri_android = Intent.Data;
-
-#if DEBUG
-            System.Text.StringBuilder sb = new System.Text.StringBuilder();
-            sb.AppendLine("ActivityCustomUrlSchemeInterceptor.OnCreate()");
-            sb.Append("     uri_android = ").AppendLine(uri_android.ToString());
-            System.Diagnostics.Debug.WriteLine(sb.ToString());
-#endif
 
             // Convert iOS NSUrl to C#/netxf/BCL System.Uri - common API
             Uri uri_netfx = new Uri(uri_android.ToString());

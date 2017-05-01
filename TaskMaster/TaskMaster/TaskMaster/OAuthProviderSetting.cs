@@ -17,7 +17,7 @@ namespace TaskMaster
                         null,
                         "https://www.googleapis.com/auth/userinfo.email",
                         new Uri("https://accounts.google.com/o/oauth2/auth"),
-                        new Uri("com.googleusercontent.apps.723494873981-qsnnp5vsa72f4d74bo8m8kqfsrbo25cq:/ouath2redirect"),
+                        new Uri("com.xamarin.traditional.standard.samples.oauth.providers.android:/oauth2redirect"),
                         new Uri("https://www.googleapis.com/oauth2/v4/token"),
                         isUsingNativeUI: true
                     );

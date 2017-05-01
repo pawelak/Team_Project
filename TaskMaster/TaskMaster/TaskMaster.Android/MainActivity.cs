@@ -22,7 +22,7 @@ namespace TaskMaster.Droid
             ToolbarResource = Resource.Layout.Toolbar;
             base.OnCreate(bundle);
             Xamarin.Forms.Forms.Init(this, bundle);
-            var started = await _userService.GetActivitiesByStatus(StatusType.Start);
+            /*var started = await _userService.GetActivitiesByStatus(StatusType.Start);
             foreach (var start in started)
             {
                 var alert = new AlertDialog.Builder(this);
@@ -105,8 +105,8 @@ namespace TaskMaster.Droid
                 });
                 var dialogOk = alert.Create();
                 dialogOk.Show();
-            }
-
+            }*/
+            Xamarin.Auth.Presenters.XamarinAndroid.AuthenticationConfiguration.Init(this, bundle);
             XamForms.Controls.Droid.Calendar.Init();
             LoadApplication(new App());
         }

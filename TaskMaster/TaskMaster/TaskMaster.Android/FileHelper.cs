@@ -11,7 +11,7 @@ namespace TaskMaster.Droid
     {
         public string GetLocalFilePath(string filename)
         {
-            string path = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
+            var path = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
             return Path.Combine(path, filename);
         }
     }
