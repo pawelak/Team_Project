@@ -20,5 +20,12 @@ namespace TaskMaster.Pages
         {
             await DisplayAlert("Dane", LoginEntry.Text+" "+PasswordEntry.Text, "Ok");
         }
+        private async void OnTapNoAccountTapped(object sender, EventArgs args) {
+            await Navigation.PushModalAsync(new NormalRegisterPage());
+    
+        }
+       
     }
+
+    
 }
