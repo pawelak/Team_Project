@@ -47,7 +47,10 @@ namespace TaskMaster.Pages
             {
                 _stopwatch = stopwatch.GetStopwatch();
             }
-            _duration += _stopwatch.ElapsedMilliseconds;
+            if (item.Status == StatusType.Start)
+            {
+                _duration += _stopwatch.ElapsedMilliseconds;
+            }
             Device.StartTimer(TimeSpan.FromSeconds(1), UpdateTime);
             UpdateButtons();
         }
@@ -75,9 +78,8 @@ namespace TaskMaster.Pages
             _isPageNotChanged = false;
             _stopwatch.Stop();
             _now = DateTime.Now;
-            var date = _now.ToString("HH:mm:ss dd/MM/yyyy");
-            _actual.Stop = date;
-            _actual.Duration = _stopwatch.ElapsedMilliseconds.ToString();
+            _actual.Stop = _now.ToString("HH:mm:ss dd/MM/yyyy");
+            _actual.Duration = _duration.ToString();
             _activity.Status = StatusType.Stop;
             await _userService.SaveActivity(_activity);
             await _userService.SavePartOfActivity(_actual);
@@ -98,7 +100,7 @@ namespace TaskMaster.Pages
         {
             _activity.Status = StatusType.Pause;
             _now = DateTime.Now;
-            string date = _now.ToString("HH:mm:ss dd/MM/yyyy");
+            var date = _now.ToString("HH:mm:ss dd/MM/yyyy");
             _actual.Stop = date;
             _stopwatch.Stop();
             _actual.Duration = _stopwatch.ElapsedMilliseconds.ToString();
@@ -118,12 +120,13 @@ namespace TaskMaster.Pages
                 Start = date,
                 Duration = "0"
             };
-            var result = await _userService.SavePartOfActivity(part);
+            part.PartId = await _userService.SavePartOfActivity(part);
             var sw = new Stopwatch();
-            var stopwatch = new Stopwatches(sw,result);
+            var stopwatch = new Stopwatches(sw,part.PartId);
             App.Stopwatches.Add(stopwatch);
             App.Stopwatches[App.Stopwatches.Count - 1].Start();
             _actual = part;
+            _stopwatch = App.Stopwatches[App.Stopwatches.Count - 1].GetStopwatch();
             await _userService.SaveActivity(_activity);
             Device.StartTimer(TimeSpan.FromSeconds(1), UpdateTime);
             UpdateButtons();
@@ -143,7 +146,9 @@ namespace TaskMaster.Pages
         {
             _isPageNotChanged = false;
             if (_task.TaskId == 0)
+            {
                 await Navigation.PushModalAsync(new FillInformationPage(_activity));
+            }
             else
             {
                 _task.Description = ActivityDescription.Text;

@@ -1,19 +1,16 @@
 ﻿using System.Collections.Generic;
 using Xamarin.Forms;
-using System;
-using Plugin.LocalNotifications;
 
 namespace TaskMaster
 {
 	public partial class App
 	{
 	    public static List<Stopwatches> Stopwatches = new List<Stopwatches>();
-        private readonly UserService _userService = new UserService();
 	    public App ()
 		{
             InitializeComponent();
-			MainPage = new NavigationPage(new MainPage());
-        }
+		    MainPage = new NavigationPage(new MainPage(true));
+		}
 
         protected override void OnStart()
         {            

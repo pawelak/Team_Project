@@ -50,6 +50,7 @@ namespace TaskMaster.Pages
 	            {
 	                var result = await _userService.SaveTask(_task);
 	                _activity.TaskId = result;
+                    _activity.Status = StatusType.Stop;
 	                await _userService.SaveActivity(_activity);
 	                await Navigation.PushModalAsync(new NavigationPage(new MainPage()));
 	            }
@@ -57,7 +58,8 @@ namespace TaskMaster.Pages
 	            {
 	                _task = await _userService.GetTask(_task);
 	                _activity.TaskId = _task.TaskId;
-	                await _userService.SaveActivity(_activity);
+	                _activity.Status = StatusType.Stop;
+                    await _userService.SaveActivity(_activity);
 	                await Navigation.PushModalAsync(new NavigationPage(new MainPage()));
 	            }
             }
