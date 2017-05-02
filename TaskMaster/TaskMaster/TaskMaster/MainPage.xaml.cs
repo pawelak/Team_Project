@@ -195,7 +195,7 @@ namespace TaskMaster
 
         private async void StartTaskButton_OnClicked(object sender, EventArgs e)
         {
-            await Navigation.PushModalAsync(new LoginPage());
+            await Navigation.PushModalAsync(new NormalLoginPage());
         }
 
         private async void PlanTaskButton_OnClicked(object sender, EventArgs e)
