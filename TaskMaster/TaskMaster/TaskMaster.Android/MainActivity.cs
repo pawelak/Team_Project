@@ -1,12 +1,9 @@
 ﻿using System;
-using System.Diagnostics;
-using System.Globalization;
-using System.Threading.Tasks;
 using Android.App;
 using Android.Content;
 using Android.Content.PM;
 using Android.OS;
-using TaskMaster.ModelsDto;
+using Plugin.LocalNotifications;
 
 namespace TaskMaster.Droid
 {
@@ -22,6 +19,21 @@ namespace TaskMaster.Droid
             ToolbarResource = Resource.Layout.Toolbar;
             base.OnCreate(bundle);
             Xamarin.Forms.Forms.Init(this, bundle);
+            var result2 = await _userService.GetActivitiesByStatus(StatusType.Planned);
+            foreach (var activity in result2)
+            {
+                var task = await _userService.GetTaskById(activity.TaskId);
+                var part = await _userService.GetLastActivityPart(activity.ActivityId);
+                if (DateTime.ParseExact(part.Start, "HH:mm:ss dd/MM/yyyy", null) < DateTime.Now)
+                {
+                    part.Stop = part.Start;
+                    activity.Status = StatusType.Stop;
+                    await _userService.SaveActivity(activity);
+                    await _userService.SavePartOfActivity(part);
+                    continue;
+                }
+                CrossLocalNotifications.Current.Show(task.Name, "Za 5 minut", part.PartId, DateTime.Parse(part.Start).AddMinutes(-5));
+            }
             /*var started = await _userService.GetActivitiesByStatus(StatusType.Start);
             foreach (var start in started)
             {

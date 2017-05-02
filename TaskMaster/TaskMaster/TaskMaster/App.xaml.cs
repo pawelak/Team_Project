@@ -15,18 +15,8 @@ namespace TaskMaster
 			MainPage = new NavigationPage(new MainPage());
         }
 
-        protected override async void OnStart()
+        protected override void OnStart()
         {            
-            var result2 = await _userService.GetActivitiesByStatus(StatusType.Planned);
-            foreach (var activity in result2)
-            {
-                var task = await _userService.GetTaskById(activity.TaskId);
-                var parts = await _userService.GetPartsOfActivityByActivityId(activity.ActivityId);
-                foreach (var part in parts)
-                {
-                    CrossLocalNotifications.Current.Show(task.Name, "Za 5 minut", part.PartId, DateTime.Parse(part.Start).AddMinutes(-5)); 
-                }
-            }
             
         }
 
