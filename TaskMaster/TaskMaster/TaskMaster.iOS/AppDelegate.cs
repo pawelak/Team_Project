@@ -3,16 +3,34 @@ using System;
 using System.Diagnostics;
 using System.Linq;
 using UIKit;
+using UserNotifications;
+
 namespace TaskMaster.iOS
 {
 	[Register("AppDelegate")]
 	public class AppDelegate : Xamarin.Forms.Platform.iOS.FormsApplicationDelegate
 	{
-        private readonly UserServices _userServices = new UserServices();
+        private readonly UserService _userService = new UserService();
         public override bool FinishedLaunching(UIApplication app, NSDictionary options)
 		{
 			Xamarin.Forms.Forms.Init ();
             XamForms.Controls.iOS.Calendar.Init();
+		    if (UIDevice.CurrentDevice.CheckSystemVersion(10, 0))
+		    {
+		        // Ask the user for permission to get notifications on iOS 10.0+
+		        UNUserNotificationCenter.Current.RequestAuthorization(
+		            UNAuthorizationOptions.Alert | UNAuthorizationOptions.Badge | UNAuthorizationOptions.Sound,
+		            (approved, error) => { });
+		    }
+		    else if (UIDevice.CurrentDevice.CheckSystemVersion(8, 0))
+		    {
+		        // Ask the user for permission to get notifications on iOS 8.0+
+		        var settings = UIUserNotificationSettings.GetSettingsForTypes(
+		            UIUserNotificationType.Alert | UIUserNotificationType.Badge | UIUserNotificationType.Sound,
+		            new NSSet());
+
+		        UIApplication.SharedApplication.RegisterUserNotificationSettings(settings);
+		    }
             LoadApplication (new App ());
 			return base.FinishedLaunching (app, options);
 		}
@@ -24,19 +42,19 @@ namespace TaskMaster.iOS
         {
             var now = DateTime.Now;
             string date = now.ToString("HH:mm:ss dd/MM/yyyy");
-            var result = await _userServices.GetActivitiesByStatus(StatusType.Start);
+            var result = await _userService.GetActivitiesByStatus(StatusType.Start);
             foreach (var activity in result)
             {
                 activity.Status = StatusType.Pause;
-                var actual = await _userServices.GetLastActivityPart(activity.ActivityId);
+                var actual = await _userService.GetLastActivityPart(activity.ActivityId);
                 actual.Stop = date;
                 var sw = new Stopwatch();
-                var firstOrDefault = App.Stopwatches.FirstOrDefault(s => s.GetPartId() == actual.PartId);
-                if (firstOrDefault != null)
-                    sw = firstOrDefault.GetStopwatch();
+                var stopwatch = App.Stopwatches.FirstOrDefault(s => s.GetPartId() == actual.PartId);
+                if (stopwatch != null)
+                    sw = stopwatch.GetStopwatch();
                 actual.Duration = sw.ElapsedMilliseconds.ToString();
-                await _userServices.SaveActivity(activity);
-                await _userServices.SavePartOfActivity(actual);
+                await _userService.SaveActivity(activity);
+                await _userService.SavePartOfActivity(actual);
             }
         }
     }

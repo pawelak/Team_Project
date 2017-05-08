@@ -10,8 +10,8 @@ namespace TaskMaster.iOS
     {
         public string GetLocalFilePath(string filename)
         {
-            string docFolder = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
-            string libFolder = Path.Combine(docFolder, "..", "Library", "Databases");
+            var docFolder = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
+            var libFolder = Path.Combine(docFolder, "..", "Library", "Databases");
 
             if (!Directory.Exists(libFolder))
             {

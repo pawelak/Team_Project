@@ -12,10 +12,14 @@
     <Compile Include="$(MSBuildThisFileDirectory)App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)AuthenticationState.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)CalendarVm.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)CustomList.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)HistoryList.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)MainPageList.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Database\UserDatabase.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Interfaces\IFileHelper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Lists\CustomList.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Lists\HistoryList.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Lists\MainPageList.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)MapProfiles\UserMapProfile.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ModelsDto\ActivitiesDto.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ModelsDto\FavoritesDto.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ModelsDto\PartsOfActivityDto.cs" />
@@ -25,6 +29,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Models\Favorites.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\PartsOfActivity.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\Tasks.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)OAuthProviderSetting.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Pages\CalendarDayListPage.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -40,13 +45,18 @@
     <Compile Include="$(MSBuildThisFileDirectory)Pages\LoginPage.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Pages\NormalLoginPage.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Pages\NormalRegisterPage.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Pages\ProviderLoginPage.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Services\UserService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)StatusType.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Stopwatches.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)UserDatabase.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)IFileHelper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
@@ -63,8 +73,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Pages\HistoryPage.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="$(MSBuildThisFileDirectory)UserMapProfile.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)UserServices.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="$(MSBuildThisFileDirectory)MainPage.xaml">
@@ -115,6 +123,16 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="$(MSBuildThisFileDirectory)Pages\ProviderLoginPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Pages\NormalLoginPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Pages\NormalRegisterPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
   </ItemGroup>

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace TaskMaster.Pages
 {
@@ -7,7 +8,7 @@ namespace TaskMaster.Pages
     public partial class CalendarDayListPage
     {
         private DateTime _calendarDay;
-        private readonly UserServices _userServices = new UserServices();
+        private readonly UserService _userService = new UserService();
         public CalendarDayListPage(DateTime dateTime)
         {
             _calendarDay = dateTime;
@@ -21,47 +22,62 @@ namespace TaskMaster.Pages
 
         private async void ListInitiate()
         {
-            var result = await _userServices.GetActivitiesByStatus(StatusType.Stop);
-            List<CustomList> dayPlan = new List<CustomList>();
-            foreach (var activity in result)
+            try
             {
-                long time = 0;
-                var parts = await _userServices.GetPartsOfActivityByActivityId(activity.ActivityId);
-                foreach (var part in parts)
+                var result = await _userService.GetActivitiesByStatus(StatusType.Stop);
+                var dayPlan = new List<CustomList>();
+                foreach (var activity in result)
                 {
-                    time += long.Parse(part.Duration);
-                }
-                var task = await _userServices.GetTaskById(activity.TaskId);
-                var element = new CustomList()
-                {
-                    Name = task.Name,
-                    Description = task.Description,
-                    Time = time.ToString()
-                };
-                dayPlan.Add(element);
-            }
-            var result2 = await _userServices.GetActivitiesByStatus(StatusType.Planned);
-            foreach (var activity in result2)
-            {
-                long time = 0;
-                var parts = await _userServices.GetPartsOfActivityByActivityId(activity.ActivityId);
-                foreach (var part in parts)
-                {
-                    if (DateTime.Parse(part.Start).ToString("dd/MM/yyyy").Equals(_calendarDay.ToString("dd/MM/yyyy")))
+                    var parts = await _userService.GetPartsOfActivityByActivityId(activity.ActivityId);
+                    var time = parts.Where(part => DateTime.ParseExact(part.Start, "HH:mm:ss dd/MM/yyyy", null).ToString("dd/MM/yyyy").Equals(_calendarDay.ToString("dd/MM/yyyy"))).Sum(part => long.Parse(part.Duration));
+                    var task = await _userService.GetTaskById(activity.TaskId);
+                    var t = TimeSpan.FromMilliseconds(time);
+                    var element = new CustomList
                     {
-                        time += long.Parse(part.Duration);
-                    }
+                        Name = task.Name,
+                        Description = activity.Status.ToString(),
+                        Time = $"{t.Hours:D2}h:{t.Minutes:D2}m:{t.Seconds:D2}s"
+                    };
+                    dayPlan.Add(element);
                 }
-                var task = await _userServices.GetTaskById(activity.TaskId);
-                var element = new CustomList()
+                var result2 = await _userService.GetActivitiesByStatus(StatusType.Planned);
+                foreach (var activity in result2)
                 {
-                    Name = task.Name,
-                    Description = task.Description,
-                    Time = time.ToString()
-                };
-                dayPlan.Add(element);
+                    var parts = await _userService.GetPartsOfActivityByActivityId(activity.ActivityId);
+                    var time = parts.Where(part => DateTime.ParseExact(part.Start, "HH:mm:ss dd/MM/yyyy", null).ToString("dd/MM/yyyy").Equals(_calendarDay.ToString("dd/MM/yyyy"))).Sum(part => long.Parse(part.Duration));
+                    var task = await _userService.GetTaskById(activity.TaskId);
+                    var t = TimeSpan.FromMilliseconds(time);
+                    var element = new CustomList
+                    {
+                        Name = task.Name,
+                        Description = activity.Status.ToString(),
+                        Time = $"{t.Hours:D2}h:{t.Minutes:D2}m:{t.Seconds:D2}s"
+                    };
+                    dayPlan.Add(element);
+                }
+                var result3 = await _userService.GetActivitiesByStatus(StatusType.Pause);
+                foreach (var activity in result3)
+                {
+                    var parts = await _userService.GetPartsOfActivityByActivityId(activity.ActivityId);
+                    var time = parts.Where(part => DateTime.ParseExact(part.Start, "HH:mm:ss dd/MM/yyyy", null).ToString("dd/MM/yyyy").Equals(_calendarDay.ToString("dd/MM/yyyy"))).Sum(part => long.Parse(part.Duration));
+                    var task = await _userService.GetTaskById(activity.TaskId);
+                    var t = TimeSpan.FromMilliseconds(time);
+                    var element = new CustomList
+                    {
+                        Name = task.Name,
+                        Description = activity.Status.ToString(),
+                        Time = $"{t.Hours:D2}h:{t.Minutes:D2}m:{t.Seconds:D2}s"
+                    };
+                    dayPlan.Add(element);
+                }
+                DayPlan.ItemsSource = dayPlan;
             }
-            DayPlan.ItemsSource = dayPlan;
+            catch (Exception e)
+            {
+                await DisplayAlert("erorr", e.Message, "ok");
+                throw;
+            }
         }
+       
     }
 }

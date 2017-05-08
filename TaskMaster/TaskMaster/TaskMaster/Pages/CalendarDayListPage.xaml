@@ -16,15 +16,19 @@
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>
-                            <StackLayout BackgroundColor="{x:StaticResource BackgroundButtonColor}" Orientation="Vertical">
+                            <StackLayout Orientation="Vertical" BackgroundColor="{x:StaticResource BackgroundButtonColor}">
                                 <StackLayout Orientation="Horizontal">
-                                    <Label Text="{Binding Name}" TextColor="{x:StaticResource TextColor}" 
-                                           FontFamily="{x:StaticResource Font}" FontSize="{x:StaticResource Medium}"/>
-                                    <Label Text="{Binding Time}" HorizontalOptions="EndAndExpand" TextColor="{x:StaticResource TextColor}" 
-                                           FontFamily="{x:StaticResource Font}" FontSize="{x:StaticResource Medium}"/>
+                                    <StackLayout Orientation="Vertical" HorizontalOptions="FillAndExpand" VerticalOptions="Fill" Spacing="1" Margin="2">
+                                        <Label Text="{Binding Name}" TextColor="{x:StaticResource TextColor}"
+                                               FontFamily="{x:StaticResource Font}" FontSize="{x:StaticResource Medium}" />
+                                        <Label Text="{Binding Description}" TextColor="{x:StaticResource TextColor}"
+                                               FontFamily="{x:StaticResource Font}" FontSize="{x:StaticResource Field}"/>
+                                    </StackLayout>
+                                    <StackLayout>
+                                        <Label Text="{Binding Time}" TextColor="{x:StaticResource TextColor}" HorizontalOptions="EndAndExpand"
+                                               FontFamily="{x:StaticResource Font}" FontSize="{x:StaticResource Medium}"/>
+                                    </StackLayout>
                                 </StackLayout>
-                                <Label Text="{Binding Description}" TextColor="{x:StaticResource TextColor}" 
-                                       FontFamily="{x:StaticResource Font}" FontSize="{x:StaticResource Medium}"/>
                             </StackLayout>
                         </ViewCell>
                     </DataTemplate>

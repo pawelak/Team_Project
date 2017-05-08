@@ -8,7 +8,7 @@ namespace TaskMaster
 	[XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class PlanTaskPage
 	{
-        private readonly UserServices _userServices = new UserServices();
+        private readonly UserService _userService = new UserService();
 		public PlanTaskPage ()
 		{
 			InitializeComponent ();
@@ -18,15 +18,22 @@ namespace TaskMaster
 	    {
 	        if (ActivityName != null)
 	        {
+	            var start = PlanTaskStartTime.Time + " " + PlanTaskStartDate.Date.ToString("dd/MM/yyyy");
+	            var time = DateTime.ParseExact(start,"HH:mm:ss dd/MM/yyyy",null);
+                if (time < DateTime.Now)
+                {
+                    await DisplayAlert("Error", "Wprowadzona data jest wcześniejsza niż obecna", "Ok");
+                    return;
+                }
 	            var newTask = new TasksDto
 	            {
 	                Name = ActivityName.Text,
 	                Description = ActivityDescription.Text
 	            };
-	            if (await _userServices.GetTask(newTask) == null)
-	                newTask.TaskId = await _userServices.SaveTask(newTask);
+	            if (await _userService.GetTask(newTask) == null)
+	                newTask.TaskId = await _userService.SaveTask(newTask);
 	            else
-	                newTask = await _userServices.GetTask(newTask);
+	                newTask = await _userService.GetTask(newTask);
 	            var newActivity = new ActivitiesDto
 	            {
 	                UserId = 1,
@@ -34,18 +41,15 @@ namespace TaskMaster
 	                GroupId = 1,
 	                Status = StatusType.Planned
 	            };
-	            newActivity.ActivityId = await _userServices.SaveActivity(newActivity);
-	            var start = PlanTaskStartTime.Time + " " + PlanTaskStartDate.Date.ToShortDateString();
-	            var end = PlanTaskStopTime.Time + " " + PlanTaskStopDate.Date.ToShortDateString();
+	            newActivity.ActivityId = await _userService.SaveActivity(newActivity);
 	            var part = new PartsOfActivityDto
 	            {
 	                ActivityId = newActivity.ActivityId,
 	                Start = start,
-	                Stop = end,
 	                Duration = "0"
 	            };
-	            await _userServices.SavePartOfActivity(part);
-	            await Navigation.PopAsync();
+	            await _userService.SavePartOfActivity(part);
+	            await Navigation.PopModalAsync();
 	        }
 	        else
 	            await DisplayAlert("Error", "Nie podałeś nazwy aktywności", "Ok");
@@ -59,12 +63,12 @@ namespace TaskMaster
 
 	    private void PlanTaskStartDate_OnUnfocused(object sender, FocusEventArgs e)
 	    {
-	        TaskDate.Text = PlanTaskStartTime.Time + " " + PlanTaskStartDate.Date.ToShortDateString();
+	        TaskDate.Text = PlanTaskStartTime.Time + " " + PlanTaskStartDate.Date.ToString("dd/MM/yyyy");
         }
 
 	    private void PlanTaskStartTime_OnUnfocused(object sender, FocusEventArgs e)
 	    {
-	        TaskDate.Text = PlanTaskStartTime.Time + " " + PlanTaskStartDate.Date.ToShortDateString();
+	        TaskDate.Text = PlanTaskStartTime.Time + " " + PlanTaskStartDate.Date.ToString("dd/MM/yyyy");
         }
 
 	    private void ActivityDescription_OnUnfocused(object sender, FocusEventArgs e)

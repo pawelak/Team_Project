@@ -51,7 +51,16 @@
             <x:String x:Key="StartNameText">nazwa:</x:String>
             <x:String x:Key="StartDescriptionText">komentarz:</x:String>
             <x:String x:Key="StartTaskButtonText">Rozpocznij aktywność</x:String>
-            
+            <!-- Normal Login Page -->
+            <x:String x:Key="LoginTitle">Logowanie</x:String>
+            <x:String x:Key="LoginText">Login:</x:String>
+            <x:String x:Key="PasswordText">Hasło:</x:String>
+            <x:String x:Key="AcceptLogin">Zaloguj</x:String>
+            <x:String x:Key="NoAccount">Nie masz konta?</x:String>
+            <!-- Normal Register Page -->
+            <x:String x:Key="RegisterTitle">Rejestracja</x:String>
+            <x:String x:Key="AcceptRegister">Zarejestruj</x:String>
+
         </ResourceDictionary>
     </Application.Resources>
 </Application>
