@@ -2,50 +2,43 @@
 using System.Linq;
 using System.Data.Entity;
 
-
 namespace TaskMaster.DAL.Repositories
 {
      public class RepoBase<T> where T : class
      {
-            protected Context.DatabaseContext DatabaseContext = new Context.DatabaseContext();
+            protected Context.DatabaseContext db = new Context.DatabaseContext();
 
-            public T Get(int x)
+            protected void Add(T X)
             {
-                return DatabaseContext.Set<T>().Find(x);
+                db.Set<T>().Add(X);
+                db.SaveChanges();
             }
 
-            public void Add(T x)
+            protected void Delete(T X)
             {
-                DatabaseContext.Set<T>().Add(x);
-                DatabaseContext.SaveChanges();
+                db.Set<T>().Remove(X);
+                db.SaveChanges();
             }
 
-            public void Delete(T x)
+            protected IList<T> GetAll()
             {
-                DatabaseContext.Set<T>().Remove(x);
-                DatabaseContext.SaveChanges();
+                return db.Set<T>().ToList<T>();
             }
 
-            public IList<T> GetAll()
+             protected T Get(int ID)
             {
-                return DatabaseContext.Set<T>().ToList();
+                return db.Set<T>().Find(ID);
             }
 
-            //public T Get(int ID)
-            //{
-            //    return db.Set<T>().FirstOrDefault<>();
-            //}
-
-            public void Edit(T x)
+            protected void Edit(T X)
             {
-                // Proszę o zwórcenie bacznej uwagi na kod ponizej i informacje o jego poprawnosci
-                DatabaseContext.Entry(x).State = EntityState.Modified;
-                DatabaseContext.SaveChanges();
+                db.Entry(X).State = EntityState.Modified;
+                db.SaveChanges();
             }
 
-            public int Count()
+            protected int Count()
             {
-                return DatabaseContext.Set<T>().Count();
+                return db.Set<T>().Count<T>();
             }
         }
 }
