@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "723494873981",
+    "project_id": "taskmaster-163310"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:723494873981:android:4a55c2e433a76932",
+        "android_client_info": {
+          "package_name": "taskMaster.TaskMaster"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "723494873981-d2g3is1hni67ejbdpplk0n3qfhsjntcs.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "taskMaster.TaskMaster",
+            "certificate_hash": "31011e487a3923fa0e6d843ab8c79c4036ccd475"
+          }
+        },
+        {
+          "client_id": "723494873981-np3v1u9js6jman2qri5r0gfd7fl3g3c2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCcT_mQSsmiE-XFQEV9EHYCQrIo2GZMM-o"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 1
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -38,17 +38,16 @@ namespace TaskMaster
 	                Status = StatusType.Start
 	            };
 	            newActivity.ActivityId = await _userService.SaveActivity(newActivity);
-	            var now = DateTime.Now;
-	            var date = now.ToString("HH:mm:ss dd/MM/yyyy");
+	            var date = DateTime.Now.ToString("HH:mm:ss dd/MM/yyyy");
 	            var part = new PartsOfActivityDto
 	            {
 	                ActivityId = newActivity.ActivityId,
 	                Start = date,
 	                Duration = "0"
 	            };
-	            var result = await _userService.SavePartOfActivity(part);
+	            part.PartId = await _userService.SavePartOfActivity(part);
 	            var sw = new Stopwatch();
-	            var stopwatch = new Stopwatches(sw, result);
+	            var stopwatch = new Stopwatches(sw, part.PartId);
 	            App.Stopwatches.Add(stopwatch);
 	            App.Stopwatches[App.Stopwatches.Count - 1].Start();
 	            await Navigation.PopModalAsync();

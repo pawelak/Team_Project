@@ -220,6 +220,7 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </AndroidAsset>
     <None Include="app.config" />
+    <None Include="google-services.json" />
     <None Include="packages.config" />
     <None Include="Resources\AboutResources.txt" />
     <None Include="Assets\AboutAssets.txt" />

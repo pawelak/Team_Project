@@ -19,21 +19,25 @@ namespace TaskMaster
 	        if (ActivityName != null)
 	        {
 	            var start = PlanTaskStartTime.Time + " " + PlanTaskStartDate.Date.ToString("dd/MM/yyyy");
-	            var time = DateTime.ParseExact(start,"HH:mm:ss dd/MM/yyyy",null);
-                if (time < DateTime.Now)
-                {
-                    await DisplayAlert("Error", "Wprowadzona data jest wcześniejsza niż obecna", "Ok");
-                    return;
-                }
+	            var time = DateTime.ParseExact(start, "HH:mm:ss dd/MM/yyyy", null);
+	            if (time < DateTime.Now)
+	            {
+	                await DisplayAlert("Error", "Wprowadzona data jest wcześniejsza niż obecna", "Ok");
+	                return;
+	            }
 	            var newTask = new TasksDto
 	            {
 	                Name = ActivityName.Text,
 	                Description = ActivityDescription.Text
 	            };
 	            if (await _userService.GetTask(newTask) == null)
+	            {
 	                newTask.TaskId = await _userService.SaveTask(newTask);
+	            }
 	            else
+	            {
 	                newTask = await _userService.GetTask(newTask);
+	            }
 	            var newActivity = new ActivitiesDto
 	            {
 	                UserId = 1,
@@ -52,7 +56,9 @@ namespace TaskMaster
 	            await Navigation.PopModalAsync();
 	        }
 	        else
+	        {
 	            await DisplayAlert("Error", "Nie podałeś nazwy aktywności", "Ok");
+	        }
 
 	    }
 
