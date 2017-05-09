@@ -55,6 +55,7 @@ namespace TaskMaster
             Device.StartTimer(TimeSpan.FromSeconds(1), UpdateTime);
             return false;
         }
+
         private bool UpdateTime()
         {
             if (_activeTasksList.Count <= 0)
@@ -92,12 +93,8 @@ namespace TaskMaster
             return true;
         }
 
-        private async void ListInitiate()
+        private async void GetStartedActivities()
         {
-            if (_activeTasksList.Count > 0)
-            {
-                _activeTasksList.Clear();
-            }
             var activitiesStarted = await _userService.GetActivitiesByStatus(StatusType.Start);
             foreach (var activity in activitiesStarted)
             {
@@ -109,7 +106,6 @@ namespace TaskMaster
                     if (stopwatch != null)
                     {
                         time += stopwatch.GetStopwatch().ElapsedMilliseconds;
-                        //await DisplayAlert("title", time.ToString(), "Ok");
                     }
                     else
                     {
@@ -162,6 +158,10 @@ namespace TaskMaster
                     _activeTasksList.Add(item);
                 }
             }
+        }
+
+        private async void GetPausedActivities()
+        {
             var result2 = await _userService.GetActivitiesByStatus(StatusType.Pause);
             foreach (var activity in result2)
             {
@@ -212,6 +212,15 @@ namespace TaskMaster
                     _activeTasksList.Add(item);
                 }
             }
+        }
+        private void ListInitiate()
+        {
+            if (_activeTasksList.Count > 0)
+            {
+                _activeTasksList.Clear();
+            }
+            GetStartedActivities();
+            GetPausedActivities();
             ActiveTasks.ItemsSource = _activeTasksList;
         }
 

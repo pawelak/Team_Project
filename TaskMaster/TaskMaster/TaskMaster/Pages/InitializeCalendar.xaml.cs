@@ -30,7 +30,7 @@ namespace TaskMaster.Pages
                 EnableTitleMonthYearView = true,
                 WeekdaysTextColor = Color.Teal,
                 StartDay = DayOfWeek.Monday,
-                SelectedTextColor = Color.Fuchsia,
+                SelectedTextColor = Color.Fuchsia
             };
             _calendar.DateClicked += (sender, e) =>
             {

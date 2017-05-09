@@ -35,8 +35,8 @@ namespace TaskMaster.Pages
 
         private async void AddActivitiesByStatus(StatusType status)
         {
-            var activitiesPausedList = await _userService.GetActivitiesByStatus(status);
-            foreach (var activity in activitiesPausedList)
+            var activities = await _userService.GetActivitiesByStatus(status);
+            foreach (var activity in activities)
             {
                 var parts = await _userService.GetPartsOfActivityByActivityId(activity.ActivityId);
                 var time = parts.Where(part => DateTime.ParseExact(part.Start, "HH:mm:ss dd/MM/yyyy", null)
