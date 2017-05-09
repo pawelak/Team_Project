@@ -107,14 +107,25 @@
 </script>
 
 <script>
+    var borderGoogle = false;
+    var borderFacebook = false;
+
     $('.googleButton').on('click', function (e) {
         e.preventDefault();
-        $(this).css('border-color', 'lime');
+        if (borderGoogle)
+            $(this).css('border-color', 'transparent');
+        else
+            $(this).css('border-color', 'lime');
+        borderGoogle = !borderGoogle;
     });
 
     $('.facebookButton').on('click', function (e) {
         e.preventDefault();
-        $(this).css('border-color', 'lime');
+        if (borderFacebook)
+            $(this).css('border-color', 'transparent');
+        else
+            $(this).css('border-color', 'lime');
+        borderFacebook = !borderFacebook;
     });
 </script>
 
