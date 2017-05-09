@@ -3,8 +3,11 @@
     height:100%;
 }
 
-.navbar {
-    margin-bottom: 0px;
+.body-content {
+    margin-top: 80px;
+}
+
+.navbar {    
     padding-bottom: 10px;
     padding-top:10px; 
 }
@@ -13,39 +16,14 @@
     width: 150px;
     position: absolute;
     margin-top: -25px;
+    
 }
 
 .navbar-right {
     font-size: 14px;  
 }
 
-.loggingSection {
-    margin-top: 140px;
-    position: relative;
+.navbar-brand {
+    width: 200px;
 }
-
-button img {
-    width: 60%;
-}
-
-.howItWorksSection {
-    background-color: #375a7f;
-    text-align: center;    
-    margin-top: 100px;
-    padding-top: 20px;    
-    bottom: 0;
-    position: absolute;    
-    z-index: -1;
-    height: 30%;
-}
-
-.howItWorksSection h3 {
-    padding-bottom: 30px;
-}
-
-.howItWorksSection p {
-    padding: 0px 60px 50px 60px;
-}
-
-
 
