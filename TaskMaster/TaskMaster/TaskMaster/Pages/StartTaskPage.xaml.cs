@@ -8,7 +8,7 @@ namespace TaskMaster
 	[XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class StartTaskPage
 	{
-        private readonly UserServices _userServices = new UserServices();
+        private readonly UserService _userService = new UserService();
 		public StartTaskPage ()
 		{
 			InitializeComponent ();
@@ -23,34 +23,40 @@ namespace TaskMaster
 	                Name = StartTaskName.Text,
 	                Description = StartTaskDescription.Text
 	            };
-	            if (await _userServices.GetTask(newTask) == null)
-	                newTask.TaskId = await _userServices.SaveTask(newTask);
+	            if (await _userService.GetTask(newTask) == null)
+	            {
+	                newTask.TaskId = await _userService.SaveTask(newTask);
+	            }
 	            else
-	                newTask = _userServices.GetTask(newTask).Result;
+	            {
+	                newTask = _userService.GetTask(newTask).Result;
+	            }
 	            var newActivity = new ActivitiesDto
 	            {
 	                TaskId = newTask.TaskId,
 	                UserId = 1,
 	                Status = StatusType.Start
 	            };
-	            newActivity.ActivityId = await _userServices.SaveActivity(newActivity);
-	            DateTime now = DateTime.Now;
-	            string date = now.ToString("HH:mm:ss dd/MM/yyyy");
+	            newActivity.ActivityId = await _userService.SaveActivity(newActivity);
+	            var now = DateTime.Now;
+	            var date = now.ToString("HH:mm:ss dd/MM/yyyy");
 	            var part = new PartsOfActivityDto
 	            {
 	                ActivityId = newActivity.ActivityId,
 	                Start = date,
-                    Duration = "0"
+	                Duration = "0"
 	            };
-	            var result = await _userServices.SavePartOfActivity(part);
-	            Stopwatch sw = new Stopwatch();
-                Stopwatches stopwatch = new Stopwatches(sw,result);
+	            var result = await _userService.SavePartOfActivity(part);
+	            var sw = new Stopwatch();
+	            var stopwatch = new Stopwatches(sw, result);
 	            App.Stopwatches.Add(stopwatch);
 	            App.Stopwatches[App.Stopwatches.Count - 1].Start();
 	            await Navigation.PopModalAsync();
 	        }
 	        else
-	            await DisplayAlert("Error", "Nie podałeś nazwy aktywności", "Ok");
+	        {
+                await DisplayAlert("Error", "Nie podałeś nazwy aktywności", "Ok");
+	        }
 	    }
 	}
 }

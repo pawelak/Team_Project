@@ -9,13 +9,13 @@ namespace TaskMaster.DAL
     {
         public MapperProfil()
         {
-            this.CreateMap<ActivityDto, Activity>().ReverseMap();
-            this.CreateMap<FavoritesDto, Favorites>().ReverseMap();
-            this.CreateMap<GroupDto, Group>().ReverseMap();
-            this.CreateMap<PartsOfActivityDto, PartsOfActivity>().ReverseMap();
-            this.CreateMap<TaskDto, Task>().ReverseMap();
-            this.CreateMap<TokensDto, Tokens>().ReverseMap();
-            this.CreateMap<UserGroupDto, UserGroup>().ReverseMap();
+            this.CreateMap<ActivityDto, Activity>();
+            this.CreateMap<FavoritesDto, Favorites>();
+            this.CreateMap<GroupDto, Group>();
+            this.CreateMap<PartsOfActivityDto, PartsOfActivity>();
+            this.CreateMap<TaskDto, Task>();
+            this.CreateMap<TokensDto, Tokens>();
+            this.CreateMap<UserGroupDto, UserGroup>();
             this.CreateMap<UserDto, User>().ReverseMap();
         }
     }

@@ -8,10 +8,6 @@ namespace TaskMaster.DAL.Repositories
 {
     public class UserRepositories : RepoBase<User>, IUserRepositories
     {
-        public UserRepositories()
-        {
-            Mapper.Initialize(ctg => ctg.AddProfile(new MapperProfil()));
-        }
         public void Add(UserDto dto)
         {
             base.Add(Mapper.Map<User>(dto));
@@ -34,7 +30,9 @@ namespace TaskMaster.DAL.Repositories
 
         public new UserDto Get(int ID)
         {
-            return Mapper.Map<UserDto>(base.Get(ID));
+            Context.DatabaseContext db = new Context.DatabaseContext();
+
+            return Mapper.Map<UserDto>(db.User.Find(ID));
         }
 
         public void Edit(UserDto dto)

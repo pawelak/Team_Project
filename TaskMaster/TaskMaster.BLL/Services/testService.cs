@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using TaskMaster.DAL.DTOModels;
 using TaskMaster.DAL.Repositories;
 
@@ -6,12 +7,12 @@ namespace TaskMaster.BLL.Services
 {
     public class TestService
     {
-        //private readonly UserRepositories _userRepositories = new UserRepositories();
+        private readonly UserRepositories _userRepositories = new UserRepositories();
 
-        //public UserDto GetUserByIde(int id)
-        //{
-        //    return _userRepositories.GetUserById(id);
-        //}
+        public UserDto GetUserByIde(int id)
+        {
+            return _userRepositories.Get(id);
+        }
 
 
         //public void AddUserToDatabase(UserDto userDto)
@@ -20,10 +21,13 @@ namespace TaskMaster.BLL.Services
         //}
 
 
-        //public List<UserDto> GetAllInList()
-        //{
-        //    return _userRepositories.GetAllToList();
-        //}
+        public List<UserDto> GetAllInList()
+        {
+            return _userRepositories.GetAll().ToList();
+        }
+
+
+
 
     }
 }

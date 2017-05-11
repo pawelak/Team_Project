@@ -13,18 +13,18 @@
                 <Label Text="{x:StaticResource FillTitle}" TextColor="{x:StaticResource TextColor}" 
                        FontFamily="{x:StaticResource Font}" FontSize="{x:StaticResource Header}"/>
             </StackLayout>
-            <StackLayout HeightRequest="50" Margin="10">
+            <StackLayout HeightRequest="50" Margin="0,10,0,20">
                 <StackLayout Orientation="Horizontal" BackgroundColor="{x:StaticResource BackgroundButtonColor}">
                     <StackLayout WidthRequest="50">
                         <Label Text="Obraz" TextColor="{x:StaticResource TextColor}"/>
                     </StackLayout>
-                    <StackLayout Orientation="Vertical" HorizontalOptions="FillAndExpand">
-                        <Label x:Name="FillTaskName" HorizontalOptions="CenterAndExpand" TextColor="{x:StaticResource TextColor}"
+                    <StackLayout Orientation="Vertical" HorizontalOptions="FillAndExpand" Spacing="1">
+                        <Label x:Name="FillTaskName" TextColor="{x:StaticResource TextColor}"
                                FontFamily="{x:StaticResource Font}" FontSize="{x:StaticResource Medium}"/>
-                        <Label x:Name="FillTaskDescription" HorizontalOptions="CenterAndExpand" TextColor="{x:StaticResource TextColor}"
-                               FontFamily="{x:StaticResource Font}" FontSize="{x:StaticResource Medium}"/>
-                        <Label x:Name="FillTaskDate" HorizontalOptions="CenterAndExpand" TextColor="{x:StaticResource TextColor}"
-                               FontFamily="{x:StaticResource Font}" FontSize="{x:StaticResource Medium}"/>
+                        <Label x:Name="FillTaskDescription" TextColor="{x:StaticResource TextColor}"
+                               FontFamily="{x:StaticResource Font}" FontSize="{x:StaticResource Field}"/>
+                        <Label x:Name="FillTaskDate" TextColor="{x:StaticResource TextColor}"
+                               FontFamily="{x:StaticResource Font}" FontSize="{x:StaticResource Field}"/>
                     </StackLayout>
                     <StackLayout VerticalOptions="CenterAndExpand" WidthRequest="80">
                         <Label x:Name="FillTaskDuration" TextColor="{x:StaticResource TextColor}"
@@ -32,25 +32,19 @@
                     </StackLayout>
                 </StackLayout>
             </StackLayout>
-            <StackLayout Orientation="Horizontal" Padding="5" VerticalOptions="Center">
+            <StackLayout Orientation="Horizontal" Padding="5" VerticalOptions="Center" Margin="0,40,0,0">
                 <Label Text="{x:StaticResource NameText}" WidthRequest="70" HorizontalTextAlignment="End" VerticalOptions="Center" TextColor="{x:StaticResource TextColor}"
-                       FontFamily="{x:StaticResource Font}" FontSize="{x:StaticResource Medium}"/>
+                       FontFamily="{x:StaticResource Font}" FontSize="{x:StaticResource Field}"/>
                 <Entry x:Name="ActivityName" HorizontalOptions="FillAndExpand" TextColor="{x:StaticResource TextColor}" Unfocused="ActivityName_OnUnfocused"  
                        BackgroundColor="{x:StaticResource BackgroundButtonColor}"
-                       FontFamily="{x:StaticResource Font}" FontSize="{x:StaticResource Medium}"/>
-            </StackLayout>
-            <StackLayout Orientation="Horizontal" Padding="5">
-                <Label Text="{x:StaticResource DateStartText}" WidthRequest="70" HorizontalTextAlignment="End" VerticalOptions="Center" TextColor="{x:StaticResource TextColor}"
-                       FontFamily="{x:StaticResource Font}" FontSize="{x:StaticResource Medium}"/>
-                <Label x:Name="TaskDates" HorizontalOptions="FillAndExpand" TextColor="{x:StaticResource TextColor}" BackgroundColor="{x:StaticResource BackgroundButtonColor}"
-                       FontFamily="{x:StaticResource Font}" FontSize="{x:StaticResource Medium}"/>
+                       FontFamily="{x:StaticResource Font}" FontSize="{x:StaticResource Field}"/>
             </StackLayout>
             <StackLayout Orientation="Horizontal" Padding="5">
                 <Label Text="{x:StaticResource DescriptionText}" WidthRequest="70" HorizontalTextAlignment="End" VerticalOptions="Center" TextColor="{x:StaticResource TextColor}"
-                       FontFamily="{x:StaticResource Font}" FontSize="{x:StaticResource Medium}"/>
+                       FontFamily="{x:StaticResource Font}" FontSize="{x:StaticResource Field}"/>
                 <Entry x:Name="ActivityDescription" HorizontalOptions="FillAndExpand" TextColor="{x:StaticResource TextColor}" Unfocused="ActivityDescription_OnUnfocused" 
                        BackgroundColor="{x:StaticResource BackgroundButtonColor}"
-                       FontFamily="{x:StaticResource Font}" FontSize="{x:StaticResource Medium}"/>
+                       FontFamily="{x:StaticResource Font}" FontSize="{x:StaticResource Field}"/>
             </StackLayout>
             <StackLayout VerticalOptions="EndAndExpand">
                 <Button x:Name="AcceptButton" Text="End" Clicked="AcceptButton_OnClicked" TextColor="{x:StaticResource TextColor}" BackgroundColor="{x:StaticResource BackgroundColor}"

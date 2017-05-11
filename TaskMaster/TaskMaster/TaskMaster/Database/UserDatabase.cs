@@ -14,7 +14,7 @@ namespace TaskMaster
         {
             Mapper.Initialize(cfg => cfg.AddProfile<UserMapProfile>());
             _database = new SQLiteAsyncConnection(dbpath);
-            DropTables();
+            //DropTables();
             _database.CreateTablesAsync<Activities, Favorites, PartsOfActivity, Tasks, User>().Wait();
         }
 
@@ -146,6 +146,13 @@ namespace TaskMaster
         {
             var result = await _database.Table<PartsOfActivity>().Where(t => t.ActivityId == id).ToListAsync();
             var list = Mapper.Map<List<PartsOfActivityDto>>(result);
+            return list;
+        }
+
+        public async Task<PartsOfActivityDto> GetPartsOfActivityById(int id)
+        {
+            var result = await _database.Table<PartsOfActivity>().Where(t => t.PartId == id).FirstOrDefaultAsync();
+            var list = Mapper.Map<PartsOfActivityDto>(result);
             return list;
         }
     }

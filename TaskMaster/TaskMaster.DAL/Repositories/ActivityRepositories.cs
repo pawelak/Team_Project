@@ -9,11 +9,6 @@ namespace TaskMaster.DAL.Repositories
 {
     public class ActivityRepositories : RepoBase<Activity>, IActivityRepositories
     {
-        public ActivityRepositories()
-        {
-            Mapper.Initialize(ctg => ctg.AddProfile(new MapperProfil()));
-        }
-
         public void Add(ActivityDto dto)
         {
             base.Add(Mapper.Map<Activity>(dto));

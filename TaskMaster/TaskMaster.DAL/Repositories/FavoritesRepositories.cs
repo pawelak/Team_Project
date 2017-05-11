@@ -8,11 +8,6 @@ namespace TaskMaster.DAL.Repositories
 {
     public class FavoritesRepositories : RepoBase<Favorites>, IFavoritesRepositories
     {
-        public FavoritesRepositories()
-        {
-            Mapper.Initialize(ctg => ctg.AddProfile(new MapperProfil()));
-        }
-
         public void Add(FavoritesDto dto)
         {
             base.Add(Mapper.Map<Favorites>(dto));
