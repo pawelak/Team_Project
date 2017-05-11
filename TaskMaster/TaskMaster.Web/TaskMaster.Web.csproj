@@ -48,6 +48,10 @@
       <HintPath>..\packages\Antlr.3.5.0.2\lib\Antlr3.Runtime.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="AutoMapper, Version=6.0.2.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
+      <HintPath>..\packages\AutoMapper.6.0.2\lib\net45\AutoMapper.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Microsoft.AI.Agent.Intercept, Version=2.0.7.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.ApplicationInsights.Agent.Intercept.2.0.7\lib\net45\Microsoft.AI.Agent.Intercept.dll</HintPath>
       <Private>True</Private>
@@ -195,6 +199,7 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\IdentityConfig.cs" />
+    <Compile Include="App_Start\MapperConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
@@ -309,6 +314,10 @@
     <ProjectReference Include="..\TaskMaster.BLL\TaskMaster.BLL.csproj">
       <Project>{d23c4515-617c-448e-b626-af0a7a3cd991}</Project>
       <Name>TaskMaster.BLL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TaskMaster.DAL\TaskMaster.DAL.csproj">
+      <Project>{C7B3C125-E62F-4B1A-9773-85493987B815}</Project>
+      <Name>TaskMaster.DAL</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>

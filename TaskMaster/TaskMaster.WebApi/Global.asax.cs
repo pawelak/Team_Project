@@ -6,6 +6,7 @@ using System.Web.Http;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
+using TaskMaster.Web.App_Start;
 
 namespace TaskMaster.WebApi
 {
@@ -18,6 +19,8 @@ namespace TaskMaster.WebApi
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
+
+            MapperConfig.MakeMaps();
         }
     }
 }

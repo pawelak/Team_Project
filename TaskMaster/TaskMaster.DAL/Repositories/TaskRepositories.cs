@@ -8,10 +8,6 @@ namespace TaskMaster.DAL.Repositories
 {
     public class TaskRepositories : RepoBase<Task>, ITaskRepositories
     {
-        public TaskRepositories()
-        {
-            Mapper.Initialize(ctg => ctg.AddProfile(new MapperProfil()));
-        }
         public void Add(TaskDto dto)
         {
             base.Add(Mapper.Map<Task>(dto));

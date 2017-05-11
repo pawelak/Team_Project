@@ -8,10 +8,6 @@ namespace TaskMaster.DAL.Repositories
 {
     public class GroupRepositories : RepoBase<Group>, IGroupRepositories
     {
-        public GroupRepositories()
-        {
-            Mapper.Initialize(ctg => ctg.AddProfile(new MapperProfil()));
-        }
         public void Add(GroupDto dto)
         {
             base.Add(Mapper.Map<Group>(dto));

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using TaskMaster.BLL.Services;
 using TaskMaster.BLL.ViewModels;
+using TaskMaster.DAL;
 using TaskMaster.DAL.DTOModels;
 using TaskMaster.DAL.Repositories;
 
@@ -22,14 +23,7 @@ namespace TaskMaster.BLL.Services
 
         public UserViewModels GetUser()
         {
-            UserDto obj = TestService.GetUserByIde(1);
-            Mapper.Initialize(ctg =>
-                {
-                    ctg.AddProfile(new MapperProfileBLL());
-                    //ctg.a
-                }
-            );
-            return Mapper.Map<UserViewModels>(obj);
+            return Mapper.Map<UserViewModels>(TestService.GetUserByIde(1));
         }
 
     }

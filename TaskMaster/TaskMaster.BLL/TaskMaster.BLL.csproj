@@ -67,6 +67,7 @@
   <ItemGroup>
     <Compile Include="MapperProfileBLL.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\DiffrentCOdes.cs" />
     <Compile Include="Services\testService.cs" />
     <Compile Include="Services\WebApiTestService.cs" />
     <Compile Include="Services\WebTestService.cs" />

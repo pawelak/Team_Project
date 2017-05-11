@@ -8,10 +8,6 @@ namespace TaskMaster.DAL.Repositories
 {
     public class TokensRepositories : RepoBase<Tokens>, ITokensRepositories
     {
-        public TokensRepositories()
-        {
-            Mapper.Initialize(ctg => ctg.AddProfile(new MapperProfil()));
-        }
         public void Add(TokensDto dto)
         {
             base.Add(Mapper.Map<Tokens>(dto));
