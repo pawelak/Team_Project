@@ -34,7 +34,9 @@ namespace TaskMaster.DAL.Repositories
 
         public new UserDto Get(int ID)
         {
-            return Mapper.Map<UserDto>(base.Get(ID));
+            Context.DatabaseContext db = new Context.DatabaseContext();
+
+            return Mapper.Map<UserDto>(db.User.Find(ID));
         }
 
         public void Edit(UserDto dto)

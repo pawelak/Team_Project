@@ -16,7 +16,7 @@ namespace TaskMaster.DAL
             this.CreateMap<TaskDto, Task>();
             this.CreateMap<TokensDto, Tokens>();
             this.CreateMap<UserGroupDto, UserGroup>();
-            this.CreateMap<UserDto, User>();
+            this.CreateMap<UserDto, User>().ReverseMap();
         }
     }
 }

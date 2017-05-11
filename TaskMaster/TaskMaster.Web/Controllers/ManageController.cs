@@ -51,7 +51,7 @@ namespace TaskMaster.Web.Controllers
         }
 
         //
-        // GET: /Manage/Index
+        // GET: /Manage/Home
         public async Task<ActionResult> Index(ManageMessageId? message)
         {
             ViewBag.StatusMessage =
