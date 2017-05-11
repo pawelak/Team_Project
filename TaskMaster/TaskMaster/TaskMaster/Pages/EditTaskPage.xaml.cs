@@ -42,15 +42,18 @@ namespace TaskMaster.Pages
             TaskDate.Text = _part.Start;
             var parts = await _userService.GetPartsOfActivityByActivityId(_activity.ActivityId);
             _duration = parts.Sum(part => long.Parse(part.Duration));
-            var stopwatch = App.Stopwatches.FirstOrDefault(s => s.GetPartId() == _part.PartId);
-            if (stopwatch != null)
-            {
-                _stopwatch = stopwatch.GetStopwatch();
-            }
             if (item.Status == StatusType.Start)
             {
-                _duration += _stopwatch.ElapsedMilliseconds;
+                var stopwatch = App.Stopwatches.FirstOrDefault(s => s.GetPartId() == _part.PartId);
+                if (stopwatch != null)
+                {
+                    _stopwatch = stopwatch.GetStopwatch();
+                    _duration += _stopwatch.ElapsedMilliseconds;
+                }
             }
+            var t = TimeSpan.FromMilliseconds(_duration);
+            var answer = $"{t.Hours:D2}h:{t.Minutes:D2}m:{t.Seconds:D2}s";
+            TaskDuration.Text = answer;
             Device.StartTimer(TimeSpan.FromSeconds(1), UpdateTime);
             UpdateButtons();
         }
@@ -136,11 +139,13 @@ namespace TaskMaster.Pages
         private void ActivityDescription_OnUnfocused(object sender, FocusEventArgs e)
         {
             TaskDescription.Text = ActivityDescription.Text;
+            _task.Description = ActivityDescription.Text;
         }
 
         private void ActivityName_OnUnfocused(object sender, FocusEventArgs e)
         {
             TaskName.Text = ActivityName.Text;
+            _task.Name = ActivityName.Text;
         }
 
         private async void AcceptButton_OnClicked(object sender, EventArgs e)
@@ -152,8 +157,6 @@ namespace TaskMaster.Pages
             }
             else
             {
-                _task.Description = ActivityDescription.Text;
-                _task.Name = ActivityName.Text;
                 _task.TaskId = await _userService.SaveTask(_task);
                 _activity.TaskId = _task.TaskId;
                 await _userService.SaveActivity(_activity);

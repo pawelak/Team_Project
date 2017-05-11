@@ -100,9 +100,10 @@ namespace TaskMaster
             {
                 if (activity.TaskId == 0)
                 {
+                    var parts = await _userService.GetPartsOfActivityByActivityId(activity.ActivityId);
+                    var time = parts.Sum(part => long.Parse(part.Duration));
                     var lastPart = await _userService.GetLastActivityPart(activity.ActivityId);
                     var stopwatch = App.Stopwatches.FirstOrDefault(s => s.GetPartId() == lastPart.PartId);
-                    var time = long.Parse(lastPart.Duration);
                     if (stopwatch != null)
                     {
                         time += stopwatch.GetStopwatch().ElapsedMilliseconds;
@@ -167,13 +168,8 @@ namespace TaskMaster
             {
                 if (activity.TaskId == 0)
                 {
-                    var lastPart = await _userService.GetLastActivityPart(activity.ActivityId);
-                    var stopwatch = App.Stopwatches.FirstOrDefault(s => s.GetPartId() == lastPart.PartId);
-                    var time = long.Parse(lastPart.Duration);
-                    if (stopwatch != null)
-                    {
-                        time += stopwatch.GetStopwatch().ElapsedMilliseconds;
-                    }
+                    var parts = await _userService.GetPartsOfActivityByActivityId(activity.ActivityId);
+                    var time = parts.Sum(part => long.Parse(part.Duration));
                     var t = TimeSpan.FromMilliseconds(time);
                     var item = new MainPageList
                     {
@@ -191,12 +187,6 @@ namespace TaskMaster
                     var task = await _userService.GetTaskById(activity.TaskId);
                     var parts = await _userService.GetPartsOfActivityByActivityId(activity.ActivityId);
                     var time = parts.Sum(part => long.Parse(part.Duration));
-                    var lastPart = await _userService.GetLastActivityPart(activity.ActivityId);
-                    var stopwatch = App.Stopwatches.FirstOrDefault(s => s.GetPartId() == lastPart.PartId);
-                    if (stopwatch != null)
-                    {
-                        time += stopwatch.GetStopwatch().ElapsedMilliseconds;
-                    }
                     var t = TimeSpan.FromMilliseconds(time);
                     var item = new MainPageList
                     {
@@ -293,6 +283,7 @@ namespace TaskMaster
 	    {
 	        _isPageNotChanged = false;
 	        _isVisible = false;
+	        ActiveTasks.ItemsSource = null;''
             var item = (MainPageList) e.Item;
 	        await Navigation.PushModalAsync(new EditTaskPage(item));
 	    }

@@ -17,9 +17,9 @@ namespace TaskMaster.Pages
         public FillInformationPage (ActivitiesDto item)
 		{
 		    _activity = item;
-		    Init();
             InitializeComponent();
-		}
+		    Init();
+        }
 
 	    private async void Init()
 	    {

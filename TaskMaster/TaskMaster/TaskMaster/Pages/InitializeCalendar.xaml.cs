@@ -84,6 +84,10 @@ namespace TaskMaster.Pages
                 {
                     continue;
                 }
+                if (activity.TaskId == 0)
+                {
+                    continue;
+                }
                 _parts = await _userService.GetPartsOfActivityByActivityId(activity.ActivityId);
                 foreach (var k in _parts)
                 {

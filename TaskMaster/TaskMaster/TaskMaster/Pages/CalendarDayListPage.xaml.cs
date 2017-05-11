@@ -54,5 +54,19 @@ namespace TaskMaster.Pages
                 _dayPlan.Add(element);
             }
         }
+
+        private void DayPlan_OnItemTapped(object sender, ItemTappedEventArgs e)
+        {
+            
+        }
+
+        protected override bool OnBackButtonPressed()
+        {
+            Device.BeginInvokeOnMainThread(async () =>
+            {                
+                await Navigation.PushModalAsync(new InitializeCalendar());
+            });
+            return true;
+        }
     }
 }
