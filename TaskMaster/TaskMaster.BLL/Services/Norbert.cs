@@ -16,32 +16,36 @@ namespace TaskMaster.BLL.Services
 
         public bool IsEmailInBase(string email)
         {
-            var list = UserRepositories.GetAll();
-            return list.Any(var => var.Email.Equals(email));
+            var userlist = UserRepositories.GetAll();
+            return userlist.Any(var => var.Email.Equals(email));
         }
 
         public bool IsNameInBase(string name)
         {
-            var list = UserRepositories.GetAll();
-            return list.Any(var => var.Name.Equals(name));
+            var userlist = UserRepositories.GetAll();
+            return userlist.Any(u => u.Name.Equals(name));
         }
 
         public List<UserDto> UsersInGroup(string groupname)
         {
-            var group = GroupRepositories.GetAll().FirstOrDefault(var => var.NameGroup.Equals(groupname));
-            var list = @group.UserGroup.Select(VARIABLE => VARIABLE.User).ToList();
-            return list;
+            var grouplist = GroupRepositories.GetAll().FirstOrDefault(g => g.NameGroup.Equals(groupname));
+            var userlist = grouplist.UserGroup.Select(u => u.User).ToList();
+            return userlist;
         }
 
-        public List<ActivityDto> FromTime(DateTime start, DateTime stop)
+        public List<ActivityDto> ActivitiesFromTimeToTime(DateTime start, DateTime stop)
         {
-            var list2 = new List<ActivityDto>();
-            var list = ActivityRepositories.GetAll();
-            foreach (var VAR1 in list)
+            var activitylist = new List<ActivityDto>();
+            var actlist = ActivityRepositories.GetAll();
+            foreach (var act in actlist)
             {
-                list2.AddRange(from VAR2 in VAR1.PartsOfActivity where VAR2.Start.CompareTo(start) > 0 where VAR2.Start.CompareTo(stop) < 0 where VAR2.Stop.CompareTo(start) > 0 where VAR2.Stop.CompareTo(stop) < 0 select VAR1);
+                activitylist.AddRange(act.PartsOfActivity.Where(a => a.Start.CompareTo(start) > 0)
+                    .Where(a => a.Start.CompareTo(stop) < 0)
+                    .Where(a => a.Stop.CompareTo(start) > 0)
+                    .Where(a => a.Stop.CompareTo(stop) < 0)
+                    .Select(a => act));
             }
-            return list2;
+            return activitylist;
         }
 
 
