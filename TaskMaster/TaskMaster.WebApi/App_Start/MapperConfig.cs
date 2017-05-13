@@ -14,7 +14,7 @@ namespace TaskMaster.Web.App_Start
         {
             Mapper.Initialize(m =>
             {
-                m.AddProfile<MapperProfile>();
+                m.AddProfile<MapperProfileDAL>();
                 m.AddProfile<MapperProfileBLL>();
             });
         }

@@ -5,9 +5,9 @@ using TaskMaster.DAL.Models;
 
 namespace TaskMaster.DAL
 {
-    public class MapperProfile : Profile
+    public class MapperProfileDAL : Profile
     {
-        public MapperProfile()
+        public MapperProfileDAL()
         {
             CreateMap<ActivityDto, Activity>().ReverseMap();
             CreateMap<FavoritesDto, Favorites>();

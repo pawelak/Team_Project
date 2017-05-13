@@ -25,7 +25,7 @@ namespace TaskMaster.DAL.Repositories
                 return Db.Set<T>().ToList<T>();
             }
 
-             protected T Get(int id)
+            protected T Get(int id)
             {
                 return Db.Set<T>().Find(id);
             }

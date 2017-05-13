@@ -134,7 +134,7 @@
     <Compile Include="DTOModels\TokensDto.cs" />
     <Compile Include="DTOModels\UserDto.cs" />
     <Compile Include="DTOModels\UserGroupDto.cs" />
-    <Compile Include="MapperProfile.cs" />
+    <Compile Include="MapperProfileDAL.cs" />
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Favorites.cs" />
     <Compile Include="Models\UserGroup.cs" />
