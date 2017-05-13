@@ -35,8 +35,8 @@ namespace TaskMaster.BLL.Services
 
         public bool Authorization(string login, string password) //TODO
         {
-            //UserDto user = _userRepositories.Get(login);
-            //if (user.Equals(_userRepositories.GetAll().f)) return false;
+            UserDto user = _userRepositories.Get(login);
+            //if (user==null) return false;
             return false;
         }
 

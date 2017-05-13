@@ -11,6 +11,7 @@ namespace TaskMaster.BLL.Services
 
         public UserDto GetUserByIde(int id)
         {
+
             return _userRepositories.Get(id);
         }
 
