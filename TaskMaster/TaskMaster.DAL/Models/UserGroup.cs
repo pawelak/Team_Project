@@ -3,7 +3,6 @@ namespace TaskMaster.DAL.Models
 {
     public class UserGroup
     {
-        public UserGroup() { }
         public int UserGroupId { get; set; }
 
         public int UserId { get; set; }

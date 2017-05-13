@@ -9,6 +9,7 @@ namespace TaskMaster.DAL.Interface
         void Delete(TaskDto dto);
         IList<TaskDto> GetAll();
         TaskDto Get(int id);
+        TaskDto Get(string name);
         void Edit(TaskDto dto);
     }
 }

@@ -14,20 +14,9 @@ namespace TaskMaster.BLL.Services
             return _userRepositories.Get(id);
         }
 
-
-        //public void AddUserToDatabase(UserDto userDto)
-        //{
-        //    _userRepositories.AddToDatabase(userDto);
-        //}
-
-
         public List<UserDto> GetAllInList()
         {
             return _userRepositories.GetAll().ToList();
         }
-
-
-
-
     }
 }
