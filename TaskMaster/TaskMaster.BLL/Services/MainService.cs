@@ -33,11 +33,12 @@ namespace TaskMaster.BLL.Services
             return userList;
         }
 
-        public bool Authorization(string login, string password) //TODO
+        public bool Authorization(string login, string password) 
         {
-            UserDto user = _userRepositories.Get(login);
-            //if (user==null) return false;
-            return false;
+            var user = _userRepositories.Get(login);
+            if (user==null) return false;
+            var tokensList = user.Tokens.ToList();
+            return tokensList.Any(t => t.Token.Equals(password));
         }
 
         public List<ActivityDto> ActivitiesFromTimeToTime(string login, DateTime start, DateTime stop) // TODO
