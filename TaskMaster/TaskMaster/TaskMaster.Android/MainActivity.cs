@@ -2,49 +2,54 @@
 using Android.App;
 using Android.Content;
 using Android.Content.PM;
+using Android.Gms.Auth.Api;
+using Android.Gms.Auth.Api.SignIn;
+using Android.Gms.Common;
+using Android.Gms.Common.Apis;
 using Android.OS;
-using Plugin.LocalNotifications;
-using Android.Support.V4.App;
-using TaskStackBuilder = Android.Support.V4.App.TaskStackBuilder;
+
 
 namespace TaskMaster.Droid
 {
     [Activity(Label = "TaskMaster", Icon = "@drawable/icon", Theme = "@style/MainTheme", MainLauncher = true,
         ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
-    public class MainActivity : Xamarin.Forms.Platform.Android.FormsAppCompatActivity
+    public class MainActivity : Xamarin.Forms.Platform.Android.FormsAppCompatActivity,
+        GoogleApiClient.IOnConnectionFailedListener
     {
         private readonly UserService _userService = new UserService();
+        private GoogleApiClient _mGoogleApiClient;
+        private const int RcSignIn = 9001;
 
         protected override async void OnCreate(Bundle bundle)
         {
-           // LoadNotifications("dasdsadx", "asdasd 5 minut", 50, DateTime.Now.AddMinutes(2));
-           //LoadNotifications("x", "Za 5 minut", 100, DateTime.Now.AddMinutes(1));
-           
             TabLayoutResource = Resource.Layout.Tabbar;
             ToolbarResource = Resource.Layout.Toolbar;
             base.OnCreate(bundle);
             Xamarin.Forms.Forms.Init(this, bundle);
+            var gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DefaultSignIn)
+                .RequestEmail()
+                .Build();
+            _mGoogleApiClient = new GoogleApiClient.Builder(this)
+                .EnableAutoManage(this, this)
+                .AddApi(Auth.GOOGLE_SIGN_IN_API, gso)
+                .Build();
+            SignIn();
             var result2 = await _userService.GetActivitiesByStatus(StatusType.Planned);
             foreach (var activity in result2)
             {
                 var task = await _userService.GetTaskById(activity.TaskId);
                 var part = await _userService.GetLastActivityPart(activity.ActivityId);
-                /*
-                if (DateTime.ParseExact(part.Start, "HH:mm:ss dd/MM/yyyy", null) < DateTime.Now)
-                {
-                    part.Stop = part.Start;
-                    activity.Status = StatusType.Stop;
-                    await _userService.SaveActivity(activity);
-                    await _userService.SavePartOfActivity(part);
-                    continue;
-                }
-                */
-                //CrossLocalNotifications.Current.Show(task.Name, "Za 5 minut", part.PartId, DateTime.Parse(part.Start).AddMinutes(-5));
-                LoadNotifications(task.Name, "Za 5 minutek", part.PartId, DateTime.ParseExact(part.Start, "HH:mm:ss dd/MM/yyyy", null));
-               // LoadNotifications("bank", "Za 5 danker", 69, DateTime.Now.AddMinutes(2));
+                LoadNotifications(task.Name, "Naciśnij aby rozpocząć aktywność", part.PartId,
+                    DateTime.ParseExact(part.Start, "HH:mm:ss dd/MM/yyyy", null));
             }
             XamForms.Controls.Droid.Calendar.Init();
             LoadApplication(new App());
+        }
+
+        private void SignIn()
+        {
+            var signInIntent = Auth.GoogleSignInApi.GetSignInIntent(_mGoogleApiClient);
+            StartActivityForResult(signInIntent, RcSignIn);
         }
 
         protected override void OnPause()
@@ -87,70 +92,20 @@ namespace TaskMaster.Droid
                 item.Restart();
             }
         }
-        private void LoadNotifications(string name,string textdesc, int Id, DateTime whenToStart)
+
+        private void LoadNotifications(string name, string textdesc, int id, DateTime whenToStart)
         {
-            Intent alarmIntent = new Intent(this, typeof(AlarmReceiver));
+            var alarmIntent = new Intent(this, typeof(AlarmReceiver));
             alarmIntent.PutExtra("name", name);
             alarmIntent.PutExtra("textdesc", textdesc);
-            alarmIntent.PutExtra("Id", Id);
+            alarmIntent.PutExtra("Id", id);
 
-            PendingIntent pendingIntent = PendingIntent.GetBroadcast(this, Id, alarmIntent, PendingIntentFlags.UpdateCurrent);
-            AlarmManager alarmManager = (AlarmManager)this.GetSystemService(Context.AlarmService);
-
-       
-         
+            var pendingIntent = PendingIntent.GetBroadcast(this, id, alarmIntent, PendingIntentFlags.UpdateCurrent);
+            var alarmManager = (AlarmManager) GetSystemService(AlarmService);
             alarmManager.Set(AlarmType.RtcWakeup, NotifyTimeInMilliseconds(whenToStart), pendingIntent);
-            /*
-            // Set up an intent so that tapping the notifications returns to this app:
-            Intent intent = new Intent(this, typeof(StartOfPlanned));
-            
-            intent.PutExtra("Id", Id);
-            // Create a task stack builder to manage the back stack:
-            TaskStackBuilder stackBuilder = TaskStackBuilder.Create(this);
-
-            // Add all parents of SecondActivity to the stack: 
-            stackBuilder.AddParentStack(Java.Lang.Class.FromType(typeof(StartOfPlanned)));
-
-            // Push the intent that starts SecondActivity onto the stack:
-            stackBuilder.AddNextIntent(intent);
-
-            // Create a PendingIntent; we're only using one PendingIntent (ID = 0):
- 
-            PendingIntent pendingIntent =
-                 stackBuilder.GetPendingIntent(0, (int)PendingIntentFlags.UpdateCurrent);
-            Notification.Builder builder = new Notification.Builder(this)
-                .SetAutoCancel(true)
-                .SetContentIntent(pendingIntent)
-                 .SetContentTitle(name)
-                 .SetContentText(textdesc)
-                 .SetDefaults(NotificationDefaults.Sound | NotificationDefaults.Vibrate)
-                 .SetSmallIcon(Resource.Drawable.historyActive);
-
-            // Build the notification:
-            Notification notification = builder.Build();
-
-            // Get the notification manager:
-            NotificationManager notificationManager =
-                GetSystemService(Context.NotificationService) as NotificationManager;
-
-            // Publish the notification:
-            
-            notificationManager.Notify(Id, notification);
-        }
-        
-        protected override void OnNewIntent(Intent intent)
-        {
-            base.OnNewIntent(intent);
-            Intent = intent;
         }
 
-        protected override void OnPostResume()
-        {
-            base.OnPostResume();
-            */
-
-        }
-        private long NotifyTimeInMilliseconds(DateTime notifyTime)
+        private static long NotifyTimeInMilliseconds(DateTime notifyTime)
         {
             var utcTime = TimeZoneInfo.ConvertTimeToUtc(notifyTime);
             var epochDifference = (new DateTime(1970, 1, 1) - DateTime.MinValue).TotalSeconds;
@@ -159,9 +114,30 @@ namespace TaskMaster.Droid
             return utcAlarmTimeInMillis;
         }
 
+        public void OnConnectionFailed(ConnectionResult result)
+        {
+
+        }
+
+        protected override void OnActivityResult(int requestCode, Result resultCode, Intent data)
+        {
+            base.OnActivityResult(requestCode, resultCode, data);
+            if (requestCode == RcSignIn)
+            {
+                var result = Auth.GoogleSignInApi.GetSignInResultFromIntent(data);
+                HandleSignInResult(result);
+            }
+        }
+
+        private void HandleSignInResult(GoogleSignInResult result)
+        {
+            if (result.IsSuccess)
+            {
+                GoogleSignInAccount acc = result.SignInAccount;
+            }
+        }
 
     }
 
-
-    }
+}
 
