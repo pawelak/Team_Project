@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using Xamarin.Forms.Xaml;
 using TaskMaster.ModelsDto;
+using Xamarin.Forms;
 
 namespace TaskMaster
 {
@@ -50,7 +51,7 @@ namespace TaskMaster
 	            var stopwatch = new Stopwatches(sw, part.PartId);
 	            App.Stopwatches.Add(stopwatch);
 	            App.Stopwatches[App.Stopwatches.Count - 1].Start();
-	            await Navigation.PopModalAsync();
+	            await Navigation.PushModalAsync(new NavigationPage(new MainPage()));
 	        }
 	        else
 	        {
