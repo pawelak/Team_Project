@@ -1,4 +1,8 @@
-﻿@model TaskMaster.Web.Models.UserAccount
+﻿@using Microsoft.Owin.Security
+@using TaskMaster.Web.Models
+@model TaskMaster.Web.Models.UserAccount
+
+
 
 @{
     Layout = null;
@@ -42,7 +46,7 @@
         <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav navbar-right">
                 <li>@Html.ActionLink("Logowanie", "Home")</li>
-                <li>@ViewBag.Message </li>
+                <li>@Html.ActionLink("Rejestracja", "Home")</li>
             </ul>
         </div>
     </div>
@@ -68,6 +72,13 @@
                             <div class="col-md-6 col-md-offset-3">
                                 <button class="googleButton btn btn-success "><img src="../../images/google.png"/></button>
                                 <button class="facebookButton btn btn-info"><img src="../../images/facebook.png"/></button>
+                               
+                                @*<section id="socialLoginForm">
+                                    @Html.Partial("ExternalLoggin", new ExternalLoginListViewModel { ReturnUrl = ViewBag.ReturnUrl })
+                                </section>*@
+                               
+                                <button id="GoogleBtn" type="button" class="col-md-5 btn btn-danger" onclick="googleLogin()">Google</button>
+
                             </div>
                         </div>
 
@@ -118,6 +129,21 @@
 
 
 <script>
+    
+    var OAUTHURL = 'https://accounts.google.com/o/oauth2/auth?';
+    var VALIDURL = 'https://www.googleapis.com/oauth2/v1/tokeninfo?access_token=';
+    var SCOPE = 'https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email';
+    var CLIENTID = '38638370580-32b8rd1k8q8uhnk5mhlq0oqiq28ekb1g.apps.googleusercontent.com';
+    var REDIRECT = 'https://localhost:44364/signin-google';
+    var LOGOUT = 'https://localhost:44364/LandingPage/Home';
+    var TYPE = 'token';
+    var _url = OAUTHURL + 'scope=' + SCOPE + '&client_id=' + CLIENTID + '&redirect_uri=' + REDIRECT + '&response_type=' + TYPE;
+
+    function googleLogin() {
+        window.location = _url;
+    }
+
+
     $(".googleButton").click(function() {
         $(this).css('border', "solid 2px red");
     });
