@@ -96,7 +96,7 @@ namespace TaskMaster.Pages
                 _task.TaskId = await _userService.SaveTask(_task);
                 _activity.TaskId = _task.TaskId;
                 await _userService.SaveActivity(_activity);
-                await Navigation.PushModalAsync(new MainPage());
+                await Navigation.PushModalAsync(new NavigationPage(new MainPage()));
             }
         }
 

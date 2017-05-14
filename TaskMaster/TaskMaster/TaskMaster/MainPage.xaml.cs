@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Threading.Tasks;
 using TaskMaster.ModelsDto;
 using TaskMaster.Pages;
 using Xamarin.Forms;
@@ -73,24 +72,21 @@ namespace TaskMaster
                 var answer = $"{t.Hours:D2}h:{t.Minutes:D2}m:{t.Seconds:D2}s";
                 item.Duration = answer;
             }
-            Device.BeginInvokeOnMainThread(async () =>
-            {
-                await UpdateList();
-            });
-            return _isPageNotChanged;
+            UpdateList();
+            return IsPageNotChanged();
         }
 
-        private async Task<bool> UpdateList()
+        private bool IsPageNotChanged()
         {
-            await Task.Run(() =>
+            return _isPageNotChanged;
+        }
+        private void UpdateList()
+        {
+            Device.BeginInvokeOnMainThread(() =>
             {
-                Device.BeginInvokeOnMainThread(() =>
-                {
-                    ActiveTasks.ItemsSource = null;
-                    ActiveTasks.ItemsSource = _activeTasksList;
-                });
+                ActiveTasks.ItemsSource = null;
+                ActiveTasks.ItemsSource = _activeTasksList;
             });
-            return true;
         }
 
         private async void GetStartedActivities()
@@ -203,6 +199,7 @@ namespace TaskMaster
                 }
             }
         }
+
         private void ListInitiate()
         {
             if (_activeTasksList.Count > 0)
@@ -211,7 +208,6 @@ namespace TaskMaster
             }
             GetStartedActivities();
             GetPausedActivities();
-            ActiveTasks.ItemsSource = _activeTasksList;
         }
 
         private static string ImageChoice(StatusType status)
@@ -262,9 +258,18 @@ namespace TaskMaster
                 Time = 0
             };
             _activeTasksList.Add(item);
-            await UpdateList();
+            UpdateList();
         }
-          
+
+        protected override void OnDisappearing()
+        {
+            Device.BeginInvokeOnMainThread(() =>
+            {
+                _isPageNotChanged = false;
+            });           
+            base.OnDisappearing();
+        }
+
         private async void InitializeCalendarItem_OnClicked(object sender, EventArgs e)
         {
             _isPageNotChanged = false;
