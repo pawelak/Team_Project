@@ -1,7 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Web.Http;
 using TaskMaster.BLL.Services;
+using TaskMaster.BLL.WebApiServices;
 using TaskMaster.DAL.DTOModels;
+using TaskMaster.WebApi.Models;
 
 namespace TaskMaster.WebApi.Controllers
 {
@@ -9,6 +11,9 @@ namespace TaskMaster.WebApi.Controllers
     public class TestController : ApiController
     {
         readonly TestService _testService = new TestService();
+        readonly PrintAll _printAll = new PrintAll();
+        readonly UserWebApiService _userWebApiService =new UserWebApiService();
+
         // GET: api/Test
         public IEnumerable<string> Get()
         {
@@ -16,14 +21,15 @@ namespace TaskMaster.WebApi.Controllers
         }
 
         // GET: api/Test/5
-        public UserDto Get(int id)
+        public List<UserDto> Get(int id)
         {
-            return _testService.GetUserByIde(1);
+            return _printAll.PrintAllUserDtos();
         }
 
         // POST: api/Test
-        public void Post([FromBody]string value)
+        public void Post([FromBody]UserWebApi userWebApi)
         {
+            _userWebApiService.AddNewUser(userWebApi);
         }
 
         // PUT: api/Test/5
