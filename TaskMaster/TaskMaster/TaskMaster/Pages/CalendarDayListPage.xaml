@@ -9,7 +9,7 @@
     </ContentPage.Padding>
     <ContentPage.Content>
         <StackLayout>
-            <ListView x:Name="DayPlan" HasUnevenRows="False" >
+            <ListView x:Name="DayPlan" HasUnevenRows="False" ItemTapped="DayPlan_OnItemTapped">
                 <ListView.Header>
                     <Label Text="{x:StaticResource DayPlan}" TextColor="{x:StaticResource TextColor}" HorizontalOptions="Center" FontSize="20" />
                 </ListView.Header>

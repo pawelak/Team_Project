@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using TaskMaster.ModelsDto;
@@ -56,6 +55,7 @@ namespace TaskMaster
             Device.StartTimer(TimeSpan.FromSeconds(1), UpdateTime);
             return false;
         }
+
         private bool UpdateTime()
         {
             if (_activeTasksList.Count <= 0)
@@ -93,24 +93,20 @@ namespace TaskMaster
             return true;
         }
 
-        private async void ListInitiate()
+        private async void GetStartedActivities()
         {
-            if (_activeTasksList.Count > 0)
-            {
-                _activeTasksList.Clear();
-            }
             var activitiesStarted = await _userService.GetActivitiesByStatus(StatusType.Start);
             foreach (var activity in activitiesStarted)
             {
                 if (activity.TaskId == 0)
                 {
+                    var parts = await _userService.GetPartsOfActivityByActivityId(activity.ActivityId);
+                    var time = parts.Sum(part => long.Parse(part.Duration));
                     var lastPart = await _userService.GetLastActivityPart(activity.ActivityId);
                     var stopwatch = App.Stopwatches.FirstOrDefault(s => s.GetPartId() == lastPart.PartId);
-                    var time = long.Parse(lastPart.Duration);
                     if (stopwatch != null)
                     {
                         time += stopwatch.GetStopwatch().ElapsedMilliseconds;
-                        //await DisplayAlert("title", time.ToString(), "Ok");
                     }
                     else
                     {
@@ -163,18 +159,17 @@ namespace TaskMaster
                     _activeTasksList.Add(item);
                 }
             }
+        }
+
+        private async void GetPausedActivities()
+        {
             var result2 = await _userService.GetActivitiesByStatus(StatusType.Pause);
             foreach (var activity in result2)
             {
                 if (activity.TaskId == 0)
                 {
-                    var lastPart = await _userService.GetLastActivityPart(activity.ActivityId);
-                    var stopwatch = App.Stopwatches.FirstOrDefault(s => s.GetPartId() == lastPart.PartId);
-                    var time = long.Parse(lastPart.Duration);
-                    if (stopwatch != null)
-                    {
-                        time += stopwatch.GetStopwatch().ElapsedMilliseconds;
-                    }
+                    var parts = await _userService.GetPartsOfActivityByActivityId(activity.ActivityId);
+                    var time = parts.Sum(part => long.Parse(part.Duration));
                     var t = TimeSpan.FromMilliseconds(time);
                     var item = new MainPageList
                     {
@@ -192,12 +187,6 @@ namespace TaskMaster
                     var task = await _userService.GetTaskById(activity.TaskId);
                     var parts = await _userService.GetPartsOfActivityByActivityId(activity.ActivityId);
                     var time = parts.Sum(part => long.Parse(part.Duration));
-                    var lastPart = await _userService.GetLastActivityPart(activity.ActivityId);
-                    var stopwatch = App.Stopwatches.FirstOrDefault(s => s.GetPartId() == lastPart.PartId);
-                    if (stopwatch != null)
-                    {
-                        time += stopwatch.GetStopwatch().ElapsedMilliseconds;
-                    }
                     var t = TimeSpan.FromMilliseconds(time);
                     var item = new MainPageList
                     {
@@ -213,6 +202,15 @@ namespace TaskMaster
                     _activeTasksList.Add(item);
                 }
             }
+        }
+        private void ListInitiate()
+        {
+            if (_activeTasksList.Count > 0)
+            {
+                _activeTasksList.Clear();
+            }
+            GetStartedActivities();
+            GetPausedActivities();
             ActiveTasks.ItemsSource = _activeTasksList;
         }
 
@@ -285,6 +283,7 @@ namespace TaskMaster
 	    {
 	        _isPageNotChanged = false;
 	        _isVisible = false;
+	        ActiveTasks.ItemsSource = null;
             var item = (MainPageList) e.Item;
 	        await Navigation.PushModalAsync(new EditTaskPage(item));
 	    }

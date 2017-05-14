@@ -31,13 +31,28 @@ namespace TaskMaster
 
 	    private async void ListInitiate()
 	    {
-	        var result = await _userService.GetActivitiesByStatus(StatusType.Stop);
+	        var activitiesStoppedList = await _userService.GetActivitiesByStatus(StatusType.Stop);
 	        var historyPlan = new List<HistoryList>();
-	        foreach (var activity in result)
+	        foreach (var activity in activitiesStoppedList)
 	        {
+	            if (activity.TaskId == 0)
+	            {
+	                var choose = await DisplayAlert("Error", "Masz nienazwaną zakończoną aktywność " +
+	                                                         activity.ActivityId + ".\n" +
+	                                                         "Czy chcesz uzupełnić jej dane?\n" +
+	                                                         "Aktywność z nieuzupełnionymi danymi nie zostanie wyświetlona", "Tak", "Nie");
+	                if (choose)
+	                {
+	                    await Navigation.PushModalAsync(new FillInformationPage(activity));
+	                }
+	                else
+	                {
+	                    continue;
+	                }
+	            }
 	            var parts = await _userService.GetPartsOfActivityByActivityId(activity.ActivityId);
 	            var time = parts.Sum(part => long.Parse(part.Duration));
-	            var last = await _userService.GetLastActivityPart(activity.ActivityId);
+	            var lastPart = await _userService.GetLastActivityPart(activity.ActivityId);
 	            var task = await _userService.GetTaskById(activity.TaskId);
 	            var t = TimeSpan.FromMilliseconds(time);
 	            var answer = $"{t.Hours:D2}h:{t.Minutes:D2}m:{t.Seconds:D2}s";
@@ -46,7 +61,7 @@ namespace TaskMaster
 	                Name = task.Name,
 	                Description = task.Description,
 	                Time = answer,
-	                Date = last.Start
+	                Date = lastPart.Start
 	            };
 	            historyPlan.Add(element);
 	        }

@@ -17,9 +17,9 @@ namespace TaskMaster.Pages
         public FillInformationPage (ActivitiesDto item)
 		{
 		    _activity = item;
-		    Init();
             InitializeComponent();
-		}
+		    Init();
+        }
 
 	    private async void Init()
 	    {
@@ -71,7 +71,7 @@ namespace TaskMaster.Pages
 
 	    protected override bool OnBackButtonPressed()
 	    {
-	        DisplayAlert("Error", "Nie możesz opuścić tej strony bez wprowadzenia danych", "OK");
+	        DisplayAlert("Error", "Nie możesz opuścić tej strony bez wprowadzenia danych", "Ok");
 	        return true;
 	    }
     }

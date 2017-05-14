@@ -13,7 +13,7 @@ namespace TaskMaster.Pages
         private bool _isPageNotChanged = true;
         private readonly UserService _userService = new UserService();
         private Stopwatch _stopwatch;
-        private PartsOfActivityDto _actual;
+        private PartsOfActivityDto _part;
         private ActivitiesDto _activity;
         private TasksDto _task;
         private DateTime _now;
@@ -31,26 +31,29 @@ namespace TaskMaster.Pages
         private async void Initial(MainPageList item)
         {
             _activity = await _userService.GetActivity(item.ActivityId);
-            _actual = await _userService.GetLastActivityPart(_activity.ActivityId);
+            _part = await _userService.GetLastActivityPart(_activity.ActivityId);
             _task = new TasksDto
             {
                 Name = item.Name,
                 Description = item.Description,
                 TaskId = item.TaskId
             };
-            TaskDates.Text = _actual.Start;
-            TaskDate.Text = _actual.Start;
+            TaskDates.Text = _part.Start;
+            TaskDate.Text = _part.Start;
             var parts = await _userService.GetPartsOfActivityByActivityId(_activity.ActivityId);
             _duration = parts.Sum(part => long.Parse(part.Duration));
-            var stopwatch = App.Stopwatches.FirstOrDefault(s => s.GetPartId() == _actual.PartId);
-            if (stopwatch != null)
-            {
-                _stopwatch = stopwatch.GetStopwatch();
-            }
             if (item.Status == StatusType.Start)
             {
-                _duration += _stopwatch.ElapsedMilliseconds;
+                var stopwatch = App.Stopwatches.FirstOrDefault(s => s.GetPartId() == _part.PartId);
+                if (stopwatch != null)
+                {
+                    _stopwatch = stopwatch.GetStopwatch();
+                    _duration += _stopwatch.ElapsedMilliseconds;
+                }
             }
+            var t = TimeSpan.FromMilliseconds(_duration);
+            var answer = $"{t.Hours:D2}h:{t.Minutes:D2}m:{t.Seconds:D2}s";
+            TaskDuration.Text = answer;
             Device.StartTimer(TimeSpan.FromSeconds(1), UpdateTime);
             UpdateButtons();
         }
@@ -67,6 +70,7 @@ namespace TaskMaster.Pages
             TaskDuration.Text = answer;
             return _isPageNotChanged;
         }
+
         private void UpdateButtons()
         {
             PauseButton.IsEnabled = _activity.Status == StatusType.Start;
@@ -78,11 +82,11 @@ namespace TaskMaster.Pages
             _isPageNotChanged = false;
             _stopwatch.Stop();
             _now = DateTime.Now;
-            _actual.Stop = _now.ToString("HH:mm:ss dd/MM/yyyy");
-            _actual.Duration = _duration.ToString();
+            _part.Stop = _now.ToString("HH:mm:ss dd/MM/yyyy");
+            _part.Duration = _duration.ToString();
             _activity.Status = StatusType.Stop;
             await _userService.SaveActivity(_activity);
-            await _userService.SavePartOfActivity(_actual);
+            await _userService.SavePartOfActivity(_part);
             if (_task.TaskId == 0)
             {
                 await Navigation.PushModalAsync(new FillInformationPage(_activity));
@@ -101,11 +105,11 @@ namespace TaskMaster.Pages
             _activity.Status = StatusType.Pause;
             _now = DateTime.Now;
             var date = _now.ToString("HH:mm:ss dd/MM/yyyy");
-            _actual.Stop = date;
+            _part.Stop = date;
             _stopwatch.Stop();
-            _actual.Duration = _stopwatch.ElapsedMilliseconds.ToString();
+            _part.Duration = _stopwatch.ElapsedMilliseconds.ToString();
             await _userService.SaveActivity(_activity);
-            await _userService.SavePartOfActivity(_actual);
+            await _userService.SavePartOfActivity(_part);
             UpdateButtons();
         }
 
@@ -125,7 +129,7 @@ namespace TaskMaster.Pages
             var stopwatch = new Stopwatches(sw,part.PartId);
             App.Stopwatches.Add(stopwatch);
             App.Stopwatches[App.Stopwatches.Count - 1].Start();
-            _actual = part;
+            _part = part;
             _stopwatch = App.Stopwatches[App.Stopwatches.Count - 1].GetStopwatch();
             await _userService.SaveActivity(_activity);
             Device.StartTimer(TimeSpan.FromSeconds(1), UpdateTime);
@@ -135,11 +139,13 @@ namespace TaskMaster.Pages
         private void ActivityDescription_OnUnfocused(object sender, FocusEventArgs e)
         {
             TaskDescription.Text = ActivityDescription.Text;
+            _task.Description = ActivityDescription.Text;
         }
 
         private void ActivityName_OnUnfocused(object sender, FocusEventArgs e)
         {
             TaskName.Text = ActivityName.Text;
+            _task.Name = ActivityName.Text;
         }
 
         private async void AcceptButton_OnClicked(object sender, EventArgs e)
@@ -151,8 +157,6 @@ namespace TaskMaster.Pages
             }
             else
             {
-                _task.Description = ActivityDescription.Text;
-                _task.Name = ActivityName.Text;
                 _task.TaskId = await _userService.SaveTask(_task);
                 _activity.TaskId = _task.TaskId;
                 await _userService.SaveActivity(_activity);
