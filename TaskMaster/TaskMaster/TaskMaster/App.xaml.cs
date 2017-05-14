@@ -9,7 +9,7 @@ namespace TaskMaster
 	    public App ()
 		{
             InitializeComponent();
-		    MainPage = new NavigationPage(new MainPage(true));
+		    MainPage = new NavigationPage(new MainPage());
 		}
 
         protected override void OnStart()
