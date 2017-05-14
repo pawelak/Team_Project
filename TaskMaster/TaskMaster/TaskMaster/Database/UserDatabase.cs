@@ -14,7 +14,7 @@ namespace TaskMaster
         {
             Mapper.Initialize(cfg => cfg.AddProfile<UserMapProfile>());
             _database = new SQLiteAsyncConnection(dbpath);
-            //DropTables();
+            DropTables();
             _database.CreateTablesAsync<Activities, Favorites, PartsOfActivity, Tasks, User>().Wait();
         }
 

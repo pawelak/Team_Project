@@ -9,7 +9,6 @@ namespace TaskMaster
 {
     public partial class MainPage
     {
-        public bool IsFirstOpen;
         private bool _isPageNotChanged = true;
         private bool _isVisible = true;
         private readonly List<MainPageList> _activeTasksList = new List<MainPageList>();
@@ -17,34 +16,16 @@ namespace TaskMaster
 
         public MainPage()
         {
-            InitializeComponent();
-            IsFirstOpen = false;
-        }
-
-        public MainPage(bool a)
-        {
-            InitializeComponent();
-            IsFirstOpen = a;
-            StartupResume();
+            InitializeComponent();            
         }
 
         protected override void OnAppearing()
         {
             _isPageNotChanged = true;
-            Device.StartTimer(TimeSpan.FromSeconds(1),CheckIsFirstOpen);
-        }
-
-        private bool CheckIsFirstOpen()
-        {
-            if (IsFirstOpen)
-            {
-                return true;
-            }
             ListInitiate();
             Device.StartTimer(TimeSpan.FromSeconds(1), CheckList);
-            return false;
         }
-
+        
         private bool CheckList()
         {
             if (_activeTasksList.Count <= 0)
@@ -368,7 +349,6 @@ namespace TaskMaster
                 App.Stopwatches.Add(stopwatch2);
                 App.Stopwatches[App.Stopwatches.Count - 1].Start();
             }
-            IsFirstOpen = false;
         }
     }
 }
