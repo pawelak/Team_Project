@@ -17,8 +17,8 @@ namespace TaskMaster.Droid
 
         protected override async void OnCreate(Bundle bundle)
         {
-           // LoadNotifications("dasdsadx", "asdasd 5 minut", 50, DateTime.Now.AddSeconds(30));
-          //  LoadNotifications("x", "Za 5 minut", 100, DateTime.Now.AddSeconds(60));
+           // LoadNotifications("dasdsadx", "asdasd 5 minut", 50, DateTime.Now.AddMinutes(2));
+           //LoadNotifications("x", "Za 5 minut", 100, DateTime.Now.AddMinutes(1));
            
             TabLayoutResource = Resource.Layout.Tabbar;
             ToolbarResource = Resource.Layout.Toolbar;
@@ -40,7 +40,8 @@ namespace TaskMaster.Droid
                 }
                 */
                 //CrossLocalNotifications.Current.Show(task.Name, "Za 5 minut", part.PartId, DateTime.Parse(part.Start).AddMinutes(-5));
-                LoadNotifications(task.Name, "Za 5 minut", part.PartId, DateTime.Now.AddSeconds(20));
+                LoadNotifications(task.Name, "Za 5 minutek", part.PartId, DateTime.ParseExact(part.Start, "HH:mm:ss dd/MM/yyyy", null));
+               // LoadNotifications("bank", "Za 5 danker", 69, DateTime.Now.AddMinutes(2));
             }
             XamForms.Controls.Droid.Calendar.Init();
             LoadApplication(new App());
@@ -96,9 +97,9 @@ namespace TaskMaster.Droid
             PendingIntent pendingIntent = PendingIntent.GetBroadcast(this, Id, alarmIntent, PendingIntentFlags.UpdateCurrent);
             AlarmManager alarmManager = (AlarmManager)this.GetSystemService(Context.AlarmService);
 
-            //TODO: For demo set after 5 seconds.
+       
          
-            alarmManager.Set(AlarmType.RtcWakeup, whenToStart.Millisecond, pendingIntent);
+            alarmManager.Set(AlarmType.RtcWakeup, NotifyTimeInMilliseconds(whenToStart), pendingIntent);
             /*
             // Set up an intent so that tapping the notifications returns to this app:
             Intent intent = new Intent(this, typeof(StartOfPlanned));
@@ -148,6 +149,14 @@ namespace TaskMaster.Droid
             base.OnPostResume();
             */
 
+        }
+        private long NotifyTimeInMilliseconds(DateTime notifyTime)
+        {
+            var utcTime = TimeZoneInfo.ConvertTimeToUtc(notifyTime);
+            var epochDifference = (new DateTime(1970, 1, 1) - DateTime.MinValue).TotalSeconds;
+
+            var utcAlarmTimeInMillis = utcTime.AddSeconds(-epochDifference).Ticks / 10000;
+            return utcAlarmTimeInMillis;
         }
 
 
