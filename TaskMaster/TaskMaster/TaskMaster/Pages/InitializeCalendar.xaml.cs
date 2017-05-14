@@ -34,7 +34,7 @@ namespace TaskMaster.Pages
             };
             _calendar.DateClicked += (sender, e) =>
             {
-                Navigation.PushModalAsync(new CalendarDayListPage(_calendar.SelectedDates[0]));
+                Navigation.PushModalAsync(new CalendarDayListPage(e.DateTime));
             };
             var vm = new CalendarVm();
             _calendar.SetBinding(Calendar.DateCommandProperty, nameof(vm.DateChosen));

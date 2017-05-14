@@ -283,7 +283,7 @@ namespace TaskMaster
 	    {
 	        _isPageNotChanged = false;
 	        _isVisible = false;
-	        ActiveTasks.ItemsSource = null;''
+	        ActiveTasks.ItemsSource = null;
             var item = (MainPageList) e.Item;
 	        await Navigation.PushModalAsync(new EditTaskPage(item));
 	    }
