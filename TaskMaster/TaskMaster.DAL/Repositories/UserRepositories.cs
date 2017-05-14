@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using AutoMapper;
 using TaskMaster.DAL.DTOModels;
 using TaskMaster.DAL.Interface;
@@ -8,10 +9,6 @@ namespace TaskMaster.DAL.Repositories
 {
     public class UserRepositories : RepoBase<User>, IUserRepositories
     {
-        public UserRepositories()
-        {
-            Mapper.Initialize(ctg => ctg.AddProfile(new MapperProfil()));
-        }
         public void Add(UserDto dto)
         {
             base.Add(Mapper.Map<User>(dto));
@@ -22,19 +19,19 @@ namespace TaskMaster.DAL.Repositories
             base.Delete(Mapper.Map<User>(dto));
         }
 
-        public IList<UserDto> GetAll()
+        public new IList<UserDto> GetAll()
         {
-            IList<UserDto> list = new List<UserDto>();
-            foreach (var VARIABLE in base.GetAll())
-            {
-                list.Add(Mapper.Map<UserDto>(VARIABLE));
-            }
-            return list;
+            return base.GetAll().Select(Mapper.Map<UserDto>).ToList();
         }
 
-        public new UserDto Get(int ID)
+        public new UserDto Get(int id)
         {
-            return Mapper.Map<UserDto>(base.Get(ID));
+            return Mapper.Map<UserDto>(base.Get(id));
+        }
+
+        public UserDto Get(string email)
+        {
+            return GetAll().FirstOrDefault(v => v.Email.Equals(email));
         }
 
         public void Edit(UserDto dto)

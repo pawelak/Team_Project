@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using AutoMapper;
 using TaskMaster.DAL.DTOModels;
 using TaskMaster.DAL.Interface;
@@ -8,11 +9,6 @@ namespace TaskMaster.DAL.Repositories
 {
     public class FavoritesRepositories : RepoBase<Favorites>, IFavoritesRepositories
     {
-        public FavoritesRepositories()
-        {
-            Mapper.Initialize(ctg => ctg.AddProfile(new MapperProfil()));
-        }
-
         public void Add(FavoritesDto dto)
         {
             base.Add(Mapper.Map<Favorites>(dto));
@@ -23,19 +19,14 @@ namespace TaskMaster.DAL.Repositories
             base.Delete(Mapper.Map<Favorites>(dto));
         }
 
-        public IList<FavoritesDto> GetAll()
+        public new IList<FavoritesDto> GetAll()
         {
-            IList<FavoritesDto> list = new List<FavoritesDto>();
-            foreach (var VARIABLE in base.GetAll())
-            {
-                list.Add(Mapper.Map<FavoritesDto>(VARIABLE));
-            }
-            return list;
+            return base.GetAll().Select(Mapper.Map<FavoritesDto>).ToList();
         }
 
-        public new FavoritesDto Get(int ID)
+        public new FavoritesDto Get(int id)
         {
-            return Mapper.Map<FavoritesDto>(base.Get(ID));
+            return Mapper.Map<FavoritesDto>(base.Get(id));
         }
 
         public void Edit(FavoritesDto dto)

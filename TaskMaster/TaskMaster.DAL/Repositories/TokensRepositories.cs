@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using AutoMapper;
 using TaskMaster.DAL.DTOModels;
 using TaskMaster.DAL.Interface;
@@ -8,10 +9,6 @@ namespace TaskMaster.DAL.Repositories
 {
     public class TokensRepositories : RepoBase<Tokens>, ITokensRepositories
     {
-        public TokensRepositories()
-        {
-            Mapper.Initialize(ctg => ctg.AddProfile(new MapperProfil()));
-        }
         public void Add(TokensDto dto)
         {
             base.Add(Mapper.Map<Tokens>(dto));
@@ -22,19 +19,14 @@ namespace TaskMaster.DAL.Repositories
             base.Delete(Mapper.Map<Tokens>(dto));
         }
 
-        public IList<TokensDto> GetAll()
+        public new IList<TokensDto> GetAll()
         {
-            IList<TokensDto> list = new List<TokensDto>();
-            foreach (var VARIABLE in base.GetAll())
-            {
-                list.Add(Mapper.Map<TokensDto>(VARIABLE));
-            }
-            return list;
+            return base.GetAll().Select(Mapper.Map<TokensDto>).ToList();
         }
 
-        public new TokensDto Get(int ID)
+        public new TokensDto Get(int id)
         {
-            return Mapper.Map<TokensDto>(base.Get(ID));
+            return Mapper.Map<TokensDto>(base.Get(id));
         }
 
         public void Edit(TokensDto dto)

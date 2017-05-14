@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using AutoMapper;
 using TaskMaster.DAL.Models;
 using TaskMaster.DAL.DTOModels;
@@ -9,11 +10,6 @@ namespace TaskMaster.DAL.Repositories
 {
     public class ActivityRepositories : RepoBase<Activity>, IActivityRepositories
     {
-        public ActivityRepositories()
-        {
-            Mapper.Initialize(ctg => ctg.AddProfile(new MapperProfil()));
-        }
-
         public void Add(ActivityDto dto)
         {
             base.Add(Mapper.Map<Activity>(dto));
@@ -26,17 +22,12 @@ namespace TaskMaster.DAL.Repositories
 
         public new IList<ActivityDto> GetAll()
         {
-            IList < ActivityDto > list = new List<ActivityDto>();
-            foreach (var VARIABLE in base.GetAll())
-            {
-                list.Add(Mapper.Map<ActivityDto>(VARIABLE));
-            }
-            return list;
+            return base.GetAll().Select(Mapper.Map<ActivityDto>).ToList();
         }
 
-        public new ActivityDto Get(int ID)
+        public new ActivityDto Get(int id)
         {
-            return Mapper.Map<ActivityDto>(base.Get(ID));
+            return Mapper.Map<ActivityDto>(base.Get(id));
         }
 
         public void Edit(ActivityDto dto)

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using AutoMapper;
 using TaskMaster.DAL.DTOModels;
 using TaskMaster.DAL.Interface;
@@ -8,10 +9,6 @@ namespace TaskMaster.DAL.Repositories
 {
     public class UserGroupRepositories : RepoBase<UserGroup>, IUserGroupRepositories
     {
-        public UserGroupRepositories()
-        {
-            Mapper.Initialize(ctg => ctg.AddProfile(new MapperProfil()));
-        }
         public void Add(UserGroupDto dto)
         {
             base.Add(Mapper.Map<UserGroup>(dto));
@@ -22,19 +19,14 @@ namespace TaskMaster.DAL.Repositories
             base.Delete(Mapper.Map<UserGroup>(dto));
         }
 
-        public IList<UserGroupDto> GetAll()
+        public new IList<UserGroupDto> GetAll()
         {
-            IList<UserGroupDto> list = new List<UserGroupDto>();
-            foreach (var VARIABLE in base.GetAll())
-            {
-                list.Add(Mapper.Map<UserGroupDto>(VARIABLE));
-            }
-            return list;
+            return base.GetAll().Select(Mapper.Map<UserGroupDto>).ToList();
         }
 
-        public new UserGroupDto Get(int ID)
+        public new UserGroupDto Get(int id)
         {
-            return Mapper.Map<UserGroupDto>(base.Get(ID));
+            return Mapper.Map<UserGroupDto>(base.Get(id));
         }
 
         public void Edit(UserGroupDto dto)

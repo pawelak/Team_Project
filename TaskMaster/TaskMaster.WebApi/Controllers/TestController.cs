@@ -8,7 +8,7 @@ namespace TaskMaster.WebApi.Controllers
     
     public class TestController : ApiController
     {
-        TestService _testService = new TestService();
+        readonly TestService _testService = new TestService();
         // GET: api/Test
         public IEnumerable<string> Get()
         {
@@ -18,7 +18,7 @@ namespace TaskMaster.WebApi.Controllers
         // GET: api/Test/5
         public UserDto Get(int id)
         {
-            return _testService.GetUserByIde(id);
+            return _testService.GetUserByIde(1);
         }
 
         // POST: api/Test

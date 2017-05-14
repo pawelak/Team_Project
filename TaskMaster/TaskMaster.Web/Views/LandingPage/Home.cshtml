@@ -1,6 +1,11 @@
-﻿@{
+﻿@model TaskMaster.Web.Models.UserAccount
+
+@{
     Layout = null;
 }
+
+
+
 
 <!DOCTYPE html>
 <html lang="pl">
@@ -17,8 +22,10 @@
             console.log(data);            
         });
     </script>*@  
+
 </head>
 <body>
+
 <nav class="navbar navbar-default">
     <div class="container-fluid">
         <div class="navbar-header">
@@ -34,47 +41,61 @@
         </div>
         <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav navbar-right">
-                <li><a href="#">Logowanie</a></li>
-                <li><a href="#">Rejestracja</a></li>
+                <li>@Html.ActionLink("Logowanie", "Home")</li>
+                <li>@ViewBag.Message </li>
             </ul>
         </div>
     </div>
 </nav>
-<div class="row loggingSection">
-    <div class="col-md-6 col-xs-12">
-        <div class="col-md-6 col-md-offset-4">
-            <h2>Zapanuj nad swoim czasem!</h2>
-            <p>Dzięki aplikacji TaskMaster możesz mierzyć czas wykonywania twoich zadań. </p>
+
+    <div class="row loggingSection">
+        <div class="col-md-6 col-xs-12">
+            <div class="col-md-6 col-md-offset-4">
+                <h2>Zapanuj nad swoim czasem!</h2>
+                <p>Dzięki aplikacji TaskMaster możesz mierzyć czas wykonywania twoich zadań. </p>
+            </div>
+        </div>
+        <div class="col-md-6 col-xs-12">
+            
+            @using (Html.BeginForm())
+            {
+                @Html.AntiForgeryToken()
+
+                @Html.ValidationSummary(true, "", new {@class = "text-danger"})
+
+                <div class="form-horizontal">
+                        <div class="form-group">
+                            <div class="col-md-6 col-md-offset-3">
+                                <button class="googleButton btn btn-success "><img src="../../images/google.png"/></button>
+                                <button class="facebookButton btn btn-info"><img src="../../images/facebook.png"/></button>
+                            </div>
+                        </div>
+
+                      
+
+                        <div class="form-group">
+                          <div class="col-md-6 col-md-offset-3">
+                                @Html.EditorFor(model => model.Email, new {htmlAttributes = new {placeholder = "Email",@class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.Email, "", new {@class = "text-danger"})
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-6 col-md-offset-3">
+                                @Html.EditorFor(model => model.Password, new {htmlAttributes = new { placeholder = "Hasło", @class = "form-control"}})
+                                @Html.ValidationMessageFor(model => model.Password, "", new {@class = "text-danger"})
+                            </div>
+                        </div>
+                    <div class="form-group">
+                        <div class="col-md-6 col-md-offset-3">
+                            <input type="submit" value="Zaloguj" class="btn btn-default"/>
+                        </div>
+                    </div>
+                    </div>
+
+            }
         </div>
     </div>
-    <div class="col-md-6 col-xs-12">
-        <form class="form-horizontal">
-            <fieldset>
-                <div class="form-group">
-                    <div class="col-md-6 col-md-offset-3">
-                        <button class="googleButton btn btn-success "><img src="../../images/google.png"/></button>
-                        <button class="facebookButton btn btn-info"><img src="../../images/facebook.png"/></button>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <div class="col-md-6 col-md-offset-3">
-                        <input type="text" class="form-control" id="inputEmail" placeholder="Email">
-                    </div>
-                </div>
-                <div class="form-group">
-                    <div class="col-md-6 col-md-offset-3">
-                        <input type="password" class="form-control" id="inputPassword" placeholder="Hasło">
-                    </div>
-                </div>
-                <div class="form-group">
-                    <div class="col-md-6 col-md-offset-3">
-                        <button type="submit" class="btn btn-primary">Zaloguj</button>
-                    </div>
-                </div>
-            </fieldset>
-        </form>
-    </div>
-</div>
+
 <div class="howItWorksSection">
     <div class="row ">
         <div class="col-md-6 col-md-offset-3">
@@ -95,6 +116,7 @@
 </div>
 
 
+
 <script>
     $(".googleButton").click(function() {
         $(this).css('border', "solid 2px red");
@@ -103,3 +125,4 @@
 
 </body>
 </html>
+                

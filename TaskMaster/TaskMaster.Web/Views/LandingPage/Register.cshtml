@@ -1,0 +1,117 @@
+﻿@model TaskMaster.Web.Models.UserAccount
+
+@{
+    ViewBag.Title = "Rejestracja";
+    Layout = null;
+}
+
+
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>TaskMaster</title>   
+    <link rel="stylesheet" href="../../Content/bootstrap.min.css"/>
+    <link rel="stylesheet" href="../../Content/style.css" />
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Quicksand">   
+    <script type="text/javascript" src="../../Content/dictionary.json"> </script>
+    <script src="~/Scripts/jquery-3.1.1.min.js"></script>    
+    @*<script>
+        $.getJSON('./../../Content/dictionary.json', function(data){
+            console.log(data);            
+        });
+    </script>*@  
+
+</head>
+<body>
+
+<nav class="navbar navbar-default">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#">
+                <img src="../../images/TMLogo3.png"/>
+            </a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+            <ul class="nav navbar-nav navbar-right">
+                <li>@Html.ActionLink("Logowanie", "Home")</li>
+                <li>@Html.ActionLink("Rejestracja", "Register")</li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div class="row loggingSection">
+    <div class="col-md-6 col-xs-12">
+        <h2>Register</h2>
+
+
+        @using (Html.BeginForm()) 
+        {
+            @Html.AntiForgeryToken()
+    
+            <div class="form-horizontal">
+                <h4>UserAccount</h4>
+                <hr />
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                @if (ViewBag.Message != null)
+                {
+                    <div class="form-group">
+                        <div class="col-md-10">@ViewBag.Message</div>
+                    </div>
+                }
+                <div class="form-group">
+                    @Html.LabelFor(model => model.FirstName, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.FirstName, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.FirstName, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.LastName, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.LastName, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.LastName, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Password, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="submit" value="Create" class="btn btn-default" />
+                    </div>
+                </div>
+            </div>
+        }
+
+        <div>
+            @Html.ActionLink("Powrót do panelu logowania", "Home")
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
+                

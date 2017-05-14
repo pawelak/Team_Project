@@ -1,0 +1,64 @@
+﻿@{
+    ViewBag.Title = "LoggedIn";
+    Layout = null;
+}
+
+
+
+@model TaskMaster.Web.Models.UserAccount
+
+
+
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>TaskMaster</title>
+    <link rel="stylesheet" href="../../Content/bootstrap.min.css" />
+    <link rel="stylesheet" href="../../Content/style.css" />
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Quicksand">
+    <script type="text/javascript" src="../../Content/dictionary.json"> </script>
+    <script src="~/Scripts/jquery-3.1.1.min.js"></script>
+    @*<script>
+            $.getJSON('./../../Content/dictionary.json', function(data){
+                console.log(data);
+            });
+        </script>*@
+
+</head>
+<body>
+
+    <nav class="navbar navbar-default">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#">
+                    <img src="../../images/TMLogo3.png" />
+                </a>
+            </div>
+            <div id="navbar" class="navbar-collapse collapse">
+                <ul class="nav navbar-nav navbar-right">
+                   <li>@Html.ActionLink("Powrot do Logowania", "Home")</li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="row loggingSection">
+        <div class="col-md-6 col-xs-12">
+            @if (Session["UserId"] != null)
+            {
+                <h2>Witaj @Session["Email"].ToString()</h2>
+            }
+
+        </div>
+    </div>
+
+</body>
+</html>
+
