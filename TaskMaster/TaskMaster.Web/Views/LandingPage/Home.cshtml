@@ -1,7 +1,10 @@
 ﻿@model TaskMaster.Web.Models.UserAccount
+@using Microsoft.Owin.Security
 
 @{
     Layout = null;
+    
+    ViewBag.Title = "sam";
 }
 
 
@@ -57,42 +60,46 @@
         </div>
         <div class="col-md-6 col-xs-12">
             
-            @using (Html.BeginForm())
-            {
-                @Html.AntiForgeryToken()
-
-                @Html.ValidationSummary(true, "", new {@class = "text-danger"})
-
+            
                 <div class="form-horizontal">
-                        <div class="form-group">
-                            <div class="col-md-6 col-md-offset-3">
-                                <button class="googleButton btn btn-success "><img src="../../images/google.png"/></button>
-                                <button class="facebookButton btn btn-info"><img src="../../images/facebook.png"/></button>
-                            </div>
-                        </div>
-
-                      
-
-                        <div class="form-group">
-                          <div class="col-md-6 col-md-offset-3">
-                                @Html.EditorFor(model => model.Email, new {htmlAttributes = new {placeholder = "Email",@class = "form-control" } })
-                                @Html.ValidationMessageFor(model => model.Email, "", new {@class = "text-danger"})
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <div class="col-md-6 col-md-offset-3">
-                                @Html.EditorFor(model => model.Password, new {htmlAttributes = new { placeholder = "Hasło", @class = "form-control"}})
-                                @Html.ValidationMessageFor(model => model.Password, "", new {@class = "text-danger"})
-                            </div>
-                        </div>
+                    @using (Html.BeginForm("ExternalLogin", "Account", new { ReturnUrl = ViewBag.ReturnUrl }))
+                    {
+                    @Html.AntiForgeryToken()
                     <div class="form-group">
                         <div class="col-md-6 col-md-offset-3">
-                            <input type="submit" value="Zaloguj" class="btn btn-default"/>
+                            <button class="googleButton btn btn-success" name="provider" value="Google" id="Google"><img src="../../images/google.png"/></button>
+                            <button class="facebookButton btn btn-info" name="provider" value="Facebook" id="Facebook"><img src="../../images/facebook.png"/></button>
                         </div>
                     </div>
-                    </div>
+                    }
+                    
+                    @using (Html.BeginForm())
+                    {
+                        @Html.AntiForgeryToken()
+                        @Html.ValidationSummary(true, "", new {@class = "text-danger"})
 
-            }
+
+                    <div class="form-group">
+                        <div class="col-md-6 col-md-offset-3">
+                            @Html.EditorFor(model => model.Email, new {htmlAttributes = new {placeholder = "Email", @class = "form-control"}})
+                            @Html.ValidationMessageFor(model => model.Email, "", new {@class = "text-danger"})
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-6 col-md-offset-3">
+                            @Html.EditorFor(model => model.Password, new {htmlAttributes = new {placeholder = "Hasło", @class = "form-control"}})
+                            @Html.ValidationMessageFor(model => model.Password, "", new {@class = "text-danger"})
+                        </div>
+                    </div>
+                        <div class="form-group">
+                            <div class="col-md-6 col-md-offset-3">
+                                <input type="submit" value="Zaloguj" class="btn btn-default"/>
+                            </div>
+                        </div>
+                    }
+                </div>
+
+            
         </div>
     </div>
 

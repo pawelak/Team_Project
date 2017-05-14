@@ -1,12 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.UI;
 using Microsoft.Ajax.Utilities;
+using Microsoft.Owin.Security;
 using TaskMaster.Web.Models;
 using TaskMaster.BLL.WebServices;
+using Microsoft.AspNet.Identity;
+using Microsoft.Owin.Security;
 
 namespace TaskMaster.Web.Controllers
 {
@@ -21,7 +25,6 @@ namespace TaskMaster.Web.Controllers
            return View();
         }
 
-      
         [HttpPost]
         public ActionResult Home(UserAccount user)
         {
@@ -64,6 +67,7 @@ namespace TaskMaster.Web.Controllers
             }
             return View();
         }
+
 
         public ActionResult LoggedIn()
         {
