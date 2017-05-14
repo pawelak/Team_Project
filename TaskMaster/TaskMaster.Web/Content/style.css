@@ -1,6 +1,7 @@
 ﻿body {
     font-family: 'Quicksand', sans-serif;
     height:100%;
+    
 }
 
 .body-content {
@@ -27,3 +28,37 @@
     width: 200px;
 }
 
+.lastActivities {
+    /*background-color: rgba(55, 90, 127, 0.4);*/
+    background-color: rgb(45, 80, 110);
+    padding: 10px 20px 20px 20px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+}
+
+.lastActivities h4 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.singleActivity img {
+    width: 25px;
+    margin-right: 20px;
+}
+
+.singleActivityContent {
+    float: left;
+    margin-right: 10px;
+}
+
+.singleActivityContent:nth-of-type(3) {
+    float: right;
+}
+
+.clear {
+    clear: both;
+}
+
+h3 {
+    margin-top: 16px;
+}
