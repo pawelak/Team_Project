@@ -18,10 +18,9 @@ html, body {
 #wrapper {
 	position:absolute;
 	top: 50%;
-    left: 10%;
+    left: 20%;
 	width:740px;
-	height:680px;
-    margin-top: 220px;
+	height:680px;    
 	padding: 0;
 }
 
