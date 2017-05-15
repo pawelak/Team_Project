@@ -60,8 +60,8 @@ namespace TaskMaster.Web
 
             app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
             {
-                ClientId = "123",
-                ClientSecret = "123"
+                ClientId = "38638370580-32b8rd1k8q8uhnk5mhlq0oqiq28ekb1g.apps.googleusercontent.com",
+                ClientSecret = "i27p194o1IwleJT1I1oOvC_M"
             });
         }
     }

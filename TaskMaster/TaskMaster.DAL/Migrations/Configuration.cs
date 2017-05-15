@@ -9,7 +9,7 @@ namespace TaskMaster.DAL.Migrations
         public Configuration()
         {
             AutomaticMigrationsEnabled = true;
-            AutomaticMigrationDataLossAllowed = false;
+            AutomaticMigrationDataLossAllowed = true;
         }
 
         protected override void Seed(TaskMaster.DAL.Context.DatabaseContext context)
