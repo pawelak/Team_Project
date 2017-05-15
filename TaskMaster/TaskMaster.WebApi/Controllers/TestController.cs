@@ -2,6 +2,7 @@
 using System.Web.Http;
 using TaskMaster.BLL.Services;
 using TaskMaster.DAL.DTOModels;
+using TaskMaster.BLL.MobileServices;
 
 namespace TaskMaster.WebApi.Controllers
 {
@@ -9,6 +10,8 @@ namespace TaskMaster.WebApi.Controllers
     public class TestController : ApiController
     {
         readonly TestService _testService = new TestService();
+        readonly 
+
         // GET: api/Test
         public IEnumerable<string> Get()
         {

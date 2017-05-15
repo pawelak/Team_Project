@@ -18,7 +18,10 @@ namespace TaskMaster.BLL.WebServices
         public UserViewModels GetUser()
         {
             const int id = 1;
-            return Mapper.Map<UserViewModels>(_testService.GetUserByIde(id));
+            var result = _testService.GetUserByIde(id);
+            
+           // result.Name=
+           return Mapper.Map<UserViewModels>(result);
         }
 
     }

@@ -22,6 +22,14 @@ namespace TaskMaster.DAL.Migrations
 
             foreach (var elem in defaultUsers) context.User.Add(elem);
 
+            IList<Tokens> defaultTokens = new List<Tokens>();
+
+            defaultTokens.Add(new Tokens() { Token = "123", User = defaultUsers[1] });
+            defaultTokens.Add(new Tokens() { Token = "abc", User = defaultUsers[2] });
+            defaultTokens.Add(new Tokens() { Token = "+*+", User = defaultUsers[0] });
+
+            foreach (var elem in defaultUsers) context.User.Add(elem);
+
             base.Seed(context);
         }
     }
