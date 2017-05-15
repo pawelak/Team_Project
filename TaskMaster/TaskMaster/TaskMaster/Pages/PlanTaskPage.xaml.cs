@@ -1,6 +1,7 @@
 ﻿using System;
 using TaskMaster.Interfaces;
 using TaskMaster.ModelsDto;
+using TaskMaster.Services;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -9,7 +10,6 @@ namespace TaskMaster
 	[XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class PlanTaskPage
 	{
-        private readonly UserService _userService = new UserService();
 		public PlanTaskPage ()
 		{
 			InitializeComponent ();
@@ -31,13 +31,13 @@ namespace TaskMaster
 	                Name = ActivityName.Text,
 	                Description = ActivityDescription.Text
 	            };
-	            if (await _userService.GetTask(newTask) == null)
+	            if (await UserService.Instance.GetTask(newTask) == null)
 	            {
-	                newTask.TaskId = await _userService.SaveTask(newTask);
+	                newTask.TaskId = await UserService.Instance.SaveTask(newTask);
 	            }
 	            else
 	            {
-	                newTask = await _userService.GetTask(newTask);
+	                newTask = await UserService.Instance.GetTask(newTask);
 	            }
 	            var newActivity = new ActivitiesDto
 	            {
@@ -46,14 +46,14 @@ namespace TaskMaster
 	                GroupId = 1,
 	                Status = StatusType.Planned
 	            };
-	            newActivity.ActivityId = await _userService.SaveActivity(newActivity);
+	            newActivity.ActivityId = await UserService.Instance.SaveActivity(newActivity);
 	            var part = new PartsOfActivityDto
 	            {
 	                ActivityId = newActivity.ActivityId,
 	                Start = start,
 	                Duration = "0"
 	            };
-	            part.PartId = await _userService.SavePartOfActivity(part);
+	            part.PartId = await UserService.Instance.SavePartOfActivity(part);
 	            DependencyService.Get<INotificationService>().LoadNotifications(newTask.Name, "Naciśnij aby rozpocząć aktywność", part.PartId,
 	                DateTime.ParseExact(part.Start, "HH:mm:ss dd/MM/yyyy", null));
                 await Navigation.PushModalAsync(new NavigationPage(new MainPage()));

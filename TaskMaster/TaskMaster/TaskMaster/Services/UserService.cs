@@ -3,12 +3,30 @@ using System.Threading.Tasks;
 using TaskMaster.ModelsDto;
 using Xamarin.Forms;
 
-namespace TaskMaster
+namespace TaskMaster.Services
 {
     public class UserService
     {
+        private static UserService _instance;
         private static UserDatabase _database;
         private static UserDatabase Database => _database ?? (_database = new UserDatabase(DependencyService.Get<IFileHelper>().GetLocalFilePath("UserSQLite.db3")));
+
+        private UserService()
+        {
+            
+        }
+
+        public static UserService Instance
+        {
+            get
+            {
+                if (_instance == null)
+                {
+                    _instance = new UserService();
+                }
+                return _instance;
+            }
+        }
         public async Task<int> SaveActivity(ActivitiesDto activitiesDto)
         {
             if (activitiesDto.ActivityId != 0)

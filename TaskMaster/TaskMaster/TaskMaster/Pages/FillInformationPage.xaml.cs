@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using TaskMaster.ModelsDto;
+using TaskMaster.Services;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -9,7 +10,6 @@ namespace TaskMaster.Pages
 	[XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class FillInformationPage
 	{
-        private readonly UserService _userService = new UserService();
         private TasksDto _task = new TasksDto();
 	    private readonly ActivitiesDto _activity;
 	    private long _duration;
@@ -23,7 +23,7 @@ namespace TaskMaster.Pages
 
 	    private async void Init()
 	    {
-	        var parts = await _userService.GetPartsOfActivityByActivityId(_activity.ActivityId);
+	        var parts = await UserService.Instance.GetPartsOfActivityByActivityId(_activity.ActivityId);
             _duration = parts.Sum(part => long.Parse(part.Duration));
 	        var t = TimeSpan.FromMilliseconds(_duration);
 	        var answer = $"{t.Hours:D2}h:{t.Minutes:D2}m:{t.Seconds:D2}s";
@@ -46,20 +46,20 @@ namespace TaskMaster.Pages
 	    {
 	        if (_task.Name != null)
 	        {
-	            if (await _userService.GetTask(_task) == null)
+	            if (await UserService.Instance.GetTask(_task) == null)
 	            {
-	                var result = await _userService.SaveTask(_task);
+	                var result = await UserService.Instance.SaveTask(_task);
 	                _activity.TaskId = result;
                     _activity.Status = StatusType.Stop;
-	                await _userService.SaveActivity(_activity);
+	                await UserService.Instance.SaveActivity(_activity);
 	                await Navigation.PushModalAsync(new NavigationPage(new MainPage()));
 	            }
 	            else
 	            {
-	                _task = await _userService.GetTask(_task);
+	                _task = await UserService.Instance.GetTask(_task);
 	                _activity.TaskId = _task.TaskId;
 	                _activity.Status = StatusType.Stop;
-                    await _userService.SaveActivity(_activity);
+                    await UserService.Instance.SaveActivity(_activity);
 	                await Navigation.PushModalAsync(new NavigationPage(new MainPage()));
 	            }
             }

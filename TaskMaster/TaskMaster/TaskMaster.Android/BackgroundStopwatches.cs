@@ -12,7 +12,6 @@ namespace TaskMaster.Droid
     public class BackgroundStopwatches : Service
     {
         private readonly Timer _timer = new Timer();
-        private readonly UserService _userService = new UserService();
         public override IBinder OnBind(Intent intent)
         {
             return null;
@@ -49,12 +48,12 @@ namespace TaskMaster.Droid
 
         private async Task<PartsOfActivityDto> GetItem(int id)
         {
-            var result = await _userService.GetPartsOfActivityById(id);
+            var result = await Services.UserService.Instance.GetPartsOfActivityById(id);
             return result;
         }
         private async void SaveItem(PartsOfActivityDto item)
         {
-            await _userService.SavePartOfActivity(item);
+            await Services.UserService.Instance.SavePartOfActivity(item);
         }
 
         public override void OnDestroy()

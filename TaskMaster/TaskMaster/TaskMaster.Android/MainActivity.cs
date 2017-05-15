@@ -7,7 +7,7 @@ using Android.Gms.Auth.Api.SignIn;
 using Android.Gms.Common;
 using Android.Gms.Common.Apis;
 using Android.OS;
-
+using TaskMaster.ModelsDto;
 
 namespace TaskMaster.Droid
 {
@@ -25,7 +25,7 @@ namespace TaskMaster.Droid
             ToolbarResource = Resource.Layout.Toolbar;
             base.OnCreate(bundle);
             Xamarin.Forms.Forms.Init(this, bundle);
-            /*var gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DefaultSignIn)
+            var gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DefaultSignIn)
                 .RequestEmail()
                 .RequestIdToken("723494873981-np3v1u9js6jman2qri5r0gfd7fl3g3c2.apps.googleusercontent.com")
                 .Build();
@@ -33,9 +33,8 @@ namespace TaskMaster.Droid
                 .EnableAutoManage(this, this)
                 .AddApi(Auth.GOOGLE_SIGN_IN_API, gso)
                 .Build();
-            SignIn();*/            
+            SignIn();  
             XamForms.Controls.Droid.Calendar.Init();
-            LoadApplication(new App());
         }
 
         private void SignIn()
@@ -56,27 +55,6 @@ namespace TaskMaster.Droid
             base.OnResume();
         }
 
-        private void LoadNotifications(string name, string textdesc, int id, DateTime whenToStart)
-        {
-            var alarmIntent = new Intent(this, typeof(AlarmReceiver));
-            alarmIntent.PutExtra("name", name);
-            alarmIntent.PutExtra("textdesc", textdesc);
-            alarmIntent.PutExtra("Id", id);
-
-            var pendingIntent = PendingIntent.GetBroadcast(this, id, alarmIntent, PendingIntentFlags.UpdateCurrent);
-            var alarmManager = (AlarmManager) GetSystemService(AlarmService);
-            alarmManager.Set(AlarmType.RtcWakeup, NotifyTimeInMilliseconds(whenToStart), pendingIntent);
-        }
-
-        private static long NotifyTimeInMilliseconds(DateTime notifyTime)
-        {
-            var utcTime = TimeZoneInfo.ConvertTimeToUtc(notifyTime);
-            var epochDifference = (new DateTime(1970, 1, 1) - DateTime.MinValue).TotalSeconds;
-
-            var utcAlarmTimeInMillis = utcTime.AddSeconds(-epochDifference).Ticks / 10000;
-            return utcAlarmTimeInMillis;
-        }
-
         public void OnConnectionFailed(ConnectionResult result)
         {
 
@@ -85,18 +63,33 @@ namespace TaskMaster.Droid
         protected override void OnActivityResult(int requestCode, Result resultCode, Intent data)
         {
             base.OnActivityResult(requestCode, resultCode, data);
-            if (requestCode == RcSignIn)
+            if (requestCode != RcSignIn)
             {
-                var result = Auth.GoogleSignInApi.GetSignInResultFromIntent(data);
-                HandleSignInResult(result);
+                return;
             }
+            var result = Auth.GoogleSignInApi.GetSignInResultFromIntent(data);
+            HandleSignInResult(result);
         }
 
-        private void HandleSignInResult(GoogleSignInResult result)
+        private async void HandleSignInResult(GoogleSignInResult result)
         {
             if (result.IsSuccess)
             {
-                GoogleSignInAccount acc = result.SignInAccount;
+                var acc = result.SignInAccount;
+                var email = acc.Email;
+                var idToken = acc.IdToken;
+                var user = new UserDto
+                {
+                    Name = email,
+                    Token = idToken,
+                    TypeOfRegistration = "Google"
+                };
+                await Services.UserService.Instance.SaveUser(user);
+                LoadApplication(new App());
+            }
+            else
+            {
+                Finish();
             }
         }
 

@@ -11,7 +11,6 @@ namespace TaskMaster.Pages
     public partial class EditTaskPage
     {
         private bool _isPageNotChanged = true;
-        private readonly UserService _userService = new UserService();
         private PartsOfActivityDto _part;
         private ActivitiesDto _activity;
         private TasksDto _task;
@@ -29,8 +28,8 @@ namespace TaskMaster.Pages
 
         private async void Initial(MainPageList item)
         {
-            _activity = await _userService.GetActivity(item.ActivityId);
-            _part = await _userService.GetLastActivityPart(_activity.ActivityId);
+            _activity = await UserService.Instance.GetActivity(item.ActivityId);
+            _part = await UserService.Instance.GetLastActivityPart(_activity.ActivityId);
             _task = new TasksDto
             {
                 Name = item.Name,
@@ -39,7 +38,7 @@ namespace TaskMaster.Pages
             };
             TaskDates.Text = _part.Start;
             TaskDate.Text = _part.Start;
-            var parts = await _userService.GetPartsOfActivityByActivityId(_activity.ActivityId);
+            var parts = await UserService.Instance.GetPartsOfActivityByActivityId(_activity.ActivityId);
             _duration = parts.Sum(part => long.Parse(part.Duration));
             if (item.Status == StatusType.Start)
             {
@@ -83,17 +82,17 @@ namespace TaskMaster.Pages
             _part.Stop = _now.ToString("HH:mm:ss dd/MM/yyyy");
             _part.Duration = _duration.ToString();
             _activity.Status = StatusType.Stop;
-            await _userService.SaveActivity(_activity);
-            await _userService.SavePartOfActivity(_part);
+            await UserService.Instance.SaveActivity(_activity);
+            await UserService.Instance.SavePartOfActivity(_part);
             if (_task.TaskId == 0)
             {
                 await Navigation.PushModalAsync(new FillInformationPage(_activity));
             }
             else
             {
-                _task.TaskId = await _userService.SaveTask(_task);
+                _task.TaskId = await UserService.Instance.SaveTask(_task);
                 _activity.TaskId = _task.TaskId;
-                await _userService.SaveActivity(_activity);
+                await UserService.Instance.SaveActivity(_activity);
                 await Navigation.PushModalAsync(new NavigationPage(new MainPage()));
             }
         }
@@ -106,8 +105,8 @@ namespace TaskMaster.Pages
             _part.Stop = date;
             StopwatchesService.Instance.StopStopwatch(_part.PartId);
             _part.Duration = StopwatchesService.Instance.GetStopwatchTime(_part.PartId).ToString();
-            await _userService.SaveActivity(_activity);
-            await _userService.SavePartOfActivity(_part);
+            await UserService.Instance.SaveActivity(_activity);
+            await UserService.Instance.SavePartOfActivity(_part);
             UpdateButtons();
         }
 
@@ -122,10 +121,10 @@ namespace TaskMaster.Pages
                 Start = date,
                 Duration = "0"
             };
-            part.PartId = await _userService.SavePartOfActivity(part);
+            part.PartId = await UserService.Instance.SavePartOfActivity(part);
             StopwatchesService.Instance.AddStopwatch(part.PartId);
             _part = part;
-            await _userService.SaveActivity(_activity);
+            await UserService.Instance.SaveActivity(_activity);
             Device.StartTimer(TimeSpan.FromSeconds(1), UpdateTime);
             UpdateButtons();
         }
@@ -151,9 +150,9 @@ namespace TaskMaster.Pages
             }
             else
             {
-                _task.TaskId = await _userService.SaveTask(_task);
+                _task.TaskId = await UserService.Instance.SaveTask(_task);
                 _activity.TaskId = _task.TaskId;
-                await _userService.SaveActivity(_activity);
+                await UserService.Instance.SaveActivity(_activity);
             }
         }
 

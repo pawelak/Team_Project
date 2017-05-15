@@ -22,6 +22,15 @@ namespace TaskMaster
         {
             await Navigation.PushModalAsync(new NavigationPage(new HistoryPage()));
         }
+
+        protected override bool OnBackButtonPressed()
+        {
+            Device.BeginInvokeOnMainThread(async () =>
+            {
+                await Navigation.PushModalAsync(new NavigationPage(new MainPage()));
+            });
+            return base.OnBackButtonPressed();
+        }
     }
 }
 

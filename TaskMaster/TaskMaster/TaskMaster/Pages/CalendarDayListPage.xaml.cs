@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using TaskMaster.Services;
 using Xamarin.Forms;
 
 namespace TaskMaster.Pages
@@ -10,7 +11,6 @@ namespace TaskMaster.Pages
     {
         private readonly List<CustomList> _dayPlan = new List<CustomList>();
         private DateTime _calendarDay;
-        private readonly UserService _userService = new UserService();
         public CalendarDayListPage(DateTime dateTime)
         {
             _calendarDay = dateTime;
@@ -35,15 +35,15 @@ namespace TaskMaster.Pages
 
         private async void AddActivitiesByStatus(StatusType status)
         {
-            var activities = await _userService.GetActivitiesByStatus(status);
+            var activities = await UserService.Instance.GetActivitiesByStatus(status);
             foreach (var activity in activities)
             {
-                var parts = await _userService.GetPartsOfActivityByActivityId(activity.ActivityId);
+                var parts = await UserService.Instance.GetPartsOfActivityByActivityId(activity.ActivityId);
                 var time = parts.Where(part => DateTime.ParseExact(part.Start, "HH:mm:ss dd/MM/yyyy", null)
                         .ToString("dd/MM/yyyy")
                         .Equals(_calendarDay.ToString("dd/MM/yyyy")))
                     .Sum(part => long.Parse(part.Duration));
-                var task = await _userService.GetTaskById(activity.TaskId);
+                var task = await UserService.Instance.GetTaskById(activity.TaskId);
                 var t = TimeSpan.FromMilliseconds(time);
                 var element = new CustomList
                 {

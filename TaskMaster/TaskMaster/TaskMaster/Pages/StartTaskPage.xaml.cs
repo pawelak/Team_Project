@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics;
 using Xamarin.Forms.Xaml;
 using TaskMaster.ModelsDto;
 using Xamarin.Forms;
@@ -10,7 +9,6 @@ namespace TaskMaster
 	[XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class StartTaskPage
 	{
-        private readonly UserService _userService = new UserService();
 		public StartTaskPage ()
 		{
 			InitializeComponent ();
@@ -25,13 +23,13 @@ namespace TaskMaster
 	                Name = StartTaskName.Text,
 	                Description = StartTaskDescription.Text
 	            };
-	            if (await _userService.GetTask(newTask) == null)
+	            if (await UserService.Instance.GetTask(newTask) == null)
 	            {
-	                newTask.TaskId = await _userService.SaveTask(newTask);
+	                newTask.TaskId = await UserService.Instance.SaveTask(newTask);
 	            }
 	            else
 	            {
-	                newTask = _userService.GetTask(newTask).Result;
+	                newTask = UserService.Instance.GetTask(newTask).Result;
 	            }
 	            var newActivity = new ActivitiesDto
 	            {
@@ -39,7 +37,7 @@ namespace TaskMaster
 	                UserId = 1,
 	                Status = StatusType.Start
 	            };
-	            newActivity.ActivityId = await _userService.SaveActivity(newActivity);
+	            newActivity.ActivityId = await UserService.Instance.SaveActivity(newActivity);
 	            var date = DateTime.Now.ToString("HH:mm:ss dd/MM/yyyy");
 	            var part = new PartsOfActivityDto
 	            {
@@ -47,7 +45,7 @@ namespace TaskMaster
 	                Start = date,
 	                Duration = "0"
 	            };
-	            part.PartId = await _userService.SavePartOfActivity(part);
+	            part.PartId = await UserService.Instance.SavePartOfActivity(part);
 	            StopwatchesService.Instance.AddStopwatch(part.PartId);
 	            await Navigation.PushModalAsync(new NavigationPage(new MainPage()));
 	        }
