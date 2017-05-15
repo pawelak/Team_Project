@@ -6,7 +6,7 @@ using System.Web.Mvc;
 using System.Web.UI;
 using Microsoft.Ajax.Utilities;
 using TaskMaster.Web.Models;
-using TaskMaster.BLL.Services;
+using TaskMaster.BLL.WebServices;
 
 namespace TaskMaster.Web.Controllers
 {

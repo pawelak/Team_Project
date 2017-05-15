@@ -8,7 +8,7 @@ using TaskMaster.DAL.Repositories;
 
 namespace TaskMaster.BLL.Services
 {
-    public class DiffrentCOdes
+    public class Norbert
     {
         public ActivityRepositories ActivityRepositories = new ActivityRepositories();
         public GroupRepositories GroupRepositories = new GroupRepositories();

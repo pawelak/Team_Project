@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Globalization;
 using System.Linq;
-using System.Threading.Tasks;
 using TaskMaster.ModelsDto;
 using TaskMaster.Pages;
 using Xamarin.Forms;
@@ -11,7 +9,6 @@ namespace TaskMaster
 {
     public partial class MainPage
     {
-        public bool IsFirstOpen;
         private bool _isPageNotChanged = true;
         private bool _isVisible = true;
         private readonly List<MainPageList> _activeTasksList = new List<MainPageList>();
@@ -19,34 +16,16 @@ namespace TaskMaster
 
         public MainPage()
         {
-            InitializeComponent();
-            IsFirstOpen = false;
-        }
-
-        public MainPage(bool a)
-        {
-            InitializeComponent();
-            IsFirstOpen = a;
-            StartupResume();
+            InitializeComponent();            
         }
 
         protected override void OnAppearing()
         {
             _isPageNotChanged = true;
-            Device.StartTimer(TimeSpan.FromSeconds(1),CheckIsFirstOpen);
-        }
-
-        private bool CheckIsFirstOpen()
-        {
-            if (IsFirstOpen)
-            {
-                return true;
-            }
             ListInitiate();
             Device.StartTimer(TimeSpan.FromSeconds(1), CheckList);
-            return false;
         }
-
+        
         private bool CheckList()
         {
             if (_activeTasksList.Count <= 0)
@@ -56,6 +35,7 @@ namespace TaskMaster
             Device.StartTimer(TimeSpan.FromSeconds(1), UpdateTime);
             return false;
         }
+
         private bool UpdateTime()
         {
             if (_activeTasksList.Count <= 0)
@@ -73,44 +53,37 @@ namespace TaskMaster
                 var answer = $"{t.Hours:D2}h:{t.Minutes:D2}m:{t.Seconds:D2}s";
                 item.Duration = answer;
             }
-            Device.BeginInvokeOnMainThread(async () =>
-            {
-                await UpdateList();
-            });
+            UpdateList();
+            return IsPageNotChanged();
+        }
+
+        private bool IsPageNotChanged()
+        {
             return _isPageNotChanged;
         }
-
-        private async Task<bool> UpdateList()
+        private void UpdateList()
         {
-            await Task.Run(() =>
+            Device.BeginInvokeOnMainThread(() =>
             {
-                Device.BeginInvokeOnMainThread(() =>
-                {
-                    ActiveTasks.ItemsSource = null;
-                    ActiveTasks.ItemsSource = _activeTasksList;
-                });
+                ActiveTasks.ItemsSource = null;
+                ActiveTasks.ItemsSource = _activeTasksList;
             });
-            return true;
         }
 
-        private async void ListInitiate()
+        private async void GetStartedActivities()
         {
-            if (_activeTasksList.Count > 0)
-            {
-                _activeTasksList.Clear();
-            }
             var activitiesStarted = await _userService.GetActivitiesByStatus(StatusType.Start);
             foreach (var activity in activitiesStarted)
             {
                 if (activity.TaskId == 0)
                 {
+                    var parts = await _userService.GetPartsOfActivityByActivityId(activity.ActivityId);
+                    var time = parts.Sum(part => long.Parse(part.Duration));
                     var lastPart = await _userService.GetLastActivityPart(activity.ActivityId);
                     var stopwatch = App.Stopwatches.FirstOrDefault(s => s.GetPartId() == lastPart.PartId);
-                    var time = long.Parse(lastPart.Duration);
                     if (stopwatch != null)
                     {
                         time += stopwatch.GetStopwatch().ElapsedMilliseconds;
-                        //await DisplayAlert("title", time.ToString(), "Ok");
                     }
                     else
                     {
@@ -163,18 +136,17 @@ namespace TaskMaster
                     _activeTasksList.Add(item);
                 }
             }
+        }
+
+        private async void GetPausedActivities()
+        {
             var result2 = await _userService.GetActivitiesByStatus(StatusType.Pause);
             foreach (var activity in result2)
             {
                 if (activity.TaskId == 0)
                 {
-                    var lastPart = await _userService.GetLastActivityPart(activity.ActivityId);
-                    var stopwatch = App.Stopwatches.FirstOrDefault(s => s.GetPartId() == lastPart.PartId);
-                    var time = long.Parse(lastPart.Duration);
-                    if (stopwatch != null)
-                    {
-                        time += stopwatch.GetStopwatch().ElapsedMilliseconds;
-                    }
+                    var parts = await _userService.GetPartsOfActivityByActivityId(activity.ActivityId);
+                    var time = parts.Sum(part => long.Parse(part.Duration));
                     var t = TimeSpan.FromMilliseconds(time);
                     var item = new MainPageList
                     {
@@ -192,12 +164,6 @@ namespace TaskMaster
                     var task = await _userService.GetTaskById(activity.TaskId);
                     var parts = await _userService.GetPartsOfActivityByActivityId(activity.ActivityId);
                     var time = parts.Sum(part => long.Parse(part.Duration));
-                    var lastPart = await _userService.GetLastActivityPart(activity.ActivityId);
-                    var stopwatch = App.Stopwatches.FirstOrDefault(s => s.GetPartId() == lastPart.PartId);
-                    if (stopwatch != null)
-                    {
-                        time += stopwatch.GetStopwatch().ElapsedMilliseconds;
-                    }
                     var t = TimeSpan.FromMilliseconds(time);
                     var item = new MainPageList
                     {
@@ -213,7 +179,16 @@ namespace TaskMaster
                     _activeTasksList.Add(item);
                 }
             }
-            ActiveTasks.ItemsSource = _activeTasksList;
+        }
+
+        private void ListInitiate()
+        {
+            if (_activeTasksList.Count > 0)
+            {
+                _activeTasksList.Clear();
+            }
+            GetStartedActivities();
+            GetPausedActivities();
         }
 
         private static string ImageChoice(StatusType status)
@@ -264,9 +239,18 @@ namespace TaskMaster
                 Time = 0
             };
             _activeTasksList.Add(item);
-            await UpdateList();
+            UpdateList();
         }
-          
+
+        protected override void OnDisappearing()
+        {
+            Device.BeginInvokeOnMainThread(() =>
+            {
+                _isPageNotChanged = false;
+            });           
+            base.OnDisappearing();
+        }
+
         private async void InitializeCalendarItem_OnClicked(object sender, EventArgs e)
         {
             _isPageNotChanged = false;
@@ -285,6 +269,7 @@ namespace TaskMaster
 	    {
 	        _isPageNotChanged = false;
 	        _isVisible = false;
+	        ActiveTasks.ItemsSource = null;
             var item = (MainPageList) e.Item;
 	        await Navigation.PushModalAsync(new EditTaskPage(item));
 	    }
@@ -364,7 +349,6 @@ namespace TaskMaster
                 App.Stopwatches.Add(stopwatch2);
                 App.Stopwatches[App.Stopwatches.Count - 1].Start();
             }
-            IsFirstOpen = false;
         }
     }
 }

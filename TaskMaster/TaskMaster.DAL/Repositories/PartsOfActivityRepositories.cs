@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using AutoMapper;
 using TaskMaster.DAL.DTOModels;
 using TaskMaster.DAL.Interface;
@@ -18,19 +19,14 @@ namespace TaskMaster.DAL.Repositories
             base.Delete(Mapper.Map<PartsOfActivity>(dto));
         }
 
-        public IList<PartsOfActivityDto> GetAll()
+        public new IList<PartsOfActivityDto> GetAll()
         {
-            IList<PartsOfActivityDto> list = new List<PartsOfActivityDto>();
-            foreach (var VARIABLE in base.GetAll())
-            {
-                list.Add(Mapper.Map<PartsOfActivityDto>(VARIABLE));
-            }
-            return list;
+            return base.GetAll().Select(Mapper.Map<PartsOfActivityDto>).ToList();
         }
 
-        public new PartsOfActivityDto Get(int ID)
+        public new PartsOfActivityDto Get(int id)
         {
-            return Mapper.Map<PartsOfActivityDto>(base.Get(ID));
+            return Mapper.Map<PartsOfActivityDto>(base.Get(id));
         }
 
         public void Edit(PartsOfActivityDto dto)

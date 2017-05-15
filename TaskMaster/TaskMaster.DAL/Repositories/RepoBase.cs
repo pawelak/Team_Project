@@ -6,39 +6,39 @@ namespace TaskMaster.DAL.Repositories
 {
      public class RepoBase<T> where T : class
      {
-            protected Context.DatabaseContext db = new Context.DatabaseContext();
+            protected Context.DatabaseContext Db = new Context.DatabaseContext();
 
-            protected void Add(T X)
+            protected void Add(T x)
             {
-                db.Set<T>().Add(X);
-                db.SaveChanges();
+                Db.Set<T>().Add(x);
+                Db.SaveChanges();
             }
 
-            protected void Delete(T X)
+            protected void Delete(T x)
             {
-                db.Set<T>().Remove(X);
-                db.SaveChanges();
+                Db.Set<T>().Remove(x);
+                Db.SaveChanges();
             }
 
             protected IList<T> GetAll()
             {
-                return db.Set<T>().ToList<T>();
+                return Db.Set<T>().ToList<T>();
             }
 
-             protected T Get(int ID)
+            protected T Get(int id)
             {
-                return db.Set<T>().Find(ID);
+                return Db.Set<T>().Find(id);
             }
 
-            protected void Edit(T X)
+            protected void Edit(T x)
             {
-                db.Entry(X).State = EntityState.Modified;
-                db.SaveChanges();
+                Db.Entry(x).State = EntityState.Modified;
+                Db.SaveChanges();
             }
 
             protected int Count()
             {
-                return db.Set<T>().Count<T>();
+                return Db.Set<T>().Count<T>();
             }
         }
 }

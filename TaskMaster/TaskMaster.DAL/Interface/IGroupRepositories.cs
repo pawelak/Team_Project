@@ -9,6 +9,7 @@ namespace TaskMaster.DAL.Interface
         void Delete(GroupDto dto);
         IList<GroupDto> GetAll();
         GroupDto Get(int id);
+        GroupDto Get(string nameGroup);
         void Edit(GroupDto dto);
     }
 }
