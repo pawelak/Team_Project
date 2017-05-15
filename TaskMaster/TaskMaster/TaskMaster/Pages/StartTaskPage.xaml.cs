@@ -3,6 +3,7 @@ using System.Diagnostics;
 using Xamarin.Forms.Xaml;
 using TaskMaster.ModelsDto;
 using Xamarin.Forms;
+using TaskMaster.Services;
 
 namespace TaskMaster
 {
@@ -47,10 +48,7 @@ namespace TaskMaster
 	                Duration = "0"
 	            };
 	            part.PartId = await _userService.SavePartOfActivity(part);
-	            var sw = new Stopwatch();
-	            var stopwatch = new Stopwatches(sw, part.PartId);
-	            App.Stopwatches.Add(stopwatch);
-	            App.Stopwatches[App.Stopwatches.Count - 1].Start();
+	            StopwatchesService.Instance.AddStopwatch(part.PartId);
 	            await Navigation.PushModalAsync(new NavigationPage(new MainPage()));
 	        }
 	        else

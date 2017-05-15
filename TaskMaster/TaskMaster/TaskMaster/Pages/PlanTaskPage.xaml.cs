@@ -1,4 +1,5 @@
 ﻿using System;
+using TaskMaster.Interfaces;
 using TaskMaster.ModelsDto;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -52,8 +53,10 @@ namespace TaskMaster
 	                Start = start,
 	                Duration = "0"
 	            };
-	            await _userService.SavePartOfActivity(part);
-	            await Navigation.PopModalAsync();
+	            part.PartId = await _userService.SavePartOfActivity(part);
+	            DependencyService.Get<INotificationService>().LoadNotifications(newTask.Name, "Naciśnij aby rozpocząć aktywność", part.PartId,
+	                DateTime.ParseExact(part.Start, "HH:mm:ss dd/MM/yyyy", null));
+                await Navigation.PushModalAsync(new NavigationPage(new MainPage()));
 	        }
 	        else
 	        {

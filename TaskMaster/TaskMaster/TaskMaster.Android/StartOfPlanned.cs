@@ -1,8 +1,8 @@
 ﻿using System;
 using Android.App;
 using Android.OS;
-using System.Diagnostics;
 using TaskMaster.ModelsDto;
+using TaskMaster.Services;
 
 namespace TaskMaster.Droid
 {
@@ -27,10 +27,7 @@ namespace TaskMaster.Droid
             _part.Start = date;
             await _userService.SavePartOfActivity(_part);
             await _userService.SaveActivity(_activity);
-            var sw = new Stopwatch();
-            var stopwatch = new Stopwatches(sw, _part.PartId);
-            App.Stopwatches.Add(stopwatch);
-            App.Stopwatches[App.Stopwatches.Count - 1].Start();
+            StopwatchesService.Instance.AddStopwatch(_part.PartId);
             Finish();
         }
     }   

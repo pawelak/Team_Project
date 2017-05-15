@@ -1,21 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Android.App;
 using Android.Content;
 using Android.OS;
 using TaskMaster.ModelsDto;
-using Xamarin.Forms;
+using TaskMaster.Services;
+using System.Timers;
 
 namespace TaskMaster.Droid
 {
     [Service]
     public class BackgroundStopwatches : Service
     {
-        private bool _isWorking = true;
+        private readonly Timer _timer = new Timer();
         private readonly UserService _userService = new UserService();
-        private readonly List<Stopwatches> _stopwatches = new List<Stopwatches>();
         public override IBinder OnBind(Intent intent)
         {
             return null;
@@ -23,46 +20,31 @@ namespace TaskMaster.Droid
 
         public override StartCommandResult OnStartCommand(Intent intent, StartCommandFlags flags, int startId)
         {
-            if (App.Stopwatches.Count == 0)
+            if (StopwatchesService.Instance.CountStopwatches() == 0)
             {
                 return StartCommandResult.Sticky;
             }
-            GetData();
-            Device.StartTimer(TimeSpan.FromMinutes(1), UpdateTimes);
+            _timer.Elapsed += UpdateTimes;
+            _timer.Interval = 60000;
+            _timer.Start();
             return StartCommandResult.Sticky;
         }
 
-        private async void GetData()
-        {
-            if (App.Stopwatches.Count == 0)
-            {
-                return;
-            }
-            var list = await _userService.GetActivitiesByStatus(StatusType.Start);
-            foreach (var activity in list)
-            {
-                var part = await _userService.GetLastActivityPart(activity.ActivityId);
-                var sw = new Stopwatch();
-                var stopwatch = new Stopwatches(sw,part.PartId);
-                _stopwatches.Add(stopwatch);
-                _stopwatches[_stopwatches.Count -1].Start();
-            }
-        }
-
-        private bool UpdateTimes()
+        private void UpdateTimes(object source, ElapsedEventArgs e)
         {
             Task.Run(async () =>
             {
-                foreach (var item in _stopwatches)
+                var running = StopwatchesService.Instance.GetActiveStopwatchesPartsId();
+                foreach (var item in running)
                 {
-                    var part = await GetItem(item.GetPartId());
-                    var time = long.Parse(part.Duration) + 60000;
+                    var part = await GetItem(item);
+                    var t = StopwatchesService.Instance.GetStopwatchTime(item);
+                    var time = long.Parse(part.Duration) + t;
                     part.Duration = time.ToString();
                     SaveItem(part);
-                    item.Restart();
+                    StopwatchesService.Instance.RestartStopwatch(item);
                 }
             });
-            return _isWorking;
         }
 
         private async Task<PartsOfActivityDto> GetItem(int id)
@@ -79,16 +61,16 @@ namespace TaskMaster.Droid
         {
             Task.Run(async () =>
             {
-                foreach (var item in _stopwatches)
+                var running = StopwatchesService.Instance.GetActiveStopwatchesPartsId();
+                foreach (var item in running)
                 {
-                    var part = await GetItem(item.GetPartId());
-                    var t = item.GetTime();
+                    var part = await GetItem(item);
+                    var t = StopwatchesService.Instance.GetStopwatchTime(item);
                     var time = long.Parse(part.Duration) + t;
                     part.Duration = time.ToString();
                     SaveItem(part);
-                    item.Stop();
+                    StopwatchesService.Instance.RestartStopwatch(item);
                 }
-                _isWorking = false;
             });
             base.OnDestroy();
         }
