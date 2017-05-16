@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using TaskMaster.Services;
 using Xamarin.Forms;
 
@@ -15,35 +16,49 @@ namespace TaskMaster.Pages
         {
             _calendarDay = dateTime;
             InitializeComponent();
-            ListInitiate();
+            ListInitiate();            
+        }
+
+        private async void ListInitiate()
+        {
+            await AddActivitiesByStatus(StatusType.Stop);
+            await AddActivitiesByStatus(StatusType.Planned);
+            await AddActivitiesByStatus(StatusType.Pause);
             Device.BeginInvokeOnMainThread(() =>
             {
                 DayPlan.ItemsSource = _dayPlan;
             });
         }
-        protected override void OnAppearing()
-        {
-            ListInitiate();
-        }
 
-        private void ListInitiate()
-        {
-            AddActivitiesByStatus(StatusType.Stop);
-            AddActivitiesByStatus(StatusType.Planned);
-            AddActivitiesByStatus(StatusType.Pause);
-        }
-
-        private async void AddActivitiesByStatus(StatusType status)
+        private async Task AddActivitiesByStatus(StatusType status)
         {
             var activities = await UserService.Instance.GetActivitiesByStatus(status);
             foreach (var activity in activities)
             {
                 var parts = await UserService.Instance.GetPartsOfActivityByActivityId(activity.ActivityId);
-                var time = parts.Where(part => DateTime.ParseExact(part.Start, "HH:mm:ss dd/MM/yyyy", null)
-                        .ToString("dd/MM/yyyy")
-                        .Equals(_calendarDay.ToString("dd/MM/yyyy")))
-                    .Sum(part => long.Parse(part.Duration));
+                long time = 0;
+                if (status == StatusType.Planned)
+                {
+                    var part = await UserService.Instance.GetLastActivityPart(activity.ActivityId);
+                    if (DateTime.ParseExact(part.Start, "HH:mm:ss dd/MM/yyyy", null).ToString("dd/MM/yyyy") != _calendarDay.ToString("dd/MM/yyyy"))
+                    {
+                        continue;
+                    }
+                }
+                else
+                {
+                    time += parts.Where(part => DateTime.ParseExact(part.Start, "HH:mm:ss dd/MM/yyyy", null).ToString("dd/MM/yyyy") == _calendarDay.ToString("dd/MM/yyyy"))
+                        .Sum(part => long.Parse(part.Duration));
+                    if (time == 0)
+                    {
+                        continue;
+                    }
+                }
                 var task = await UserService.Instance.GetTaskById(activity.TaskId);
+                if (task == null)
+                {
+                    continue;
+                }
                 var t = TimeSpan.FromMilliseconds(time);
                 var element = new CustomList
                 {
@@ -55,18 +70,18 @@ namespace TaskMaster.Pages
             }
         }
 
-        private void DayPlan_OnItemTapped(object sender, ItemTappedEventArgs e)
-        {
-            
-        }
-
         protected override bool OnBackButtonPressed()
         {
             Device.BeginInvokeOnMainThread(async () =>
             {                
-                await Navigation.PushModalAsync(new InitializeCalendar());
+                await Navigation.PushModalAsync(new NavigationPage(new MainPage()));
             });
             return true;
+        }
+
+        private void DayPlan_OnItemTapped(object sender, ItemTappedEventArgs e)
+        {
+            //Nothing
         }
     }
 }

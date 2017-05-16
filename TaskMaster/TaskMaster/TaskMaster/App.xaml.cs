@@ -1,12 +1,12 @@
 ﻿using System;
 using TaskMaster.Interfaces;
+using TaskMaster.Services;
 using Xamarin.Forms;
 
 namespace TaskMaster
 {
 	public partial class App
 	{
-        private readonly UserService _userService = new UserService();
 	    public App ()
 		{
             InitializeComponent();
@@ -15,12 +15,12 @@ namespace TaskMaster
 
         protected override async void OnStart()
         {            
-            var result2 = await _userService.GetActivitiesByStatus(StatusType.Planned);
+            var result2 = await UserService.Instance.GetActivitiesByStatus(StatusType.Planned);
             foreach (var activity in result2)
             {
-                var task = await _userService.GetTaskById(activity.TaskId);
-                var part = await _userService.GetLastActivityPart(activity.ActivityId);
-                DependencyService.Get<INotificationService>().LoadNotifications(task.Name, "Naciśnij aby rozpocząć aktywność", part.PartId,
+                var task = await UserService.Instance.GetTaskById(activity.TaskId);
+                var part = await UserService.Instance.GetLastActivityPart(activity.ActivityId);
+                DependencyService.Get<INotificationService>().LoadNotifications(task.Name, "Naciśnij aby rozpocząć aktywność", part.ActivityId,
                     DateTime.ParseExact(part.Start, "HH:mm:ss dd/MM/yyyy", null));
             }
         }

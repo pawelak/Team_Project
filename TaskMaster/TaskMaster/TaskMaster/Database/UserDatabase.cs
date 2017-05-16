@@ -82,6 +82,11 @@ namespace TaskMaster
             return user.UserId;
         }
 
+        public async Task<int> GetLoggedUser()
+        {
+            var result = await _database.Table<User>().Where(u => u.IsLoggedIn).FirstOrDefaultAsync();
+            return result.UserId;
+        }
         public async Task<int> InsertTask(TasksDto tasksDto)
         {
             var task = Mapper.Map<Tasks>(tasksDto);

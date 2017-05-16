@@ -25,7 +25,7 @@ namespace TaskMaster.Droid
             ToolbarResource = Resource.Layout.Toolbar;
             base.OnCreate(bundle);
             Xamarin.Forms.Forms.Init(this, bundle);
-            var gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DefaultSignIn)
+            /*var gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DefaultSignIn)
                 .RequestEmail()
                 .RequestIdToken("723494873981-np3v1u9js6jman2qri5r0gfd7fl3g3c2.apps.googleusercontent.com")
                 .Build();
@@ -33,8 +33,9 @@ namespace TaskMaster.Droid
                 .EnableAutoManage(this, this)
                 .AddApi(Auth.GOOGLE_SIGN_IN_API, gso)
                 .Build();
-            SignIn();  
+            SignIn();  */
             XamForms.Controls.Droid.Calendar.Init();
+            LoadApplication(new App());
         }
 
         private void SignIn()

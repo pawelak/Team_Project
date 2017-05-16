@@ -71,6 +71,12 @@ namespace TaskMaster.Services
             return insert;
         }
 
+        public async Task<int> GetLoggedUser()
+        {
+            var result = await Database.GetLoggedUser();
+            return result;
+        }
+
         public async Task<int> SaveUser(UserDto userDto)
         {
             if (userDto.UserId != 0)

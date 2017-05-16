@@ -48,7 +48,7 @@ namespace TaskMaster.Pages
                 {
                     Content = new StackLayout
                     {
-                        Padding = new Thickness(5, Device.OS == TargetPlatform.iOS ? 25 : 5, 5, 5),
+                        Padding = new Thickness(5, Device.RuntimePlatform == "iOS" ? 25 : 5, 5, 5),
                         VerticalOptions = LayoutOptions.Center,
                         Children =
                         {
@@ -64,7 +64,7 @@ namespace TaskMaster.Pages
         {
             AddDatesByStatus(StatusType.Stop);
             AddDatesByStatus(StatusType.Pause);
-            AddDatesByStatus(StatusType.Stop);
+            AddDatesByStatus(StatusType.Planned);
             _calendar.RaiseSpecialDatesChanged();
         }
         

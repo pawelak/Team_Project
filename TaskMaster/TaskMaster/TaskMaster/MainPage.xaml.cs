@@ -108,6 +108,7 @@ namespace TaskMaster
                         Name = task.Name,
                         Description = task.Description,
                         ActivityId = activity.ActivityId,
+                        PartId = lastPart.PartId,
                         TaskId = task.TaskId,
                         Duration = $"{t.Hours:D2}h:{t.Minutes:D2}m:{t.Seconds:D2}s",
                         Time = time,

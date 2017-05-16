@@ -12,21 +12,20 @@ namespace TaskMaster.Droid
     {
         private ActivitiesDto _activity;
         private DateTime _now;
-        private PartsOfActivityDto _part;
-        private readonly UserService _userService = new UserService();
+        private PartsOfActivityDto _part;        
 
         protected override async void OnCreate(Bundle bundle)
         {
             base.OnCreate(bundle);
             var id = Intent.Extras.GetInt("Id", -1);
-            _activity = await _userService.GetActivity(id);
+            _activity = await Services.UserService.Instance.GetActivity(id);
             _activity.Status = StatusType.Start;
-            _part = await _userService.GetLastActivityPart(id);
+            _part = await Services.UserService.Instance.GetLastActivityPart(id);
             _now = DateTime.Now;
             var date = _now.ToString("HH:mm:ss dd/MM/yyyy");
             _part.Start = date;
-            await _userService.SavePartOfActivity(_part);
-            await _userService.SaveActivity(_activity);
+            await Services.UserService.Instance.SavePartOfActivity(_part);
+            await Services.UserService.Instance.SaveActivity(_activity);
             StopwatchesService.Instance.AddStopwatch(_part.PartId);
             Finish();
         }

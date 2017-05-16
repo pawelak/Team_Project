@@ -46,31 +46,28 @@ namespace TaskMaster.Droid
             });
         }
 
-        private async Task<PartsOfActivityDto> GetItem(int id)
+        private static async Task<PartsOfActivityDto> GetItem(int id)
         {
             var result = await Services.UserService.Instance.GetPartsOfActivityById(id);
             return result;
         }
-        private async void SaveItem(PartsOfActivityDto item)
+        private static async void SaveItem(PartsOfActivityDto item)
         {
             await Services.UserService.Instance.SavePartOfActivity(item);
         }
 
-        public override void OnDestroy()
+        public override async void OnDestroy()
         {
-            Task.Run(async () =>
+            var running = StopwatchesService.Instance.GetActiveStopwatchesPartsId();
+            foreach (var item in running)
             {
-                var running = StopwatchesService.Instance.GetActiveStopwatchesPartsId();
-                foreach (var item in running)
-                {
-                    var part = await GetItem(item);
-                    var t = StopwatchesService.Instance.GetStopwatchTime(item);
-                    var time = long.Parse(part.Duration) + t;
-                    part.Duration = time.ToString();
-                    SaveItem(part);
-                    StopwatchesService.Instance.RestartStopwatch(item);
-                }
-            });
+                var part = await GetItem(item);
+                var t = StopwatchesService.Instance.GetStopwatchTime(item);
+                var time = long.Parse(part.Duration) + t;
+                part.Duration = time.ToString();
+                SaveItem(part);
+                StopwatchesService.Instance.RestartStopwatch(item);
+            }
             base.OnDestroy();
         }
     }
