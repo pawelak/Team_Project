@@ -9,7 +9,8 @@ namespace TaskMaster.BLL.MobileServices
         public bool VerificationException()
         {
             UserCredential credential;
-           return false
+            return false;
 
-         }
+        }
+    }
 }
