@@ -15,19 +15,19 @@ namespace TaskMaster.WebApi.Controllers
         private readonly UserWebApiService _userWebApiService = new UserWebApiService();
         private readonly PrintAllTestService _printAllTestService = new PrintAllTestService();
 
-        // GET: api/User
+        // GET: api/User                pod wszystkich urzytkowników -bardiej moja funkcja i zdaża jej się strzelić focha
         public List<UserMobileDto> Get()
         {
             return _printAllTestService.PrintAllUserWebApi();
         }
 
-        // GET: api/User/tekst
+        // GET: api/User/tekst               pobiera dane urzytkownika o zadanym mailu
         public UserMobileDto Get(string email)
         {
             return _userWebApiService.GetUserByEmail(email);
         }
 
-        // POST: api/User
+        // POST: api/User                                       edycja użytkownika
         public void Post([FromBody]UserMobileDto userMobileDto)
         {
             if (_userWebApiService.EditUser(userMobileDto))
@@ -37,7 +37,7 @@ namespace TaskMaster.WebApi.Controllers
 
         }
 
-        // PUT: api/User
+        // PUT: api/User                                    dodanie nowego użtkownika
         public void Put([FromBody]UserMobileDto userMobileDto)
         {
             if (_userWebApiService.AddNewUser(userMobileDto))
@@ -46,7 +46,7 @@ namespace TaskMaster.WebApi.Controllers
             }
         }
 
-        // DELETE: api/User
+        // DELETE: api/User                                     usuwanie
         public void Delete([FromBody]UserMobileDto userMobileDto)
         {
             if (_userWebApiService.DeleteUserByEmail(userMobileDto))

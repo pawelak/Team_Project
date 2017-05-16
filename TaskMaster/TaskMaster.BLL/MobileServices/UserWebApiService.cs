@@ -1,5 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
+using AutoMapper.Execution;
 using TaskMaster.BLL.WebApiModels;
 using TaskMaster.DAL.DTOModels;
 using TaskMaster.DAL.Enum;
@@ -117,34 +120,41 @@ namespace TaskMaster.BLL.MobileServices
             return true;
         }
 
-        public bool AddPlatform(UserMobileDto userMobileDto)
+
+
+        public bool UpdateToken(UserMobileDto userMobileDto)
         {
+            UserDto user;
             if (IsEmailInDatabase(userMobileDto.Email))
             {
-                var tmpToken =
-                    _tokensRepositories.GetAll()
-                        .Where(
-                            t =>
-                                t.PlatformType != userMobileDto.PlatformType &&
-                                (t.User.Email.Equals(userMobileDto.Email)));
-                foreach (var var in tmpToken)
-                {
-                    var tmpTokenDto = new TokensDto()
-                    {
-                        BrowserType = BrowserType.none,
-                        PlatformType = userMobileDto.PlatformType,
-                        Token = userMobileDto.Token,
-                        User = var.User
-                    };
-                    _tokensRepositories.Add(tmpTokenDto);
-                    return true;
-                }
-
+                user = _userRepositories
+                    .GetAll(
+                    ).First(u => u.Email.Equals(userMobileDto.Email));
             }
-            return false;
+            else
+            {
+                return false;
+            }
+
+
+            if (user.Tokens.Any(t => t.PlatformType == userMobileDto.PlatformType))
+            {
+                var token = user.Tokens.First(t => t.PlatformType == userMobileDto.PlatformType);
+                token.Token = userMobileDto.Token;
+                _tokensRepositories.Edit(token);
+            }
+            else
+            {
+                var token = new TokensDto()
+                {
+                    BrowserType = BrowserType.none,
+                    PlatformType = userMobileDto.PlatformType,
+                    Token = userMobileDto.Token,
+                };
+                user.Tokens.Add(token);
+            }
+            return true;
         }
-
-
     }
 
 }

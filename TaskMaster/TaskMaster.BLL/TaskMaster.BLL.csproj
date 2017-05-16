@@ -98,12 +98,17 @@
   <ItemGroup>
     <Compile Include="MapperProfileBLL.cs" />
     <Compile Include="MobileServices\PrintAllTestService.cs" />
+    <Compile Include="MobileServices\TasksWebApiService.cs" />
     <Compile Include="MobileServices\UserWebApiService.cs" />
     <Compile Include="MobileServices\VeryficationService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\MainService.cs" />
     <Compile Include="Services\TestService.cs" />
+    <Compile Include="WebApiModels\ActivityMobileDto.cs" />
     <Compile Include="WebApiModels\FavoritesMobileDto.cs" />
+    <Compile Include="WebApiModels\GoogleUser.cs" />
+    <Compile Include="WebApiModels\GroupMobileDto.cs" />
+    <Compile Include="WebApiModels\PartsOfActivityMobileDto.cs" />
     <Compile Include="WebApiModels\TasksMobileDto.cs" />
     <Compile Include="WebApiModels\UserMobileDto.cs" />
     <Compile Include="WebServices\WebTestService.cs" />
