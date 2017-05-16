@@ -1,6 +1,8 @@
+using System.Collections;
 using System.Collections.Generic;
 using TaskMaster.DAL.Models;
 using System.Data.Entity.Migrations;
+using TaskMaster.DAL.Enum;
 
 namespace TaskMaster.DAL.Migrations
 {
@@ -14,15 +16,17 @@ namespace TaskMaster.DAL.Migrations
 
         protected override void Seed(TaskMaster.DAL.Context.DatabaseContext context)
         {
-            IList<User> defaultUsers = new List<User>();
+            //List<User> defaultUsers = new List<User>();
 
-            defaultUsers.Add(new User() { Email = "dlanorberta@gmail.com", Name = "Norbercik" });
-            defaultUsers.Add(new User() { Email = "dlapawela@gmail.com", Name = "Pawe³ek" });
-            defaultUsers.Add(new User() { Email = "dlabartosza@gmail.com", Name = "Bartoszek" });
 
-            foreach (var elem in defaultUsers) context.User.Add(elem);
+            //var tmpUser = new User() { Email = "a@gmail.com", Name = "a", Tokens = new List<Tokens>()};
+            //var tmpToken = new Tokens() { Token = "aaa", BrowserType = BrowserType.none, PlatformType = PlatformType.Android };
+            //tmpUser.Tokens.Add(tmpToken);
 
-            base.Seed(context);
+            //context.User.Add(tmpUser);
+           // foreach (var elem in defaultUsers) context.User.Add(elem);
+
+           // base.Seed(context);
         }
     }
 }
