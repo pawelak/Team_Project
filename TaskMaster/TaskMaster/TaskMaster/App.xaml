@@ -42,6 +42,7 @@
             <x:String x:Key="PlanLabel">Zaplanuj task</x:String>
             <x:String x:Key="NameText">nazwa:</x:String>
             <x:String x:Key="DescriptionText">komentarz:</x:String>
+            <x:String x:Key="TypeText">Typ:</x:String>
             <x:String x:Key="DateStartText">data roz:</x:String>
             <x:String x:Key="DateStopText">data kon:</x:String>
             <x:String x:Key="StartPlanText">Zaplanuj aktywność</x:String>

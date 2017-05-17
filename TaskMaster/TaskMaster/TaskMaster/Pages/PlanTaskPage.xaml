@@ -16,7 +16,7 @@
             <StackLayout HeightRequest="50" Margin="0,10,0,20">
                 <StackLayout Orientation="Horizontal" BackgroundColor="{x:StaticResource BackgroundButtonColor}">
                     <StackLayout WidthRequest="50">
-                        <Label Text="Obraz" TextColor="{x:StaticResource TextColor}"/>
+                        <Image x:Name="TypePickerImage"/>
                     </StackLayout>
                     <StackLayout Orientation="Vertical" HorizontalOptions="FillAndExpand" Spacing="1">
                         <Label x:Name="TaskName" TextColor="{x:StaticResource TextColor}"
@@ -49,6 +49,12 @@
                 <Entry x:Name="ActivityDescription" HorizontalOptions="FillAndExpand" TextColor="{x:StaticResource TextColor}" Unfocused="ActivityDescription_OnUnfocused" 
                        BackgroundColor="{x:StaticResource BackgroundButtonColor}"
                        FontFamily="{x:StaticResource Font}" FontSize="{x:StaticResource Field}"/>
+            </StackLayout>
+            <StackLayout Orientation="Horizontal" Spacing="2" Padding="10">
+                <Label Text="{x:StaticResource TypeText}" WidthRequest="70" HorizontalTextAlignment="End" VerticalOptions="Center" TextColor="{x:StaticResource TextColor}"
+                       FontFamily="{x:StaticResource Font}" FontSize="{x:StaticResource Field}"/>
+                <Picker x:Name="TypePicker" SelectedIndexChanged="TypePicker_SelectedIndexChanged" HorizontalOptions="FillAndExpand" TextColor="{x:StaticResource TextColor}" 
+                       BackgroundColor="{x:StaticResource BackgroundButtonColor}"/>
             </StackLayout>
             <StackLayout VerticalOptions="EndAndExpand">
                 <Button Text="{x:StaticResource StartPlanText}" x:Name="PlanTaskStartButton" Clicked="PlanTaskStartButton_OnClicked"

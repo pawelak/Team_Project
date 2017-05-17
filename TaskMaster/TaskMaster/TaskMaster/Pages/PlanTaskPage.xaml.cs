@@ -10,12 +10,29 @@ namespace TaskMaster
 	[XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class PlanTaskPage
 	{
+       private String Typ_Selected= "Inne";
 		public PlanTaskPage ()
 		{
 			InitializeComponent ();
+            TypePickerImage.Source = "OK.png";
+            AddItemsToPicker();
 		}
 
-	    private async void PlanTaskStartButton_OnClicked(object sender, EventArgs e)
+        private void AddItemsToPicker()
+        {
+            TypePicker.Items.Add("Sztuka");
+            TypePicker.Items.Add("Inne");
+            TypePicker.Items.Add("Programowanie");
+            TypePicker.Items.Add("Sport");
+            TypePicker.Items.Add("Muzyka");
+            TypePicker.Items.Add("Języki");
+            TypePicker.Items.Add("Jedzenie");
+            TypePicker.Items.Add("Rozrywka");
+            TypePicker.Items.Add("Podróż");
+            TypePicker.Items.Add("Przerwa");
+        }
+
+        private async void PlanTaskStartButton_OnClicked(object sender, EventArgs e)
 	    {
 	        if (ActivityName != null)
 	        {
@@ -26,10 +43,11 @@ namespace TaskMaster
 	                await DisplayAlert("Error", "Wprowadzona data jest wcześniejsza niż obecna", "Ok");
 	                return;
 	            }
-	            var newTask = new TasksDto
-	            {
-	                Name = ActivityName.Text,
-	                Description = ActivityDescription.Text
+                var newTask = new TasksDto
+                {
+                    Name = ActivityName.Text,
+                    Description = ActivityDescription.Text,
+                    Typ = Typ_Selected
 	            };
 	            if (await UserService.Instance.GetTask(newTask) == null)
 	            {
@@ -84,5 +102,47 @@ namespace TaskMaster
 	    {
 	        TaskDescription.Text = ActivityDescription.Text;
         }
-	}
+
+        private void TypePicker_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            Typ_Selected = TypePicker.Items[TypePicker.SelectedIndex];
+            switch (Typ_Selected)
+            {
+                case "Sztuka":
+                    TypePickerImage.Source = "art.png";
+                    break;
+                case "Inne":
+                    TypePickerImage.Source = "OK.png";
+                    break;
+                case "Programowanie":
+                    TypePickerImage.Source = "programming.png";
+                    break;
+                case "Sport":
+                    TypePickerImage.Source = "sport.png";
+                    break;
+                case "Muzyka":
+                    TypePickerImage.Source = "music.png";
+                    break;
+                case "Języki":
+                    TypePickerImage.Source = "language.png";
+                    break;
+                case "Jedzenie":
+                    TypePickerImage.Source = "eat.png";
+                    break;
+                case "Rozrywka":
+                    TypePickerImage.Source = "instrument.png";
+                    break;
+                case "Podróż":
+                    TypePickerImage.Source = "car.png";
+                    break;
+                case "Przerwa":
+                    TypePickerImage.Source = "Cafe.png";
+                    break;
+                default:
+                    TypePickerImage.Source = "OK.png";
+                    break;
+                  
+            }
+        }
+    }
 }

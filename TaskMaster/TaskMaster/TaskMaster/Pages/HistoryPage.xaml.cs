@@ -26,6 +26,7 @@ namespace TaskMaster
         }
         protected override void OnAppearing()
         {
+
             ListInitiate();
         }
 
@@ -56,16 +57,58 @@ namespace TaskMaster
 	            var task = await UserService.Instance.GetTaskById(activity.TaskId);
 	            var t = TimeSpan.FromMilliseconds(time);
 	            var answer = $"{t.Hours:D2}h:{t.Minutes:D2}m:{t.Seconds:D2}s";
-	            var element = new HistoryList
-	            {
-	                Name = task.Name,
-	                Description = task.Description,
-	                Time = answer,
-	                Date = lastPart.Start
+                var element = new HistoryList
+                {
+                    Name = task.Name,
+                    Description = task.Description,
+                    Time = answer,
+                    Date = lastPart.Start,
+                    Image = SelectImage(task.Typ)
 	            };
 	            historyPlan.Add(element);
 	        }
             HistoryPlan.ItemsSource = historyPlan;
+        }
+        private string SelectImage(string item)
+        {
+            string obraz;
+            switch (item)
+            {
+                case "Sztuka":
+                    obraz = "art.png";
+                    break;
+                case "Inne":
+                    obraz = "OK.png";
+                    break;
+                case "Programowanie":
+                    obraz = "programming.png";
+                    break;
+                case "Sport":
+                    obraz = "sport.png";
+                    break;
+                case "Muzyka":
+                    obraz = "music.png";
+                    break;
+                case "Języki":
+                    obraz = "language.png";
+                    break;
+                case "Jedzenie":
+                    obraz = "eat.png";
+                    break;
+                case "Rozrywka":
+                    obraz = "instrument.png";
+                    break;
+                case "Podróż":
+                    obraz = "car.png";
+                    break;
+                case "Przerwa":
+                    obraz = "Cafe.png";
+                    break;
+                default:
+                    obraz = "OK.png";
+                    break;
+            }
+            return obraz;
         }
 	}
 }
