@@ -160,5 +160,18 @@ namespace TaskMaster
             var list = Mapper.Map<PartsOfActivityDto>(result);
             return list;
         }
+
+        public async Task<List<FavoritesDto>> GetUserFavorites(int id)
+        {
+            var result = await _database.Table<Favorites>().Where(f => f.UserId == id).ToListAsync();
+            var list = Mapper.Map<List<FavoritesDto>>(result);
+            return list;
+        }
+
+        public async Task SaveFavorite(FavoritesDto favoritesDto)
+        {
+            var favorite = Mapper.Map<Favorites>(favoritesDto);
+            await _database.InsertAsync(favorite);
+        }
     }
 }

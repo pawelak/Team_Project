@@ -171,5 +171,23 @@ namespace TaskMaster.Pages
             });
             return true;
         }
+
+        private async void AddFavorite_OnClicked(object sender, EventArgs e)
+        {
+            if (_task.TaskId == 0)
+            {
+                await DisplayAlert("Error", "Nie możesz dodać do ulubionych nienazwanego tasku", "Ok");
+            }
+            else
+            {
+                var favorite = new FavoritesDto
+                {
+                    TaskId = _task.TaskId,
+                    UserId = _activity.UserId
+                };
+                await UserService.Instance.SaveFavorite(favorite);
+                AddFavorite.IsEnabled = false;
+            }
+        }
     }
 }

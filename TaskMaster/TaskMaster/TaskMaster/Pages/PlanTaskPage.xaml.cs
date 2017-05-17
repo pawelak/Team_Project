@@ -10,12 +10,13 @@ namespace TaskMaster
 	[XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class PlanTaskPage
 	{
-       private String Typ_Selected= "Inne";
+       private string _typSelected= "Inne";
 		public PlanTaskPage ()
 		{
 			InitializeComponent ();
             TypePickerImage.Source = "OK.png";
             AddItemsToPicker();
+            AddToFavorites();
 		}
 
         private void AddItemsToPicker()
@@ -32,6 +33,24 @@ namespace TaskMaster
             TypePicker.Items.Add("Przerwa");
         }
 
+	    private async void AddToFavorites()
+	    {
+	        var favorites = await UserService.Instance.GetUserFavorites(1);
+	        if (favorites == null)
+	        {
+	            FavoritePicker.IsVisible = false;
+	        }
+	        else
+	        {
+	            foreach (var item in favorites)
+	            {
+	                var task = await UserService.Instance.GetTaskById(item.TaskId);
+	                FavoritePicker.Items.Add(task.Name);
+	            }
+	        }
+
+	    }
+
         private async void PlanTaskStartButton_OnClicked(object sender, EventArgs e)
 	    {
 	        if (ActivityName != null)
@@ -47,8 +66,8 @@ namespace TaskMaster
                 {
                     Name = ActivityName.Text,
                     Description = ActivityDescription.Text,
-                    Typ = Typ_Selected
-	            };
+                    Typ = _typSelected
+                };
 	            if (await UserService.Instance.GetTask(newTask) == null)
 	            {
 	                newTask.TaskId = await UserService.Instance.SaveTask(newTask);
@@ -105,44 +124,62 @@ namespace TaskMaster
 
         private void TypePicker_SelectedIndexChanged(object sender, EventArgs e)
         {
-            Typ_Selected = TypePicker.Items[TypePicker.SelectedIndex];
-            switch (Typ_Selected)
-            {
-                case "Sztuka":
-                    TypePickerImage.Source = "art.png";
-                    break;
-                case "Inne":
-                    TypePickerImage.Source = "OK.png";
-                    break;
-                case "Programowanie":
-                    TypePickerImage.Source = "programming.png";
-                    break;
-                case "Sport":
-                    TypePickerImage.Source = "sport.png";
-                    break;
-                case "Muzyka":
-                    TypePickerImage.Source = "music.png";
-                    break;
-                case "Języki":
-                    TypePickerImage.Source = "language.png";
-                    break;
-                case "Jedzenie":
-                    TypePickerImage.Source = "eat.png";
-                    break;
-                case "Rozrywka":
-                    TypePickerImage.Source = "instrument.png";
-                    break;
-                case "Podróż":
-                    TypePickerImage.Source = "car.png";
-                    break;
-                case "Przerwa":
-                    TypePickerImage.Source = "Cafe.png";
-                    break;
-                default:
-                    TypePickerImage.Source = "OK.png";
-                    break;
-                  
-            }
+            _typSelected = TypePicker.Items[TypePicker.SelectedIndex];
+            TypePickerImage.Source = SelectImage(_typSelected);
         }
-    }
+
+	    private static string SelectImage(string item)
+	    {
+	        string type;
+	        switch (item)
+	        {
+	            case "Sztuka":
+	                type = "art.png";
+	                break;
+	            case "Inne":
+	                type = "OK.png";
+	                break;
+	            case "Programowanie":
+	                type = "programming.png";
+	                break;
+	            case "Sport":
+	                type = "sport.png";
+	                break;
+	            case "Muzyka":
+	                type = "music.png";
+	                break;
+	            case "Języki":
+	                type = "language.png";
+	                break;
+	            case "Jedzenie":
+	                type = "eat.png";
+	                break;
+	            case "Rozrywka":
+	                type = "instrument.png";
+	                break;
+	            case "Podróż":
+	                type = "car.png";
+	                break;
+	            case "Przerwa":
+	                type = "Cafe.png";
+	                break;
+	            default:
+	                type = "OK.png";
+	                break;
+	        }
+	        return type;
+	    }
+	    private async void FavoritePicker_OnSelectedIndexChanged(object sender, EventArgs e)
+	    {
+	        var select = FavoritePicker.Items[FavoritePicker.SelectedIndex];
+            var taskDto = new TasksDto
+            {
+                Name = select
+            };
+	        var task = await UserService.Instance.GetTask(taskDto);
+	        TaskName.Text = task.Name;
+	        TaskDescription.Text = task.Description;
+	        TypePickerImage.Source = SelectImage(task.Typ);
+	    }
+	}
 }

@@ -51,6 +51,12 @@
                        FontFamily="{x:StaticResource Font}" FontSize="{x:StaticResource Field}"/>
             </StackLayout>
             <StackLayout Orientation="Horizontal" Spacing="2" Padding="10">
+                <Label Text="{x:StaticResource FavoriteText}" WidthRequest="70" HorizontalTextAlignment="End" VerticalOptions="Center" TextColor="{x:StaticResource TextColor}"
+                       FontFamily="{x:StaticResource Font}" FontSize="{x:StaticResource Field}"/>
+                <Picker x:Name="FavoritePicker" SelectedIndexChanged="FavoritePicker_OnSelectedIndexChanged" HorizontalOptions="FillAndExpand" TextColor="{x:StaticResource TextColor}" 
+                        BackgroundColor="{x:StaticResource BackgroundButtonColor}"/>
+            </StackLayout>
+            <StackLayout Orientation="Horizontal" Spacing="2" Padding="10">
                 <Label Text="{x:StaticResource TypeText}" WidthRequest="70" HorizontalTextAlignment="End" VerticalOptions="Center" TextColor="{x:StaticResource TextColor}"
                        FontFamily="{x:StaticResource Font}" FontSize="{x:StaticResource Field}"/>
                 <Picker x:Name="TypePicker" SelectedIndexChanged="TypePicker_SelectedIndexChanged" HorizontalOptions="FillAndExpand" TextColor="{x:StaticResource TextColor}" 

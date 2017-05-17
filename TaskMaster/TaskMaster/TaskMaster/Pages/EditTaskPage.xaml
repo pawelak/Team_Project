@@ -59,7 +59,9 @@
                 <Button x:Name="StopButton" Text="{x:StaticResource StopButtonText}" Clicked="StopButton_OnClicked" BackgroundColor="{x:StaticResource BackgroundButtonColor}"
                         FontFamily="{x:StaticResource Font}" FontSize="{x:StaticResource Medium}"/>
             </StackLayout>
-            <StackLayout VerticalOptions="EndAndExpand">
+            <Button x:Name="AddFavorite" Text="{x:StaticResource AddFavoriteText}" Clicked="AddFavorite_OnClicked" BackgroundColor="{x:StaticResource BackgroundButtonColor}"
+                    FontFamily="{x:StaticResource Font}" FontSize="{x:StaticResource Medium}"/>
+            <StackLayout VerticalOptions="EndAndExpand"> 
                 <Button x:Name="AcceptButton" Text="End" Clicked="AcceptButton_OnClicked" TextColor="{x:StaticResource TextColor}" BackgroundColor="{x:StaticResource BackgroundColor}"
                         FontFamily="{x:StaticResource Font}" FontSize="{x:StaticResource Medium}"/>
             </StackLayout>

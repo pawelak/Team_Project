@@ -134,5 +134,16 @@ namespace TaskMaster.Services
             var update = await Database.GetPartsOfActivityById(id);
             return update;
         }
+
+        public async Task<List<FavoritesDto>> GetUserFavorites(int id)
+        {
+            var get = await Database.GetUserFavorites(id);
+            return get;
+        }
+
+        public async Task SaveFavorite(FavoritesDto favoritesDto)
+        {
+            await Database.SaveFavorite(favoritesDto);
+        }
     }
 }
