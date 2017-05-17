@@ -12,9 +12,28 @@ namespace TaskMaster
 		public StartTaskPage ()
 		{
 			InitializeComponent ();
+            AddToFavoritesList();
 		}
 
-	    private async void StartTaskButton_OnClicked(object sender, EventArgs e)
+	    private async void AddToFavoritesList()
+	    {
+	        var favorites = await UserService.Instance.GetUserFavorites(1);
+	        if (favorites == null)
+	        {
+	            FavoritePicker.IsEnabled = false;
+	        }
+	        else
+	        {
+	            foreach (var item in favorites)
+	            {
+	                var task = await UserService.Instance.GetTaskById(item.TaskId);
+	                FavoritePicker.Items.Add(task.Name);
+	            }
+	        }
+
+	    }
+
+        private async void StartTaskButton_OnClicked(object sender, EventArgs e)
 	    {
 	        if (StartTaskName.Text != null)
 	        {
@@ -54,5 +73,17 @@ namespace TaskMaster
                 await DisplayAlert("Error", "Nie podałeś nazwy aktywności", "Ok");
 	        }
 	    }
-	}
+
+	    private async void FavoritePicker_OnSelectedIndexChanged(object sender, EventArgs e)
+	    {
+	        var select = FavoritePicker.Items[FavoritePicker.SelectedIndex];
+	        var taskDto = new TasksDto
+	        {
+	            Name = select
+	        };
+	        var task = await UserService.Instance.GetTask(taskDto);
+	        StartTaskName.Text = task.Name;
+	        StartTaskDescription.Text = task.Description;
+	    }
+    }
 }

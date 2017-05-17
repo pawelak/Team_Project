@@ -24,6 +24,7 @@
             <x:String x:Key="ResumeButtonText">Wznów aktywność</x:String>
             <x:String x:Key="PauseButtonText">Zapauzuj aktywność</x:String>
             <x:String x:Key="StopButtonText">Zakończ aktywność</x:String>
+            <x:String x:Key="AddFavoriteText">Dodaj do ulubionych</x:String>
             <!-- Fill Information Page -->
             <x:String x:Key="FillTitle">Uzupełnij informacje</x:String>
             <!-- History Page -->

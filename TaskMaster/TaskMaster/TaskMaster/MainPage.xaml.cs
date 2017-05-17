@@ -19,13 +19,13 @@ namespace TaskMaster
             InitializeComponent();            
         }
 
-        protected override async void OnAppearing()
+        protected override void OnAppearing()
         {
-            await ListInitiate();
+            base.OnAppearing();
+            ListInitiate();
             _listTimer.Elapsed += UpdateTime;
             _listTimer.Interval = 1000;
             _listTimer.Start();
-            base.OnAppearing();
         }
 
         protected override void OnDisappearing()
@@ -162,7 +162,7 @@ namespace TaskMaster
             }
         }
 
-        private async Task ListInitiate()
+        private async void ListInitiate()
         {
             if (_activeTasksList.Count > 0)
             {

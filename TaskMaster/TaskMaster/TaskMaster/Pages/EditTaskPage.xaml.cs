@@ -25,8 +25,42 @@ namespace TaskMaster.Pages
             ActivityDescription.Text = item.Description;
             TaskName.Text = item.Name;
             TaskDescription.Text = item.Description;
+            TypePickerImage.Source = "OK.png";
+            AddItemsToPicker();
+            AddToFavoritesList();
         }
 
+        private void AddItemsToPicker()
+        {
+            TypePicker.Items.Add("Sztuka");
+            TypePicker.Items.Add("Inne");
+            TypePicker.Items.Add("Programowanie");
+            TypePicker.Items.Add("Sport");
+            TypePicker.Items.Add("Muzyka");
+            TypePicker.Items.Add("Języki");
+            TypePicker.Items.Add("Jedzenie");
+            TypePicker.Items.Add("Rozrywka");
+            TypePicker.Items.Add("Podróż");
+            TypePicker.Items.Add("Przerwa");
+        }
+
+        private async void AddToFavoritesList()
+        {
+            var favorites = await UserService.Instance.GetUserFavorites(1);
+            if (favorites == null)
+            {
+                FavoritePicker.IsEnabled = false;
+            }
+            else
+            {
+                foreach (var item in favorites)
+                {
+                    var task = await UserService.Instance.GetTaskById(item.TaskId);
+                    FavoritePicker.Items.Add(task.Name);
+                }
+            }
+
+        }
         private async void Initial(MainPageList item)
         {
             _activity = await UserService.Instance.GetActivity(item.ActivityId);
@@ -35,7 +69,7 @@ namespace TaskMaster.Pages
             {
                 Name = item.Name,
                 Description = item.Description,
-                TaskId = item.TaskId
+                TaskId = item.TaskId,
             };
             TaskDates.Text = _part.Start;
             TaskDate.Text = _part.Start;
@@ -113,7 +147,7 @@ namespace TaskMaster.Pages
             {
                 ActivityId = _activity.ActivityId,
                 Start = date,
-                Duration = "0"
+                Duration = "0",
             };
             part.PartId = await UserService.Instance.SavePartOfActivity(part);
             StopwatchesService.Instance.AddStopwatch(part.PartId);
@@ -188,6 +222,68 @@ namespace TaskMaster.Pages
                 await UserService.Instance.SaveFavorite(favorite);
                 AddFavorite.IsEnabled = false;
             }
+        }
+
+        private void TypePicker_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            var typ = TypePicker.Items[TypePicker.SelectedIndex];
+            TypePickerImage.Source = SelectImage(typ);
+            _task.Typ = typ;
+        }
+
+        private static string SelectImage(string item)
+        {
+            string type;
+            switch (item)
+            {
+                case "Sztuka":
+                    type = "art.png";
+                    break;
+                case "Inne":
+                    type = "OK.png";
+                    break;
+                case "Programowanie":
+                    type = "programming.png";
+                    break;
+                case "Sport":
+                    type = "sport.png";
+                    break;
+                case "Muzyka":
+                    type = "music.png";
+                    break;
+                case "Języki":
+                    type = "language.png";
+                    break;
+                case "Jedzenie":
+                    type = "eat.png";
+                    break;
+                case "Rozrywka":
+                    type = "instrument.png";
+                    break;
+                case "Podróż":
+                    type = "car.png";
+                    break;
+                case "Przerwa":
+                    type = "Cafe.png";
+                    break;
+                default:
+                    type = "OK.png";
+                    break;
+            }
+            return type;
+        }
+
+        private async void FavoritePicker_OnSelectedIndexChanged(object sender, EventArgs e)
+        {
+            var select = FavoritePicker.Items[FavoritePicker.SelectedIndex];
+            var taskDto = new TasksDto
+            {
+                Name = select
+            };
+            _task = await UserService.Instance.GetTask(taskDto);
+            TaskName.Text = _task.Name;
+            TaskDescription.Text = _task.Description;
+            TypePickerImage.Source = SelectImage(_task.Typ);
         }
     }
 }

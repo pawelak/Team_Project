@@ -16,7 +16,7 @@ namespace TaskMaster
 			InitializeComponent ();
             TypePickerImage.Source = "OK.png";
             AddItemsToPicker();
-            AddToFavorites();
+            AddToFavoritesList();
 		}
 
         private void AddItemsToPicker()
@@ -33,7 +33,7 @@ namespace TaskMaster
             TypePicker.Items.Add("Przerwa");
         }
 
-	    private async void AddToFavorites()
+	    private async void AddToFavoritesList()
 	    {
 	        var favorites = await UserService.Instance.GetUserFavorites(1);
 	        if (favorites == null)

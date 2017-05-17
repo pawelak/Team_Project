@@ -46,7 +46,7 @@ namespace TaskMaster.Droid
 
         protected override void OnPause()
         {
-            StartService(new Intent(this, typeof(BackgroundStopwatches)));
+            StartService(new Intent(this, typeof(BackgroundStopwatches)));            
             base.OnPause();
         }
 

@@ -27,12 +27,14 @@ namespace TaskMaster.Services
         }
         public void StopStopwatch(int id)
         {
-            _stopwatches.FirstOrDefault(s => s.GetPartId() == id).Stop();
+            var stop = _stopwatches.FirstOrDefault(s => s.GetPartId() == id);
+            stop?.Stop();
         }
 
         public void RestartStopwatch(int id)
         {
-            _stopwatches.FirstOrDefault(s => s.GetPartId() == id).Restart();
+            var stop = _stopwatches.FirstOrDefault(s => s.GetPartId() == id);
+            stop?.Restart();
         }
 
         public long GetStopwatchTime(int id)

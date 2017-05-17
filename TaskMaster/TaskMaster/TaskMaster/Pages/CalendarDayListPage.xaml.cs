@@ -64,7 +64,8 @@ namespace TaskMaster.Pages
                 {
                     Name = task.Name,
                     Description = activity.Status.ToString(),
-                    Time = $"{t.Hours:D2}h:{t.Minutes:D2}m:{t.Seconds:D2}s"
+                    Time = $"{t.Hours:D2}h:{t.Minutes:D2}m:{t.Seconds:D2}s",
+                    Image = SelectImage(task.Typ)
                 };
                 _dayPlan.Add(element);
             }
@@ -82,6 +83,48 @@ namespace TaskMaster.Pages
         private void DayPlan_OnItemTapped(object sender, ItemTappedEventArgs e)
         {
             //Nothing
+        }
+
+        private static string SelectImage(string item)
+        {
+            string type;
+            switch (item)
+            {
+                case "Sztuka":
+                    type = "art.png";
+                    break;
+                case "Inne":
+                    type = "OK.png";
+                    break;
+                case "Programowanie":
+                    type = "programming.png";
+                    break;
+                case "Sport":
+                    type = "sport.png";
+                    break;
+                case "Muzyka":
+                    type = "music.png";
+                    break;
+                case "Języki":
+                    type = "language.png";
+                    break;
+                case "Jedzenie":
+                    type = "eat.png";
+                    break;
+                case "Rozrywka":
+                    type = "instrument.png";
+                    break;
+                case "Podróż":
+                    type = "car.png";
+                    break;
+                case "Przerwa":
+                    type = "Cafe.png";
+                    break;
+                default:
+                    type = "OK.png";
+                    break;
+            }
+            return type;
         }
     }
 }
