@@ -12,10 +12,10 @@
             <StackLayout Padding="10">
                 <Label x:Name="EditTitle" Text="{x:StaticResource EditTitle}" TextColor="{x:StaticResource TextColor}" FontSize="24"/>
             </StackLayout>
-            <StackLayout HeightRequest="50" Margin="0,10,0,20">
+            <StackLayout HeightRequest="50" Margin="0,10,0,5">
                 <StackLayout Orientation="Horizontal" BackgroundColor="{x:StaticResource BackgroundButtonColor}">
                     <StackLayout WidthRequest="50">
-                        <Label Text="Obraz" TextColor="{x:StaticResource TextColor}"/>
+                        <Image x:Name="TypePickerImage"/>
                     </StackLayout>
                     <StackLayout Orientation="Vertical" HorizontalOptions="FillAndExpand" Spacing="1">
                         <Label x:Name="TaskName" TextColor="{x:StaticResource TextColor}"
@@ -31,7 +31,37 @@
                     </StackLayout>
                 </StackLayout>
             </StackLayout>
-            <StackLayout Orientation="Horizontal" Padding="5" VerticalOptions="Center" Margin="0,40,0,0">
+            <StackLayout Orientation="Horizontal" HeightRequest="50" HorizontalOptions="Center">
+                <Button x:Name="ResumeButton" Image="playButton.png" 
+                        ContentLayout="Bottom,0"
+                        HorizontalOptions="Fill"  
+                        WidthRequest="50"  
+                        HeightRequest="50" 
+                        Clicked="ResumeButton_OnClicked" BackgroundColor="{x:StaticResource BackgroundButtonColor}"
+                        FontFamily="{x:StaticResource Font}" FontSize="{x:StaticResource Medium}"/>
+                <Button x:Name="PauseButton" Image="pauseButton.png" 
+                        ContentLayout="Bottom,0"
+                        HorizontalOptions="Fill"  
+                        WidthRequest="50"  
+                        HeightRequest="50"
+                        Clicked="PauseButton_OnClicked" BackgroundColor="{x:StaticResource BackgroundButtonColor}"
+                        FontFamily="{x:StaticResource Font}" FontSize="{x:StaticResource Medium}"/>
+                <Button x:Name="StopButton" Image="stopButton.png" 
+                        ContentLayout="Bottom,0"
+                        HorizontalOptions="Fill"  
+                        WidthRequest="50"  
+                        HeightRequest="50"
+                        Clicked="StopButton_OnClicked" BackgroundColor="{x:StaticResource BackgroundButtonColor}"
+                        FontFamily="{x:StaticResource Font}" FontSize="{x:StaticResource Medium}"/>
+                <Button x:Name="AddFavorite" Image="star.png" 
+                        ContentLayout="Bottom,0"
+                        HorizontalOptions="Fill"  
+                        WidthRequest="50"  
+                        HeightRequest="50"
+                        Clicked="AddFavorite_OnClicked" BackgroundColor="{x:StaticResource BackgroundButtonColor}"
+                        FontFamily="{x:StaticResource Font}" FontSize="{x:StaticResource Medium}"/>
+            </StackLayout>
+            <StackLayout Orientation="Horizontal" Padding="5" VerticalOptions="Center" Margin="0,10,0,0">
                 <Label Text="{x:StaticResource NameText}" WidthRequest="70" HorizontalTextAlignment="End" VerticalOptions="Center" TextColor="{x:StaticResource TextColor}"
                        FontFamily="{x:StaticResource Font}" FontSize="{x:StaticResource Field}"/>
                 <Entry x:Name="ActivityName" HorizontalOptions="FillAndExpand" TextColor="{x:StaticResource TextColor}" Unfocused="ActivityName_OnUnfocused"  
@@ -51,15 +81,21 @@
                        BackgroundColor="{x:StaticResource BackgroundButtonColor}"
                        FontFamily="{x:StaticResource Font}" FontSize="{x:StaticResource Field}"/>
             </StackLayout>
-            <StackLayout Orientation="Vertical">
-                <Button x:Name="ResumeButton" Text="{x:StaticResource ResumeButtonText}" Clicked="ResumeButton_OnClicked" BackgroundColor="{x:StaticResource BackgroundButtonColor}"
-                        FontFamily="{x:StaticResource Font}" FontSize="{x:StaticResource Medium}"/>
-                <Button x:Name="PauseButton" Text="{x:StaticResource PauseButtonText}" Clicked="PauseButton_OnClicked" BackgroundColor="{x:StaticResource BackgroundButtonColor}"
-                        FontFamily="{x:StaticResource Font}" FontSize="{x:StaticResource Medium}"/>
-                <Button x:Name="StopButton" Text="{x:StaticResource StopButtonText}" Clicked="StopButton_OnClicked" BackgroundColor="{x:StaticResource BackgroundButtonColor}"
-                        FontFamily="{x:StaticResource Font}" FontSize="{x:StaticResource Medium}"/>
+            
+            <StackLayout Orientation="Horizontal" Padding="5">
+                <Label Text="{x:StaticResource FavoriteText}" WidthRequest="70" HorizontalTextAlignment="End" VerticalOptions="Center" TextColor="{x:StaticResource TextColor}"
+                       FontFamily="{x:StaticResource Font}" FontSize="{x:StaticResource Field}"/>
+                <Picker x:Name="FavoritePicker" SelectedIndexChanged="FavoritePicker_OnSelectedIndexChanged" HorizontalOptions="FillAndExpand" TextColor="{x:StaticResource TextColor}" 
+                        BackgroundColor="{x:StaticResource BackgroundButtonColor}"/>
             </StackLayout>
-            <StackLayout VerticalOptions="EndAndExpand">
+            <StackLayout Orientation="Horizontal" Padding="5">
+                <Label Text="{x:StaticResource TypeText}" WidthRequest="70" HorizontalTextAlignment="End" VerticalOptions="Center" TextColor="{x:StaticResource TextColor}"
+                       FontFamily="{x:StaticResource Font}" FontSize="{x:StaticResource Field}"/>
+                <Picker x:Name="TypePicker" SelectedIndexChanged="TypePicker_SelectedIndexChanged" HorizontalOptions="FillAndExpand" TextColor="{x:StaticResource TextColor}" 
+                        BackgroundColor="{x:StaticResource BackgroundButtonColor}" />
+            </StackLayout>
+            
+            <StackLayout VerticalOptions="EndAndExpand"> 
                 <Button x:Name="AcceptButton" Text="End" Clicked="AcceptButton_OnClicked" TextColor="{x:StaticResource TextColor}" BackgroundColor="{x:StaticResource BackgroundColor}"
                         FontFamily="{x:StaticResource Font}" FontSize="{x:StaticResource Medium}"/>
             </StackLayout>

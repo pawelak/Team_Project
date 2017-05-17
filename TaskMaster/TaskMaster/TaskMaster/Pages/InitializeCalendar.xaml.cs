@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using TaskMaster.ModelsDto;
+using TaskMaster.Services;
 using Xamarin.Forms;
 using XamForms.Controls;
 namespace TaskMaster.Pages
@@ -8,7 +9,6 @@ namespace TaskMaster.Pages
    
     public partial class InitializeCalendar
     {
-        private readonly UserService _userService = new UserService();
         private readonly Calendar _calendar;
         private List<PartsOfActivityDto> _parts;
 
@@ -48,7 +48,7 @@ namespace TaskMaster.Pages
                 {
                     Content = new StackLayout
                     {
-                        Padding = new Thickness(5, Device.OS == TargetPlatform.iOS ? 25 : 5, 5, 5),
+                        Padding = new Thickness(5, Device.RuntimePlatform == "iOS" ? 25 : 5, 5, 5),
                         VerticalOptions = LayoutOptions.Center,
                         Children =
                         {
@@ -60,24 +60,20 @@ namespace TaskMaster.Pages
             }));
         }
 
-        protected override async void OnDisappearing()
-        {
-            await Navigation.PushModalAsync(new NavigationPage(new MainPage()));
-        }
         private void FillCalendar()
         {
             AddDatesByStatus(StatusType.Stop);
             AddDatesByStatus(StatusType.Pause);
-            AddDatesByStatus(StatusType.Stop);
+            AddDatesByStatus(StatusType.Planned);
             _calendar.RaiseSpecialDatesChanged();
         }
         
         private async void AddDatesByStatus(StatusType status)
         {
-            var activities = await _userService.GetActivitiesByStatus(status);
+            var activities = await UserService.Instance.GetActivitiesByStatus(status);
             foreach (var activity in activities)
             {
-                var last = await _userService.GetLastActivityPart(activity.ActivityId);
+                var last = await UserService.Instance.GetLastActivityPart(activity.ActivityId);
 
                 if (DateTime.Compare(DateTime.Now.AddDays(-7),
                         DateTime.ParseExact(last.Start, "HH:mm:ss dd/MM/yyyy", null)) >= 0)
@@ -88,17 +84,12 @@ namespace TaskMaster.Pages
                 {
                     continue;
                 }
-                _parts = await _userService.GetPartsOfActivityByActivityId(activity.ActivityId);
+                _parts = await UserService.Instance.GetPartsOfActivityByActivityId(activity.ActivityId);
                 foreach (var k in _parts)
                 {
                     _calendar.SpecialDates.Add(new SpecialDate(DateTime.ParseExact(k.Start, "HH:mm:ss dd/MM/yyyy", null)) { BackgroundColor = Color.Green, TextColor = Color.Black, BorderColor = Color.Blue, BorderWidth = 8, Selectable = true });
                 }
             }
-        }
-
-        protected override void OnAppearing()
-        {
-
         }
     }
 

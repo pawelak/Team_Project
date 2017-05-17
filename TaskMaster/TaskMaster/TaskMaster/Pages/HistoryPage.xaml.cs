@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using TaskMaster.Pages;
+using TaskMaster.Services;
 using Xamarin.Forms;
 
 namespace TaskMaster
@@ -9,7 +10,6 @@ namespace TaskMaster
 	
 	public partial class HistoryPage
 	{
-        private readonly UserService _userService = new UserService();
 		public HistoryPage ()
 		{
 			InitializeComponent();
@@ -26,12 +26,13 @@ namespace TaskMaster
         }
         protected override void OnAppearing()
         {
+
             ListInitiate();
         }
 
 	    private async void ListInitiate()
 	    {
-	        var activitiesStoppedList = await _userService.GetActivitiesByStatus(StatusType.Stop);
+	        var activitiesStoppedList = await UserService.Instance.GetActivitiesByStatus(StatusType.Stop);
 	        var historyPlan = new List<HistoryList>();
 	        foreach (var activity in activitiesStoppedList)
 	        {
@@ -50,22 +51,64 @@ namespace TaskMaster
 	                    continue;
 	                }
 	            }
-	            var parts = await _userService.GetPartsOfActivityByActivityId(activity.ActivityId);
+	            var parts = await UserService.Instance.GetPartsOfActivityByActivityId(activity.ActivityId);
 	            var time = parts.Sum(part => long.Parse(part.Duration));
-	            var lastPart = await _userService.GetLastActivityPart(activity.ActivityId);
-	            var task = await _userService.GetTaskById(activity.TaskId);
+	            var lastPart = await UserService.Instance.GetLastActivityPart(activity.ActivityId);
+	            var task = await UserService.Instance.GetTaskById(activity.TaskId);
 	            var t = TimeSpan.FromMilliseconds(time);
 	            var answer = $"{t.Hours:D2}h:{t.Minutes:D2}m:{t.Seconds:D2}s";
-	            var element = new HistoryList
-	            {
-	                Name = task.Name,
-	                Description = task.Description,
-	                Time = answer,
-	                Date = lastPart.Start
+                var element = new HistoryList
+                {
+                    Name = task.Name,
+                    Description = task.Description,
+                    Time = answer,
+                    Date = lastPart.Start,
+                    Image = SelectImage(task.Typ)
 	            };
 	            historyPlan.Add(element);
 	        }
             HistoryPlan.ItemsSource = historyPlan;
+        }
+        private string SelectImage(string item)
+        {
+            string obraz;
+            switch (item)
+            {
+                case "Sztuka":
+                    obraz = "art.png";
+                    break;
+                case "Inne":
+                    obraz = "OK.png";
+                    break;
+                case "Programowanie":
+                    obraz = "programming.png";
+                    break;
+                case "Sport":
+                    obraz = "sport.png";
+                    break;
+                case "Muzyka":
+                    obraz = "music.png";
+                    break;
+                case "Języki":
+                    obraz = "language.png";
+                    break;
+                case "Jedzenie":
+                    obraz = "eat.png";
+                    break;
+                case "Rozrywka":
+                    obraz = "instrument.png";
+                    break;
+                case "Podróż":
+                    obraz = "car.png";
+                    break;
+                case "Przerwa":
+                    obraz = "Cafe.png";
+                    break;
+                default:
+                    obraz = "OK.png";
+                    break;
+            }
+            return obraz;
         }
 	}
 }
