@@ -42,6 +42,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Services\StopwatchesService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\SynchronizationService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\UserService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)StatusType.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)StopwatchWrapper.cs" />

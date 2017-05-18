@@ -1,5 +1,4 @@
-﻿using System;
-using Android.App;
+﻿using Android.App;
 using Android.Content;
 using Android.Content.PM;
 using Android.Gms.Auth.Api;
@@ -8,6 +7,7 @@ using Android.Gms.Common;
 using Android.Gms.Common.Apis;
 using Android.OS;
 using TaskMaster.ModelsDto;
+using Xamarin.Forms;
 
 namespace TaskMaster.Droid
 {
@@ -24,7 +24,7 @@ namespace TaskMaster.Droid
             TabLayoutResource = Resource.Layout.Tabbar;
             ToolbarResource = Resource.Layout.Toolbar;
             base.OnCreate(bundle);
-            Xamarin.Forms.Forms.Init(this, bundle);
+            Forms.Init(this, bundle);
             /*var gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DefaultSignIn)
                 .RequestEmail()
                 .RequestIdToken("723494873981-np3v1u9js6jman2qri5r0gfd7fl3g3c2.apps.googleusercontent.com")
@@ -86,6 +86,7 @@ namespace TaskMaster.Droid
                     TypeOfRegistration = "Google"
                 };
                 await Services.UserService.Instance.SaveUser(user);
+                Services.SynchronizationService.Instance.SendUser(user);
                 LoadApplication(new App());
             }
             else
