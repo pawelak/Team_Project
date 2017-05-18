@@ -54,6 +54,7 @@ namespace TaskMaster
 	            {
 	                TaskId = newTask.TaskId,
 	                UserId = 1,
+                    //UserId = await UserService.Instance.GetLoggedUser(),
 	                Status = StatusType.Start
 	            };
 	            newActivity.ActivityId = await UserService.Instance.SaveActivity(newActivity);

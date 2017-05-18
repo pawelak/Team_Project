@@ -87,6 +87,20 @@ namespace TaskMaster
             var result = await _database.Table<User>().Where(u => u.IsLoggedIn).FirstOrDefaultAsync();
             return result.UserId;
         }
+
+        public async Task<UserDto> GetUser(int id)
+        {
+            var user = await _database.Table<User>().Where(u => u.UserId == id).FirstOrDefaultAsync();
+            var userDto = Mapper.Map<UserDto>(user);
+            return userDto;
+        }
+
+        public async Task LogoutUser()
+        {
+            var user = await _database.Table<User>().Where(u => u.IsLoggedIn).FirstOrDefaultAsync();
+            user.IsLoggedIn = false;
+            await _database.UpdateAsync(user);
+        }
         public async Task<int> InsertTask(TasksDto tasksDto)
         {
             var task = Mapper.Map<Tasks>(tasksDto);

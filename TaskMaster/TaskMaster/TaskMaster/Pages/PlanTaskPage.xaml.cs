@@ -79,7 +79,8 @@ namespace TaskMaster
 	            var newActivity = new ActivitiesDto
 	            {
 	                UserId = 1,
-	                TaskId = newTask.TaskId,
+	                //UserId = await UserService.Instance.GetLoggedUser(),
+                    TaskId = newTask.TaskId,
 	                GroupId = 1,
 	                Status = StatusType.Planned
 	            };

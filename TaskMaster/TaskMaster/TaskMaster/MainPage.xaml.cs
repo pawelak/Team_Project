@@ -196,6 +196,7 @@ namespace TaskMaster
             {
                 Status = StatusType.Start,
                 UserId = 1,
+                //UserId = await UserService.Instance.GetLoggedUser(),
                 GroupId = 1,
                 TaskId = 0
             };
@@ -303,6 +304,12 @@ namespace TaskMaster
             };
             part3.PartId = await UserService.Instance.SavePartOfActivity(part3);
             StopwatchesService.Instance.AddStopwatch(part3.PartId);          
+        }
+
+        private async void LogoutItem_OnClicked(object sender, EventArgs e)
+        {
+            await UserService.Instance.LogoutUser();
+            // tu musi być wyjście z apki
         }
     }
 }

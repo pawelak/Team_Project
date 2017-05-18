@@ -13,6 +13,7 @@
         <ToolbarItem x:Name="MainPageItem" Order="Default" Priority="0" Clicked="MainPageItem_OnClicked" Icon="homeInactive.png"  />
         <ToolbarItem x:Name="CalendarPageItem" Order="Default" Priority="1" Icon="callendarActive.png"/>
         <ToolbarItem x:Name="HistoryPageItem" Order="Default" Priority="2" Clicked="HistoryPageItem_OnClicked" Icon="historyInactive.png"/>
+        <ToolbarItem x:Name="LogoutItem" Order="Default" Priority="3" Clicked="LogoutItem_OnClicked"  Icon="logout.png"/>
     </ContentPage.ToolbarItems>
     <ContentPage.Content>
         <StackLayout HorizontalOptions="Center"

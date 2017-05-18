@@ -110,6 +110,12 @@ namespace TaskMaster
             }
             return obraz;
         }
-	}
+
+	    private async void LogoutItem_OnClicked(object sender, EventArgs e)
+	    {
+	        await UserService.Instance.LogoutUser();
+	        // tu musi być wyjście z apki
+	    }
+    }
 }
 
