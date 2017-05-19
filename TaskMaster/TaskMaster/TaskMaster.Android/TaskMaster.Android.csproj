@@ -261,6 +261,7 @@
     <Compile Include="AlarmReceiver.cs" />
     <Compile Include="BackgroundStopwatches.cs" />
     <Compile Include="FileHelper.cs" />
+    <Compile Include="LogOutService.cs" />
     <Compile Include="MainActivity.cs" />
     <Compile Include="NotificationService.cs" />
     <Compile Include="Resources\Resource.Designer.cs" />

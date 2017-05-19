@@ -18,13 +18,14 @@ namespace TaskMaster.Droid
     {
         private GoogleApiClient _mGoogleApiClient;
         private const int RcSignIn = 9001;
-
+        private int user;
         protected override void OnCreate(Bundle bundle)
         {
             TabLayoutResource = Resource.Layout.Tabbar;
             ToolbarResource = Resource.Layout.Toolbar;
             base.OnCreate(bundle);
             Forms.Init(this, bundle);
+            XamForms.Controls.Droid.Calendar.Init();
             /*var gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DefaultSignIn)
                 .RequestEmail()
                 .RequestIdToken("723494873981-np3v1u9js6jman2qri5r0gfd7fl3g3c2.apps.googleusercontent.com")
@@ -33,11 +34,26 @@ namespace TaskMaster.Droid
                 .EnableAutoManage(this, this)
                 .AddApi(Auth.GOOGLE_SIGN_IN_API, gso)
                 .Build();
-            SignIn();  */
-            XamForms.Controls.Droid.Calendar.Init();
+            GetUser();
+            if (user != -1)
+            {
+                LoadApplication(new App());
+            }
+            else
+            {
+                if (_mGoogleApiClient.IsConnected)
+                {
+                    _mGoogleApiClient.Disconnect();   
+                }
+                SignIn();
+            }*/
             LoadApplication(new App());
         }
 
+        private async void GetUser()
+        {
+            user = await Services.UserService.Instance.GetLoggedUser();
+        }
         private void SignIn()
         {
             var signInIntent = Auth.GoogleSignInApi.GetSignInIntent(_mGoogleApiClient);
@@ -83,7 +99,8 @@ namespace TaskMaster.Droid
                 {
                     Name = email,
                     Token = idToken,
-                    TypeOfRegistration = "Google"
+                    TypeOfRegistration = "Google",
+                    SyncStatus = SyncStatusType.ToUpload
                 };
                 await Services.UserService.Instance.SaveUser(user);
                 Services.SynchronizationService.Instance.SendUser(user);

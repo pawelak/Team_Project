@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Timers;
+using TaskMaster.Interfaces;
 using TaskMaster.ModelsDto;
 using TaskMaster.Pages;
 using Xamarin.Forms;
@@ -309,7 +310,7 @@ namespace TaskMaster
         private async void LogoutItem_OnClicked(object sender, EventArgs e)
         {
             await UserService.Instance.LogoutUser();
-            // tu musi być wyjście z apki
+            DependencyService.Get<ILogOutService>().LogOut();
         }
     }
 }

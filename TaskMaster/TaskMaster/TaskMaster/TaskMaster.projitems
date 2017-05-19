@@ -14,7 +14,10 @@
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)CalendarVm.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Database\UserDatabase.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Enums\StatusType.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Enums\SyncStatusType.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Interfaces\IFileHelper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Interfaces\ILogOutService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Interfaces\INotificationService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Lists\CustomList.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Lists\HistoryList.cs" />
@@ -44,7 +47,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Services\StopwatchesService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\SynchronizationService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\UserService.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)StatusType.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)StopwatchWrapper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
