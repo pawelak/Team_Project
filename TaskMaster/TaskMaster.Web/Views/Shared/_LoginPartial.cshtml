@@ -7,7 +7,7 @@
 
         <ul class="nav navbar-nav navbar-right">
             <li>
-                @Html.ActionLink("Hello " + User.Identity.GetUserName() + "!", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })
+                @Html.ActionLink("Witaj " + User.Identity.GetUserName() + "!", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })
             </li>
             <li><a href="javascript:document.getElementById('logoutForm').submit()">Log off</a></li>
         </ul>
@@ -17,7 +17,7 @@ else
 {
     //tu trzeba imie dopisac cyz tam maila
     <ul class="nav navbar-nav navbar-right">
-        <li>@Html.ActionLink("Witaj", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink" })</li>   
+        <li>@Html.ActionLink("Login", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink" })</li>   
         
     </ul>
 }
