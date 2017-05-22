@@ -1,4 +1,5 @@
-﻿using Android.App;
+﻿using System.Threading.Tasks;
+using Android.App;
 using Android.Content;
 using Android.Content.PM;
 using Android.Gms.Auth.Api;
@@ -16,10 +17,10 @@ namespace TaskMaster.Droid
     public class MainActivity : Xamarin.Forms.Platform.Android.FormsAppCompatActivity,
         GoogleApiClient.IOnConnectionFailedListener
     {
-        private GoogleApiClient _mGoogleApiClient;
+        public static GoogleApiClient _mGoogleApiClient;
         private const int RcSignIn = 9001;
         private int user;
-        protected override void OnCreate(Bundle bundle)
+        protected override async void OnCreate(Bundle bundle)
         {
             TabLayoutResource = Resource.Layout.Tabbar;
             ToolbarResource = Resource.Layout.Toolbar;
@@ -34,23 +35,19 @@ namespace TaskMaster.Droid
                 .EnableAutoManage(this, this)
                 .AddApi(Auth.GOOGLE_SIGN_IN_API, gso)
                 .Build();
-            GetUser();
+            await GetUser();
             if (user != -1)
             {
                 LoadApplication(new App());
             }
             else
             {
-                if (_mGoogleApiClient.IsConnected)
-                {
-                    _mGoogleApiClient.Disconnect();   
-                }
                 SignIn();
             }*/
             LoadApplication(new App());
         }
 
-        private async void GetUser()
+        private async Task GetUser()
         {
             user = await Services.UserService.Instance.GetLoggedUser();
         }
@@ -77,7 +74,7 @@ namespace TaskMaster.Droid
 
         }
 
-        protected override void OnActivityResult(int requestCode, Result resultCode, Intent data)
+        protected override async void OnActivityResult(int requestCode, Result resultCode, Intent data)
         {
             base.OnActivityResult(requestCode, resultCode, data);
             if (requestCode != RcSignIn)
@@ -85,25 +82,26 @@ namespace TaskMaster.Droid
                 return;
             }
             var result = Auth.GoogleSignInApi.GetSignInResultFromIntent(data);
-            HandleSignInResult(result);
+            await HandleSignInResult(result);
         }
 
-        private async void HandleSignInResult(GoogleSignInResult result)
+        private async Task HandleSignInResult(GoogleSignInResult result)
         {
             if (result.IsSuccess)
             {
                 var acc = result.SignInAccount;
                 var email = acc.Email;
                 var idToken = acc.IdToken;
-                var user = new UserDto
+                var userDto = new UserDto
                 {
                     Name = email,
                     Token = idToken,
                     TypeOfRegistration = "Google",
-                    SyncStatus = SyncStatusType.ToUpload
+                    SyncStatus = SyncStatusType.ToUpload,
+                    IsLoggedIn = true
                 };
-                await Services.UserService.Instance.SaveUser(user);
-                await Services.SynchronizationService.Instance.SendUser(user);
+                await Services.UserService.Instance.SaveUser(userDto);
+                //await Services.SynchronizationService.Instance.SendUser(user);
                 LoadApplication(new App());
             }
             else

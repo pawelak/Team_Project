@@ -84,7 +84,7 @@ namespace TaskMaster
 
         public async Task<int> GetLoggedUser()
         {
-            var result = await _database.Table<User>().Where(u => u.IsLoggedIn).FirstAsync();
+            var result = await _database.Table<User>().Where(u => u.IsLoggedIn).FirstOrDefaultAsync();
             if (result == null)
             {
                 return -1;

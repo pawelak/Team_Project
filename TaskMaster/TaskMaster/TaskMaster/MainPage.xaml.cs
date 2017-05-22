@@ -201,8 +201,8 @@ namespace TaskMaster
             var activity = new ActivitiesDto
             {
                 Status = StatusType.Start,
-                UserId = 1,
-                //UserId = await UserService.Instance.GetLoggedUser(),
+                //UserId = 1,
+                UserId = await UserService.Instance.GetLoggedUser(),
                 GroupId = 1,
                 TaskId = 0
             };
@@ -289,8 +289,8 @@ namespace TaskMaster
 
         private async void LogoutItem_OnClicked(object sender, EventArgs e)
         {
-            /*await UserService.Instance.LogoutUser();
-            DependencyService.Get<ILogOutService>().LogOut();*/
+            await UserService.Instance.LogoutUser();
+            DependencyService.Get<ILogOutService>().LogOut();
         }
     }
 }
