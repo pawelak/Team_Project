@@ -14,66 +14,22 @@ namespace TaskMaster.BLL.Services
         private readonly GroupRepositories _groupRepositories = new GroupRepositories();
         private readonly UserRepositories _userRepositories = new UserRepositories();
         private readonly TokensRepositories _tokensRepositories = new TokensRepositories();
-   
-        public bool IsEmailInBase(string email)
-        {
-            var userList = _userRepositories.GetAll();
-            return userList.Any(u => u.Email.Equals(email));
-        }
 
-        public bool IsNameInBase(string name)
+        public List<ActivityDto> ActivitiesFromTimeToTime(string email, DateTime start, DateTime stop) 
         {
-            var userList = _userRepositories.GetAll();
-            return userList.Any(u => u.Name.Equals(name));
-        }
-
-        public List<UserDto> UsersInGroup(string groupName)
-        {
-            var groupList = _groupRepositories.GetAll().FirstOrDefault(g => g.NameGroup.Equals(groupName));
-            var userList = groupList.UserGroup.Select(u => u.User).ToList();
-            return userList;
-        }
-
-        public bool Authorization(string login, string password) 
-        {
-            var user = _userRepositories.Get(login);
-            if (user==null) return false;
-            var tokensList = user.Tokens.ToList();
-            return tokensList.Any(t => t.Token.Equals(password));
-        }
-
-        public void Stworz(string email, string login="A", string password="B")
-        {
-            UserDto user = new UserDto();
-            user.Email = email;
-            user.Name = login;
-            TokensDto token = new TokensDto();
-            token.Token = password;
-            //user.Tokens.Add(token);
-            _userRepositories.Add(user);
-        }
-
-        public List<ActivityDto> ActivitiesFromTimeToTime(string login, DateTime start, DateTime stop) // TODO
-        {
-            var activitylist = new List<ActivityDto>();
-
-            var zmiena = new UserDto();
-            foreach (var VARIABLE in _userRepositories.GetAll())
+            var activityList = new List<ActivityDto>();
+            var user = _userRepositories.Get(email);
+            foreach (var act in user.Activity)
             {
-                if (VARIABLE.Email.Equals(login)) zmiena = VARIABLE;
-            }
-
-
-            foreach (var act in zmiena.Activity)
-            {
-                activitylist.AddRange(act.PartsOfActivity.Where(a => a.Start.CompareTo(start) > 0)
+                activityList.AddRange(act.PartsOfActivity.Where(a => a.Start.CompareTo(start) > 0)
                     .Where(a => a.Start.CompareTo(stop) < 0)
                     .Where(a => a.Stop.CompareTo(start) > 0)
                     .Where(a => a.Stop.CompareTo(stop) < 0)
                     .Select(a => act));
             }
-            return activitylist;
+            return activityList;
         }
+
     }
 
 }

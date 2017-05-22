@@ -6,7 +6,7 @@ namespace TaskMaster.Web.Models
     public class ExternalLoginConfirmationViewModel
     {
         [Required]
-        [Display(Name = "Email")]
+        [Display(Name = "Nick")]
         public string Email { get; set; }
     }
 
@@ -65,7 +65,6 @@ namespace TaskMaster.Web.Models
     public class RegisterViewModel
     {
         [Required]
-        [EmailAddress]
         [Display(Name = "Email")]
         public string Email { get; set; }
 

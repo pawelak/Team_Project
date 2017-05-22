@@ -16,12 +16,12 @@ namespace TaskMaster.Web.Controllers
 {
     public class LandingPageController : Controller
     {
-        private readonly WebTestService _webTestService = new WebTestService();
+        private readonly WebUserService _webTestService = new WebUserService();
 
         // GET: LandingPage
         public ActionResult Home()
         {   
-           ViewBag.Message = _webTestService.GetUser().Name;
+           //ViewBag.Message = _webTestService.GetUser().Name;
            return View();
         }
 

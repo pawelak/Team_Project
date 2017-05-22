@@ -9,8 +9,7 @@ namespace TaskMaster.DAL.Context
     {
         public DatabaseContext(): base("name=TaskMasterBase")
         {
-            
-            //Database.SetInitializer(new DropCreateDatabaseAlways<DatabaseContext>());
+            //Database.SetInitializer(new CreateDatabaseIfNotExists<DatabaseContext>());
             Database.SetInitializer(new MigrateDatabaseToLatestVersion<DatabaseContext, Configuration>());
         }
 

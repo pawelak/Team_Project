@@ -1,15 +1,14 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
+using TaskMaster.BLL.MobileModels;
 using TaskMaster.DAL.DTOModels;
 using TaskMaster.DAL.Repositories;
-using TaskMaster.WebApi.Models;
 
-namespace TaskMaster.BLL.WebApiServices
+namespace TaskMaster.BLL.MobileService
 {
     public class PrintAll
     {
-        private readonly FavoritesRepositories favoritesRepositories = new FavoritesRepositories();
-        private readonly ActivityRepositories activityRepositories =new ActivityRepositories();
+        private readonly FavoritesRepositories _favoritesRepositories = new FavoritesRepositories();
+        private readonly ActivityRepositories _activityRepositories =new ActivityRepositories();
         private readonly UserRepositories _userRepositories = new UserRepositories();
         private readonly TokensRepositories _tokensRepositories = new TokensRepositories();
 

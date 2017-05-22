@@ -1,7 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Web.Http;
+using TaskMaster.BLL.MobileModels;
+using TaskMaster.BLL.MobileService;
 using TaskMaster.BLL.Services;
-using TaskMaster.BLL.WebApiServices;
 using TaskMaster.DAL.DTOModels;
 using TaskMaster.WebApi.Models;
 
@@ -10,7 +11,7 @@ namespace TaskMaster.WebApi.Controllers
     
     public class TestController : ApiController
     {
-        readonly TestService _testService = new TestService();
+        readonly UserService _testService = new UserService();
         readonly PrintAll _printAll = new PrintAll();
         readonly UserWebApiService _userWebApiService =new UserWebApiService();
 

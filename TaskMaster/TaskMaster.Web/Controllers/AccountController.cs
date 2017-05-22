@@ -8,6 +8,7 @@ using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
+using TaskMaster.BLL.WebServices;
 using TaskMaster.Web.Models;
 using TaskMaster.BLL.WebServices;
 
@@ -18,7 +19,7 @@ namespace TaskMaster.Web.Controllers
     {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
-        private readonly WebTestService _webTestService = new WebTestService();
+        private WebUserService _userService = new WebUserService();
 
         public AccountController()
         {
@@ -347,7 +348,7 @@ namespace TaskMaster.Web.Controllers
                     // If the user does not have an account, then prompt the user to create an account
                     ViewBag.ReturnUrl = returnUrl;
                     ViewBag.LoginProvider = loginInfo.Login.LoginProvider;
-                    return View("ExternalLoginConfirmation", new ExternalLoginConfirmationViewModel { Email = loginInfo.Email });
+                    return View("ExternalLoginConfirmation", new ExternalLoginConfirmationViewModel { Email = loginInfo.DefaultUserName });
             }
         }
 
@@ -371,9 +372,9 @@ namespace TaskMaster.Web.Controllers
                 {
                     return View("ExternalLoginFailure");
                 }
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+                var user = new ApplicationUser { UserName = model.Email, Email = model.Email + "@sa" };
                 var result = await UserManager.CreateAsync(user);
-                //_webTestService.Pomnoz(user.Email, user.Id);
+                _userService.SaveUser(info.Email, model.Email, info.Login.ProviderKey);
                 if (result.Succeeded)
                 {
                     result = await UserManager.AddLoginAsync(user.Id, info.Login);
@@ -383,7 +384,7 @@ namespace TaskMaster.Web.Controllers
                         return RedirectToLocal(returnUrl);
                     }
                 }
-                AddErrors(result);
+                //AddErrors(result);
             }
 
             ViewBag.ReturnUrl = returnUrl;
