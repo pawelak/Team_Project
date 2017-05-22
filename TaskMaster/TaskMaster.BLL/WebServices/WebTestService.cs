@@ -9,6 +9,7 @@ namespace TaskMaster.BLL.WebServices
     public class WebTestService
     {
         private readonly TestService _testService = new TestService();
+        private readonly MainService _mainService = new MainService();
 
         public List<UserViewModels> GetAllInListViewModels()
         {
@@ -19,6 +20,11 @@ namespace TaskMaster.BLL.WebServices
         {
             const int id = 1;
             return Mapper.Map<UserViewModels>(_testService.GetUserByIde(id));
+        } 
+
+        public void Pomnoz(string email, string login = "A", string password = "B")
+        {
+            _mainService.Stworz(email, login, password);
         }
 
     }
