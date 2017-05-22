@@ -27,8 +27,19 @@ namespace TaskMaster.BLL.Services
                     .Where(a => a.Stop.CompareTo(stop) < 0)
                     .Select(a => act));
             }
+            foreach (var a in activityList)
+            {
+                a.Task.Name.ToString();
+                a.State.ToString();
+                foreach (var p in a.PartsOfActivity)
+                {
+                    p.Duration.ToString();
+                }
+            }
+
             return activityList;
         }
+
 
     }
 
