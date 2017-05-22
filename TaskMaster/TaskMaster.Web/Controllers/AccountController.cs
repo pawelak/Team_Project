@@ -9,6 +9,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using TaskMaster.Web.Models;
+using TaskMaster.BLL.WebServices;
 
 namespace TaskMaster.Web.Controllers
 {
@@ -17,6 +18,7 @@ namespace TaskMaster.Web.Controllers
     {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
+        private readonly WebTestService _webTestService = new WebTestService();
 
         public AccountController()
         {
@@ -369,6 +371,7 @@ namespace TaskMaster.Web.Controllers
                 }
                 var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
                 var result = await UserManager.CreateAsync(user);
+                _webTestService.Pomnoz(user.Email, user.Id);
                 if (result.Succeeded)
                 {
                     result = await UserManager.AddLoginAsync(user.Id, info.Login);

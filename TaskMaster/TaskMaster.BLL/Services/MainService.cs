@@ -13,6 +13,7 @@ namespace TaskMaster.BLL.Services
         private readonly ActivityRepositories _activityRepositories = new ActivityRepositories();
         private readonly GroupRepositories _groupRepositories = new GroupRepositories();
         private readonly UserRepositories _userRepositories = new UserRepositories();
+        private readonly TokensRepositories _tokensRepositories = new TokensRepositories();
    
         public bool IsEmailInBase(string email)
         {
@@ -38,6 +39,17 @@ namespace TaskMaster.BLL.Services
             //UserDto user = _userRepositories.Get(login);
             //if (user.Equals(_userRepositories.GetAll().f)) return false;
             return false;
+        }
+
+        public void Stworz(string email, string login="A", string password="B")
+        {
+            UserDto user = new UserDto();
+            user.Email = email;
+            user.Name = login;
+            TokensDto token = new TokensDto();
+            token.Token = password;
+            //user.Tokens.Add(token);
+            _userRepositories.Add(user);
         }
 
         public List<ActivityDto> ActivitiesFromTimeToTime(string login, DateTime start, DateTime stop) // TODO

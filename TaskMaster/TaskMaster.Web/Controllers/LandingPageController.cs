@@ -17,7 +17,7 @@ namespace TaskMaster.Web.Controllers
         // GET: LandingPage
         public ActionResult Home()
         {
-          ViewBag.Message = _webTestService.GetUser().ToString();
+            //ViewBag.Message = _webTestService.GetUser().ToString();
            return View();
         }
 
