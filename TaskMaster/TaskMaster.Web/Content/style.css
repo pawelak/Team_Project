@@ -101,3 +101,57 @@ table img {
 .form-control {
     width: auto;
 }
+
+.callendarTable {
+    width: 100%;    
+}
+
+.callendarTable td {
+    width: 14%;
+}
+
+.cell {
+    height: 80px;
+    background-color: #375a7f;
+    border: 1px black solid;
+    padding: 5px 0px 0px 5px;
+}
+
+.callendarTable th {
+    text-align: center;
+    padding-bottom: 10px;
+}
+
+.cell:hover {
+    cursor: pointer;
+    background-color: rgb(45, 80, 110);
+}
+
+.arrow img {
+    width: 40px;
+    margin-top: 295px;
+    float: left;
+}
+
+.arrowFloatRight img {
+    float: right;
+    margin-right: 10px;
+}
+
+.arrow img:hover {
+    content: url('../../images/arrowRightWhite.png');
+    width: 42px;
+}
+
+.arrowFloatRight img:hover {
+    content: url('../../images/arrowLeftWhite.png');
+    width: 42px;
+}
+
+.month {
+    text-align: center;
+    padding-bottom: 30px;
+    font-size: 30px;
+    margin-left: -10px;
+    color: grey;
+}
