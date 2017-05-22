@@ -1,7 +1,4 @@
-﻿using System;
-using TaskMaster.DAL.Enum;
-
-namespace TaskMaster.WebApi.Models
+﻿namespace TaskMaster.BLL.MobileModels
 {
     public class UserWebApi
     {

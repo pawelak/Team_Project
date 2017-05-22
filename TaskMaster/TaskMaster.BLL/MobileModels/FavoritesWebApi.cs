@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace TaskMaster.WebApi.Models
+namespace TaskMaster.BLL.MobileModels
 {
     public class FavoritesWebApi
     {

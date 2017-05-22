@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using TaskMaster.BLL.ViewModels;
+using TaskMaster.BLL.WebModels;
 using TaskMaster.DAL.DTOModels;
 
 
