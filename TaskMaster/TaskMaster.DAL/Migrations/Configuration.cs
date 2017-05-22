@@ -17,8 +17,8 @@ namespace TaskMaster.DAL.Migrations
             IList<User> defaultUsers = new List<User>();
 
             defaultUsers.Add(new User() { Email = "dlanorberta@gmail.com", Name = "Norbercik" });
-            //defaultUsers.Add(new User() { Email = "dlapawela@gmail.com", Name = "Pawe³ek" });
-            //defaultUsers.Add(new User() { Email = "dlabartosza@gmail.com", Name = "Bartoszek" });
+            defaultUsers.Add(new User() { Email = "dlapawela@gmail.com", Name = "Pawe³ek" });
+            defaultUsers.Add(new User() { Email = "dlabartosza@gmail.com", Name = "Bartoszek" });
 
             foreach (var elem in defaultUsers) context.User.Add(elem);
 
