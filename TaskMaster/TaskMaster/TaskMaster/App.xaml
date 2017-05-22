@@ -64,6 +64,8 @@
             <x:String x:Key="RegisterTitle">Rejestracja</x:String>
             <x:String x:Key="AcceptRegister">Zarejestruj</x:String>
 
+            <x:String x:Key="Planned">Masz zaplanowane następujące taski:</x:String>
+            <x:String x:Key="Warning">Naciśnięcie spowoduje anulowanie</x:String>
         </ResourceDictionary>
     </Application.Resources>
 </Application>

@@ -22,12 +22,15 @@
     <Compile Include="$(MSBuildThisFileDirectory)Lists\CustomList.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Lists\HistoryList.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Lists\MainPageList.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Lists\PlannedList.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)MapProfiles\UserMapProfile.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ModelsDto\ActivitiesDto.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ModelsDto\FavoritesDto.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ModelsDto\PartsOfActivityDto.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ModelsDto\TasksDto.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ModelsDto\UserDto.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ModelsRest\ActivitiesRest.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ModelsRest\FavoritesRest.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\Activities.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\Favorites.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\PartsOfActivity.cs" />
@@ -42,6 +45,9 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Pages\InitializeCalendar.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Pages\PlannedViewPage.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Services\StopwatchesService.cs" />
@@ -104,6 +110,11 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="$(MSBuildThisFileDirectory)Pages\InitializeCalendar.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Pages\PlannedViewPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
   </ItemGroup>

@@ -9,6 +9,7 @@ namespace TaskMaster.Droid
     {
         public void LogOut()
         {
+            //Stop or pause all activities?
             ((Activity)Forms.Context).Finish();
         }
     }

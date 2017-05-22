@@ -5,6 +5,7 @@
         Start,
         Pause,
         Stop,
-        Planned
+        Planned,
+        Canceled
     }
 }

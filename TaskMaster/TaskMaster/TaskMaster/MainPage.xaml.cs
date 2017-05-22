@@ -17,13 +17,13 @@ namespace TaskMaster
 
         public MainPage()
         {
-            InitializeComponent();            
+            InitializeComponent();
         }
 
-        protected override void OnAppearing()
+        protected override async void OnAppearing()
         {
             base.OnAppearing();
-            ListInitiate();
+            await ListInitiateAsync();
             _listTimer.Elapsed += UpdateTime;
             _listTimer.Interval = 1000;
             _listTimer.Start();
@@ -31,8 +31,8 @@ namespace TaskMaster
 
         protected override void OnDisappearing()
         {
-            _listTimer.Stop();
             base.OnDisappearing();
+            _listTimer.Stop();
         }
 
         private void UpdateTime(object source, ElapsedEventArgs e)
@@ -64,114 +64,110 @@ namespace TaskMaster
             });
         }
 
-        private async Task GetStartedActivities()
+        protected override bool OnBackButtonPressed()
         {
-            var activitiesStarted = await UserService.Instance.GetActivitiesByStatus(StatusType.Start);
-            foreach (var activity in activitiesStarted)
-            {
-                if (activity.TaskId == 0)
-                {
-                    var lastPart = await UserService.Instance.GetLastActivityPart(activity.ActivityId);
-                    var stopwatchTime = StopwatchesService.Instance.GetStopwatchTime(lastPart.PartId);
-                    if (stopwatchTime == -1)
-                    {
-                        await StartupResume(activity);
-                    }
-                    var parts = await UserService.Instance.GetPartsOfActivityByActivityId(activity.ActivityId);
-                    var time = parts.Sum(part => long.Parse(part.Duration));
-                    var item = new MainPageList
-                    {
-                        MyImageSource = ImageChoice(activity.Status),
-                        Name = "Unnamed Activity " + activity.ActivityId,
-                        ActivityId = activity.ActivityId,
-                        PartId = lastPart.PartId,
-                        Duration = "0",
-                        Time = time,
-                        Status = StatusType.Start
-                    };
-                    _activeTasksList.Add(item);
-                }
-                else
-                {
-                    var task = await UserService.Instance.GetTaskById(activity.TaskId);
-                    var lastPart = await UserService.Instance.GetLastActivityPart(activity.ActivityId);
-                    var stopwatchTime = StopwatchesService.Instance.GetStopwatchTime(lastPart.PartId);
-                    if (stopwatchTime == -1)
-                    {
-                        await StartupResume(activity);
-                    }
-                    var parts = await UserService.Instance.GetPartsOfActivityByActivityId(activity.ActivityId);
-                    var time = parts.Sum(part => long.Parse(part.Duration));
-                    var t = TimeSpan.FromMilliseconds(time);
-                    var item = new MainPageList
-                    {
-                        MyImageSource = ImageChoice(activity.Status),
-                        Name = task.Name,
-                        Description = task.Description,
-                        ActivityId = activity.ActivityId,
-                        PartId = lastPart.PartId,
-                        TaskId = task.TaskId,
-                        Duration = $"{t.Hours:D2}h:{t.Minutes:D2}m:{t.Seconds:D2}s",
-                        Time = time,
-                        Status = StatusType.Start
-                    };
-                    _activeTasksList.Add(item);
-                }
-            }
+            return true;
         }
 
-        private async Task GetPausedActivities()
+        private async void InitializeCalendarItem_OnClicked(object sender, EventArgs e)
         {
-            var result2 = await UserService.Instance.GetActivitiesByStatus(StatusType.Pause);
-            foreach (var activity in result2)
-            {
-                if (activity.TaskId == 0)
-                {
-                    var parts = await UserService.Instance.GetPartsOfActivityByActivityId(activity.ActivityId);
-                    var time = parts.Sum(part => long.Parse(part.Duration));
-                    var t = TimeSpan.FromMilliseconds(time);
-                    var item = new MainPageList
-                    {
-                        MyImageSource = ImageChoice(activity.Status),
-                        Name = "Unnamed Activity " + activity.ActivityId,
-                        ActivityId = activity.ActivityId,
-                        Duration = $"{t.Hours:D2}h:{t.Minutes:D2}m:{t.Seconds:D2}s",
-                        Time = time,
-                        Status = StatusType.Pause
-                    };
-                    _activeTasksList.Add(item);
-                }
-                else
-                {
-                    var task = await UserService.Instance.GetTaskById(activity.TaskId);
-                    var parts = await UserService.Instance.GetPartsOfActivityByActivityId(activity.ActivityId);
-                    var time = parts.Sum(part => long.Parse(part.Duration));
-                    var t = TimeSpan.FromMilliseconds(time);
-                    var item = new MainPageList
-                    {
-                        MyImageSource = ImageChoice(activity.Status),
-                        Name = task.Name,
-                        Description = task.Description,
-                        ActivityId = activity.ActivityId,
-                        TaskId = task.TaskId,
-                        Duration = $"{t.Hours:D2}h:{t.Minutes:D2}m:{t.Seconds:D2}s",
-                        Time = time,
-                        Status = StatusType.Pause
-                    };
-                    _activeTasksList.Add(item);
-                }
-            }
+            _listTimer.Stop();
+            await Navigation.PushModalAsync(new NavigationPage(new InitializeCalendar()));
         }
 
-        private async void ListInitiate()
+        private async void HistoryPageItem_OnClicked(object sender, EventArgs e)
+        {
+            _listTimer.Stop();
+            await Navigation.PushModalAsync(new NavigationPage(new HistoryPage()));
+        }
+
+        private async void ActiveTasks_OnItemTapped(object sender, ItemTappedEventArgs e)
+        {
+            _listTimer.Stop();
+            ActiveTasks.ItemsSource = null;
+            var item = (MainPageList)e.Item;
+            await Navigation.PushModalAsync(new EditTaskPage(item));
+        }
+
+        private async Task ListInitiateAsync()
         {
             if (_activeTasksList.Count > 0)
             {
                 _activeTasksList.Clear();
             }
-            await GetStartedActivities();
-            await GetPausedActivities();
+            await GetStartedActivitiesAsync();
+            await GetPausedActivitiesAsync();
         }
+
+        private async Task GetStartedActivitiesAsync()
+        {
+            var activitiesStarted = await UserService.Instance.GetActivitiesByStatus(StatusType.Start);
+            foreach (var activity in activitiesStarted)
+            {
+                var lastPart = await UserService.Instance.GetLastActivityPart(activity.ActivityId);
+                var stopwatchTime = StopwatchesService.Instance.GetStopwatchTime(lastPart.PartId);
+                if (stopwatchTime == -1)
+                {
+                    await StartupResumeAsync(activity);
+                }
+                lastPart = await UserService.Instance.GetLastActivityPart(activity.ActivityId);
+                var parts = await UserService.Instance.GetPartsOfActivityByActivityId(activity.ActivityId);
+                var time = parts.Sum(part => long.Parse(part.Duration));
+                var t = TimeSpan.FromMilliseconds(time);
+                var item = new MainPageList
+                {
+                    MyImageSource = ImageChoice(activity.Status),
+                    ActivityId = activity.ActivityId,
+                    PartId = lastPart.PartId,
+                    Duration = $"{t.Hours:D2}h:{t.Minutes:D2}m:{t.Seconds:D2}s",
+                    Time = time,
+                    Status = StatusType.Start
+                };
+                if (activity.TaskId == 0)
+                {
+                    item.Name = "Unnamed Activity " + activity.ActivityId;
+                }
+                else
+                {
+                    var task = await UserService.Instance.GetTaskById(activity.TaskId);
+                    item.TaskId = task.TaskId;
+                    item.Name = task.Name;
+                    item.Description = activity.Comment;
+                }
+                _activeTasksList.Add(item);
+            }
+        }
+
+        private async Task GetPausedActivitiesAsync()
+        {
+            var result2 = await UserService.Instance.GetActivitiesByStatus(StatusType.Pause);
+            foreach (var activity in result2)
+            {
+                var parts = await UserService.Instance.GetPartsOfActivityByActivityId(activity.ActivityId);
+                var time = parts.Sum(part => long.Parse(part.Duration));
+                var t = TimeSpan.FromMilliseconds(time);
+                var item = new MainPageList
+                {
+                    MyImageSource = ImageChoice(activity.Status),
+                    ActivityId = activity.ActivityId,
+                    Duration = $"{t.Hours:D2}h:{t.Minutes:D2}m:{t.Seconds:D2}s",
+                    Time = time,
+                    Status = StatusType.Start
+                };
+                if (activity.TaskId == 0)
+                {
+                    item.Name = "Unnamed Activity " + activity.ActivityId;
+                }
+                else
+                {
+                    var task = await UserService.Instance.GetTaskById(activity.TaskId);
+                    item.TaskId = task.TaskId;
+                    item.Name = task.Name;
+                    item.Description = activity.Comment;
+                }
+                _activeTasksList.Add(item);
+            }
+        }        
 
         private static string ImageChoice(StatusType status)
         {
@@ -192,7 +188,6 @@ namespace TaskMaster
 
         private async void FastTaskButton_OnClicked(object sender, EventArgs e)
         {
-
             var activity = new ActivitiesDto
             {
                 Status = StatusType.Start,
@@ -225,32 +220,7 @@ namespace TaskMaster
             UpdateList();
         }
 
-        private async void InitializeCalendarItem_OnClicked(object sender, EventArgs e)
-        {
-            _listTimer.Stop();
-            await Navigation.PushModalAsync(new NavigationPage(new InitializeCalendar()));
-        }
-
-	    private async void HistoryPageItem_OnClicked(object sender, EventArgs e)
-        {
-            _listTimer.Stop();
-            await Navigation.PushModalAsync(new NavigationPage(new HistoryPage()));
-	    }
-
-	    private async void ActiveTasks_OnItemTapped(object sender, ItemTappedEventArgs e)
-	    {
-	        _listTimer.Stop();
-            ActiveTasks.ItemsSource = null;
-            var item = (MainPageList) e.Item;
-	        await Navigation.PushModalAsync(new EditTaskPage(item));
-	    }
-
-        protected override bool OnBackButtonPressed()
-        {
-            return true;
-        }
-
-        private async Task StartupResume(ActivitiesDto start)
+        private async Task StartupResumeAsync(ActivitiesDto start)
         {
             var task = await UserService.Instance.GetTaskById(start.TaskId) ?? new TasksDto
             {
@@ -309,8 +279,8 @@ namespace TaskMaster
 
         private async void LogoutItem_OnClicked(object sender, EventArgs e)
         {
-            await UserService.Instance.LogoutUser();
-            DependencyService.Get<ILogOutService>().LogOut();
+            /*await UserService.Instance.LogoutUser();
+            DependencyService.Get<ILogOutService>().LogOut();*/
         }
     }
 }

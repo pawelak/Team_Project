@@ -103,7 +103,7 @@ namespace TaskMaster.Droid
                     SyncStatus = SyncStatusType.ToUpload
                 };
                 await Services.UserService.Instance.SaveUser(user);
-                Services.SynchronizationService.Instance.SendUser(user);
+                await Services.SynchronizationService.Instance.SendUser(user);
                 LoadApplication(new App());
             }
             else

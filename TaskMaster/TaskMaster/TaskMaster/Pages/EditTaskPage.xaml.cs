@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Linq;
+using System.Threading.Tasks;
+using System.Timers;
 using TaskMaster.ModelsDto;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -10,24 +12,24 @@ namespace TaskMaster.Pages
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class EditTaskPage
     {
-        private bool _isPageNotChanged = true;
         private PartsOfActivityDto _part;
         private ActivitiesDto _activity;
         private TasksDto _task;
         private DateTime _now;
         private long _duration;
         private long _startTime;
+        private readonly Timer _timer = new Timer();
+        private readonly MainPageList _initItem;
         public EditTaskPage(MainPageList item)
         {
             InitializeComponent();
-            Initial(item);
+            _initItem = item;
             ActivityName.Text = item.Name;
             ActivityDescription.Text = item.Description;
             TaskName.Text = item.Name;
             TaskDescription.Text = item.Description;
             TypePickerImage.Source = "OK.png";
             AddItemsToPicker();
-            AddToFavoritesList();
         }
 
         private void AddItemsToPicker()
@@ -44,7 +46,14 @@ namespace TaskMaster.Pages
             TypePicker.Items.Add("Przerwa");
         }
 
-        private async void AddToFavoritesList()
+        protected override async void OnAppearing()
+        {
+            base.OnAppearing();
+            await Initial();
+            await AddToFavoritesList();
+        }
+
+        private async Task AddToFavoritesList()
         {
             var favorites = await UserService.Instance.GetUserFavorites(1);
             if (favorites == null)
@@ -61,38 +70,47 @@ namespace TaskMaster.Pages
             }
 
         }
-        private async void Initial(MainPageList item)
+        private async Task Initial()
         {
-            _activity = await UserService.Instance.GetActivity(item.ActivityId);
+            _activity = await UserService.Instance.GetActivity(_initItem.ActivityId);
             _part = await UserService.Instance.GetLastActivityPart(_activity.ActivityId);
-            _task = new TasksDto
+            if (_initItem.TaskId != 0)
             {
-                Name = item.Name,
-                Description = item.Description,
-                TaskId = item.TaskId,
-            };
+                _task = await UserService.Instance.GetTaskById(_activity.TaskId);
+            }
+            else
+            {
+                _task = new TasksDto
+                {
+                    Name = _initItem.Name
+                };
+            }
             TaskDates.Text = _part.Start;
             TaskDate.Text = _part.Start;
             var parts = await UserService.Instance.GetPartsOfActivityByActivityId(_activity.ActivityId);
             _startTime = parts.Sum(part => long.Parse(part.Duration));
-            var t = TimeSpan.FromMilliseconds(_duration);
+            var t = TimeSpan.FromMilliseconds(_startTime);
             var answer = $"{t.Hours:D2}h:{t.Minutes:D2}m:{t.Seconds:D2}s";
             TaskDuration.Text = answer;
-            Device.StartTimer(TimeSpan.FromSeconds(1), UpdateTime);
             UpdateButtons();
+            _timer.Elapsed += UpdateTime;
+            _timer.Interval = 1000;
+            _timer.Start();
         }
 
-        private bool UpdateTime()
+        private void UpdateTime(object source, ElapsedEventArgs e)
         {
             if (_activity.Status != StatusType.Start)
             {
-                return false;
+                return;
             }
             _duration = _startTime + StopwatchesService.Instance.GetStopwatchTime(_part.PartId);
             var t = TimeSpan.FromMilliseconds(_duration);
             var answer = $"{t.Hours:D2}h:{t.Minutes:D2}m:{t.Seconds:D2}s";
-            TaskDuration.Text = answer;
-            return _isPageNotChanged;
+            Device.BeginInvokeOnMainThread(() =>
+            {
+                TaskDuration.Text = answer;
+            });            
         }
 
         private void UpdateButtons()
@@ -103,7 +121,7 @@ namespace TaskMaster.Pages
         }
         private async void StopButton_OnClicked(object sender, EventArgs e)
         {
-            _isPageNotChanged = false;
+            _timer.Stop();
             StopwatchesService.Instance.StopStopwatch(_part.PartId);
             _now = DateTime.Now;
             _part.Stop = _now.ToString("HH:mm:ss dd/MM/yyyy");
@@ -136,6 +154,7 @@ namespace TaskMaster.Pages
             await UserService.Instance.SaveActivity(_activity);
             await UserService.Instance.SavePartOfActivity(_part);
             UpdateButtons();
+            _timer.Stop();
         }
 
         private async void ResumeButton_OnClicked(object sender, EventArgs e)
@@ -153,14 +172,14 @@ namespace TaskMaster.Pages
             StopwatchesService.Instance.AddStopwatch(part.PartId);
             _part = part;
             await UserService.Instance.SaveActivity(_activity);
-            Device.StartTimer(TimeSpan.FromSeconds(1), UpdateTime);
+            _timer.Start();
             UpdateButtons();
         }
 
         private void ActivityDescription_OnUnfocused(object sender, FocusEventArgs e)
         {
             TaskDescription.Text = ActivityDescription.Text;
-            _task.Description = ActivityDescription.Text;
+            _activity.Comment = ActivityDescription.Text;
         }
 
         private void ActivityName_OnUnfocused(object sender, FocusEventArgs e)
@@ -171,7 +190,6 @@ namespace TaskMaster.Pages
 
         private async void AcceptButton_OnClicked(object sender, EventArgs e)
         {
-            _isPageNotChanged = false;
             if (_task.TaskId == 0)
             {
                 await Navigation.PushModalAsync(new FillInformationPage(_activity));
@@ -181,17 +199,18 @@ namespace TaskMaster.Pages
                 _task.TaskId = await UserService.Instance.SaveTask(_task);
                 _activity.TaskId = _task.TaskId;
                 await UserService.Instance.SaveActivity(_activity);
+                await Navigation.PopModalAsync();
             }
         }
 
         protected override bool OnBackButtonPressed()
-        {
+        {            
             if (_task.Name == ActivityName.Text)
             {
+                _timer.Stop();
                 Device.BeginInvokeOnMainThread(async () =>
                 {
-                    _isPageNotChanged = false;
-                    await Navigation.PopModalAsync();
+                    await Navigation.PushModalAsync(new NavigationPage(new MainPage()));
                 });
                 return true;
             }
@@ -199,9 +218,12 @@ namespace TaskMaster.Pages
             {
                 var result = await DisplayAlert("Error", "Niezapisane dane zostaną utracone. Czy kontynuować",
                     "Tak", "Nie");
-                if (!result) return;
-                _isPageNotChanged = false;
-                await Navigation.PopModalAsync();
+                if (!result)
+                {
+                    return;
+                }
+                _timer.Stop();
+                await Navigation.PushModalAsync(new NavigationPage(new MainPage()));
             });
             return true;
         }
@@ -282,7 +304,6 @@ namespace TaskMaster.Pages
             };
             _task = await UserService.Instance.GetTask(taskDto);
             TaskName.Text = _task.Name;
-            TaskDescription.Text = _task.Description;
             TypePickerImage.Source = SelectImage(_task.Typ);
         }
     }
