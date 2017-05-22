@@ -21,6 +21,7 @@ namespace TaskMaster.DAL.Migrations
             defaultUsers.Add(new User() { Email = "dlabartosza@gmail.com", Name = "Bartoszek" });
 
             foreach (var elem in defaultUsers) context.User.Add(elem);
+            
 
             IList<Tokens> defaultTokens = new List<Tokens>();
 
@@ -28,7 +29,7 @@ namespace TaskMaster.DAL.Migrations
             defaultTokens.Add(new Tokens() { Token = "abc", User = defaultUsers[2] });
             defaultTokens.Add(new Tokens() { Token = "+*+", User = defaultUsers[0] });
 
-            foreach (var elem in defaultUsers) context.User.Add(elem);
+            foreach (var elem in defaultTokens) context.Tokens.Add(elem);
 
             base.Seed(context);
         }
