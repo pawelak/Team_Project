@@ -79,5 +79,13 @@ table img {
     background-color: #375a7f;
     cursor: pointer;
 }
+.edit .progress {
+    height: 25px;
+}
 
-
+.edit .progress p {
+    font-size: 14px;
+    color: black;
+    padding-top: 7px;
+    font-weight: bold;
+}

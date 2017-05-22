@@ -316,6 +316,7 @@
     <Content Include="Views\History\Home.cshtml" />
     <Content Include="Views\Statistics\Home.cshtml" />
     <Content Include="Views\HomePage\Index.cshtml" />
+    <Content Include="Views\History\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
