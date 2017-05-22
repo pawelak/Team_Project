@@ -1,4 +1,5 @@
 ﻿using System;
+using TaskMaster.Pages;
 using TaskMaster.Services;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -33,11 +34,22 @@ namespace TaskMaster
             return base.OnBackButtonPressed();
         }
 
+        private async void PlannedPageItem_OnClicked(object sender, EventArgs e)
+        {
+            await Navigation.PushModalAsync(new NavigationPage(new PlannedViewPage()));
+        }
+
+        private void SyncItem_OnClicked(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
         private async void LogoutItem_OnClicked(object sender, EventArgs e)
         {
             await UserService.Instance.LogoutUser();
             // tu musi być wyjście z apki
         }
+
     }
 }
 

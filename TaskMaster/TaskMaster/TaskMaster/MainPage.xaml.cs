@@ -81,6 +81,16 @@ namespace TaskMaster
             await Navigation.PushModalAsync(new NavigationPage(new HistoryPage()));
         }
 
+        private async void PlannedPageItem_OnClicked(object sender, EventArgs e)
+        {
+            await Navigation.PushModalAsync(new NavigationPage(new PlannedViewPage()));
+        }
+
+        private void SyncItem_OnClicked(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
         private async void ActiveTasks_OnItemTapped(object sender, ItemTappedEventArgs e)
         {
             _listTimer.Stop();

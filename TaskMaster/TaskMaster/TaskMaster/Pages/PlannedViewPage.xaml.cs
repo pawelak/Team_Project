@@ -123,5 +123,10 @@ namespace TaskMaster.Pages
 	        // anulowanie notki
 	        // wysłać do webApi?
 	    }
-    }
+
+	    private void SyncItem_OnClicked(object sender, EventArgs e)
+	    {
+	        throw new NotImplementedException();
+	    }
+	}
 }
