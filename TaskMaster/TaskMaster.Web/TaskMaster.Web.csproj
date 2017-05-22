@@ -212,6 +212,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\CallendarController.cs" />
     <Compile Include="Controllers\HistoryController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\HomePageController.cs" />
@@ -246,6 +247,10 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="images\arrowLeft.png" />
+    <Content Include="images\arrowLeftWhite.png" />
+    <Content Include="images\arrowRight.png" />
+    <Content Include="images\arrowRightWhite.png" />
     <Content Include="images\art.png" />
     <Content Include="images\Cafe.png" />
     <Content Include="images\car.png" />
@@ -338,6 +343,7 @@
     <Content Include="Views\Statistics\Home.cshtml" />
     <Content Include="Views\HomePage\Index.cshtml" />
     <Content Include="Views\History\Edit.cshtml" />
+    <Content Include="Views\Callendar\Home.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
