@@ -1,0 +1,72 @@
+﻿
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title>Historia</title>
+    <script src="~/Scripts/jquery-3.1.1.min.js"></script>  
+</head>
+<body>
+<div class="history quickFixMargin">
+    <div class="col-md-8 col-md-offset-2">
+        <div class="lastActivities">
+            <table>
+                <tr>
+                    <th></th>
+                    <th>Czynność</th> 
+                    <th>data</th>
+                    <th>czas trwania</th>
+                    <th>czas pracy</th>
+                    <th>czas przerwy</th>
+                </tr>             
+                    <tr class="activityDetails">                         
+                        <td>
+                            <a href='@Url.Action("Edit", "History")'>
+                                <img src="../../images/programming.png" />
+                            </a>
+                        </td>
+                        <td>programowanie</td>
+                        <td>15.05.2017</td>
+                        <td>0:40:20</td>
+                        <td>0:30:20</td>
+                        <td>0:10:20</td>                             
+                    </tr>
+                <tr class="activityDetails">
+                    <td>
+                        <a href='@Url.Action("Edit", "History")'>
+                            <img src="../../images/Cafe.png" />
+                        </a>
+                    </td>
+                    <td>picie kawy</td>
+                    <td>15.05.2017</td>
+                    <td>0:10:20</td>
+                    <td>0:10:20</td>
+                    <td>0:00:00</td>
+                </tr>
+            </table>
+            
+        </div>
+    </div>  
+
+</div>
+
+<script>
+    $(document).ready(function () {
+        $('.activityDetails').click(function () {
+            var href = $(this).find("a").attr("href");
+            if (href) {
+                window.location = href;
+            }
+        });
+
+    });
+
+</script>
+
+</body>
+
+</html>

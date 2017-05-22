@@ -1,21 +1,39 @@
 ﻿using System;
-using System.Diagnostics;
 using Xamarin.Forms.Xaml;
 using TaskMaster.ModelsDto;
 using Xamarin.Forms;
+using TaskMaster.Services;
 
 namespace TaskMaster
 {
 	[XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class StartTaskPage
 	{
-        private readonly UserService _userService = new UserService();
 		public StartTaskPage ()
 		{
 			InitializeComponent ();
+            AddToFavoritesList();
 		}
 
-	    private async void StartTaskButton_OnClicked(object sender, EventArgs e)
+	    private async void AddToFavoritesList()
+	    {
+	        var favorites = await UserService.Instance.GetUserFavorites(1);
+	        if (favorites == null)
+	        {
+	            FavoritePicker.IsEnabled = false;
+	        }
+	        else
+	        {
+	            foreach (var item in favorites)
+	            {
+	                var task = await UserService.Instance.GetTaskById(item.TaskId);
+	                FavoritePicker.Items.Add(task.Name);
+	            }
+	        }
+
+	    }
+
+        private async void StartTaskButton_OnClicked(object sender, EventArgs e)
 	    {
 	        if (StartTaskName.Text != null)
 	        {
@@ -24,13 +42,13 @@ namespace TaskMaster
 	                Name = StartTaskName.Text,
 	                Description = StartTaskDescription.Text
 	            };
-	            if (await _userService.GetTask(newTask) == null)
+	            if (await UserService.Instance.GetTask(newTask) == null)
 	            {
-	                newTask.TaskId = await _userService.SaveTask(newTask);
+	                newTask.TaskId = await UserService.Instance.SaveTask(newTask);
 	            }
 	            else
 	            {
-	                newTask = _userService.GetTask(newTask).Result;
+	                newTask = UserService.Instance.GetTask(newTask).Result;
 	            }
 	            var newActivity = new ActivitiesDto
 	            {
@@ -38,7 +56,7 @@ namespace TaskMaster
 	                UserId = 1,
 	                Status = StatusType.Start
 	            };
-	            newActivity.ActivityId = await _userService.SaveActivity(newActivity);
+	            newActivity.ActivityId = await UserService.Instance.SaveActivity(newActivity);
 	            var date = DateTime.Now.ToString("HH:mm:ss dd/MM/yyyy");
 	            var part = new PartsOfActivityDto
 	            {
@@ -46,11 +64,8 @@ namespace TaskMaster
 	                Start = date,
 	                Duration = "0"
 	            };
-	            part.PartId = await _userService.SavePartOfActivity(part);
-	            var sw = new Stopwatch();
-	            var stopwatch = new Stopwatches(sw, part.PartId);
-	            App.Stopwatches.Add(stopwatch);
-	            App.Stopwatches[App.Stopwatches.Count - 1].Start();
+	            part.PartId = await UserService.Instance.SavePartOfActivity(part);
+	            StopwatchesService.Instance.AddStopwatch(part.PartId);
 	            await Navigation.PushModalAsync(new NavigationPage(new MainPage()));
 	        }
 	        else
@@ -58,5 +73,17 @@ namespace TaskMaster
                 await DisplayAlert("Error", "Nie podałeś nazwy aktywności", "Ok");
 	        }
 	    }
-	}
+
+	    private async void FavoritePicker_OnSelectedIndexChanged(object sender, EventArgs e)
+	    {
+	        var select = FavoritePicker.Items[FavoritePicker.SelectedIndex];
+	        var taskDto = new TasksDto
+	        {
+	            Name = select
+	        };
+	        var task = await UserService.Instance.GetTask(taskDto);
+	        StartTaskName.Text = task.Name;
+	        StartTaskDescription.Text = task.Description;
+	    }
+    }
 }

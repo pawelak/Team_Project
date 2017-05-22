@@ -34,11 +34,12 @@ namespace TaskMaster.BLL.Services
             return userList;
         }
 
-        public bool Authorization(string login, string password) //TODO
+        public bool Authorization(string login, string password) 
         {
-            //UserDto user = _userRepositories.Get(login);
-            //if (user.Equals(_userRepositories.GetAll().f)) return false;
-            return false;
+            var user = _userRepositories.Get(login);
+            if (user==null) return false;
+            var tokensList = user.Tokens.ToList();
+            return tokensList.Any(t => t.Token.Equals(password));
         }
 
         public void Stworz(string email, string login="A", string password="B")

@@ -1,5 +1,6 @@
 ﻿@using Microsoft.Owin.Security
 @using TaskMaster.Web.Models
+@using TaskMaster.Web.Resources
 @model TaskMaster.Web.Models.UserAccount
 
 
@@ -8,158 +9,125 @@
     Layout = null;
 }
 
-
-
-
 <!DOCTYPE html>
 <html lang="pl">
 <head>
     <meta name="viewport" content="width=device-width" />
-    <title>TaskMaster</title>   
-    <link rel="stylesheet" href="../../Content/bootstrap.min.css"/>
-    <link rel="stylesheet" href="../../Content/style.css" />
-    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Quicksand">   
-    <script type="text/javascript" src="../../Content/dictionary.json"> </script>
-    <script src="~/Scripts/jquery-3.1.1.min.js"></script>    
-    @*<script>
-        $.getJSON('./../../Content/dictionary.json', function(data){
-            console.log(data);            
-        });
-    </script>*@  
+    <title>TaskMaster</title>
+    <link rel="stylesheet" href="../../Content/bootstrap.min.css" />
+    <link rel="stylesheet" href="../../Content/landingPageStyle.css" />
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Quicksand">
+    <script src="~/Scripts/jquery-3.1.1.min.js"></script>
 
 </head>
 <body>
-
-<nav class="navbar navbar-default">
-    <div class="container-fluid">
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand" href="#">
-                <img src="../../images/TMLogo3.png"/>
-            </a>
+    <nav class="navbar navbar-default">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#">
+                    <img src="../../images/TMLogo3.png" />
+                </a>
+            </div>
+            <div id="navbar" class="navbar-collapse collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li id="logIn"><a href="#">@LandingPageText.signIn</a></li>
+                    <li id="register"><a href="#">@LandingPageText.signUp</a></li>
+                </ul>
+            </div>
         </div>
-        <div id="navbar" class="navbar-collapse collapse">
-            <ul class="nav navbar-nav navbar-right">
-                <li>@Html.ActionLink("Logowanie", "Home")</li>
-                <li>@Html.ActionLink("Rejestracja", "Register")</li>
-            </ul>
-        </div>
-    </div>
-</nav>
-
+    </nav>
     <div class="row loggingSection">
         <div class="col-md-6 col-xs-12">
             <div class="col-md-6 col-md-offset-4">
-                <h2>Zapanuj nad swoim czasem!</h2>
-                <p>Dzięki aplikacji TaskMaster możesz mierzyć czas wykonywania twoich zadań. </p>
+                <h2>@LandingPageText.leftMainText</h2>
+                <p>@LandingPageText.leftAdditionalText</p>
             </div>
         </div>
-        <div class="col-md-6 col-xs-12">
-            
-            @using (Html.BeginForm("ExternalLogin", "Account", new { ReturnUrl = ViewBag.ReturnUrl }))
-            {
-                @Html.AntiForgeryToken()
+    <div class="col-md-6 col-xs-12">
+        @using (Html.BeginForm("ExternalLogin", "Account", new { ReturnUrl = ViewBag.ReturnUrl }))
+        {
+            @Html.AntiForgeryToken()
+            <div class="form-group">
+                <div class="col-md-6 col-md-offset-3">
+                    <button class="googleButton btn btn-success" name="provider" value="Google" id="Google"><img src="../../images/google.png"/></button>
+                    <button class="facebookButton btn btn-info" name="provider" value="Facebook" id="Facebook"><img src="../../images/facebook.png"/></button>
+                </div>
+            </div>
+        }
+
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+
+            @Html.ValidationSummary(true, "", new {@class = "text-danger"})
+
+            <div class="form-horizontal">
+  
                 <div class="form-group">
                     <div class="col-md-6 col-md-offset-3">
-                        <button class="googleButton btn btn-success" name="provider" value="Google" id="Google"><img src="../../images/google.png"/></button>
-                        <button class="facebookButton btn btn-info" name="provider" value="Facebook" id="Facebook"><img src="../../images/facebook.png"/></button>
+                        @Html.EditorFor(model => model.Email, new {htmlAttributes = new {placeholder = "Email",@class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Email, "", new {@class = "text-danger"})
                     </div>
                 </div>
-            }
-
-            @using (Html.BeginForm())
-            {
-                @Html.AntiForgeryToken()
-
-                @Html.ValidationSummary(true, "", new {@class = "text-danger"})
-
-               <div class="form-horizontal">
-                   @*  <div class="form-group">
-                            <div class="col-md-6 col-md-offset-3">
-                                <button class="googleButton btn btn-success "><img src="../../images/google.png"/></button>
-                                <button class="facebookButton btn btn-info"><img src="../../images/facebook.png"/></button>
-                               
-                                <section id="socialLoginForm">
-                                    @Html.Partial("ExternalLoggin", new ExternalLoginListViewModel { ReturnUrl = ViewBag.ReturnUrl })
-                                </section>
-                               
-                                <button id="GoogleBtn" type="button" class="col-md-5 btn btn-danger" onclick="googleLogin()">Google</button>
-
-                            </div>
-                        </div>*@
-
-                      
-
-                        <div class="form-group">
-                          <div class="col-md-6 col-md-offset-3">
-                                @Html.EditorFor(model => model.Email, new {htmlAttributes = new {placeholder = "Email",@class = "form-control" } })
-                                @Html.ValidationMessageFor(model => model.Email, "", new {@class = "text-danger"})
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <div class="col-md-6 col-md-offset-3">
-                                @Html.EditorFor(model => model.Password, new {htmlAttributes = new { placeholder = "Hasło", @class = "form-control"}})
-                                @Html.ValidationMessageFor(model => model.Password, "", new {@class = "text-danger"})
-                            </div>
-                        </div>
-                    <div class="form-group">
-                        <div class="col-md-6 col-md-offset-3">
-                            <input type="submit" value="Zaloguj" class="btn btn-default"/>
-                        </div>
+                <div class="form-group">
+                    <div class="col-md-6 col-md-offset-3">
+                        @Html.EditorFor(model => model.Password, new {htmlAttributes = new { placeholder = "Hasło", @class = "form-control"}})
+                        @Html.ValidationMessageFor(model => model.Password, "", new {@class = "text-danger"})
                     </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-6 col-md-offset-3">
+                        <input type="submit" value="Zaloguj" class="btn btn-default"/>
                     </div>
+                </div>
+            </div>
 
-            }
+        }
         </div>
     </div>
 
-<div class="howItWorksSection">
-    <div class="row ">
-        <div class="col-md-6 col-md-offset-3">
-            <h3>Jak działa aplikacja?</h3>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-4">
-            <p>1. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam id tristique odio. Duis vitae odio nisi. Proin bibendum convallis gravida. Suspendisse non nulla convallis, tincidunt velit aliquet, semper elit.</p>
-        </div>
-        <div class="col-md-4">
-            <p>2. Fusce nec enim eu magna varius vulputate. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.</p>
-        </div>
-        <div class="col-md-4">
-            <p>3. Sed venenatis, quam vel hendrerit maximus, dui urna tempor leo, ullamcorper hendrerit diam magna ac ipsum.</p>
-        </div>
-    </div>
-</div>
-
-
-
-<script>
     
-    var OAUTHURL = 'https://accounts.google.com/o/oauth2/auth?';
-    var VALIDURL = 'https://www.googleapis.com/oauth2/v1/tokeninfo?access_token=';
-    var SCOPE = 'https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email';
-    var CLIENTID = '38638370580-32b8rd1k8q8uhnk5mhlq0oqiq28ekb1g.apps.googleusercontent.com';
-    var REDIRECT = 'https://localhost:44364/signin-google';
-    var LOGOUT = 'https://localhost:44364/LandingPage/Home';
-    var TYPE = 'token';
-    var _url = OAUTHURL + 'scope=' + SCOPE + '&client_id=' + CLIENTID + '&redirect_uri=' + REDIRECT + '&response_type=' + TYPE;
+    <div class="howItWorksSection">
+        <div class="row ">
+            <div class="col-md-6 col-md-offset-3">
+                <h3>@LandingPageText.HowItWorksTitle</h3>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4">
+                <p>@LandingPageText.HowItWorks1</p>
+            </div>
+            <div class="col-md-4">
+                <p>@LandingPageText.HowItWorks2</p>
+            </div>
+            <div class="col-md-4">
+                <p>@LandingPageText.HowItWorks3</p>
+            </div>
+        </div>
+    </div>
 
-    function googleLogin() {
-        window.location = _url;
-    }
-
-
-    $(".googleButton").click(function() {
-        $(this).css('border', "solid 2px red");
+    <script>
+    $(document).ready(function() {
+        $("#register").click(function() {
+            $("#signInButton").replaceWith(
+                "<button id=\"signInButton\" type=\"submit\" class=\"btn btn-primary\">@LandingPageText.signUpButton</button>");
+        });
     });
-</script>
 
+    $(document).ready(function() {
+        $("#logIn").click(function() {
+            $("#signInButton").replaceWith(
+                "<button id=\"signInButton\" type=\"submit\" class=\"btn btn-primary\">@LandingPageText.signInButton</button>");
+        });
+    });
+    </script>
+
+    
 </body>
 </html>
-                

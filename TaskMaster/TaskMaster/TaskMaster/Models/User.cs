@@ -10,5 +10,6 @@ namespace TaskMaster.Models
         public string Description { get; set; }
         public string Token { get; set; }
         public string TypeOfRegistration { get; set; }
+        public bool IsLoggedIn { get; set; }
     }
 }

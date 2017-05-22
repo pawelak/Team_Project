@@ -1,18 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
+using System.Threading.Tasks;
+using System.Timers;
 using TaskMaster.ModelsDto;
 using TaskMaster.Pages;
 using Xamarin.Forms;
+using TaskMaster.Services;
 namespace TaskMaster
 {
     public partial class MainPage
     {
-        private bool _isPageNotChanged = true;
-        private bool _isVisible = true;
+        private readonly Timer _listTimer = new Timer();
         private readonly List<MainPageList> _activeTasksList = new List<MainPageList>();
-        private readonly UserService _userService = new UserService();
 
         public MainPage()
         {
@@ -21,26 +21,24 @@ namespace TaskMaster
 
         protected override void OnAppearing()
         {
-            _isPageNotChanged = true;
+            base.OnAppearing();
             ListInitiate();
-            Device.StartTimer(TimeSpan.FromSeconds(1), CheckList);
-        }
-        
-        private bool CheckList()
-        {
-            if (_activeTasksList.Count <= 0)
-            {
-                return _isVisible;
-            }
-            Device.StartTimer(TimeSpan.FromSeconds(1), UpdateTime);
-            return false;
+            _listTimer.Elapsed += UpdateTime;
+            _listTimer.Interval = 1000;
+            _listTimer.Start();
         }
 
-        private bool UpdateTime()
+        protected override void OnDisappearing()
+        {
+            _listTimer.Stop();
+            base.OnDisappearing();
+        }
+
+        private void UpdateTime(object source, ElapsedEventArgs e)
         {
             if (_activeTasksList.Count <= 0)
             {
-                return false;
+                return;
             }
             foreach (var item in _activeTasksList)
             {
@@ -48,19 +46,14 @@ namespace TaskMaster
                 {
                     continue;
                 }
-                item.Time += 1000;
-                var t = TimeSpan.FromMilliseconds(item.Time);
+                var time = item.Time + StopwatchesService.Instance.GetStopwatchTime(item.PartId);
+                var t = TimeSpan.FromMilliseconds(time);
                 var answer = $"{t.Hours:D2}h:{t.Minutes:D2}m:{t.Seconds:D2}s";
                 item.Duration = answer;
             }
             UpdateList();
-            return IsPageNotChanged();
         }
 
-        private bool IsPageNotChanged()
-        {
-            return _isPageNotChanged;
-        }
         private void UpdateList()
         {
             Device.BeginInvokeOnMainThread(() =>
@@ -70,33 +63,27 @@ namespace TaskMaster
             });
         }
 
-        private async void GetStartedActivities()
+        private async Task GetStartedActivities()
         {
-            var activitiesStarted = await _userService.GetActivitiesByStatus(StatusType.Start);
+            var activitiesStarted = await UserService.Instance.GetActivitiesByStatus(StatusType.Start);
             foreach (var activity in activitiesStarted)
             {
                 if (activity.TaskId == 0)
                 {
-                    var parts = await _userService.GetPartsOfActivityByActivityId(activity.ActivityId);
+                    var lastPart = await UserService.Instance.GetLastActivityPart(activity.ActivityId);
+                    var stopwatchTime = StopwatchesService.Instance.GetStopwatchTime(lastPart.PartId);
+                    if (stopwatchTime == -1)
+                    {
+                        await StartupResume(activity);
+                    }
+                    var parts = await UserService.Instance.GetPartsOfActivityByActivityId(activity.ActivityId);
                     var time = parts.Sum(part => long.Parse(part.Duration));
-                    var lastPart = await _userService.GetLastActivityPart(activity.ActivityId);
-                    var stopwatch = App.Stopwatches.FirstOrDefault(s => s.GetPartId() == lastPart.PartId);
-                    if (stopwatch != null)
-                    {
-                        time += stopwatch.GetStopwatch().ElapsedMilliseconds;
-                    }
-                    else
-                    {
-                        var sw = new Stopwatch();
-                        var stopwatch2 = new Stopwatches(sw, lastPart.PartId);
-                        App.Stopwatches.Add(stopwatch2);
-                        App.Stopwatches[App.Stopwatches.Count - 1].Start();
-                    }
                     var item = new MainPageList
                     {
                         MyImageSource = ImageChoice(activity.Status),
                         Name = "Unnamed Activity " + activity.ActivityId,
                         ActivityId = activity.ActivityId,
+                        PartId = lastPart.PartId,
                         Duration = "0",
                         Time = time,
                         Status = StatusType.Start
@@ -105,22 +92,15 @@ namespace TaskMaster
                 }
                 else
                 {
-                    var task = await _userService.GetTaskById(activity.TaskId);
-                    var parts = await _userService.GetPartsOfActivityByActivityId(activity.ActivityId);
+                    var task = await UserService.Instance.GetTaskById(activity.TaskId);
+                    var lastPart = await UserService.Instance.GetLastActivityPart(activity.ActivityId);
+                    var stopwatchTime = StopwatchesService.Instance.GetStopwatchTime(lastPart.PartId);
+                    if (stopwatchTime == -1)
+                    {
+                        await StartupResume(activity);
+                    }
+                    var parts = await UserService.Instance.GetPartsOfActivityByActivityId(activity.ActivityId);
                     var time = parts.Sum(part => long.Parse(part.Duration));
-                    var lastPart = await _userService.GetLastActivityPart(activity.ActivityId);
-                    var stopwatch = App.Stopwatches.FirstOrDefault(s => s.GetPartId() == lastPart.PartId);
-                    if (stopwatch != null)
-                    {
-                        time += stopwatch.GetStopwatch().ElapsedMilliseconds;
-                    }
-                    else
-                    {
-                        var sw = new Stopwatch();
-                        var stopwatch2 = new Stopwatches(sw, lastPart.PartId);
-                        App.Stopwatches.Add(stopwatch2);
-                        App.Stopwatches[App.Stopwatches.Count - 1].Start();
-                    }
                     var t = TimeSpan.FromMilliseconds(time);
                     var item = new MainPageList
                     {
@@ -128,6 +108,7 @@ namespace TaskMaster
                         Name = task.Name,
                         Description = task.Description,
                         ActivityId = activity.ActivityId,
+                        PartId = lastPart.PartId,
                         TaskId = task.TaskId,
                         Duration = $"{t.Hours:D2}h:{t.Minutes:D2}m:{t.Seconds:D2}s",
                         Time = time,
@@ -138,14 +119,14 @@ namespace TaskMaster
             }
         }
 
-        private async void GetPausedActivities()
+        private async Task GetPausedActivities()
         {
-            var result2 = await _userService.GetActivitiesByStatus(StatusType.Pause);
+            var result2 = await UserService.Instance.GetActivitiesByStatus(StatusType.Pause);
             foreach (var activity in result2)
             {
                 if (activity.TaskId == 0)
                 {
-                    var parts = await _userService.GetPartsOfActivityByActivityId(activity.ActivityId);
+                    var parts = await UserService.Instance.GetPartsOfActivityByActivityId(activity.ActivityId);
                     var time = parts.Sum(part => long.Parse(part.Duration));
                     var t = TimeSpan.FromMilliseconds(time);
                     var item = new MainPageList
@@ -161,8 +142,8 @@ namespace TaskMaster
                 }
                 else
                 {
-                    var task = await _userService.GetTaskById(activity.TaskId);
-                    var parts = await _userService.GetPartsOfActivityByActivityId(activity.ActivityId);
+                    var task = await UserService.Instance.GetTaskById(activity.TaskId);
+                    var parts = await UserService.Instance.GetPartsOfActivityByActivityId(activity.ActivityId);
                     var time = parts.Sum(part => long.Parse(part.Duration));
                     var t = TimeSpan.FromMilliseconds(time);
                     var item = new MainPageList
@@ -181,14 +162,14 @@ namespace TaskMaster
             }
         }
 
-        private void ListInitiate()
+        private async void ListInitiate()
         {
             if (_activeTasksList.Count > 0)
             {
                 _activeTasksList.Clear();
             }
-            GetStartedActivities();
-            GetPausedActivities();
+            await GetStartedActivities();
+            await GetPausedActivities();
         }
 
         private static string ImageChoice(StatusType status)
@@ -198,11 +179,13 @@ namespace TaskMaster
 
         private async void StartTaskButton_OnClicked(object sender, EventArgs e)
         {
+            _listTimer.Stop();
             await Navigation.PushModalAsync(new StartTaskPage());
         }
 
         private async void PlanTaskButton_OnClicked(object sender, EventArgs e)
         {
+            _listTimer.Stop();
             await Navigation.PushModalAsync(new PlanTaskPage());
         }
 
@@ -216,7 +199,7 @@ namespace TaskMaster
                 GroupId = 1,
                 TaskId = 0
             };
-            activity.ActivityId = await _userService.SaveActivity(activity);
+            activity.ActivityId = await UserService.Instance.SaveActivity(activity);
             var now = DateTime.Now;
             var part = new PartsOfActivityDto
             {
@@ -224,17 +207,15 @@ namespace TaskMaster
                 Start = now.ToString("HH:mm:ss dd/MM/yyyy"),
                 Duration = "0"
             };
-            var result = await _userService.SavePartOfActivity(part);
-            var sw = new Stopwatch();
-            var stopwatch = new Stopwatches(sw, result);
-            App.Stopwatches.Add(stopwatch);
-            App.Stopwatches[App.Stopwatches.Count - 1].Start();
+            part.PartId = await UserService.Instance.SavePartOfActivity(part);
+            StopwatchesService.Instance.AddStopwatch(part.PartId);
             var t = TimeSpan.FromMilliseconds(0);
             var item = new MainPageList
             {
                 MyImageSource = ImageChoice(activity.Status),
                 Name = "Unnamed Activity " + activity.ActivityId,
                 ActivityId = activity.ActivityId,
+                PartId = part.PartId,
                 Duration = $"{t.Hours:D2}h:{t.Minutes:D2}m:{t.Seconds:D2}s",
                 Time = 0
             };
@@ -242,113 +223,86 @@ namespace TaskMaster
             UpdateList();
         }
 
-        protected override void OnDisappearing()
-        {
-            Device.BeginInvokeOnMainThread(() =>
-            {
-                _isPageNotChanged = false;
-            });           
-            base.OnDisappearing();
-        }
-
         private async void InitializeCalendarItem_OnClicked(object sender, EventArgs e)
         {
-            _isPageNotChanged = false;
-            _isVisible = false;
+            _listTimer.Stop();
             await Navigation.PushModalAsync(new NavigationPage(new InitializeCalendar()));
         }
 
 	    private async void HistoryPageItem_OnClicked(object sender, EventArgs e)
         {
-            _isPageNotChanged = false;
-            _isVisible = false;
+            _listTimer.Stop();
             await Navigation.PushModalAsync(new NavigationPage(new HistoryPage()));
 	    }
 
 	    private async void ActiveTasks_OnItemTapped(object sender, ItemTappedEventArgs e)
 	    {
-	        _isPageNotChanged = false;
-	        _isVisible = false;
-	        ActiveTasks.ItemsSource = null;
+	        _listTimer.Stop();
+            ActiveTasks.ItemsSource = null;
             var item = (MainPageList) e.Item;
 	        await Navigation.PushModalAsync(new EditTaskPage(item));
 	    }
 
         protected override bool OnBackButtonPressed()
         {
-            _isPageNotChanged = false;
-            _isVisible = false;
-            return base.OnBackButtonPressed();
+            return true;
         }
 
-        private async void StartupResume()
+        private async Task StartupResume(ActivitiesDto start)
         {
-            var started = await _userService.GetActivitiesByStatus(StatusType.Start);
-            foreach (var start in started)
+            var task = await UserService.Instance.GetTaskById(start.TaskId) ?? new TasksDto
             {
-                var task = await _userService.GetTaskById(start.TaskId);
-                if (await _userService.GetTaskById(start.TaskId) == null)
-                {
-                    task = new TasksDto
-                    {
-                        Name = "Unnamed Activity " + start.ActivityId
-                    };
-                }
-                var result = await DisplayAlert("Error", "Masz niezapauzowaną aktywność " + task.Name + ".\n " +
-                                                         "Czy była ona aktywna od zamknięcia aplikacji? \n" +
-                                                         "Jeżeli wybierzesz nie, czas aktywności może być niewłaściwy \n" +
-                                                         "Jeżeli wybierzesz tak, czas końca aktywności będzie czasem zatwierdzenia tego komunikatu",
-                    "Tak", "Nie");
-                if (!result)
-                {
-                    var result4 = await DisplayAlert("Error",
-                        "Czy chcesz żeby aktywność była kontynuowana?", "Tak", "Nie");
-                    if (!result4)
-                    {
-                        start.Status = StatusType.Pause;
-                        await _userService.SaveActivity(start);
-                        continue;
-                    }
-                    var part2 = new PartsOfActivityDto
-                    {
-                        Start = DateTime.Now.ToString("HH:mm:ss dd/MM/yyyy"),
-                        ActivityId = start.ActivityId,
-                        Duration = "0"
-                    };
-                    part2.PartId = await _userService.SavePartOfActivity(part2);
-                    var sw = new Stopwatch();
-                    var stopwatch = new Stopwatches(sw, part2.PartId);
-                    App.Stopwatches.Add(stopwatch);
-                    App.Stopwatches[App.Stopwatches.Count - 1].Start();
-                    await _userService.SaveActivity(start);
-                    continue;
-                }
-                var part = await _userService.GetLastActivityPart(start.ActivityId);
-                part.Stop = DateTime.Now.ToString("HH:mm:ss dd/MM/yyyy");
-                var time = (long)(DateTime.Now - DateTime.ParseExact(part.Start, "HH:mm:ss dd/MM/yyyy", null)).TotalMilliseconds;
-                part.Duration = time.ToString();
-                await _userService.SaveActivity(start);
-                await _userService.SavePartOfActivity(part);
-                var result3 = await DisplayAlert("Error",
+                Name = "Unnamed Activity " + start.ActivityId
+            };
+            var result = await DisplayAlert("Error", "Masz niezapauzowaną aktywność " + task.Name + ".\n " +
+                                                     "Czy była ona aktywna od zamknięcia aplikacji? \n" +
+                                                     "Jeżeli wybierzesz nie, czas aktywności może być niewłaściwy \n" +
+                                                     "Jeżeli wybierzesz tak, czas końca aktywności będzie czasem zatwierdzenia tego komunikatu",
+                "Tak", "Nie");
+            if (!result)
+            {
+                var result4 = await DisplayAlert("Error",
                     "Czy chcesz żeby aktywność była kontynuowana?", "Tak", "Nie");
-                if (!result3)
+                if (!result4)
                 {
                     start.Status = StatusType.Pause;
-                    await _userService.SaveActivity(start);
-                    continue;
+                    await UserService.Instance.SaveActivity(start);
+                    return;
                 }
-                var part3 = new PartsOfActivityDto
+                var part2 = new PartsOfActivityDto
                 {
                     Start = DateTime.Now.ToString("HH:mm:ss dd/MM/yyyy"),
                     ActivityId = start.ActivityId,
                     Duration = "0"
                 };
-                part3.PartId = await _userService.SavePartOfActivity(part3);
-                var sw2 = new Stopwatch();
-                var stopwatch2 = new Stopwatches(sw2, part3.PartId);
-                App.Stopwatches.Add(stopwatch2);
-                App.Stopwatches[App.Stopwatches.Count - 1].Start();
+                part2.PartId = await UserService.Instance.SavePartOfActivity(part2);
+                StopwatchesService.Instance.AddStopwatch(part2.PartId);
+                await UserService.Instance.SaveActivity(start);
+                return;
             }
+            var part = await UserService.Instance.GetLastActivityPart(start.ActivityId);
+            part.Stop = DateTime.Now.ToString("HH:mm:ss dd/MM/yyyy");
+            var time = (long) (DateTime.Now - DateTime.ParseExact(part.Start, "HH:mm:ss dd/MM/yyyy", null))
+                .TotalMilliseconds;
+            part.Duration = time.ToString();
+            await UserService.Instance.SaveActivity(start);
+            await UserService.Instance.SavePartOfActivity(part);
+            var result3 = await DisplayAlert("Error",
+                "Czy chcesz żeby aktywność była kontynuowana?", "Tak", "Nie");
+            if (!result3)
+            {
+                start.Status = StatusType.Pause;
+                await UserService.Instance.SaveActivity(start);
+                return;
+            }
+            var part3 = new PartsOfActivityDto
+            {
+                Start = DateTime.Now.ToString("HH:mm:ss dd/MM/yyyy"),
+                ActivityId = start.ActivityId,
+                Duration = "0"
+            };
+            part3.PartId = await UserService.Instance.SavePartOfActivity(part3);
+            StopwatchesService.Instance.AddStopwatch(part3.PartId);          
         }
     }
 }

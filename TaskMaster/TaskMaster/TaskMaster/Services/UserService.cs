@@ -3,12 +3,30 @@ using System.Threading.Tasks;
 using TaskMaster.ModelsDto;
 using Xamarin.Forms;
 
-namespace TaskMaster
+namespace TaskMaster.Services
 {
     public class UserService
     {
+        private static UserService _instance;
         private static UserDatabase _database;
         private static UserDatabase Database => _database ?? (_database = new UserDatabase(DependencyService.Get<IFileHelper>().GetLocalFilePath("UserSQLite.db3")));
+
+        private UserService()
+        {
+            
+        }
+
+        public static UserService Instance
+        {
+            get
+            {
+                if (_instance == null)
+                {
+                    _instance = new UserService();
+                }
+                return _instance;
+            }
+        }
         public async Task<int> SaveActivity(ActivitiesDto activitiesDto)
         {
             if (activitiesDto.ActivityId != 0)
@@ -51,6 +69,12 @@ namespace TaskMaster
             }
             var insert = await Database.InsertTask(tasksDto);
             return insert;
+        }
+
+        public async Task<int> GetLoggedUser()
+        {
+            var result = await Database.GetLoggedUser();
+            return result;
         }
 
         public async Task<int> SaveUser(UserDto userDto)
@@ -109,6 +133,17 @@ namespace TaskMaster
         {
             var update = await Database.GetPartsOfActivityById(id);
             return update;
+        }
+
+        public async Task<List<FavoritesDto>> GetUserFavorites(int id)
+        {
+            var get = await Database.GetUserFavorites(id);
+            return get;
+        }
+
+        public async Task SaveFavorite(FavoritesDto favoritesDto)
+        {
+            await Database.SaveFavorite(favoritesDto);
         }
     }
 }

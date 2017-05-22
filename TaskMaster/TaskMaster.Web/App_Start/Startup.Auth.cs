@@ -56,7 +56,7 @@ namespace TaskMaster.Web
 
             app.UseFacebookAuthentication(
                appId: "123",
-               appSecret: "321");
+               appSecret: "123");
 
             app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
             {
