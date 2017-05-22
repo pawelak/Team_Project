@@ -74,3 +74,10 @@ table {
 table img {
     width: 20px;
 }
+
+.activityDetails:hover {
+    background-color: #375a7f;
+    cursor: pointer;
+}
+
+
