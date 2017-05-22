@@ -1,6 +1,8 @@
-﻿
+﻿@using TaskMaster.BLL.WebModels;
+@using TaskMaster.BLL.WebServices;
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
+    WebMainService alfa = new WebMainService();
 }
 
 
@@ -61,6 +63,17 @@
 </div>
 <div class="col-md-8 quickFixMargin ">
     <h3>Ostatni miesiąc</h3>
+    @foreach (var p in alfa.ShowActivity("dlanorberta@gmail.com"))
+    {
+        <div>
+            <p>@p.Name</p>
+        </div>
+        <div class="progress">
+            <div class="progress-bar progress-bar-success progress-bar-striped" role="progressbar" aria-valuenow=@p.Time.ToString() aria-valuemin="0" aria-valuemax="3600" style="width: 40%">
+                <span class="sr-only">40% Complete (success)</span>
+            </div>
+        </div>
+    }
     <div>
         <p>programowanie</p>
     </div>

@@ -74,6 +74,7 @@
     <Compile Include="MobileService\FavoritesWebApiService.cs" />
     <Compile Include="MobileService\PrintAll.cs" />
     <Compile Include="MobileService\UserWebApiService.cs" />
+    <Compile Include="WebModels\ActivityViewModel.cs" />
     <Compile Include="WebServices\WebMainService.cs" />
     <Compile Include="WebServices\WebUserService.cs" />
     <Compile Include="WebModels\UserViewModels.cs" />
