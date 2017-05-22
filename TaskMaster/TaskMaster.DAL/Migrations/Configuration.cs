@@ -9,10 +9,10 @@ namespace TaskMaster.DAL.Migrations
         public Configuration()
         {
             AutomaticMigrationsEnabled = true;
-            AutomaticMigrationDataLossAllowed = false;
+            AutomaticMigrationDataLossAllowed = true;
         }
 
-        protected override void Seed(TaskMaster.DAL.Context.DatabaseContext context)
+        protected override void Seed(Context.DatabaseContext context)
         {
             IList<User> defaultUsers = new List<User>();
 

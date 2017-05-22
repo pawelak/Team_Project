@@ -3,6 +3,7 @@ using System.Linq;
 using AutoMapper;
 using TaskMaster.BLL.Services;
 using TaskMaster.BLL.ViewModels;
+using TaskMaster.DAL.DTOModels;
 
 namespace TaskMaster.BLL.WebServices
 {
@@ -17,11 +18,10 @@ namespace TaskMaster.BLL.WebServices
 
         public UserViewModels GetUser()
         {
-            const int id = 1;
-            var result = _testService.GetUserByIde(id);
-            
-           // result.Name=
-           return Mapper.Map<UserViewModels>(result);
+           const int id = 1;
+           // var obj = _testService.GetUserByIde(id);
+           
+           return Mapper.Map<UserViewModels>(new UserDto());
         }
 
     }
