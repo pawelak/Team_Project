@@ -24,9 +24,25 @@ namespace TaskMaster
 	    {
             await Navigation.PushModalAsync(new NavigationPage(new InitializeCalendar()));
         }
+
+	    private async void PlannedPageItem_OnClicked(object sender, EventArgs e)
+	    {
+	        await Navigation.PushModalAsync(new NavigationPage(new PlannedViewPage()));
+	    }
+
+        private void SyncItem_OnClicked(object sender, EventArgs e)
+	    {
+	        throw new NotImplementedException();
+	    }
+
+        private async void LogoutItem_OnClicked(object sender, EventArgs e)
+	    {
+	        await UserService.Instance.LogoutUser();
+	        // tu musi być wyjście z apki
+	    }
+
         protected override void OnAppearing()
         {
-
             ListInitiate();
         }
 
@@ -60,7 +76,7 @@ namespace TaskMaster
                 var element = new HistoryList
                 {
                     Name = task.Name,
-                    Description = task.Description,
+                    Description = activity.Comment,
                     Time = answer,
                     Date = lastPart.Start,
                     Image = SelectImage(task.Typ)
@@ -110,6 +126,8 @@ namespace TaskMaster
             }
             return obraz;
         }
-	}
+
+	    
+    }
 }
 
