@@ -373,7 +373,7 @@ namespace TaskMaster.Web.Controllers
                 }
                 var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
                 var result = await UserManager.CreateAsync(user);
-                _webTestService.Pomnoz(user.Email, user.Id);
+                //_webTestService.Pomnoz(user.Email, user.Id);
                 if (result.Succeeded)
                 {
                     result = await UserManager.AddLoginAsync(user.Id, info.Login);
@@ -397,7 +397,7 @@ namespace TaskMaster.Web.Controllers
         public ActionResult LogOff()
         {
             AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Home", "LandingPage");
         }
 
         //
@@ -454,7 +454,7 @@ namespace TaskMaster.Web.Controllers
             {
                 return Redirect(returnUrl);
             }
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Index", "HomePage");
         }
 
         internal class ChallengeResult : HttpUnauthorizedResult
