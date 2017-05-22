@@ -1,11 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Microsoft.Ajax.Utilities;
+using TaskMaster.BLL.MobileModels;
 using TaskMaster.DAL.DTOModels;
 using TaskMaster.DAL.Repositories;
-using TaskMaster.WebApi.Models;
 
-namespace TaskMaster.BLL.WebApiServices
+namespace TaskMaster.BLL.MobileService
 {
     public class UserWebApiService
     {
