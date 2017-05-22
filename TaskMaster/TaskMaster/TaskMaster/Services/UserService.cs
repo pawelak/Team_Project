@@ -6,7 +6,7 @@ using Xamarin.Forms;
 namespace TaskMaster.Services
 {
     public class UserService
-    {
+    {     
         private static UserService _instance;
         private static UserDatabase _database;
         private static UserDatabase Database => _database ?? (_database = new UserDatabase(DependencyService.Get<IFileHelper>().GetLocalFilePath("UserSQLite.db3")));
@@ -86,6 +86,17 @@ namespace TaskMaster.Services
             }
             var insert = await Database.InsertUser(userDto);
             return insert;
+        }
+
+        public async Task<UserDto> GetUserById(int id)
+        {
+            var user = await Database.GetUser(id);
+            return user;
+        }
+
+        public async Task LogoutUser()
+        {
+            await Database.LogoutUser();
         }
 
         public async Task<TasksDto> GetTask(TasksDto tasksDto)

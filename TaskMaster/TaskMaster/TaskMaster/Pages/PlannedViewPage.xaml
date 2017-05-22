@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="TaskMaster.HistoryPage" BackgroundColor="{x:StaticResource BackgroundColor}">
+             x:Class="TaskMaster.Pages.PlannedViewPage" BackgroundColor="{x:StaticResource BackgroundColor}">
     <ContentPage.Padding>
         <OnPlatform x:TypeArguments="Thickness"
                     iOS="0, 20, 0, 0"
@@ -10,17 +10,21 @@
     <ContentPage.ToolbarItems>
         <ToolbarItem x:Name="MainPageItem" Order="Default" Priority="0" Clicked="MainPageItem_OnClicked" Icon="homeInactive.png"  />
         <ToolbarItem x:Name="CalendarPageItem" Order="Default" Priority="1" Clicked="CalendarPageItem_OnClicked" Icon="callendarInactive.png"/>
-        <ToolbarItem x:Name="HistoryPageItem" Order="Default" Priority="2" Icon="historyActive.png"/>
+        <ToolbarItem x:Name="HistoryPageItem" Order="Default" Priority="2" Clicked="HistoryPageItem_OnClicked" Icon="historyInactive.png"/>
         <ToolbarItem x:Name="SyncItem" Order="Default" Priority="3" Clicked="SyncItem_OnClicked" Icon="refresh1.png"/>
-        <ToolbarItem x:Name="PlannedPageItem" Order="Default" Priority="4" Clicked="PlannedPageItem_OnClicked" Icon="planned3.png"/>
+        <ToolbarItem x:Name="PlannedPageItem" Order="Default" Priority="4" Icon="planned4.png"/>
         <ToolbarItem x:Name="LogoutItem" Order="Default" Priority="5" Clicked="LogoutItem_OnClicked"  Icon="logout1.png"/>
     </ContentPage.ToolbarItems>
     <ContentPage.Content>
         <StackLayout HorizontalOptions="Center" Spacing="15">
-            <ListView x:Name="HistoryPlan" HasUnevenRows="False" >
+            <ListView x:Name="PlannedTasks" HasUnevenRows="False" ItemTapped="PlannedTasks_OnItemTapped">
                 <ListView.Header>
-                    <Label Text="{x:StaticResource History}" TextColor="{x:StaticResource TextColor}" HorizontalOptions="Center" 
-                           FontFamily="{x:StaticResource Font}" FontSize="{x:StaticResource Header}"/>
+                    <StackLayout>
+                        <Label Text="{x:StaticResource Planned}" TextColor="{x:StaticResource TextColor}" HorizontalOptions="Center" 
+                               FontFamily="{x:StaticResource Font}" FontSize="{x:StaticResource Header}"/>
+                        <Label Text="{x:StaticResource Warning}" TextColor="{x:StaticResource TextColor}" HorizontalOptions="Center" 
+                               FontFamily="{x:StaticResource Font}" FontSize="{x:StaticResource Medium}"/>
+                    </StackLayout>
                 </ListView.Header>
                 <ListView.ItemTemplate>
                     <DataTemplate>
@@ -37,8 +41,6 @@
                                                FontFamily="{x:StaticResource Font}" FontSize="{x:StaticResource Field}"/>
                                     </StackLayout>
                                     <StackLayout>
-                                        <Label Text="{Binding Time}" TextColor="{x:StaticResource TextColor}" HorizontalOptions="EndAndExpand"
-                                               FontFamily="{x:StaticResource Font}" FontSize="{x:StaticResource Medium}"/>
                                         <Label Text="{Binding Description}" TextColor="{x:StaticResource TextColor}" HorizontalOptions="EndAndExpand"
                                                FontFamily="{x:StaticResource Font}" FontSize="{x:StaticResource Field}"/>
                                     </StackLayout>
