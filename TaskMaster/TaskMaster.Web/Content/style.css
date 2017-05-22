@@ -10,8 +10,11 @@
 
 .navbar {    
     padding-bottom: 10px;
-    padding-top:10px; 
+    padding-top:10px;
+    
 }
+
+
 
 .navbar img {
     width: 150px;
@@ -28,17 +31,22 @@
     width: 200px;
 }
 
+.quickFixMargin {
+    margin-top: 20px;
+}
+
 .lastActivities {
     /*background-color: rgba(55, 90, 127, 0.4);*/
     background-color: rgb(45, 80, 110);
     padding: 10px 20px 20px 20px;
     border-radius: 10px;
-    margin-bottom: 20px;
+    margin-bottom: 20px;    
 }
 
 .lastActivities h4 {
     text-align: center;
     margin-bottom: 20px;
+ 
 }
 
 .singleActivity img {
@@ -88,4 +96,8 @@ table img {
     color: black;
     padding-top: 7px;
     font-weight: bold;
+}
+
+.form-control {
+    width: auto;
 }

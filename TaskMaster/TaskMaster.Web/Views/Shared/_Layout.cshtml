@@ -14,39 +14,39 @@
 
 </head>
 <body>
-    <div class="navbar navbar-default navbar-fixed-top">
-        <div class="container-fluid">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <div class="navbar-brand">
-                    <a href='@Url.Action("Index", "HomePage")'>
-                        <img src="../../images/TMLogo3.png" />
-                    </a>
-                </div>
+<div class="navbar navbar-default navbar-fixed-top">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <div class="navbar-brand">
+                <a href='@Url.Action("Index", "HomePage")'>
+                    <img src="../../images/TMLogo3.png" />
+                </a>
+            </div>
                
-            </div>
-            <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Historia", "Home", "History")</li>
-                    <li>@Html.ActionLink("Statystyki", "Home", "Statistics")</li>  
-                    <li>@Html.ActionLink("Kalendarz", "About", "Home")</li>                    
-                </ul>
-                @Html.Partial("_LoginPartial")
-            </div>
+        </div>
+        <div class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+                <li>@Html.ActionLink("Historia", "Home", "History")</li>
+                <li>@Html.ActionLink("Statystyki", "Home", "Statistics")</li>  
+                <li>@Html.ActionLink("Kalendarz", "About", "Home")</li>                    
+            </ul>
+            @Html.Partial("_LoginPartial")
         </div>
     </div>
-    <div class="container-fluid body-content">
-        @RenderBody()
+</div>
+<div class="container-fluid body-content">
+    @RenderBody()
 
-    </div>
+</div>
 
-    @Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/bootstrap")
-    @RenderSection("scripts", required: false)
+@Scripts.Render("~/bundles/jquery")
+@Scripts.Render("~/bundles/bootstrap")
+@RenderSection("scripts", required: false)
 
 </body>
 </html>
