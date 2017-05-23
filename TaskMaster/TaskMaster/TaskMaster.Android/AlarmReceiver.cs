@@ -16,7 +16,7 @@ namespace TaskMaster.Droid
             Intent intentnote = new Intent(context, typeof(StartOfPlanned));
 
             intentnote.PutExtra("Id", Id);
-            var pendingIntent = PendingIntent.GetActivity(context, Id, intentnote, PendingIntentFlags.CancelCurrent);
+            var pendingIntent = PendingIntent.GetService(context, Id, intentnote,0);
             var manager = NotificationManagerCompat.From(context);
             // Create a task stack builder to manage the back stack:
            // TaskStackBuilder stackBuilder = TaskStackBuilder.Create(context);
