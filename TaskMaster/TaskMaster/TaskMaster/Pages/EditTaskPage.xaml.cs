@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using System.Threading.Tasks;
 using System.Timers;
 using TaskMaster.ModelsDto;
@@ -15,7 +14,6 @@ namespace TaskMaster.Pages
         private PartsOfActivityDto _part;
         private ActivitiesDto _activity;
         private TasksDto _task;
-        private DateTime _now;
         private long _duration;
         private long _startTime;
         private readonly Timer _timer = new Timer();
@@ -85,11 +83,9 @@ namespace TaskMaster.Pages
                     Name = _initItem.Name
                 };
             }
-            TaskDates.Text = _part.Start;
             TaskDate.Text = _part.Start;
-            var parts = await UserService.Instance.GetPartsOfActivityByActivityId(_activity.ActivityId);
-            _startTime = parts.Sum(part => long.Parse(part.Duration));
-            var t = TimeSpan.FromMilliseconds(_startTime);
+            _startTime = _initItem.Time;
+            var t = TimeSpan.FromMilliseconds(_startTime + StopwatchesService.Instance.GetStopwatchTime(_part.PartId));
             var answer = $"{t.Hours:D2}h:{t.Minutes:D2}m:{t.Seconds:D2}s";
             TaskDuration.Text = answer;
             UpdateButtons();
@@ -123,8 +119,7 @@ namespace TaskMaster.Pages
         {
             _timer.Stop();
             StopwatchesService.Instance.StopStopwatch(_part.PartId);
-            _now = DateTime.Now;
-            _part.Stop = _now.ToString("HH:mm:ss dd/MM/yyyy");
+            _part.Stop = DateTime.Now.ToString("HH:mm:ss dd/MM/yyyy");
             _part.Duration = StopwatchesService.Instance.GetStopwatchTime(_part.PartId).ToString();
             _activity.Status = StatusType.Stop;
             await UserService.Instance.SaveActivity(_activity);
@@ -146,9 +141,7 @@ namespace TaskMaster.Pages
         private async void PauseButton_OnClicked(object sender, EventArgs e)
         {
             _activity.Status = StatusType.Pause;
-            _now = DateTime.Now;
-            var date = _now.ToString("HH:mm:ss dd/MM/yyyy");
-            _part.Stop = date;
+            _part.Stop = DateTime.Now.ToString("HH:mm:ss dd/MM/yyyy");
             StopwatchesService.Instance.StopStopwatch(_part.PartId);
             _part.Duration = StopwatchesService.Instance.GetStopwatchTime(_part.PartId).ToString();
             _startTime += StopwatchesService.Instance.GetStopwatchTime(_part.PartId);
@@ -161,12 +154,10 @@ namespace TaskMaster.Pages
         private async void ResumeButton_OnClicked(object sender, EventArgs e)
         {
             _activity.Status = StatusType.Start;
-            _now = DateTime.Now;
-            var date = _now.ToString("HH:mm:ss dd/MM/yyyy");
             var part = new PartsOfActivityDto
             {
                 ActivityId = _activity.ActivityId,
-                Start = date,
+                Start = DateTime.Now.ToString("HH:mm:ss dd/MM/yyyy"),
                 Duration = "0",
             };
             part.PartId = await UserService.Instance.SavePartOfActivity(part);

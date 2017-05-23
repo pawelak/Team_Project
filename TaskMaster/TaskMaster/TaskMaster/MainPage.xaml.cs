@@ -26,7 +26,10 @@ namespace TaskMaster
             await ListInitiateAsync();
             _listTimer.Elapsed += UpdateTime;
             _listTimer.Interval = 1000;
-            _listTimer.Start();
+            if (_activeTasksList.Count > 0)
+            {
+                _listTimer.Start();
+            }
         }
 
         protected override void OnDisappearing()
@@ -83,21 +86,24 @@ namespace TaskMaster
 
         private async void PlannedPageItem_OnClicked(object sender, EventArgs e)
         {
+            _listTimer.Stop();
             await Navigation.PushModalAsync(new NavigationPage(new PlannedViewPage()));
         }
 
         private async void SyncItem_OnClicked(object sender, EventArgs e)
         {
+            _listTimer.Stop();
             /*await SynchronizationService.Instance.GetActivities();
             await SynchronizationService.Instance.GetFavorites();
             await SynchronizationService.Instance.GetPlanned();*/
+            _listTimer.Start();
         }
 
         private async void ActiveTasks_OnItemTapped(object sender, ItemTappedEventArgs e)
         {
             _listTimer.Stop();
             ActiveTasks.ItemsSource = null;
-            var item = (MainPageListItem)e.Item;
+            var item = e.Item as MainPageListItem;
             await Navigation.PushModalAsync(new EditTaskPage(item));
         }
 
@@ -203,8 +209,8 @@ namespace TaskMaster
             var activity = new ActivitiesDto
             {
                 Status = StatusType.Start,
-                //UserId = 1,
-                UserId = await UserService.Instance.GetLoggedUser(),
+                UserId = 1,
+                //UserId = await UserService.Instance.GetLoggedUser(),
                 GroupId = 1,
                 TaskId = 0
             };
@@ -230,6 +236,7 @@ namespace TaskMaster
             };
             _activeTasksList.Add(item);
             UpdateList();
+            _listTimer.Start();
         }
 
         private async Task StartupResumeAsync(ActivitiesDto start)
