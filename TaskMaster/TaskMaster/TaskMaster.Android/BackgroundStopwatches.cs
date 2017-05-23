@@ -29,45 +29,23 @@ namespace TaskMaster.Droid
             return StartCommandResult.Sticky;
         }
 
-        private void UpdateTimes(object source, ElapsedEventArgs e)
-        {
-            Task.Run(async () =>
-            {
-                var running = StopwatchesService.Instance.GetActiveStopwatchesPartsId();
-                foreach (var item in running)
-                {
-                    var part = await GetItem(item);
-                    var t = StopwatchesService.Instance.GetStopwatchTime(item);
-                    var time = long.Parse(part.Duration) + t;
-                    part.Duration = time.ToString();
-                    SaveItem(part);
-                    StopwatchesService.Instance.RestartStopwatch(item);
-                }
-            });
-        }
-
-        private static async Task<PartsOfActivityDto> GetItem(int id)
-        {
-            var result = await Services.UserService.Instance.GetPartsOfActivityById(id);
-            return result;
-        }
-        private static async void SaveItem(PartsOfActivityDto item)
-        {
-            await Services.UserService.Instance.SavePartOfActivity(item);
-        }
-
-        public override async void OnDestroy()
+        private static async void UpdateTimes(object source, ElapsedEventArgs e)
         {
             var running = StopwatchesService.Instance.GetActiveStopwatchesPartsId();
             foreach (var item in running)
             {
-                var part = await GetItem(item);
+                var part = await Services.UserService.Instance.GetPartsOfActivityById(item);
                 var t = StopwatchesService.Instance.GetStopwatchTime(item);
                 var time = long.Parse(part.Duration) + t;
                 part.Duration = time.ToString();
-                SaveItem(part);
+                await Services.UserService.Instance.SavePartOfActivity(part);
                 StopwatchesService.Instance.RestartStopwatch(item);
             }
+        }
+        
+        public override void OnDestroy()
+        {
+            _timer.Stop();
             base.OnDestroy();
         }
     }
