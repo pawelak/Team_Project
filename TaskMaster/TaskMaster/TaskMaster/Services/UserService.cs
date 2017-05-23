@@ -10,7 +10,7 @@ namespace TaskMaster.Services
         private static UserService _instance;
         private static UserDatabase _database;
         private static UserDatabase Database => _database ?? (_database = new UserDatabase(DependencyService.Get<IFileHelper>().GetLocalFilePath("UserSQLite.db3")));
-
+        private UserDto _loggedUser;
         private UserService()
         {
             
@@ -61,7 +61,7 @@ namespace TaskMaster.Services
         }
 
         public async Task<int> SaveTask(TasksDto tasksDto)
-        {
+        {            
             if (tasksDto.TaskId != 0)
             {
                 var update = await Database.UpdateTask(tasksDto);
@@ -71,10 +71,14 @@ namespace TaskMaster.Services
             return insert;
         }
 
-        public async Task<int> GetLoggedUser()
+        public void SetLoggedUser(UserDto user)
         {
-            var result = await Database.GetLoggedUser();
-            return result;
+            _loggedUser = user;
+        }
+
+        public UserDto GetLoggedUser()
+        {
+            return _loggedUser;
         }
 
         public async Task<int> SaveUser(UserDto userDto)
@@ -91,6 +95,12 @@ namespace TaskMaster.Services
         public async Task<UserDto> GetUserById(int id)
         {
             var user = await Database.GetUser(id);
+            return user;
+        }
+
+        public async Task<UserDto> GetUserByEmail(string email)
+        {
+            var user = await Database.GetUserByEmail(email);
             return user;
         }
 

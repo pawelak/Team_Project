@@ -1,4 +1,6 @@
-﻿namespace TaskMaster.ModelsDto
+﻿using TaskMaster.Enums;
+
+namespace TaskMaster.ModelsDto
 {
     public class UserDto
     {
@@ -8,6 +10,6 @@
         public string Token { get; set; }
         public string TypeOfRegistration { get; set; }
         public bool IsLoggedIn { get; set; }
-        public SyncStatusType SyncStatus { get; set; }
+        public EditState SyncStatus { get; set; }
     }
 }

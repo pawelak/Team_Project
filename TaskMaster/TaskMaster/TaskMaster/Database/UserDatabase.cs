@@ -99,6 +99,12 @@ namespace TaskMaster
             return userDto;
         }
 
+        public async Task<UserDto> GetUserByEmail(string email)
+        {
+            var user = await _database.Table<User>().Where(u => u.Name == email).FirstOrDefaultAsync();
+            var userDto = Mapper.Map<UserDto>(user);
+            return userDto;
+        }
         public async Task LogoutUser()
         {
             var user = await _database.Table<User>().Where(u => u.IsLoggedIn).FirstOrDefaultAsync();

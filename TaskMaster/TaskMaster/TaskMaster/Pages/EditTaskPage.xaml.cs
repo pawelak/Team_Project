@@ -133,7 +133,7 @@ namespace TaskMaster.Pages
                 _task.TaskId = await UserService.Instance.SaveTask(_task);
                 _activity.TaskId = _task.TaskId;
                 await UserService.Instance.SaveActivity(_activity);
-                //await SynchronizationService.Instance.SendActivity(_activity);
+                //await SynchronizationService.Instance.SendActivity(_activity,_task);
                 await Navigation.PushModalAsync(new NavigationPage(new MainPage()));
             }
         }

@@ -1,4 +1,6 @@
-﻿namespace TaskMaster.ModelsDto
+﻿using TaskMaster.Enums;
+
+namespace TaskMaster.ModelsDto
 {
     public class ActivitiesDto
     {
@@ -8,6 +10,6 @@
         public int TaskId { get; set; }
         public int GroupId { get; set; }
         public StatusType Status { get; set; }
-        public SyncStatusType SyncStatus { get; set; }
+        public EditState SyncStatus { get; set; }
     }
 }

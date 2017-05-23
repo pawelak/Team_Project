@@ -7,6 +7,7 @@ using Android.Gms.Auth.Api.SignIn;
 using Android.Gms.Common;
 using Android.Gms.Common.Apis;
 using Android.OS;
+using TaskMaster.Enums;
 using TaskMaster.ModelsDto;
 using Xamarin.Forms;
 
@@ -19,7 +20,7 @@ namespace TaskMaster.Droid
     {
         public static GoogleApiClient _mGoogleApiClient;
         private const int RcSignIn = 9001;
-        private int user;
+        private UserDto user;
         protected override async void OnCreate(Bundle bundle)
         {
             TabLayoutResource = Resource.Layout.Tabbar;
@@ -47,9 +48,9 @@ namespace TaskMaster.Droid
             LoadApplication(new App());
         }
 
-        private async Task GetUser()
+        private void GetUser()
         {
-            user = await Services.UserService.Instance.GetLoggedUser();
+            user = Services.UserService.Instance.GetLoggedUser();
         }
         private void SignIn()
         {
@@ -97,7 +98,7 @@ namespace TaskMaster.Droid
                     Name = email,
                     Token = idToken,
                     TypeOfRegistration = "Google",
-                    SyncStatus = SyncStatusType.ToUpload,
+                    SyncStatus = EditState.EditedOnMobile,
                     IsLoggedIn = true
                 };
                 await Services.UserService.Instance.SaveUser(userDto);

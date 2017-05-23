@@ -14,8 +14,8 @@
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)CalendarVm.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Database\UserDatabase.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Enums\EditState.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Enums\StatusType.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Enums\SyncStatusType.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Interfaces\IFileHelper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Interfaces\ILogOutService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Interfaces\INotificationService.cs" />
@@ -31,6 +31,9 @@
     <Compile Include="$(MSBuildThisFileDirectory)ModelsDto\UserDto.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ModelsRest\ActivitiesRest.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ModelsRest\FavoritesRest.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ModelsRest\PartsOfActivityRest.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ModelsRest\TasksRest.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ModelsRest\UserRest.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\Activities.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\Favorites.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\PartsOfActivity.cs" />
