@@ -24,6 +24,7 @@
             <x:String x:Key="ResumeButtonText">Wznów aktywność</x:String>
             <x:String x:Key="PauseButtonText">Zapauzuj aktywność</x:String>
             <x:String x:Key="StopButtonText">Zakończ aktywność</x:String>
+            <x:String x:Key="AddFavoriteText">Dodaj do ulubionych</x:String>
             <!-- Fill Information Page -->
             <x:String x:Key="FillTitle">Uzupełnij informacje</x:String>
             <!-- History Page -->
@@ -42,6 +43,8 @@
             <x:String x:Key="PlanLabel">Zaplanuj task</x:String>
             <x:String x:Key="NameText">nazwa:</x:String>
             <x:String x:Key="DescriptionText">komentarz:</x:String>
+            <x:String x:Key="TypeText">Typ:</x:String>
+            <x:String x:Key="FavoriteText">Ulubione</x:String>
             <x:String x:Key="DateStartText">data roz:</x:String>
             <x:String x:Key="DateStopText">data kon:</x:String>
             <x:String x:Key="StartPlanText">Zaplanuj aktywność</x:String>
@@ -61,6 +64,8 @@
             <x:String x:Key="RegisterTitle">Rejestracja</x:String>
             <x:String x:Key="AcceptRegister">Zarejestruj</x:String>
 
+            <x:String x:Key="Planned">Masz zaplanowane następujące taski:</x:String>
+            <x:String x:Key="Warning">Naciśnięcie spowoduje anulowanie</x:String>
         </ResourceDictionary>
     </Application.Resources>
 </Application>

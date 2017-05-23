@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using SQLite;
+﻿using SQLite;
 
 namespace TaskMaster.Models
 {
@@ -14,5 +11,6 @@ namespace TaskMaster.Models
         public int TaskId { get; set; }
         public int GroupId { get; set; }
         public StatusType Status { get; set; }
+        public SyncStatusType SyncStatus { get; set; }
     }
 }

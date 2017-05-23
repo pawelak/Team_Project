@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace TaskMaster.ModelsDto
+﻿namespace TaskMaster.ModelsDto
 {
     public class PartsOfActivityDto
     {
@@ -11,5 +7,6 @@ namespace TaskMaster.ModelsDto
         public string Start { get; set; }
         public string Stop { get; set; }
         public string Duration { get; set; }
+        public SyncStatusType SyncStatus { get; set; }
     }
 }

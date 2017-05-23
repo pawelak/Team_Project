@@ -1,83 +1,130 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
+using TaskMaster.Services;
+using Xamarin.Forms;
 
 namespace TaskMaster.Pages
 {
 
     public partial class CalendarDayListPage
     {
+        private readonly List<CustomList> _dayPlan = new List<CustomList>();
         private DateTime _calendarDay;
-        private readonly UserService _userService = new UserService();
         public CalendarDayListPage(DateTime dateTime)
         {
             _calendarDay = dateTime;
             InitializeComponent();
-            ListInitiate();
-        }
-        protected override void OnAppearing()
-        {
-            ListInitiate();
+            ListInitiate();            
         }
 
         private async void ListInitiate()
         {
-            try
+            await AddActivitiesByStatus(StatusType.Stop);
+            await AddActivitiesByStatus(StatusType.Planned);
+            await AddActivitiesByStatus(StatusType.Pause);
+            Device.BeginInvokeOnMainThread(() =>
             {
-                var result = await _userService.GetActivitiesByStatus(StatusType.Stop);
-                var dayPlan = new List<CustomList>();
-                foreach (var activity in result)
-                {
-                    var parts = await _userService.GetPartsOfActivityByActivityId(activity.ActivityId);
-                    var time = parts.Where(part => DateTime.ParseExact(part.Start, "HH:mm:ss dd/MM/yyyy", null).ToString("dd/MM/yyyy").Equals(_calendarDay.ToString("dd/MM/yyyy"))).Sum(part => long.Parse(part.Duration));
-                    var task = await _userService.GetTaskById(activity.TaskId);
-                    var t = TimeSpan.FromMilliseconds(time);
-                    var element = new CustomList
-                    {
-                        Name = task.Name,
-                        Description = activity.Status.ToString(),
-                        Time = $"{t.Hours:D2}h:{t.Minutes:D2}m:{t.Seconds:D2}s"
-                    };
-                    dayPlan.Add(element);
-                }
-                var result2 = await _userService.GetActivitiesByStatus(StatusType.Planned);
-                foreach (var activity in result2)
-                {
-                    var parts = await _userService.GetPartsOfActivityByActivityId(activity.ActivityId);
-                    var time = parts.Where(part => DateTime.ParseExact(part.Start, "HH:mm:ss dd/MM/yyyy", null).ToString("dd/MM/yyyy").Equals(_calendarDay.ToString("dd/MM/yyyy"))).Sum(part => long.Parse(part.Duration));
-                    var task = await _userService.GetTaskById(activity.TaskId);
-                    var t = TimeSpan.FromMilliseconds(time);
-                    var element = new CustomList
-                    {
-                        Name = task.Name,
-                        Description = activity.Status.ToString(),
-                        Time = $"{t.Hours:D2}h:{t.Minutes:D2}m:{t.Seconds:D2}s"
-                    };
-                    dayPlan.Add(element);
-                }
-                var result3 = await _userService.GetActivitiesByStatus(StatusType.Pause);
-                foreach (var activity in result3)
-                {
-                    var parts = await _userService.GetPartsOfActivityByActivityId(activity.ActivityId);
-                    var time = parts.Where(part => DateTime.ParseExact(part.Start, "HH:mm:ss dd/MM/yyyy", null).ToString("dd/MM/yyyy").Equals(_calendarDay.ToString("dd/MM/yyyy"))).Sum(part => long.Parse(part.Duration));
-                    var task = await _userService.GetTaskById(activity.TaskId);
-                    var t = TimeSpan.FromMilliseconds(time);
-                    var element = new CustomList
-                    {
-                        Name = task.Name,
-                        Description = activity.Status.ToString(),
-                        Time = $"{t.Hours:D2}h:{t.Minutes:D2}m:{t.Seconds:D2}s"
-                    };
-                    dayPlan.Add(element);
-                }
-                DayPlan.ItemsSource = dayPlan;
-            }
-            catch (Exception e)
+                DayPlan.ItemsSource = _dayPlan;
+            });
+        }
+
+        private async Task AddActivitiesByStatus(StatusType status)
+        {
+            var activities = await UserService.Instance.GetActivitiesByStatus(status);
+            foreach (var activity in activities)
             {
-                await DisplayAlert("erorr", e.Message, "ok");
-                throw;
+                var parts = await UserService.Instance.GetPartsOfActivityByActivityId(activity.ActivityId);
+                long time = 0;
+                if (status == StatusType.Planned)
+                {
+                    var part = await UserService.Instance.GetLastActivityPart(activity.ActivityId);
+                    if (DateTime.ParseExact(part.Start, "HH:mm:ss dd/MM/yyyy", null).ToString("dd/MM/yyyy") != _calendarDay.ToString("dd/MM/yyyy"))
+                    {
+                        continue;
+                    }
+                }
+                else
+                {
+                    time += parts.Where(part => DateTime.ParseExact(part.Start, "HH:mm:ss dd/MM/yyyy", null).ToString("dd/MM/yyyy") == _calendarDay.ToString("dd/MM/yyyy"))
+                        .Sum(part => long.Parse(part.Duration));
+                    if (time == 0)
+                    {
+                        continue;
+                    }
+                }
+                var task = await UserService.Instance.GetTaskById(activity.TaskId);
+                if (task == null)
+                {
+                    continue;
+                }
+                var t = TimeSpan.FromMilliseconds(time);
+                var element = new CustomList
+                {
+                    Name = task.Name,
+                    Description = activity.Status.ToString(),
+                    Time = $"{t.Hours:D2}h:{t.Minutes:D2}m:{t.Seconds:D2}s",
+                    Image = SelectImage(task.Typ)
+                };
+                _dayPlan.Add(element);
             }
         }
-       
+
+        protected override bool OnBackButtonPressed()
+        {
+            Device.BeginInvokeOnMainThread(async () =>
+            {                
+                await Navigation.PushModalAsync(new NavigationPage(new MainPage()));
+            });
+            return true;
+        }
+
+        private void DayPlan_OnItemTapped(object sender, ItemTappedEventArgs e)
+        {
+            //Nothing
+        }
+
+        private static string SelectImage(string item)
+        {
+            string type;
+            switch (item)
+            {
+                case "Sztuka":
+                    type = "art.png";
+                    break;
+                case "Inne":
+                    type = "OK.png";
+                    break;
+                case "Programowanie":
+                    type = "programming.png";
+                    break;
+                case "Sport":
+                    type = "sport.png";
+                    break;
+                case "Muzyka":
+                    type = "music.png";
+                    break;
+                case "Języki":
+                    type = "language.png";
+                    break;
+                case "Jedzenie":
+                    type = "eat.png";
+                    break;
+                case "Rozrywka":
+                    type = "instrument.png";
+                    break;
+                case "Podróż":
+                    type = "car.png";
+                    break;
+                case "Przerwa":
+                    type = "Cafe.png";
+                    break;
+                default:
+                    type = "OK.png";
+                    break;
+            }
+            return type;
+        }
     }
 }

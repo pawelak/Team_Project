@@ -12,24 +12,29 @@
     <Compile Include="$(MSBuildThisFileDirectory)App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
-    <Compile Include="$(MSBuildThisFileDirectory)AuthenticationState.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)CalendarVm.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Database\UserDatabase.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Enums\StatusType.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Enums\SyncStatusType.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Interfaces\IFileHelper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Interfaces\ILogOutService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Interfaces\INotificationService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Lists\CustomList.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Lists\HistoryList.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Lists\MainPageList.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Lists\PlannedList.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)MapProfiles\UserMapProfile.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ModelsDto\ActivitiesDto.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ModelsDto\FavoritesDto.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ModelsDto\PartsOfActivityDto.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ModelsDto\TasksDto.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ModelsDto\UserDto.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ModelsRest\ActivitiesRest.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ModelsRest\FavoritesRest.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\Activities.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\Favorites.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\PartsOfActivity.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\Tasks.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)OAuthProviderSetting.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Pages\CalendarDayListPage.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -42,21 +47,13 @@
     <Compile Include="$(MSBuildThisFileDirectory)Pages\InitializeCalendar.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="$(MSBuildThisFileDirectory)Pages\LoginPage.xaml.cs">
+    <Compile Include="$(MSBuildThisFileDirectory)Pages\PlannedViewPage.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="$(MSBuildThisFileDirectory)Pages\NormalLoginPage.xaml.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="$(MSBuildThisFileDirectory)Pages\NormalRegisterPage.xaml.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="$(MSBuildThisFileDirectory)Pages\ProviderLoginPage.xaml.cs">
-      <SubType>Code</SubType>
-    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Services\StopwatchesService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\SynchronizationService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\UserService.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)StatusType.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Stopwatches.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)StopwatchWrapper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
@@ -117,22 +114,7 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Pages\LoginPage.xaml">
-      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-    </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Pages\ProviderLoginPage.xaml">
-      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-    </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Pages\NormalLoginPage.xaml">
-      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-    </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Pages\NormalRegisterPage.xaml">
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Pages\PlannedViewPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
   </ItemGroup>

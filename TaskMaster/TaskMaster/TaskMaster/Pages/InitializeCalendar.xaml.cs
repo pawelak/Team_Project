@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using TaskMaster.ModelsDto;
+using TaskMaster.Services;
 using Xamarin.Forms;
 using XamForms.Controls;
 namespace TaskMaster.Pages
@@ -8,9 +9,7 @@ namespace TaskMaster.Pages
    
     public partial class InitializeCalendar
     {
-        private readonly UserService _userService = new UserService();
         private readonly Calendar _calendar;
-        private List<ActivitiesDto> _activities;
         private List<PartsOfActivityDto> _parts;
 
         public InitializeCalendar()
@@ -31,11 +30,11 @@ namespace TaskMaster.Pages
                 EnableTitleMonthYearView = true,
                 WeekdaysTextColor = Color.Teal,
                 StartDay = DayOfWeek.Monday,
-                SelectedTextColor = Color.Fuchsia,
+                SelectedTextColor = Color.Fuchsia
             };
             _calendar.DateClicked += (sender, e) =>
             {
-                Navigation.PushModalAsync(new CalendarDayListPage(_calendar.SelectedDates[0]));
+                Navigation.PushModalAsync(new CalendarDayListPage(e.DateTime));
             };
             var vm = new CalendarVm();
             _calendar.SetBinding(Calendar.DateCommandProperty, nameof(vm.DateChosen));
@@ -49,7 +48,7 @@ namespace TaskMaster.Pages
                 {
                     Content = new StackLayout
                     {
-                        Padding = new Thickness(5, Device.OS == TargetPlatform.iOS ? 25 : 5, 5, 5),
+                        Padding = new Thickness(5, Device.RuntimePlatform == "iOS" ? 25 : 5, 5, 5),
                         VerticalOptions = LayoutOptions.Center,
                         Children =
                         {
@@ -61,59 +60,36 @@ namespace TaskMaster.Pages
             }));
         }
 
-        protected override async void OnDisappearing()
+        private void FillCalendar()
         {
-            await Navigation.PushModalAsync(new NavigationPage(new MainPage()));
+            AddDatesByStatus(StatusType.Stop);
+            AddDatesByStatus(StatusType.Pause);
+            AddDatesByStatus(StatusType.Planned);
+            _calendar.RaiseSpecialDatesChanged();
         }
-        private async void FillCalendar()
+        
+        private async void AddDatesByStatus(StatusType status)
         {
-            _activities = await _userService.GetActivitiesByStatus(StatusType.Stop);
-            foreach (var p in _activities)
+            var activities = await UserService.Instance.GetActivitiesByStatus(status);
+            foreach (var activity in activities)
             {
-                var last = await _userService.GetLastActivityPart(p.ActivityId);
+                var last = await UserService.Instance.GetLastActivityPart(activity.ActivityId);
 
-                if (DateTime.Compare(DateTime.Now.AddDays(-7), DateTime.ParseExact(last.Start, "HH:mm:ss dd/MM/yyyy", null)) < 0)
+                if (DateTime.Compare(DateTime.Now.AddDays(-7),
+                        DateTime.ParseExact(last.Start, "HH:mm:ss dd/MM/yyyy", null)) >= 0)
                 {
-                    _parts = await _userService.GetPartsOfActivityByActivityId(p.ActivityId);
-                    foreach (var k in _parts)
-                    {
-                        _calendar.SpecialDates.Add(new SpecialDate(DateTime.ParseExact(k.Start, "HH:mm:ss dd/MM/yyyy", null)) { BackgroundColor = Color.Green, TextColor = Color.Black, BorderColor = Color.Blue, BorderWidth = 8, Selectable = true });
-                    }
+                    continue;
+                }
+                if (activity.TaskId == 0)
+                {
+                    continue;
+                }
+                _parts = await UserService.Instance.GetPartsOfActivityByActivityId(activity.ActivityId);
+                foreach (var k in _parts)
+                {
+                    _calendar.SpecialDates.Add(new SpecialDate(DateTime.ParseExact(k.Start, "HH:mm:ss dd/MM/yyyy", null)) { BackgroundColor = Color.Green, TextColor = Color.Black, BorderColor = Color.Blue, BorderWidth = 8, Selectable = true });
                 }
             }
-            _activities = await _userService.GetActivitiesByStatus(StatusType.Pause);
-            foreach (var p in _activities)
-            {
-                var last = await _userService.GetLastActivityPart(p.ActivityId);
-
-                if (DateTime.Compare(DateTime.Now.AddDays(-7), DateTime.ParseExact(last.Start, "HH:mm:ss dd/MM/yyyy", null)) < 0)
-                {
-                    _parts = await _userService.GetPartsOfActivityByActivityId(p.ActivityId);
-                    foreach (var k in _parts)
-                    {
-                        _calendar.SpecialDates.Add(new SpecialDate(DateTime.ParseExact(k.Start, "HH:mm:ss dd/MM/yyyy", null)) { BackgroundColor = Color.Green, TextColor = Color.Black, BorderColor = Color.Blue, BorderWidth = 8, Selectable = true });
-                    }
-                }
-            }
-            _activities = await _userService.GetActivitiesByStatus(StatusType.Planned);
-            foreach (var p in _activities)
-            {
-                var last = await _userService.GetLastActivityPart(p.ActivityId);
-
-                if (DateTime.Compare(DateTime.Now.AddDays(-7), DateTime.ParseExact(last.Start, "HH:mm:ss dd/MM/yyyy", null)) < 0)
-                {
-                    _parts = await _userService.GetPartsOfActivityByActivityId(p.ActivityId);
-                    foreach (var k in _parts)
-                    {
-                        _calendar.SpecialDates.Add(new SpecialDate(DateTime.ParseExact(k.Start, "HH:mm:ss dd/MM/yyyy", null)) { BackgroundColor = Color.Green, TextColor = Color.Black, BorderColor = Color.Blue, BorderWidth = 8, Selectable = true });
-                    }
-                }
-            }
-            _calendar.RaiseSpecialDatesChanged();//refresh
-        }
-        protected override void OnAppearing()
-        {
-
         }
     }
 

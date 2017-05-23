@@ -14,7 +14,7 @@ namespace TaskMaster
         {
             Mapper.Initialize(cfg => cfg.AddProfile<UserMapProfile>());
             _database = new SQLiteAsyncConnection(dbpath);
-            //DropTables();
+            DropTables();
             _database.CreateTablesAsync<Activities, Favorites, PartsOfActivity, Tasks, User>().Wait();
         }
 
@@ -82,6 +82,29 @@ namespace TaskMaster
             return user.UserId;
         }
 
+        public async Task<int> GetLoggedUser()
+        {
+            var result = await _database.Table<User>().Where(u => u.IsLoggedIn).FirstOrDefaultAsync();
+            if (result == null)
+            {
+                return -1;
+            }
+            return result.UserId;
+        }
+
+        public async Task<UserDto> GetUser(int id)
+        {
+            var user = await _database.Table<User>().Where(u => u.UserId == id).FirstOrDefaultAsync();
+            var userDto = Mapper.Map<UserDto>(user);
+            return userDto;
+        }
+
+        public async Task LogoutUser()
+        {
+            var user = await _database.Table<User>().Where(u => u.IsLoggedIn).FirstOrDefaultAsync();
+            user.IsLoggedIn = false;
+            await _database.UpdateAsync(user);
+        }
         public async Task<int> InsertTask(TasksDto tasksDto)
         {
             var task = Mapper.Map<Tasks>(tasksDto);
@@ -154,6 +177,19 @@ namespace TaskMaster
             var result = await _database.Table<PartsOfActivity>().Where(t => t.PartId == id).FirstOrDefaultAsync();
             var list = Mapper.Map<PartsOfActivityDto>(result);
             return list;
+        }
+
+        public async Task<List<FavoritesDto>> GetUserFavorites(int id)
+        {
+            var result = await _database.Table<Favorites>().Where(f => f.UserId == id).ToListAsync();
+            var list = Mapper.Map<List<FavoritesDto>>(result);
+            return list;
+        }
+
+        public async Task SaveFavorite(FavoritesDto favoritesDto)
+        {
+            var favorite = Mapper.Map<Favorites>(favoritesDto);
+            await _database.InsertAsync(favorite);
         }
     }
 }

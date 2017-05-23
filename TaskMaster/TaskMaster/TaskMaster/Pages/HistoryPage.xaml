@@ -11,6 +11,9 @@
         <ToolbarItem x:Name="MainPageItem" Order="Default" Priority="0" Clicked="MainPageItem_OnClicked" Icon="homeInactive.png"  />
         <ToolbarItem x:Name="CalendarPageItem" Order="Default" Priority="1" Clicked="CalendarPageItem_OnClicked" Icon="callendarInactive.png"/>
         <ToolbarItem x:Name="HistoryPageItem" Order="Default" Priority="2" Icon="historyActive.png"/>
+        <ToolbarItem x:Name="SyncItem" Order="Default" Priority="3" Clicked="SyncItem_OnClicked" Icon="refresh1.png"/>
+        <ToolbarItem x:Name="PlannedPageItem" Order="Default" Priority="4" Clicked="PlannedPageItem_OnClicked" Icon="planned3.png"/>
+        <ToolbarItem x:Name="LogoutItem" Order="Default" Priority="5" Clicked="LogoutItem_OnClicked"  Icon="logout1.png"/>
     </ContentPage.ToolbarItems>
     <ContentPage.Content>
         <StackLayout HorizontalOptions="Center" Spacing="15">
@@ -25,7 +28,7 @@
                             <StackLayout Orientation="Vertical" BackgroundColor="{x:StaticResource BackgroundButtonColor}">
                                 <StackLayout Orientation="Horizontal">
                                     <StackLayout WidthRequest="50">
-                                        <Label Text="Obraz" TextColor="{x:StaticResource TextColor}"/>
+                                        <Image Source="{Binding Image}"/>
                                     </StackLayout>
                                     <StackLayout Orientation="Vertical" HorizontalOptions="FillAndExpand" VerticalOptions="Fill" Spacing="1" Margin="2">
                                         <Label Text="{Binding Name}" TextColor="{x:StaticResource TextColor}"

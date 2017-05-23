@@ -1,8 +1,6 @@
-using System.Collections;
 using System.Collections.Generic;
 using TaskMaster.DAL.Models;
 using System.Data.Entity.Migrations;
-using TaskMaster.DAL.Enum;
 
 namespace TaskMaster.DAL.Migrations
 {
@@ -11,22 +9,29 @@ namespace TaskMaster.DAL.Migrations
         public Configuration()
         {
             AutomaticMigrationsEnabled = true;
-            AutomaticMigrationDataLossAllowed = false;
+            AutomaticMigrationDataLossAllowed = true;
         }
 
-        protected override void Seed(TaskMaster.DAL.Context.DatabaseContext context)
+        protected override void Seed(Context.DatabaseContext context)
         {
-            //List<User> defaultUsers = new List<User>();
+            IList<User> defaultUsers = new List<User>();
 
+            defaultUsers.Add(new User() { Email = "dlanorberta@gmail.com", Name = "Norbercik" });
+            defaultUsers.Add(new User() { Email = "dlapawela@gmail.com", Name = "Pawe³ek" });
+            defaultUsers.Add(new User() { Email = "dlabartosza@gmail.com", Name = "Bartoszek" });
 
-            //var tmpUser = new User() { Email = "a@gmail.com", Name = "a", Tokens = new List<Tokens>()};
-            //var tmpToken = new Tokens() { Token = "aaa", BrowserType = BrowserType.none, PlatformType = PlatformType.Android };
-            //tmpUser.Tokens.Add(tmpToken);
+            foreach (var elem in defaultUsers) context.User.Add(elem);
+            
 
-            //context.User.Add(tmpUser);
-           // foreach (var elem in defaultUsers) context.User.Add(elem);
+            IList<Tokens> defaultTokens = new List<Tokens>();
 
-           // base.Seed(context);
+            defaultTokens.Add(new Tokens() { Token = "123", User = defaultUsers[1] });
+            defaultTokens.Add(new Tokens() { Token = "abc", User = defaultUsers[2] });
+            defaultTokens.Add(new Tokens() { Token = "+*+", User = defaultUsers[0] });
+
+            foreach (var elem in defaultTokens) context.Tokens.Add(elem);
+
+            base.Seed(context);
         }
     }
 }
