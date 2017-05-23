@@ -5,10 +5,10 @@ namespace TaskMaster.BLL.WebApiModels
 {
     public class PartsOfActivityMobileDto
     {
-        public DateTime Start { get; set; }
-        public DateTime Stop { get; set; }
-        public DateTime Duration { get; set; }
+        //stringami 
+        public string Start { get; set; }
+        public string Stop { get; set; }
+        public string Duration { get; set; }
 
-        public ActivityDto Activity { get; set; }
     }
 }

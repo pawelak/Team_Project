@@ -10,6 +10,11 @@ namespace TaskMaster.BLL.WebApiModels
         public string UserEmail { get; set; }
         public string GroupName { get; set; }
         public string TaskName { get; set; }
+        public string Token { get; set; }
+        public EditState EditState { get; set; }
+        public State State { get; set; }
+
+        public IList<PartsOfActivityDto> TasksList{ get; set; } 
 
     }
 }

@@ -97,6 +97,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="MapperProfileBLL.cs" />
+    <Compile Include="MobileServices\ActivityWebApiService.cs" />
     <Compile Include="MobileServices\PrintAllTestService.cs" />
     <Compile Include="MobileServices\TasksWebApiService.cs" />
     <Compile Include="MobileServices\UserWebApiService.cs" />
@@ -107,7 +108,6 @@
     <Compile Include="WebApiModels\ActivityMobileDto.cs" />
     <Compile Include="WebApiModels\FavoritesMobileDto.cs" />
     <Compile Include="WebApiModels\GoogleUser.cs" />
-    <Compile Include="WebApiModels\GroupMobileDto.cs" />
     <Compile Include="WebApiModels\PartsOfActivityMobileDto.cs" />
     <Compile Include="WebApiModels\TasksMobileDto.cs" />
     <Compile Include="WebApiModels\UserMobileDto.cs" />

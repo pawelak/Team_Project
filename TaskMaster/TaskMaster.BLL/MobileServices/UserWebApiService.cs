@@ -34,7 +34,6 @@ namespace TaskMaster.BLL.MobileServices
             var tmpTokensDto = tmpUserDto.Tokens.First(t => false);
             return new UserMobileDto()
             {
-                Name = tmpUserDto.Name,
                 Email = tmpUserDto.Email,
                 Description = tmpUserDto.Description,
                 Token = tmpTokensDto.Token,
@@ -57,7 +56,6 @@ namespace TaskMaster.BLL.MobileServices
                     var tmpUserDto = new UserDto()
                     {
                         Email = userWebApi.Email,
-                        Name = userWebApi.Name,
                         Description = userWebApi.Description,
                         Activity = new List<ActivityDto>(),
                         Favorites = new List<FavoritesDto>(),
@@ -102,7 +100,6 @@ namespace TaskMaster.BLL.MobileServices
                     var tmpUserDto = _userRepositories.GetAll().First(user => user.Email.Equals(userMobileDto.Email));
 
                     tmpUserDto.Description = userMobileDto.Description;
-                    userMobileDto.Name = userMobileDto.Name;
 
                     _userRepositories.Edit(tmpUserDto);
 

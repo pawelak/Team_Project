@@ -130,6 +130,7 @@
     <Compile Include="DTOModels\FavoritesDto.cs" />
     <Compile Include="DTOModels\GroupDto.cs" />
     <Compile Include="DTOModels\PartsOfActivityDto.cs" />
+    <Compile Include="Enum\EditState.cs" />
     <Compile Include="Enum\PlatformType.cs" />
     <Compile Include="Enum\State.cs" />
     <Compile Include="DTOModels\TaskDto.cs" />

@@ -6,6 +6,7 @@ namespace TaskMaster.DAL.DTOModels
     public class ActivityDto
     {
         public State State { get; set; }
+        public EditState EditState { get; set; }
         public string Comment { get; set; }
 
         public UserDto User { get; set; }

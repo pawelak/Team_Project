@@ -36,7 +36,6 @@ namespace TaskMaster.BLL.MobileServices
                 var tmpMobileDto = new UserMobileDto()
                 {
                     Email = tmpLoopUser.Email,
-                    Name = tmpLoopUser.Name,
                     Description = tmpLoopUser.Description,
                     Token = tmpToken.Token,
                     PlatformType = tmpToken.PlatformType
