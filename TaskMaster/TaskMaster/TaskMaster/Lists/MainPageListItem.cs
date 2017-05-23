@@ -1,6 +1,6 @@
 ﻿namespace TaskMaster
 {
-    public class MainPageList
+    public class MainPageListItem
     {
         public string MyImageSource { get; set; }
         public string Name { get; set; }

@@ -94,6 +94,7 @@ namespace TaskMaster
 	            part.PartId = await UserService.Instance.SavePartOfActivity(part);
 	            DependencyService.Get<INotificationService>().LoadNotifications(newTask.Name, "Naciśnij aby rozpocząć aktywność", part.ActivityId, 
 	                DateTime.ParseExact(part.Start, "HH:mm:ss dd/MM/yyyy", null));
+	            //await SynchronizationService.Instance.SendPlanned(newActivity);
                 await Navigation.PushModalAsync(new NavigationPage(new MainPage()));
 	        }
 	        else

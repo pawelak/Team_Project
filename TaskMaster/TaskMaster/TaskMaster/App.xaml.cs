@@ -20,8 +20,11 @@ namespace TaskMaster
             {
                 var task = await UserService.Instance.GetTaskById(activity.TaskId);
                 var part = await UserService.Instance.GetLastActivityPart(activity.ActivityId);
-                DependencyService.Get<INotificationService>().LoadNotifications(task.Name, "Naciśnij aby rozpocząć aktywność", part.ActivityId,
-                    DateTime.ParseExact(part.Start, "HH:mm:ss dd/MM/yyyy", null));
+                if (DateTime.ParseExact(part.Start, "HH:mm:ss dd/MM/yyyy",null) == DateTime.Now)
+                {
+                    DependencyService.Get<INotificationService>().LoadNotifications(task.Name, "Naciśnij aby rozpocząć aktywność", part.ActivityId,
+                                                                                    DateTime.ParseExact(part.Start, "HH:mm:ss dd/MM/yyyy", null));
+                }
             }
         }
 

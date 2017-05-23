@@ -19,10 +19,10 @@
     <Compile Include="$(MSBuildThisFileDirectory)Interfaces\IFileHelper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Interfaces\ILogOutService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Interfaces\INotificationService.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Lists\CustomList.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Lists\HistoryList.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Lists\MainPageList.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Lists\PlannedList.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Lists\CustomListItem.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Lists\HistoryListItem.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Lists\MainPageListItem.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Lists\PlannedListItem.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)MapProfiles\UserMapProfile.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ModelsDto\ActivitiesDto.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ModelsDto\FavoritesDto.cs" />

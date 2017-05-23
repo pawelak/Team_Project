@@ -13,7 +13,7 @@ namespace TaskMaster
     public partial class MainPage
     {
         private readonly Timer _listTimer = new Timer();
-        private readonly List<MainPageList> _activeTasksList = new List<MainPageList>();
+        private readonly List<MainPageListItem> _activeTasksList = new List<MainPageListItem>();
 
         public MainPage()
         {
@@ -86,16 +86,18 @@ namespace TaskMaster
             await Navigation.PushModalAsync(new NavigationPage(new PlannedViewPage()));
         }
 
-        private void SyncItem_OnClicked(object sender, EventArgs e)
+        private async void SyncItem_OnClicked(object sender, EventArgs e)
         {
-            throw new NotImplementedException();
+            /*await SynchronizationService.Instance.GetActivities();
+            await SynchronizationService.Instance.GetFavorites();
+            await SynchronizationService.Instance.GetPlanned();*/
         }
 
         private async void ActiveTasks_OnItemTapped(object sender, ItemTappedEventArgs e)
         {
             _listTimer.Stop();
             ActiveTasks.ItemsSource = null;
-            var item = (MainPageList)e.Item;
+            var item = (MainPageListItem)e.Item;
             await Navigation.PushModalAsync(new EditTaskPage(item));
         }
 
@@ -124,7 +126,7 @@ namespace TaskMaster
                 var parts = await UserService.Instance.GetPartsOfActivityByActivityId(activity.ActivityId);
                 var time = parts.Sum(part => long.Parse(part.Duration));
                 var t = TimeSpan.FromMilliseconds(time);
-                var item = new MainPageList
+                var item = new MainPageListItem
                 {
                     MyImageSource = ImageChoice(activity.Status),
                     ActivityId = activity.ActivityId,
@@ -156,7 +158,7 @@ namespace TaskMaster
                 var parts = await UserService.Instance.GetPartsOfActivityByActivityId(activity.ActivityId);
                 var time = parts.Sum(part => long.Parse(part.Duration));
                 var t = TimeSpan.FromMilliseconds(time);
-                var item = new MainPageList
+                var item = new MainPageListItem
                 {
                     MyImageSource = ImageChoice(activity.Status),
                     ActivityId = activity.ActivityId,
@@ -217,7 +219,7 @@ namespace TaskMaster
             part.PartId = await UserService.Instance.SavePartOfActivity(part);
             StopwatchesService.Instance.AddStopwatch(part.PartId);
             var t = TimeSpan.FromMilliseconds(0);
-            var item = new MainPageList
+            var item = new MainPageListItem
             {
                 MyImageSource = ImageChoice(activity.Status),
                 Name = "Unnamed Activity " + activity.ActivityId,

@@ -10,7 +10,7 @@ namespace TaskMaster.Pages
 
     public partial class CalendarDayListPage
     {
-        private readonly List<CustomList> _dayPlan = new List<CustomList>();
+        private readonly List<CustomListItem> _dayPlan = new List<CustomListItem>();
         private DateTime _calendarDay;
         public CalendarDayListPage(DateTime dateTime)
         {
@@ -60,7 +60,7 @@ namespace TaskMaster.Pages
                     continue;
                 }
                 var t = TimeSpan.FromMilliseconds(time);
-                var element = new CustomList
+                var element = new CustomListItem
                 {
                     Name = task.Name,
                     Description = activity.Status.ToString(),

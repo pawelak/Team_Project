@@ -48,9 +48,9 @@ namespace TaskMaster.Services
             return response.IsSuccessStatusCode;
         }
 
-        public async Task<bool> SendPlanned(TasksDto task)
+        public async Task<bool> SendPlanned(ActivitiesDto activity)
         {
-            var taskJson = JsonConvert.SerializeObject(task);
+            var taskJson = JsonConvert.SerializeObject(activity);
             var contentTask = new StringContent(taskJson, Encoding.UTF8, "application/json");
             var uri = new Uri("http://localhost:8000/api/planned");
             var response = await _client.PostAsync(uri, contentTask);

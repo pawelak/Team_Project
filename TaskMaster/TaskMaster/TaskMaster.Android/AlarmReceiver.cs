@@ -1,14 +1,5 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
 using Android.App;
 using Android.Content;
-using Android.OS;
-using Android.Runtime;
-using Android.Views;
-using Android.Widget;
 using Android.Support.V4.App;
 
 namespace TaskMaster.Droid
@@ -16,11 +7,11 @@ namespace TaskMaster.Droid
     [BroadcastReceiver]
     class AlarmReceiver : BroadcastReceiver
     {
-        public override void OnReceive(Context context, Intent intento)
+        public override void OnReceive(Context context, Intent intent)
         {
-            var name = intento.GetStringExtra("name");
-            var textdesc = intento.GetStringExtra("textdesc");
-            int Id = intento.Extras.GetInt("Id", -1);
+            var name = intent.GetStringExtra("name");
+            var textdesc = intent.GetStringExtra("textdesc");
+            int Id = intent.Extras.GetInt("Id", -1);
             // Set up an intent so that tapping the notifications returns to this app:
             Intent intentnote = new Intent(context, typeof(StartOfPlanned));
 

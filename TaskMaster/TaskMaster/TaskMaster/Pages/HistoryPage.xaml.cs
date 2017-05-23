@@ -49,7 +49,7 @@ namespace TaskMaster
 	    private async void ListInitiate()
 	    {
 	        var activitiesStoppedList = await UserService.Instance.GetActivitiesByStatus(StatusType.Stop);
-	        var historyPlan = new List<HistoryList>();
+	        var historyPlan = new List<HistoryListItem>();
 	        foreach (var activity in activitiesStoppedList)
 	        {
 	            if (activity.TaskId == 0)
@@ -73,7 +73,7 @@ namespace TaskMaster
 	            var task = await UserService.Instance.GetTaskById(activity.TaskId);
 	            var t = TimeSpan.FromMilliseconds(time);
 	            var answer = $"{t.Hours:D2}h:{t.Minutes:D2}m:{t.Seconds:D2}s";
-                var element = new HistoryList
+                var element = new HistoryListItem
                 {
                     Name = task.Name,
                     Description = activity.Comment,

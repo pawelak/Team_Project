@@ -19,8 +19,8 @@ namespace TaskMaster.Pages
         private long _duration;
         private long _startTime;
         private readonly Timer _timer = new Timer();
-        private readonly MainPageList _initItem;
-        public EditTaskPage(MainPageList item)
+        private readonly MainPageListItem _initItem;
+        public EditTaskPage(MainPageListItem item)
         {
             InitializeComponent();
             _initItem = item;
@@ -138,6 +138,7 @@ namespace TaskMaster.Pages
                 _task.TaskId = await UserService.Instance.SaveTask(_task);
                 _activity.TaskId = _task.TaskId;
                 await UserService.Instance.SaveActivity(_activity);
+                //await SynchronizationService.Instance.SendActivity(_activity);
                 await Navigation.PushModalAsync(new NavigationPage(new MainPage()));
             }
         }
@@ -242,6 +243,7 @@ namespace TaskMaster.Pages
                     UserId = _activity.UserId
                 };
                 await UserService.Instance.SaveFavorite(favorite);
+                //await SynchronizationService.Instance.SendFavorite(favorite);
                 AddFavorite.IsEnabled = false;
             }
         }

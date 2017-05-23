@@ -11,7 +11,7 @@ namespace TaskMaster.Pages
 	[XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class PlannedViewPage
 	{
-        private readonly List<PlannedList> _plannedList = new List<PlannedList>();
+        private readonly List<PlannedListItem> _plannedList = new List<PlannedListItem>();
 		public PlannedViewPage ()
 		{
 			InitializeComponent ();
@@ -55,8 +55,8 @@ namespace TaskMaster.Pages
 	        {
 	            var lastPart = await UserService.Instance.GetLastActivityPart(activity.ActivityId);
 	            var task = await UserService.Instance.GetTaskById(activity.TaskId);
-	            var element = new PlannedList
-	            {
+	            var element = new PlannedListItem
+                {
 	                ActivityId = activity.ActivityId,
 	                Name = task.Name,
 	                Description = activity.Comment,
@@ -112,7 +112,7 @@ namespace TaskMaster.Pages
 
 	    private async void PlannedTasks_OnItemTapped(object sender, ItemTappedEventArgs e)
 	    {
-	        var item = e.Item as PlannedList;
+	        var item = e.Item as PlannedListItem;
 	        if (item == null)
 	        {
 	            return;
