@@ -14,7 +14,7 @@ namespace TaskMaster.BLL.WebApiModels
         public EditState EditState { get; set; }
         public State State { get; set; }
 
-        public IList<PartsOfActivityDto> TasksList{ get; set; } 
+        public IList<PartsOfActivityDto> TaskPartsList{ get; set; } 
 
     }
 }
