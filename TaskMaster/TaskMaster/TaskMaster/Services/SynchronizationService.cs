@@ -81,24 +81,25 @@ namespace TaskMaster.Services
         {
             var user = UserService.Instance.GetLoggedUser();
             var userFavorites = await UserService.Instance.GetUserFavorites(user.UserId);
-            var favoriteTasks = new List<TasksRest>();
+            var favoriteTasks = new List<FavoritesRest>();
             foreach (var favorite in userFavorites)
             {
                 var task = await UserService.Instance.GetTaskById(favorite.TaskId);
-                var item = new TasksRest
+                var taskRest = new TasksRest
                 {
                     Name = task.Name,
                     Type = task.Typ
                 };
-                favoriteTasks.Add(item);
+                var favoriteRest = new FavoritesRest
+                {
+                    UserEmail = user.Name,
+                    Token = user.Token,
+                    TasksList = taskRest
+                };
+                favoriteTasks.Add(favoriteRest);
             }
-            var favoriteRest = new FavoritesRest
-            {
-                UserEmail = user.Name,
-                Token = user.Token,
-                TasksList = favoriteTasks
-            };
-            var favoriteJson = JsonConvert.SerializeObject(favoriteRest);
+            
+            var favoriteJson = JsonConvert.SerializeObject(favoriteTasks);
             var contentFavorite = new StringContent(favoriteJson, Encoding.UTF8, "application/json");
             var uri = new Uri("http://localhost:8000/api/favorites");
             var response = await _client.PostAsync(uri, contentFavorite);
@@ -113,13 +114,38 @@ namespace TaskMaster.Services
             }
         }
 
-        public async Task<bool> SendPlanned(ActivitiesDto activity,TasksDto task)
+        public async Task SendPlanned(ActivitiesDto activity,TasksDto task)
         {
-            var taskJson = JsonConvert.SerializeObject(activity);
+            var user = UserService.Instance.GetLoggedUser();
+            var lastPart = await UserService.Instance.GetLastActivityPart(activity.ActivityId);
+            var lastPartRest = new PartsOfActivityRest
+            {
+                Start = lastPart.Start,
+                Stop = lastPart.Stop,
+                Duration = lastPart.Duration
+            };
+            var plannedRest = new PlannedRest
+            {
+                Comment = activity.Comment,
+                EditState = EditState.EditedOnMobile,
+                GroupName = activity.GroupId.ToString(),
+                Guid = activity.Guid,
+                State = activity.Status,
+                TaskName = task.Name,
+                TaskParts = lastPartRest,
+                UserEmail = user.Name,
+                Token = user.Token
+            };
+            var taskJson = JsonConvert.SerializeObject(plannedRest);
             var contentTask = new StringContent(taskJson, Encoding.UTF8, "application/json");
             var uri = new Uri("http://localhost:8000/api/planned");
             var response = await _client.PostAsync(uri, contentTask);
-            return response.IsSuccessStatusCode;
+            if (!response.IsSuccessStatusCode)
+            {
+                return;
+            }
+            activity.SyncStatus = SyncStatus.Uploaded;
+            await UserService.Instance.SaveActivity(activity);
         }
 
         public async Task GetActivities()
@@ -280,54 +306,72 @@ namespace TaskMaster.Services
             var favorites = JsonConvert.DeserializeObject<List<FavoritesRest>>(content);
             foreach (var favorite in favorites)
             {
+                var taskDto = new TasksDto
+                {
+                    Name = favorite.TasksList.Name,
+                    Typ = favorite.TasksList.Type
+                };
+                var task = await UserService.Instance.GetTask(taskDto);
                 if (favorite.EditState == EditState.Delete)
                 {
                     
+                    var fav = await UserService.Instance.GetFavoriteByTaskId(task.TaskId);
+                    await UserService.Instance.DeleteFavorite(fav);
+                    continue;
                 }
                 var user = await UserService.Instance.GetUserByEmail(favorite.UserEmail);
-                foreach (var task in favorite.TasksList)
+                if (task == null)
                 {
-                    var taskDto = new TasksDto
-                    {
-                        Name = task.Name,
-                        Typ = task.Type
-                    };
-                    var newTask = await UserService.Instance.GetTask(taskDto);
-                    if (newTask == null)
-                    {
-                        taskDto.TaskId = await UserService.Instance.SaveTask(taskDto);
-                        
-                    }
-                    else
-                    {
-                        taskDto.TaskId = newTask.TaskId;
-                        var checkFav = await UserService.Instance.GetFavoriteByTaskId(taskDto.TaskId);
-                        if (checkFav != null)
-                        {
-                            continue;
-                        }
-                    }
-                    var favoriteDto = new FavoritesDto
-                    {
-                        TaskId = taskDto.TaskId,
-                        UserId = user.UserId
-                    };
-                    await UserService.Instance.SaveFavorite(favoriteDto);
+                    taskDto.TaskId = await UserService.Instance.SaveTask(taskDto);
+
                 }
+                else
+                {
+                    taskDto.TaskId = task.TaskId;
+                    var checkFav = await UserService.Instance.GetFavoriteByTaskId(taskDto.TaskId);
+                    if (checkFav != null)
+                    {
+                        continue;
+                    }
+                }
+                var favoriteDto = new FavoritesDto
+                {
+                    TaskId = taskDto.TaskId,
+                    UserId = user.UserId
+                };
+                await UserService.Instance.SaveFavorite(favoriteDto);
             }
         }
 
-        public async Task<TasksDto> GetPlanned()
+        public async Task GetPlanned()
         {
             var uri = new Uri("http://localhost:8000/api/planned");
             var response = await _client.GetAsync(uri);
             if (!response.IsSuccessStatusCode)
             {
-                return null;
+                return;
             }
             var content = await response.Content.ReadAsStringAsync();
-            var task = JsonConvert.DeserializeObject<TasksDto>(content);
-            return null;
+            var plannedList = JsonConvert.DeserializeObject<List<PlannedRest>>(content);
+            foreach (var plan in plannedList)
+            {
+                var user = await UserService.Instance.GetUserByEmail(plan.UserEmail);
+                var taskDto = new TasksDto
+                {
+                    Name = plan.TaskName
+                };
+                var task = await UserService.Instance.GetTask(taskDto);
+                var plannedDto = new ActivitiesDto
+                {
+                    Comment = plan.Comment,
+                    Guid = plan.Guid,
+                    SyncStatus = SyncStatus.Received,
+                    TaskId = task.TaskId,
+                    UserId = user.UserId,
+                    Status = StatusType.Planned,
+                };
+                await UserService.Instance.SaveActivity(plannedDto);
+            }
         }
         
     }

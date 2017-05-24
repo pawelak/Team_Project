@@ -214,5 +214,11 @@ namespace TaskMaster
             var favorite = Mapper.Map<Favorites>(favoritesDto);
             await _database.InsertAsync(favorite);
         }
+
+        public async Task DeleteFavorite(FavoritesDto favoritesDto)
+        {
+            var fav = Mapper.Map<Favorites>(favoritesDto);
+            await _database.DeleteAsync(fav);
+        }
     }
 }

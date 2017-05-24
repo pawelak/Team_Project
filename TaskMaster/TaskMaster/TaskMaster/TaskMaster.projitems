@@ -33,6 +33,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)ModelsRest\ActivitiesRest.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ModelsRest\FavoritesRest.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ModelsRest\PartsOfActivityRest.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ModelsRest\PlannedRest.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ModelsRest\TasksRest.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ModelsRest\UserRest.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\Activities.cs" />

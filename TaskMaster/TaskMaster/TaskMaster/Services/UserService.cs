@@ -167,5 +167,10 @@ namespace TaskMaster.Services
         {
             await Database.SaveFavorite(favoritesDto);
         }
+
+        public async Task DeleteFavorite(FavoritesDto favoritesDto)
+        {
+            await Database.DeleteFavorite(favoritesDto);
+        }
     }
 }
