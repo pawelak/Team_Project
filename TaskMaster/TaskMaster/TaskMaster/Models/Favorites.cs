@@ -9,6 +9,6 @@ namespace TaskMaster.Models
         public int FavoriteId { get; set; }
         public int UserId { get; set; }
         public int TaskId { get; set; }
-        public EditState SyncStatus { get; set; }
+        public SyncStatus SyncStatus { get; set; }
     }
 }

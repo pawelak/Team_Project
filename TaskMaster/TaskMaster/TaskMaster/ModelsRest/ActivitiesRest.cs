@@ -5,6 +5,7 @@ namespace TaskMaster.ModelsRest
 {
     public class ActivitiesRest
     {
+        public string Guid { get; set; }
         public string Comment { get; set; }
         public string UserEmail { get; set; }
         public string GroupName { get; set; }

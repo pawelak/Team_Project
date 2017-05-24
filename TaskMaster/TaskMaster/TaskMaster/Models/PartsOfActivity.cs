@@ -1,5 +1,4 @@
 ﻿using SQLite;
-using TaskMaster.Enums;
 
 namespace TaskMaster.Models
 {
@@ -11,6 +10,5 @@ namespace TaskMaster.Models
         public string Start { get; set; }
         public string Stop { get; set; }
         public string Duration { get; set; }
-        public EditState SyncStatus { get; set; }
     }
 }

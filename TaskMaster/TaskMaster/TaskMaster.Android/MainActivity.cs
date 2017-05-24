@@ -98,7 +98,7 @@ namespace TaskMaster.Droid
                     Name = email,
                     Token = idToken,
                     TypeOfRegistration = "Google",
-                    SyncStatus = EditState.EditedOnMobile,
+                    SyncStatus = SyncStatus.ToUpload,
                     IsLoggedIn = true
                 };
                 await Services.UserService.Instance.SaveUser(userDto);

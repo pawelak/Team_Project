@@ -3,6 +3,7 @@ using Android.Gms.Auth.Api;
 using TaskMaster.Droid;
 using TaskMaster.Interfaces;
 using Xamarin.Forms;
+
 [assembly: Dependency(typeof(LogOutService))]
 namespace TaskMaster.Droid
 {

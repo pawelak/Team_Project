@@ -68,6 +68,12 @@ namespace TaskMaster
             return partOfActivity.PartId;
         }
 
+        public async Task DeletePartOfActivity(PartsOfActivityDto partsOfActivityDto)
+        {
+            var partOfActivity = Mapper.Map<PartsOfActivity>(partsOfActivityDto);
+            await _database.DeleteAsync(partOfActivity);
+        }
+
         public async Task<int> InsertUser(UserDto userDto)
         {
             var user = Mapper.Map<User>(userDto);
@@ -190,6 +196,17 @@ namespace TaskMaster
             var result = await _database.Table<Favorites>().Where(f => f.UserId == id).ToListAsync();
             var list = Mapper.Map<List<FavoritesDto>>(result);
             return list;
+        }
+
+        public async Task<FavoritesDto> GetFavoriteByTaskId(int id)
+        {
+            var result = await _database.Table<Favorites>().Where(f => f.TaskId == id).FirstOrDefaultAsync();
+            if (result == null)
+            {
+                return null;
+            }
+            var fav = Mapper.Map<FavoritesDto>(result);
+            return fav;
         }
 
         public async Task SaveFavorite(FavoritesDto favoritesDto)

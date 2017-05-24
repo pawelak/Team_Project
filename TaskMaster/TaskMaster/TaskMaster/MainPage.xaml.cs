@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 using System.Timers;
+using TaskMaster.Enums;
 using TaskMaster.Interfaces;
 using TaskMaster.ModelsDto;
 using TaskMaster.Pages;
@@ -93,6 +95,38 @@ namespace TaskMaster
         private async void SyncItem_OnClicked(object sender, EventArgs e)
         {
             _listTimer.Stop();
+            var isInternet = CheckInternetConnection();
+            if (isInternet)
+            {
+            }
+            else
+            {
+                await DisplayAlert("Error", "Nie można synchronizować bez internetu","Ok");
+            }
+            /*var activities = await UserService.Instance.GetActivitiesByStatus(StatusType.Stop);
+            {
+                foreach (var activitiesDto in activities)
+                {
+                    if (activitiesDto.SyncStatus != SyncStatus.ToUpload)
+                    {
+                        continue;
+                    }
+                    var task = await UserService.Instance.GetTaskById(activitiesDto.TaskId);
+                    await SynchronizationService.Instance.SendActivity(activitiesDto,task);
+                }
+            }
+            await SynchronizationService.Instance.SendFavorite();
+            var planned = await UserService.Instance.GetActivitiesByStatus(StatusType.Planned);
+            foreach (var activitiesDto in planned)
+            {
+                if (activitiesDto.SyncStatus != SyncStatus.ToUpload)
+                {
+                    continue;
+                }
+                var task = await UserService.Instance.GetTaskById(activitiesDto.TaskId);
+                await SynchronizationService.Instance.SendPlanned(activitiesDto,task);
+            }*/
+            
             /*await SynchronizationService.Instance.GetActivities();
             await SynchronizationService.Instance.GetFavorites();
             await SynchronizationService.Instance.GetPlanned();*/
@@ -208,6 +242,7 @@ namespace TaskMaster
         {
             var activity = new ActivitiesDto
             {
+                Guid = Guid.NewGuid().ToString(),
                 Status = StatusType.Start,
                 UserId = 1,
                 //UserId = await UserService.Instance.GetLoggedUser(),
@@ -300,6 +335,24 @@ namespace TaskMaster
         {
             await UserService.Instance.LogoutUser();
             DependencyService.Get<ILogOutService>().LogOut();
+        }
+
+        public bool CheckInternetConnection()
+        {
+            const string checkUrl = "http://google.com";
+            try
+            {
+                var iNetRequest = (HttpWebRequest)WebRequest.Create(checkUrl);
+                iNetRequest.Timeout = 5000;
+                var iNetResponse = iNetRequest.GetResponse();
+                iNetResponse.Close();
+                return true;
+
+            }
+            catch (WebException)
+            {
+                return false;
+            }
         }
     }
 }

@@ -10,22 +10,26 @@ namespace TaskMaster
 	    public App ()
 		{
             InitializeComponent();
-		    MainPage = new NavigationPage(new MainPage());
+		    
 		}
 
         protected override async void OnStart()
-        {            
+        {
+            //await SynchronizationService.Instance.GetActivities();
+            //await SynchronizationService.Instance.GetFavorites();
+            //await SynchronizationService.Instance.GetPlanned();
             var result2 = await UserService.Instance.GetActivitiesByStatus(StatusType.Planned);
             foreach (var activity in result2)
             {
                 var task = await UserService.Instance.GetTaskById(activity.TaskId);
                 var part = await UserService.Instance.GetLastActivityPart(activity.ActivityId);
-                if (DateTime.ParseExact(part.Start, "HH:mm:ss dd/MM/yyyy",null) == DateTime.Now)
+                if (DateTime.ParseExact(part.Start, "HH:mm:ss dd/MM/yyyy",null) >= DateTime.Now)
                 {
                     DependencyService.Get<INotificationService>().LoadNotifications(task.Name, "Naciśnij aby rozpocząć aktywność", part.ActivityId,
                                                                                     DateTime.ParseExact(part.Start, "HH:mm:ss dd/MM/yyyy", null));
                 }
             }
+            MainPage = new NavigationPage(new MainPage());
         }
 
         protected override void OnSleep ()

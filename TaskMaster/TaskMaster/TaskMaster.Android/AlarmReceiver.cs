@@ -13,7 +13,7 @@ namespace TaskMaster.Droid
             var textdesc = intent.GetStringExtra("textdesc");
             int Id = intent.Extras.GetInt("Id", -1);
             // Set up an intent so that tapping the notifications returns to this app:
-            Intent intentnote = new Intent(context, typeof(StartOfPlanned));
+            Intent intentnote = new Intent(context, typeof(StartOfPlannedService));
 
             intentnote.PutExtra("Id", Id);
             var pendingIntent = PendingIntent.GetService(context, Id, intentnote,0);

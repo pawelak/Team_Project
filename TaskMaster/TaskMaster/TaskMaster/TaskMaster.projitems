@@ -16,6 +16,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Database\UserDatabase.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Enums\EditState.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Enums\StatusType.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Enums\SyncStatus.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Interfaces\IFileHelper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Interfaces\ILogOutService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Interfaces\INotificationService.cs" />

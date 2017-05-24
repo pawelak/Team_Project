@@ -1,7 +1,6 @@
 ﻿using System;
 using Android.App;
 using Android.Content;
-using Android.OS;
 using TaskMaster.ModelsDto;
 using TaskMaster.Services;
 
@@ -9,18 +8,15 @@ namespace TaskMaster.Droid
 {
 
     [Service]
-    [IntentFilter(new String[] { "com.xamarin.StockService" })]
-    public class StartOfPlanned : IntentService
+    [IntentFilter(new[] { "com.xamarin.StockService" })]
+    public class StartOfPlannedService : IntentService
     {
         private ActivitiesDto _activity;
         private DateTime _now;
         private PartsOfActivityDto _part;
-
-
-
+        
         protected override async void OnHandleIntent(Intent intent)
         {
-
             var id = intent.Extras.GetInt("Id", -1);
             _activity = await Services.UserService.Instance.GetActivity(id);
             _activity.Status = StatusType.Start;

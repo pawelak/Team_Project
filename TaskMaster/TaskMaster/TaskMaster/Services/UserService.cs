@@ -16,17 +16,8 @@ namespace TaskMaster.Services
             
         }
 
-        public static UserService Instance
-        {
-            get
-            {
-                if (_instance == null)
-                {
-                    _instance = new UserService();
-                }
-                return _instance;
-            }
-        }
+        public static UserService Instance => _instance ?? (_instance = new UserService());
+
         public async Task<int> SaveActivity(ActivitiesDto activitiesDto)
         {
             if (activitiesDto.ActivityId != 0)
@@ -58,6 +49,11 @@ namespace TaskMaster.Services
             }
             var insert = await Database.InsertPartOfActivity(partsOfActivityDto);
             return insert;
+        }
+
+        public async Task DeletePartOfActivity(PartsOfActivityDto partsOfActivityDto)
+        {
+            await Database.DeletePartOfActivity(partsOfActivityDto);
         }
 
         public async Task<int> SaveTask(TasksDto tasksDto)
@@ -162,6 +158,11 @@ namespace TaskMaster.Services
             return get;
         }
 
+        public async Task<FavoritesDto> GetFavoriteByTaskId(int id)
+        {
+            var get = await Database.GetFavoriteByTaskId(id);
+            return get;
+        }
         public async Task SaveFavorite(FavoritesDto favoritesDto)
         {
             await Database.SaveFavorite(favoritesDto);

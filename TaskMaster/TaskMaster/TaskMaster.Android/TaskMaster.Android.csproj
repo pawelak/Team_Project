@@ -266,7 +266,7 @@
     <Compile Include="NotificationService.cs" />
     <Compile Include="Resources\Resource.Designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="StartOfPlanned.cs" />
+    <Compile Include="StartOfPlannedService.cs" />
   </ItemGroup>
   <ItemGroup>
     <AndroidAsset Include="Assets\Quicksand-Regular.ttf">
