@@ -2,6 +2,7 @@
 body {
     font-family: 'Quicksand', sans-serif;
     height:100%;
+    background-color: #375a7f;
 }
 
 .navbar {
@@ -53,10 +54,9 @@ button img {
     background-color: #375a7f;
     text-align: center;    
     padding-top: 30px;    
-    bottom: 0;
-    position: absolute;    
-    z-index: -1;
     height: 34%;
+    padding-bottom: 40px;
+    height: 44%;
 }
 
 .howItWorksSection h3 {
