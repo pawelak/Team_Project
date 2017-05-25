@@ -70,7 +70,7 @@ namespace TaskMaster.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to 1. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam id tristique odio. Duis vitae odio nisi. Proin bibendum convallis gravida. Suspendisse non nulla convallis, tincidunt velit aliquet, semper elit..
+        ///   Looks up a localized string similar to Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam id tristique odio. Duis vitae odio nisi. Proin bibendum convallis gravida. Suspendisse non nulla convallis, tincidunt velit aliquet, semper elit..
         /// </summary>
         public static string HowItWorks1 {
             get {
@@ -79,7 +79,7 @@ namespace TaskMaster.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to 2. Fusce nec enim eu magna varius vulputate. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas..
+        ///   Looks up a localized string similar to Fusce nec enim eu magna varius vulputate. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas..
         /// </summary>
         public static string HowItWorks2 {
             get {
@@ -88,7 +88,7 @@ namespace TaskMaster.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to 3. Sed venenatis, quam vel hendrerit maximus, dui urna tempor leo, ullamcorper hendrerit diam magna ac ipsum..
+        ///   Looks up a localized string similar to Sed venenatis, quam vel hendrerit maximus, dui urna tempor leo, ullamcorper hendrerit diam magna ac ipsum..
         /// </summary>
         public static string HowItWorks3 {
             get {

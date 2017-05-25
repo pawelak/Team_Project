@@ -121,13 +121,13 @@
     <value>Email</value>
   </data>
   <data name="HowItWorks1" xml:space="preserve">
-    <value>1. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam id tristique odio. Duis vitae odio nisi. Proin bibendum convallis gravida. Suspendisse non nulla convallis, tincidunt velit aliquet, semper elit.</value>
+    <value>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam id tristique odio. Duis vitae odio nisi. Proin bibendum convallis gravida. Suspendisse non nulla convallis, tincidunt velit aliquet, semper elit.</value>
   </data>
   <data name="HowItWorks2" xml:space="preserve">
-    <value>2. Fusce nec enim eu magna varius vulputate. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.</value>
+    <value>Fusce nec enim eu magna varius vulputate. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.</value>
   </data>
   <data name="HowItWorks3" xml:space="preserve">
-    <value>3. Sed venenatis, quam vel hendrerit maximus, dui urna tempor leo, ullamcorper hendrerit diam magna ac ipsum.</value>
+    <value>Sed venenatis, quam vel hendrerit maximus, dui urna tempor leo, ullamcorper hendrerit diam magna ac ipsum.</value>
   </data>
   <data name="HowItWorksTitle" xml:space="preserve">
     <value>Jak działa aplikacja?</value>

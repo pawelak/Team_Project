@@ -259,6 +259,7 @@
     <Content Include="images\google.png" />
     <Content Include="images\background.png" />
     <Content Include="images\instrument.png" />
+    <Content Include="images\landingBackground.png" />
     <Content Include="images\language.png" />
     <Content Include="images\logoGlow.png" />
     <Content Include="images\music.png" />

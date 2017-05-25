@@ -16,9 +16,8 @@
     <title>TaskMaster</title>
     <link rel="stylesheet" href="../../Content/bootstrap.min.css" />
     <link rel="stylesheet" href="../../Content/landingPageStyle.css" />
-    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Quicksand">
     <script src="~/Scripts/jquery-3.1.1.min.js"></script>
-
+    <link href="https://fonts.googleapis.com/css?family=Anton|Kalam|Righteous&amp;subset=latin-ext" rel="stylesheet">
 </head>
 <body>
     <nav class="navbar navbar-default">
@@ -43,18 +42,18 @@
         </div>
     </nav>
     <div class="row loggingSection">
-        <div class="col-md-6 col-xs-12">
+        <div class="col-md-7 col-xs-12">
             <div class="col-md-6 col-md-offset-4">
                 <h2>@LandingPageText.leftMainText</h2>
                 <p>@LandingPageText.leftAdditionalText</p>
             </div>
         </div>
-    <div class="col-md-6 col-xs-12">
+    <div class="col-md-5 col-xs-12">
         @using (Html.BeginForm("ExternalLogin", "Account", new { ReturnUrl = ViewBag.ReturnUrl }))
         {
             @Html.AntiForgeryToken()
             <div class="form-group">
-                <div class="col-md-6 col-md-offset-3">
+                <div class="col-md-6 col-md-offset-1">
                     <button class="googleButton btn btn-success" name="provider" value="Google" id="Google"><img src="../../images/google.png"/></button>
                     <button class="facebookButton btn btn-info" name="provider" value="Facebook" id="Facebook"><img src="../../images/facebook.png"/></button>
                 </div>
@@ -70,19 +69,19 @@
             <div class="form-horizontal">
   
                 <div class="form-group">
-                    <div class="col-md-6 col-md-offset-3">
+                    <div class="col-md-6 col-md-offset-1">
                         @Html.EditorFor(model => model.Email, new {htmlAttributes = new {placeholder = "Email",@class = "form-control" } })
                         @Html.ValidationMessageFor(model => model.Email, "", new {@class = "text-danger"})
                     </div>
                 </div>
                 <div class="form-group">
-                    <div class="col-md-6 col-md-offset-3">
+                    <div class="col-md-6 col-md-offset-1">
                         @Html.EditorFor(model => model.Password, new {htmlAttributes = new { placeholder = "Hasło", @class = "form-control"}})
                         @Html.ValidationMessageFor(model => model.Password, "", new {@class = "text-danger"})
                     </div>
                 </div>
                 <div class="form-group">
-                    <div class="col-md-6 col-md-offset-3">
+                    <div class="col-md-6 col-md-offset-1">
                         <button id="signInButton" type="submit" class="btn btn-primary">@LandingPageText.signInButton</button>
                     </div>
                 </div>
@@ -101,12 +100,15 @@
         </div>
         <div class="row">
             <div class="col-md-4">
+                <h1>1</h1>
                 <p>@LandingPageText.HowItWorks1</p>
             </div>
             <div class="col-md-4">
+                <h1>2</h1>
                 <p>@LandingPageText.HowItWorks2</p>
             </div>
             <div class="col-md-4">
+                <h1>3</h1>
                 <p>@LandingPageText.HowItWorks3</p>
             </div>
         </div>
