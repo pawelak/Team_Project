@@ -121,19 +121,19 @@
     <value>Email</value>
   </data>
   <data name="HowItWorks1" xml:space="preserve">
-    <value>1. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam id tristique odio. Duis vitae odio nisi. Proin bibendum convallis gravida. Suspendisse non nulla convallis, tincidunt velit aliquet, semper elit.</value>
+    <value>Aplikacja TaskMaster została stworzona przez studentów, aby ułatwić zarządzanie czasem, każdemu, kto tego potrzebuje.</value>
   </data>
   <data name="HowItWorks2" xml:space="preserve">
-    <value>2. Fusce nec enim eu magna varius vulputate. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.</value>
+    <value>Jedyne co musisz zrobić, aby zacząc to pobrać aplikację mobilną, dodać taski i zająć się swoimi zadaniami.</value>
   </data>
   <data name="HowItWorks3" xml:space="preserve">
-    <value>3. Sed venenatis, quam vel hendrerit maximus, dui urna tempor leo, ullamcorper hendrerit diam magna ac ipsum.</value>
+    <value>Na stronie internetowej możesz zobaczyć szczegółowe statystyki twoich aktywności. Nie zwlekaj, </value>
   </data>
   <data name="HowItWorksTitle" xml:space="preserve">
     <value>Jak działa aplikacja?</value>
   </data>
   <data name="leftAdditionalText" xml:space="preserve">
-    <value>Dzięki aplikacji TaskMaster możesz mierzyć czas wykonywania twoich zadań.</value>
+    <value>Dzięki aplikacji TaskMaster możesz mierzyć czas wykonywania twoich zadań. To proste, wystarczy pobrać aplikację mobilną, dodać task i zająć się daną aktywnością - resztę zrobi za ciebie TaskMaster.</value>
   </data>
   <data name="leftMainText" xml:space="preserve">
     <value>Zapanuj nad swoim czasem!</value>
@@ -152,5 +152,8 @@
   </data>
   <data name="signUpButton" xml:space="preserve">
     <value>Zarejestruj</value>
+  </data>
+  <data name="HowItWorksDownload" xml:space="preserve">
+    <value>pobierz już teraz!</value>
   </data>
 </root>

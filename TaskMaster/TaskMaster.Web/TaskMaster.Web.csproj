@@ -259,11 +259,13 @@
     <Content Include="images\google.png" />
     <Content Include="images\background.png" />
     <Content Include="images\instrument.png" />
+    <Content Include="images\landingBackground.png" />
     <Content Include="images\language.png" />
     <Content Include="images\logoGlow.png" />
     <Content Include="images\music.png" />
     <Content Include="images\OK.png" />
     <Content Include="images\programming.png" />
+    <Content Include="images\QR.png" />
     <Content Include="images\sport.png" />
     <Content Include="images\TMLogo3.png" />
     <Content Include="images\TMLogo4.png" />
