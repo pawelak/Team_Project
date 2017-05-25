@@ -70,7 +70,7 @@ namespace TaskMaster.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam id tristique odio. Duis vitae odio nisi. Proin bibendum convallis gravida. Suspendisse non nulla convallis, tincidunt velit aliquet, semper elit..
+        ///   Looks up a localized string similar to Aplikacja TaskMaster została stworzona przez studentów, aby ułatwić zarządzanie czasem, każdemu, kto tego potrzebuje..
         /// </summary>
         public static string HowItWorks1 {
             get {
@@ -79,7 +79,7 @@ namespace TaskMaster.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Fusce nec enim eu magna varius vulputate. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas..
+        ///   Looks up a localized string similar to Jedyne co musisz zrobić, aby zacząc to pobrać aplikację mobilną, dodać taski i zająć się swoimi zadaniami..
         /// </summary>
         public static string HowItWorks2 {
             get {
@@ -88,11 +88,20 @@ namespace TaskMaster.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Sed venenatis, quam vel hendrerit maximus, dui urna tempor leo, ullamcorper hendrerit diam magna ac ipsum..
+        ///   Looks up a localized string similar to Na stronie internetowej możesz zobaczyć szczegółowe statystyki twoich aktywności. Nie zwlekaj, .
         /// </summary>
         public static string HowItWorks3 {
             get {
                 return ResourceManager.GetString("HowItWorks3", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to pobierz już teraz!.
+        /// </summary>
+        public static string HowItWorksDownload {
+            get {
+                return ResourceManager.GetString("HowItWorksDownload", resourceCulture);
             }
         }
         

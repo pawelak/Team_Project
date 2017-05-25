@@ -265,6 +265,7 @@
     <Content Include="images\music.png" />
     <Content Include="images\OK.png" />
     <Content Include="images\programming.png" />
+    <Content Include="images\QR.png" />
     <Content Include="images\sport.png" />
     <Content Include="images\TMLogo3.png" />
     <Content Include="images\TMLogo4.png" />

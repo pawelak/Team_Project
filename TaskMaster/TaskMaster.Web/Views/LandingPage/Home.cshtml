@@ -109,8 +109,9 @@
                 <p>@LandingPageText.HowItWorks2</p>
             </div>
             <div class="col-md-4">
-                <h1>3</h1>
-                <p>@LandingPageText.HowItWorks3</p>
+                <h1 class="toReplace">3</h1>
+                <p>@LandingPageText.HowItWorks3</p>  
+                <p class="download">@LandingPageText.HowItWorksDownload</p>              
             </div>
         </div>
     </div>
@@ -130,7 +131,14 @@
             });
         });
     </script>
-    
+<script>
+    $(document).ready(function () {
+        $(".download").click(function () {
+            $(".toReplace").replaceWith(
+                "<img src=\"../../images/QR.png\">");
+        });
+    });
+</script>
 
     
 </body>

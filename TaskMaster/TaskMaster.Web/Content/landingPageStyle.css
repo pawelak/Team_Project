@@ -36,6 +36,7 @@ body {
     font-size: 42px;
     color: #e5a141;
     margin-bottom: 14px;
+    
 }
 
 .loggingSection p {
@@ -53,10 +54,11 @@ button img {
 .howItWorksSection {
     background-color: #375a7f;
     text-align: center;    
-    padding-top: 30px;    
+    margin-top: 30px;    
     height: 34%;
     padding-bottom: 40px;
     height: 44%;
+    
 }
 
 .howItWorksSection h3 {
@@ -66,6 +68,7 @@ button img {
 .howItWorksSection p {
     padding: 0px 60px 0px 60px;
     margin-top: 22px;
+    font-size: 16px;
 }
 
 .googleButton {
@@ -98,4 +101,22 @@ button img {
 
 .howItWorksSection div div:nth-of-type(3) h1{
     background-color: #81c8e9;
+}
+
+.col-md-4 img {
+    width: 80px;
+
+}
+
+.download{
+    color: #e5a141;
+    margin-top: 0px;
+    display: inline;
+}
+
+
+.download:hover {
+    cursor: pointer;
+    color: #81c8e9;
+    
 }
