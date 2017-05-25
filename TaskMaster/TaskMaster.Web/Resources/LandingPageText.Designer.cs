@@ -106,7 +106,7 @@ namespace TaskMaster.Web.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Dzięki aplikacji TaskMaster możesz mierzyć czas wykonywania twoich zadań..
+        ///   Looks up a localized string similar to Dzięki aplikacji TaskMaster możesz mierzyć czas wykonywania twoich zadań. To proste, wystarczy pobrać aplikację mobilną, dodać task i zająć się daną aktywnością - resztę zrobi za ciebie TaskMaster..
         /// </summary>
         public static string leftAdditionalText {
             get {

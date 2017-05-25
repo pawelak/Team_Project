@@ -133,7 +133,7 @@
     <value>Jak działa aplikacja?</value>
   </data>
   <data name="leftAdditionalText" xml:space="preserve">
-    <value>Dzięki aplikacji TaskMaster możesz mierzyć czas wykonywania twoich zadań.</value>
+    <value>Dzięki aplikacji TaskMaster możesz mierzyć czas wykonywania twoich zadań. To proste, wystarczy pobrać aplikację mobilną, dodać task i zająć się daną aktywnością - resztę zrobi za ciebie TaskMaster.</value>
   </data>
   <data name="leftMainText" xml:space="preserve">
     <value>Zapanuj nad swoim czasem!</value>
