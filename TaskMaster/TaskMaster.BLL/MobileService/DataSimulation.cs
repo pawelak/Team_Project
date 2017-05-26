@@ -26,21 +26,24 @@ namespace TaskMaster.BLL.MobileService
                 Guid = "asd1",
                 Comment = "activity testowy 1",
                 EditState = EditState.None,
-                State = State.Stoped
+                State = State.Stoped,
+                PartsOfActivity = new List<PartsOfActivityDto>()
             };
             ActivityDto a2 = new ActivityDto()
             {
                 Guid = "asd2",
                 Comment = "activity testowy 2",
                 EditState = EditState.None,
-                State = State.Stoped
+                State = State.Stoped,
+                PartsOfActivity = new List<PartsOfActivityDto>()
             };
             ActivityDto a3 = new ActivityDto()
             {
                 Guid = "asd3",
                 Comment = "activity testowy 3",
                 EditState = EditState.None,
-                State = State.Stoped
+                State = State.Stoped,
+                PartsOfActivity = new List<PartsOfActivityDto>()
             };
 
 
@@ -48,54 +51,60 @@ namespace TaskMaster.BLL.MobileService
 //group
             GroupDto gr1 = new GroupDto()
             {
-                NameGroup = "nazwa1"
+                NameGroup = "nazwa1",
+                UserGroup = new List<UserGroupDto>(),
+                Activity = new List<ActivityDto>()
             };
             GroupDto gr2 = new GroupDto()
             {
-                NameGroup = "nazwa2"
+                NameGroup = "nazwa2",
+                 UserGroup = new List<UserGroupDto>(),
+                Activity = new List<ActivityDto>()
             };
             GroupDto gr3 = new GroupDto()
             {
-                NameGroup = "nazwa3"
+                NameGroup = "nazwa3",
+                UserGroup = new List<UserGroupDto>(),
+                Activity = new List<ActivityDto>()
             };
 
 
 //PartsOfActivity
             PartsOfActivityDto p1 = new PartsOfActivityDto()
             {
-                Start = new DateTime(2017, 5, 10, 10, 30, 10),
-                Stop = new DateTime(2017, 5, 10, 11, 30, 10),
-                Duration = new DateTime(0, 0, 0, 0, 0, 0)
-            };
+                Start = new DateTime(2017, 5, 25,10,30,10),
+                Stop = new DateTime(2017, 5, 25, 11, 30, 10),
+                Duration = new DateTime(2017, 5, 10, 11, 30, 10)
+                };
             PartsOfActivityDto p2 = new PartsOfActivityDto()
             {
-                Start = new DateTime(2017, 5, 11, 10, 30, 10),
-                Stop = new DateTime(2017, 5, 11, 11, 30, 10),
-                Duration = new DateTime(0, 0, 0, 0, 0, 0)
+                Start = new DateTime(2017, 5, 25, 10, 30, 10),
+                Stop = new DateTime(2017, 5, 25, 11, 30, 10),
+                Duration = new DateTime(2017, 5, 11, 11, 30, 10)
             };
             PartsOfActivityDto p3 = new PartsOfActivityDto()
             {
-                Start = new DateTime(2017, 5, 12, 10, 30, 10),
-                Stop = new DateTime(2017, 5, 12, 11, 30, 10),
-                Duration = new DateTime(0, 0, 0, 0, 0, 0)
+                Start = new DateTime(2017, 5, 25, 10, 30, 10),
+                Stop = new DateTime(2017, 5, 25, 11, 30, 10),
+                Duration = new DateTime(2017, 5, 10, 11, 30, 10)
             };
             PartsOfActivityDto p4 = new PartsOfActivityDto()
             {
-                Start = new DateTime(2017, 5, 13, 10, 30, 10),
-                Stop = new DateTime(2017, 5, 13, 11, 30, 10),
-                Duration = new DateTime(0, 0, 0, 0, 0, 0)
+                Start = new DateTime(2017, 5, 25, 10, 30, 10),
+                Stop = new DateTime(2017, 5, 25, 11, 30, 10),
+                Duration = new DateTime(2017, 5, 10, 11, 30, 10)
             };
             PartsOfActivityDto p5 = new PartsOfActivityDto()
             {
-                Start = new DateTime(2017, 5, 14, 10, 30, 10),
-                Stop = new DateTime(2017, 5, 14, 11, 30, 10),
-                Duration = new DateTime(0, 0, 0, 0, 0, 0)
+                Start = new DateTime(2017, 5, 23, 10, 30, 10),
+                Stop = new DateTime(2017, 5, 23, 11, 30, 10),
+                Duration = new DateTime(2017, 5, 10, 11, 30, 10)
             };
             PartsOfActivityDto p6 = new PartsOfActivityDto()
             {
-                Start = new DateTime(2017, 5, 15, 10, 30, 10),
+                Start = new DateTime(2017, 5, 25, 10, 30, 10),
                 Stop = new DateTime(2017, 5, 15, 11, 30, 10),
-                Duration = new DateTime(0, 0, 0, 0, 0, 0)
+                Duration = new DateTime(2017, 5, 10, 11, 30, 10)
             };
 
 
@@ -103,36 +112,48 @@ namespace TaskMaster.BLL.MobileService
             TaskDto t1 = new TaskDto()
             {
                 Name = "biega1",
-                Type = "typ1"
+                Type = "typ1",
+                Activity = new List<ActivityDto>(),
+                Favorites = new List<FavoritesDto>()
             };
             TaskDto t2 = new TaskDto()
             {
                 Name = "biega2",
-                Type = "typ2"
+                Type = "typ2",
+                Activity = new List<ActivityDto>(),
+                Favorites = new List<FavoritesDto>()
             };
             TaskDto t3 = new TaskDto()
             {
                 Name = "biega3",
-                Type = "typ3"
+                Type = "typ3",
+                Activity = new List<ActivityDto>(),
+                Favorites = new List<FavoritesDto>()
             };
             TaskDto t4 = new TaskDto()
             {
                 Name = "biega4",
-                Type = "typ4"
+                Type = "typ4",
+                Activity = new List<ActivityDto>(),
+                Favorites = new List<FavoritesDto>()
             };
             TaskDto t5 = new TaskDto()
             {
                 Name = "biega5 do Fav",
-                Type = "typ5"
+                Type = "typ5",
+                Activity = new List<ActivityDto>(),
+                Favorites = new List<FavoritesDto>()
             };
             TaskDto t6 = new TaskDto()
             {
                 Name = "biega6 do Fav",
-                Type = "typ6"
+                Type = "typ6",
+                Activity = new List<ActivityDto>(),
+                Favorites = new List<FavoritesDto>()
             };
 
 
-            //token
+//token
             TokensDto token1 = new TokensDto()
             {
                 Token = "qwe1",
@@ -176,13 +197,20 @@ namespace TaskMaster.BLL.MobileService
             {
                 Email = "a@a.pl",
                 Description = "testowy nr 1",
+                Activity = new List<ActivityDto>(),
+                Favorites = new List<FavoritesDto>(),
+                UserGroup = new List<UserGroupDto>(),
+                Tokens = new List<TokensDto>()
 
             };
             UserDto u2 = new UserDto()
             {
                 Email = "b@b.pl",
                 Description = "testowy nr 2",
-
+                Activity = new List<ActivityDto>(),
+                Favorites = new List<FavoritesDto>(),
+                UserGroup = new List<UserGroupDto>(),
+                Tokens = new List<TokensDto>()
             };
 
 
