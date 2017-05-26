@@ -1,4 +1,4 @@
-﻿using TaskMaster.BLL.MobileModels;
+﻿using TaskMaster.BLL.MobileServices;
 using TaskMaster.DAL.Repositories;
 
 namespace TaskMaster.BLL.MobileService
