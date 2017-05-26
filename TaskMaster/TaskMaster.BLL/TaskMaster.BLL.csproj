@@ -97,16 +97,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="MapperProfileBLL.cs" />
-    <Compile Include="MobileModels\FavoritesWebApi.cs" />
-    <Compile Include="MobileModels\TaskWebApi.cs" />
-    <Compile Include="MobileModels\UserWebApi.cs" />
-    <Compile Include="MobileServices\PrintAllTestService.cs" />
-    <Compile Include="MobileServices\TasksWebApiService.cs" />
-    <Compile Include="MobileServices\UserWebApiService.cs" />
-    <Compile Include="MobileServices\VeryficationService.cs" />
+    <Compile Include="MobileService\PrintAllTestService.cs" />
+    <Compile Include="MobileService\UserWebApiService.cs" />
+    <Compile Include="MobileService\VeryficationService.cs" />
+    <Compile Include="MobileService\ActivityWebApiService.cs" />
     <Compile Include="MobileService\FavoritesWebApiService.cs" />
     <Compile Include="MobileService\PrintAll.cs" />
-    <Compile Include="MobileService\UserWebApiService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\MainService.cs" />
     <Compile Include="Services\UserService.cs" />

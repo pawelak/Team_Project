@@ -11,6 +11,7 @@ namespace TaskMaster.BLL.WebApiModels
         public string GroupName { get; set; }
         public string TaskName { get; set; }
         public string Token { get; set; }
+        public string Guid { get; set; }
         public EditState EditState { get; set; }
         public State State { get; set; }
 
