@@ -1,0 +1,46 @@
+Instrukcja do tego co siê teraz dzieje
+
+
+WebApi:
+u¿ywanie linków:
+chc¹æ na geta wys³aæ jak¹œ zmienn¹ w stringu np "email" wygl¹da to tak:
+localhost:65116/api/Activity/?email=b@b.pl
+gdzie email="b@b.pl"
+
+
+
+funkcje:
+Activity:
+GET: api/Activity/email - pobiera aktywnoœci z poprzednich 7 dni, nad httpclientem musze jeszcze popracowaæ
+
+
+
+
+
+
+
+
+
+
+
+Baza:
+wkurzy³em siê na bazê i moje funkcje ko¿ystaj¹ z fejkowej bazy która znajduje siê w BLL w MobileService.
+Testowanie czy coœ dzia³a na bazie jest banalne,
+ w ka¿dym przypadku wystarczy wywaliæ linijki nastêpuj¹ce po obkomentowanej s³owami "machlojenia" linijce i odkomentowaæ nastêpn¹
+ przyk³ad:
+
+//------------machlojenia z baz¹----------------
+var user = database.userDtosList.First(a => a.Email.Equals(email));
+//var user = _userRepositories.Get(email);
+
+i tu wystarczy wywaliæ liniê 2 i odkomentowaæ liniê 3 i ju¿ ko¿ystamy z bazy 
+
+
+W bazie mamy:
+User x2
+a@a.pl - biedny, po jednym wszytkim favorites, activity, group itp
+b@b.pl - bardziej z³o¿ony po 2-3
+
+
+
+

@@ -27,10 +27,7 @@ namespace TaskMaster.WebApi.Controllers
         // GET: api/Activity/email
         public string Get(string email)
         {
-            
-            //var returnText = JsonConvert.SerializeObject(_activityWebApiService.test2());
-            var returnText = JsonConvert.SerializeObject(_activityWebApiService.GetActivityFromLastWeek(email));
-            return returnText;
+            return JsonConvert.SerializeObject(_activityWebApiService.GetActivityFromLastWeek(email));
         }
 
         // POST: api/Activity
