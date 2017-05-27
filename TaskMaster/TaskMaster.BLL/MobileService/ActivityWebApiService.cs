@@ -4,6 +4,7 @@ using System.Globalization;
 using System.Linq;
 using TaskMaster.BLL.WebApiModels;
 using TaskMaster.DAL.DTOModels;
+using TaskMaster.DAL.Enum;
 using TaskMaster.DAL.Repositories;
 
 namespace TaskMaster.BLL.MobileService
@@ -32,13 +33,16 @@ namespace TaskMaster.BLL.MobileService
 
             foreach (var act in user.Activity)
             {
-                activityRawList.AddRange(act.PartsOfActivity
-                     .Where(a => (a.Stop > dt7daysAgo) && (a.Start < DateTime.Now))
-                     .Select(a => act));
-
+                if (act.State != State.Planned)
+                {
+                    activityRawList.AddRange(act.PartsOfActivity
+                    .Where(a => (a.Stop > dt7daysAgo) && (a.Start < DateTime.Now))
+                    .Select(a => act));
+                }
+              
             }
             
-
+            
             var returnedList = new List<ActivityMobileDto>();
 
             foreach (var raw in activityRawList)
@@ -60,7 +64,6 @@ namespace TaskMaster.BLL.MobileService
                 {
                     UserEmail = raw.User.Email,
                     Comment = raw.Comment,
-                    GroupName = raw.Group.NameGroup,
                     Guid = raw.Guid,
                     TaskName = raw.Task.Name,
                     Token = null,

@@ -31,13 +31,12 @@ namespace TaskMaster.BLL.MobileServices
         public UserMobileDto GetUserByEmail(string email)
         {
             var tmpUserDto = _userRepositories.GetAll().First(u => u.Email.Equals(email));
-            var tmpTokensDto = tmpUserDto.Tokens.First(t => false);
             return new UserMobileDto()
             {
                 Email = tmpUserDto.Email,
                 Description = tmpUserDto.Description,
-                Token = tmpTokensDto.Token,
-                PlatformType = tmpTokensDto.PlatformType
+                Token = null,
+                PlatformType = PlatformType.None
             };
 
         }

@@ -4,35 +4,39 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using Newtonsoft.Json;
+using TaskMaster.BLL.MobileService;
+using TaskMaster.BLL.WebApiModels;
 
 namespace TaskMaster.WebApi.Controllers
 {
-    [Authorize]
-    public class ValuesController : ApiController
+    public class PlanedController : ApiController
     {
-        // GET api/values
+        private readonly PlannedService _activityPlanned = new PlannedService();
+
+        // GET: api/Planed
         public IEnumerable<string> Get()
         {
             return new string[] { "value1", "value2" };
         }
 
-        // GET api/values/5
-        public string Get(int id)
+        // GET: api/Planed/email
+        public string Get(string email)
         {
-            return "value";
+            return JsonConvert.SerializeObject(_activityPlanned.GetPlanned(email));
         }
 
-        // POST api/values
+        // POST: api/Planed
         public void Post([FromBody]string value)
         {
         }
 
-        // PUT api/values/5
+        // PUT: api/Planed/5
         public void Put(int id, [FromBody]string value)
         {
         }
 
-        // DELETE api/values/5
+        // DELETE: api/Planed/5
         public void Delete(int id)
         {
         }

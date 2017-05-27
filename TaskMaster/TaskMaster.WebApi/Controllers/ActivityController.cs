@@ -33,9 +33,11 @@ namespace TaskMaster.WebApi.Controllers
         }
 
         // POST: api/Activity
-
-        public HttpResponseMessage Post([FromBody]string json)
+        
+        public HttpResponseMessage Post([FromBody]string request)
         {
+            // var requestDto = JsonConvert.DeserializeObject(request);
+            // return new HttpResponseMessage(HttpStatusCode.OK);
             return null;
         }
 
