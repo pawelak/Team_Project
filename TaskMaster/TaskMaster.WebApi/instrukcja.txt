@@ -11,8 +11,11 @@ gdzie email="b@b.pl"
 
 funkcje:
 Activity:
-GET: api/Activity/email - pobiera aktywnoœci z poprzednich 7 dni, nad httpclientem musze jeszcze popracowaæ
 
+GET: api/Activity/email - pobiera aktywnoœci z poprzednich 7 dni, nad httpclientem musze jeszcze popracowaæ
+w tokenie zwracanej klasy wpisuje null bo nie wiem z czego ktoœ mnie pyta zebym dobra³ adekwatny token 
+
+POST: api/Activity - to mo¿na próbowaæ szczelaæ ale prawie zawze odpowie true bo zachowanie symulowanej bazy odbiega od zwyk³ej 
 
 
 

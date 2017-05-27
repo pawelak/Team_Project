@@ -4,10 +4,12 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using System.Web.Http.Description;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using TaskMaster.BLL.MobileService;
 using TaskMaster.BLL.WebApiModels;
+using TaskMaster.DAL.Models;
 
 namespace TaskMaster.WebApi.Controllers
 {
@@ -31,8 +33,10 @@ namespace TaskMaster.WebApi.Controllers
         }
 
         // POST: api/Activity
-        public void Post([FromBody]string value)
+
+        public HttpResponseMessage Post([FromBody]string json)
         {
+            return null;
         }
 
         // PUT: api/Activity/5

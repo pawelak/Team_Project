@@ -74,37 +74,37 @@ namespace TaskMaster.BLL.MobileService
             {
                 Start = new DateTime(2017, 5, 25,10,30,10),
                 Stop = new DateTime(2017, 5, 25, 11, 30, 10),
-                Duration = new DateTime(2017, 5, 10, 11, 30, 10)
-                };
+                Duration = new TimeSpan(0,0,0,1)
+            };
             PartsOfActivityDto p2 = new PartsOfActivityDto()
             {
                 Start = new DateTime(2017, 5, 25, 10, 30, 10),
                 Stop = new DateTime(2017, 5, 25, 11, 30, 10),
-                Duration = new DateTime(2017, 5, 11, 11, 30, 10)
+                Duration = new TimeSpan(0, 0, 0, 1)
             };
             PartsOfActivityDto p3 = new PartsOfActivityDto()
             {
                 Start = new DateTime(2017, 5, 25, 10, 30, 10),
                 Stop = new DateTime(2017, 5, 25, 11, 30, 10),
-                Duration = new DateTime(2017, 5, 10, 11, 30, 10)
+                Duration = new TimeSpan(0, 0, 0, 1)
             };
             PartsOfActivityDto p4 = new PartsOfActivityDto()
             {
                 Start = new DateTime(2017, 5, 25, 10, 30, 10),
                 Stop = new DateTime(2017, 5, 25, 11, 30, 10),
-                Duration = new DateTime(2017, 5, 10, 11, 30, 10)
+                Duration = new TimeSpan(0, 0, 0, 1)
             };
             PartsOfActivityDto p5 = new PartsOfActivityDto()
             {
                 Start = new DateTime(2017, 5, 23, 10, 30, 10),
                 Stop = new DateTime(2017, 5, 23, 11, 30, 10),
-                Duration = new DateTime(2017, 5, 10, 11, 30, 10)
+                Duration = new TimeSpan(0, 0, 0, 1)
             };
             PartsOfActivityDto p6 = new PartsOfActivityDto()
             {
                 Start = new DateTime(2017, 5, 25, 10, 30, 10),
                 Stop = new DateTime(2017, 5, 15, 11, 30, 10),
-                Duration = new DateTime(2017, 5, 10, 11, 30, 10)
+                Duration = new TimeSpan(0, 0, 0, 1)
             };
 
 
