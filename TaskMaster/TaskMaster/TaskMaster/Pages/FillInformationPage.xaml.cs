@@ -66,7 +66,7 @@ namespace TaskMaster.Pages
         private void ActivityDescription_OnUnfocused(object sender, FocusEventArgs e)
 	    {
 	        FillTaskDescription.Text = ActivityDescription.Text;
-	        _task.Description = ActivityDescription.Text;
+	        _activity.Comment = ActivityDescription.Text;
 	    }
 
 	    private void ActivityName_OnUnfocused(object sender, FocusEventArgs e)
@@ -166,7 +166,6 @@ namespace TaskMaster.Pages
 	        };
 	        _task = await UserService.Instance.GetTask(taskDto);
 	        FillTaskName.Text = _task.Name;
-	        FillTaskDescription.Text = _task.Description;
 	        TypePickerImage.Source = SelectImage(_task.Typ);
 	    }
     }

@@ -65,7 +65,6 @@ namespace TaskMaster
                 var newTask = new TasksDto
                 {
                     Name = ActivityName.Text,
-                    Description = ActivityDescription.Text,
                     Typ = _typSelected
                 };
 	            if (await UserService.Instance.GetTask(newTask) == null)
@@ -79,10 +78,12 @@ namespace TaskMaster
 	            var newActivity = new ActivitiesDto
 	            {
 	                UserId = 1,
-	                TaskId = newTask.TaskId,
+	                //UserId = await UserService.Instance.GetLoggedUser(),
+                    TaskId = newTask.TaskId,
 	                GroupId = 1,
-	                Status = StatusType.Planned
-	            };
+	                Status = StatusType.Planned,
+	                Comment = ActivityDescription.Text,
+                };
 	            newActivity.ActivityId = await UserService.Instance.SaveActivity(newActivity);
 	            var part = new PartsOfActivityDto
 	            {
@@ -178,7 +179,6 @@ namespace TaskMaster
             };
 	        var task = await UserService.Instance.GetTask(taskDto);
 	        TaskName.Text = task.Name;
-	        TaskDescription.Text = task.Description;
 	        TypePickerImage.Source = SelectImage(task.Typ);
 	    }
 	}

@@ -40,7 +40,6 @@ namespace TaskMaster
 	            var newTask = new TasksDto
 	            {
 	                Name = StartTaskName.Text,
-	                Description = StartTaskDescription.Text
 	            };
 	            if (await UserService.Instance.GetTask(newTask) == null)
 	            {
@@ -54,8 +53,10 @@ namespace TaskMaster
 	            {
 	                TaskId = newTask.TaskId,
 	                UserId = 1,
-	                Status = StatusType.Start
-	            };
+                    //UserId = await UserService.Instance.GetLoggedUser(),
+	                Status = StatusType.Start,
+	                Comment = StartTaskDescription.Text
+                };
 	            newActivity.ActivityId = await UserService.Instance.SaveActivity(newActivity);
 	            var date = DateTime.Now.ToString("HH:mm:ss dd/MM/yyyy");
 	            var part = new PartsOfActivityDto
@@ -83,7 +84,6 @@ namespace TaskMaster
 	        };
 	        var task = await UserService.Instance.GetTask(taskDto);
 	        StartTaskName.Text = task.Name;
-	        StartTaskDescription.Text = task.Description;
 	    }
     }
 }

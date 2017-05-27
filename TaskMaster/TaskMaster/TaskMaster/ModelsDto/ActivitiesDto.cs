@@ -8,5 +8,6 @@
         public int TaskId { get; set; }
         public int GroupId { get; set; }
         public StatusType Status { get; set; }
+        public SyncStatusType SyncStatus { get; set; }
     }
 }

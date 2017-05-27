@@ -8,5 +8,6 @@ namespace TaskMaster.DAL.DTOModels
  
         public IList<ActivityDto> Activity { get; set; }
         public IList<UserGroupDto> UserGroup { get; set; }
-    }
+
+    } 
 }

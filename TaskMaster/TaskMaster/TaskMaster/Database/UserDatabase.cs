@@ -14,7 +14,7 @@ namespace TaskMaster
         {
             Mapper.Initialize(cfg => cfg.AddProfile<UserMapProfile>());
             _database = new SQLiteAsyncConnection(dbpath);
-            //DropTables();
+            DropTables();
             _database.CreateTablesAsync<Activities, Favorites, PartsOfActivity, Tasks, User>().Wait();
         }
 
@@ -85,7 +85,25 @@ namespace TaskMaster
         public async Task<int> GetLoggedUser()
         {
             var result = await _database.Table<User>().Where(u => u.IsLoggedIn).FirstOrDefaultAsync();
+            if (result == null)
+            {
+                return -1;
+            }
             return result.UserId;
+        }
+
+        public async Task<UserDto> GetUser(int id)
+        {
+            var user = await _database.Table<User>().Where(u => u.UserId == id).FirstOrDefaultAsync();
+            var userDto = Mapper.Map<UserDto>(user);
+            return userDto;
+        }
+
+        public async Task LogoutUser()
+        {
+            var user = await _database.Table<User>().Where(u => u.IsLoggedIn).FirstOrDefaultAsync();
+            user.IsLoggedIn = false;
+            await _database.UpdateAsync(user);
         }
         public async Task<int> InsertTask(TasksDto tasksDto)
         {

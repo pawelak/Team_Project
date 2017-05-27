@@ -4,6 +4,7 @@
     {
         Android,
         WindowsPhone,
-        Ios
+        Ios,
+        none
     }
 }

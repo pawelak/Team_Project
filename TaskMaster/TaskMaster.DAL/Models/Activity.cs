@@ -7,6 +7,7 @@ namespace TaskMaster.DAL.Models
     {
         public int ActivityId { get; set; }
         public State State { get; set; }
+        public EditState EditState { get; set; }
         public string Comment { get; set; }
 
         public int UserId { get; set; }

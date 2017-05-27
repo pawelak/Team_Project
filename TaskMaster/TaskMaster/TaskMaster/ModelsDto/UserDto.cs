@@ -8,5 +8,6 @@
         public string Token { get; set; }
         public string TypeOfRegistration { get; set; }
         public bool IsLoggedIn { get; set; }
+        public SyncStatusType SyncStatus { get; set; }
     }
 }

@@ -22,7 +22,7 @@ namespace TaskMaster.BLL.MobileService
                     var taskWebApi = new TaskWebApi
                     {
                         Name = fav.Task.Name,
-                        Description = fav.Task.Description
+                        //Description = fav.Task.Description
                     };
                     favoritesWebApi.Tasks.Add(taskWebApi);
                 }

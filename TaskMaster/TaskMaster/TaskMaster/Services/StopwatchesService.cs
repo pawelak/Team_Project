@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 
 namespace TaskMaster.Services
@@ -8,7 +7,7 @@ namespace TaskMaster.Services
     {
         private static StopwatchesService _instance;
         private readonly List<StopwatchWrapper> _stopwatches = new List<StopwatchWrapper>();
-
+        public static StopwatchesService Instance => _instance ?? (_instance = new StopwatchesService());
         public void AddStopwatch(int id)
         {
             var stopwatch = new StopwatchWrapper(id);
@@ -57,16 +56,6 @@ namespace TaskMaster.Services
             return _stopwatches.Count;
         }
 
-        public static StopwatchesService Instance
-        {
-            get
-            {
-                if (_instance == null)
-                {
-                    _instance = new StopwatchesService();
-                }
-                return _instance;
-            }
-        }
+        
     }
 }
