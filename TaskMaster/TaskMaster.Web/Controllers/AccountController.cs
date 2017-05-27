@@ -10,7 +10,7 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using TaskMaster.BLL.WebServices;
 using TaskMaster.Web.Models;
-using TaskMaster.BLL.WebServices;
+
 
 namespace TaskMaster.Web.Controllers
 {
