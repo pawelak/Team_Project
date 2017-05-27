@@ -10,7 +10,12 @@ namespace TaskMaster.BLL.WebModels
     {
         public string Name;
 
-        public double Time;
+        public double Second;
 
+        public double Minute;
+
+        public double Hour;
+
+        public string Time;
     }
 }

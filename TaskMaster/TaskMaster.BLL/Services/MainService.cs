@@ -8,6 +8,17 @@ using TaskMaster.DAL.Repositories;
 
 namespace TaskMaster.BLL.Services
 {
+    /*
+    przekonwertowac aktivites w main services
+
+    przekonwertowac timespan na datatime w entity i przemapowac na time span w mapperze
+
+    dorobic rekorfdow anjlepiej od pawelka
+
+    serwis dla historii oraz serwis dla home paga
+    */
+
+
     public class MainService
     {
         private readonly ActivityRepositories _activityRepositories = new ActivityRepositories();

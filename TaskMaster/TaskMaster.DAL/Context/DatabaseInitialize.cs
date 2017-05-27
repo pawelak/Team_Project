@@ -1,28 +1,22 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using TaskMaster.DAL.Models;
-using System.Data.Entity.Migrations;
 
-namespace TaskMaster.DAL.Migrations
+namespace TaskMaster.DAL.Context
 {
-    internal sealed class Configuration : DbMigrationsConfiguration<Context.DatabaseContext>
+    public class DatabaseInitialize : CreateDatabaseIfNotExists<DatabaseContext>
     {
-        public Configuration()
-        {
-            AutomaticMigrationsEnabled = true;
-            AutomaticMigrationDataLossAllowed = true;
-        }
-
         protected override void Seed(Context.DatabaseContext context)
         {
             IList<User> defaultUsers = new List<User>();
 
             defaultUsers.Add(new User() { Email = "dlanorberta@gmail.com", Name = "Norbercik" });
-            defaultUsers.Add(new User() { Email = "dlapawela@gmail.com", Name = "Pawe�ek" });
+            defaultUsers.Add(new User() { Email = "dlapawela@gmail.com", Name = "Pawełek" });
             defaultUsers.Add(new User() { Email = "dlabartosza@gmail.com", Name = "Bartoszek" });
 
             foreach (var elem in defaultUsers) context.User.Add(elem);
-            
+
 
             IList<Tokens> defaultTokens = new List<Tokens>();
 
@@ -46,7 +40,7 @@ namespace TaskMaster.DAL.Migrations
 
             IList<Activity> defaultActivity = new List<Activity>();
 
-            defaultActivity.Add(new Activity() { Comment = "Co sie dzieje" , User = defaultUsers[0],Task = defaultTasks[0]});
+            defaultActivity.Add(new Activity() { Comment = "Co sie dzieje", User = defaultUsers[0], Task = defaultTasks[0] });
             defaultActivity.Add(new Activity() { Comment = "Co sie bedzie dziac", User = defaultUsers[0], Task = defaultTasks[0] });
             defaultActivity.Add(new Activity() { Comment = "Co sie stalo", User = defaultUsers[0], Task = defaultTasks[0] });
 
@@ -54,13 +48,15 @@ namespace TaskMaster.DAL.Migrations
 
             IList<PartsOfActivity> defaultPartsOfActivity = new List<PartsOfActivity>();
 
-            defaultPartsOfActivity.Add(new PartsOfActivity() { Activity = defaultActivity[2], Duration = new TimeSpan( 5, 0, 20) });
-            defaultPartsOfActivity.Add(new PartsOfActivity() { Activity = defaultActivity[0], Duration = new TimeSpan( 0, 2, 30) });
-            defaultPartsOfActivity.Add(new PartsOfActivity() { Activity = defaultActivity[1], Duration = new TimeSpan( 0, 5, 40) });
+            defaultPartsOfActivity.Add(new PartsOfActivity() { Activity = defaultActivity[2], Duration = new TimeSpan(5, 0, 20) });
+            defaultPartsOfActivity.Add(new PartsOfActivity() { Activity = defaultActivity[0], Duration = new TimeSpan(0, 2, 30) });
+            defaultPartsOfActivity.Add(new PartsOfActivity() { Activity = defaultActivity[1], Duration = new TimeSpan(0, 5, 40) });
 
             foreach (var elem in defaultPartsOfActivity) context.PartsOfActivity.Add(elem);
 
             base.Seed(context);
         }
+
+
     }
 }

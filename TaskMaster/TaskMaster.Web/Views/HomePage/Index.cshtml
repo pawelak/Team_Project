@@ -10,34 +10,77 @@
 <div class="col-md-3 quickFixMargin ">
     <div class="lastActivities">
         <h4>Ostatni miesiąc</h4>
+        @foreach (var p in alfa.ShowActivity("dlanorberta@gmail.com"))
+        {
+            <div class="singleActivity">
+                <div class="singleActivityContent"><img src="../../images/sport.png"/>
+                </div>
+                <div class="singleActivityContent">
+                    <p>@p.Name</p>
+                </div>
+                <div class="singleActivityContent">
+                    <p>@p.Time.ToString()</p>
+                </div>
+                <div class="clear"></div>
+            </div>
+        }
+
+
+
+
         <div class="singleActivity">
-            <div class="singleActivityContent"><img src="../../images/sport.png" /></div>
-            <div class="singleActivityContent"><p>bieganie</p> </div>
-            <div class="singleActivityContent"><p>2:40:21</p></div>
+            <div class="singleActivityContent"><img src="../../images/sport.png"/>
+            </div>
+            <div class="singleActivityContent">
+                <p>bieganie</p>
+            </div>
+            <div class="singleActivityContent">
+                <p>2:40:21</p>
+            </div>
             <div class="clear"></div>
         </div>
         <div class="singleActivity">
-            <div class="singleActivityContent"><img src="../../images/programming.png" /></div>
-            <div class="singleActivityContent"><p>programowanie</p> </div>
-            <div class="singleActivityContent"><p>1:20:00</p></div>
+            <div class="singleActivityContent"><img src="../../images/programming.png"/>
+            </div>
+            <div class="singleActivityContent">
+                <p>programowanie</p>
+            </div>
+            <div class="singleActivityContent">
+                <p>1:20:00</p>
+            </div>
             <div class="clear"></div>
         </div>
         <div class="singleActivity">
-            <div class="singleActivityContent"><img src="../../images/Cafe.png" /></div>
-            <div class="singleActivityContent"><p>Picie kawy</p> </div>
-            <div class="singleActivityContent"><p>2:30:15</p></div>
+            <div class="singleActivityContent"><img src="../../images/Cafe.png"/>
+            </div>
+            <div class="singleActivityContent">
+                <p>Picie kawy</p>
+            </div>
+            <div class="singleActivityContent">
+                <p>2:30:15</p>
+            </div>
             <div class="clear"></div>
         </div>
         <div class="singleActivity">
-            <div class="singleActivityContent"><img src="../../images/art.png" /></div>
-            <div class="singleActivityContent"><p>Pisanie książki</p> </div>
-            <div class="singleActivityContent"><p>4:02:30</p></div>
+            <div class="singleActivityContent"><img src="../../images/art.png"/>
+            </div>
+            <div class="singleActivityContent">
+                <p>Pisanie książki</p>
+            </div>
+            <div class="singleActivityContent">
+                <p>4:02:30</p>
+            </div>
             <div class="clear"></div>
         </div>
         <div class="singleActivity">
-            <div class="singleActivityContent"><img src="../../images/OK.png" /></div>
-            <div class="singleActivityContent"><p>Drzemka</p> </div>
-            <div class="singleActivityContent"><p>2:00:10</p></div>
+            <div class="singleActivityContent"><img src="../../images/OK.png"/>
+            </div>
+            <div class="singleActivityContent">
+                <p>Drzemka</p>
+            </div>
+            <div class="singleActivityContent">
+                <p>2:00:10</p>
+            </div>
             <div class="clear"></div>
         </div>
     </div>
@@ -66,7 +109,7 @@
     @foreach (var p in alfa.ShowActivity("dlanorberta@gmail.com"))
     {
         <div>
-            <p>@p.Name</p>
+            <p>@p.Time.ToString()</p>
         </div>
         <div class="progress">
             <div class="progress-bar progress-bar-success progress-bar-striped" role="progressbar" aria-valuenow=@p.Time.ToString() aria-valuemin="0" aria-valuemax="3600" style="width: 40%">
