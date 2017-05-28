@@ -23,11 +23,9 @@ namespace TaskMaster.WebApi.Controllers
         }
 
         // GET: api/User/email              pobiera dane urzytkownika o zadanym mailu
-        public string Get(string email)
+        public HttpResponseMessage Get(HttpRequestMessage request ,string email)
         {
-            var returned = JsonConvert.SerializeObject(_userWebApiService.GetUserByEmail(email));
-
-            return returned;
+            return request.CreateResponse(HttpStatusCode.OK, JsonConvert.SerializeObject(_userWebApiService.GetUserByEmail(email)));
         }
 
         // POST: api/User                                       edycja użytkownika

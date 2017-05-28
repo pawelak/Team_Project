@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using System.Web.Http.Description;
 using Newtonsoft.Json;
 using TaskMaster.BLL.MobileService;
 
@@ -20,10 +21,10 @@ namespace TaskMaster.WebApi.Controllers
         }
 
         // GET: api/Favorites/email
-        public string Get(string email)
+        [ResponseType(typeof(string))]
+        public HttpResponseMessage Get(HttpRequestMessage request ,string email)
         {
-            string returned = JsonConvert.SerializeObject(_favoritesWebApiService.GetAllFavorites(email));
-            return returned;
+            return request.CreateResponse(HttpStatusCode.OK, JsonConvert.SerializeObject(_favoritesWebApiService.GetAllFavorites(email)));
         }
 
         // POST: api/Favorites

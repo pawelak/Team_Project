@@ -27,9 +27,10 @@ namespace TaskMaster.WebApi.Controllers
         //}
 
         // GET: api/Activity/email
-        public string Get(string email)
+        [ResponseType(typeof(string))]
+        public HttpResponseMessage Get(HttpRequestMessage request ,string email)
         {
-            return JsonConvert.SerializeObject(_activityWebApiService.GetActivityFromLastWeek(email));
+            return request.CreateResponse(HttpStatusCode.OK, JsonConvert.SerializeObject(_activityWebApiService.GetActivityFromLastWeek(email)));
         }
 
         // POST: api/Activity

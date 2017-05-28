@@ -4,9 +4,11 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using System.Web.Http.Description;
 using Newtonsoft.Json;
 using TaskMaster.BLL.MobileService;
 using TaskMaster.BLL.WebApiModels;
+using TaskMaster.DAL.Models;
 
 namespace TaskMaster.WebApi.Controllers
 {
@@ -21,9 +23,10 @@ namespace TaskMaster.WebApi.Controllers
         }
 
         // GET: api/Planed/email
-        public string Get(string email)
+        [ResponseType(typeof(string))]
+        public HttpResponseMessage Get(HttpRequestMessage request, string email)
         {
-            return JsonConvert.SerializeObject(_activityPlanned.GetPlanned(email));
+            return request.CreateResponse(HttpStatusCode.OK, JsonConvert.SerializeObject(_activityPlanned.GetPlanned(email)));
         }
 
         // POST: api/Planed
