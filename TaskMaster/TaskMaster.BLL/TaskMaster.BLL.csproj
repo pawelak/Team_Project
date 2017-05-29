@@ -109,7 +109,7 @@
     <Compile Include="Services\MainService.cs" />
     <Compile Include="Services\UserService.cs" />
     <Compile Include="WebApiModels\ActivityMobileDto.cs" />
-    <Compile Include="WebApiModels\ActivityPlannedMobileDto.cs" />
+    <Compile Include="WebApiModels\PlannedMobileDto.cs" />
     <Compile Include="WebApiModels\FavoritesMobileDto.cs" />
     <Compile Include="WebApiModels\GoogleUser.cs" />
     <Compile Include="WebApiModels\PartsOfActivityMobileDto.cs" />

@@ -3,7 +3,7 @@ using TaskMaster.DAL.Enum;
 
 namespace TaskMaster.BLL.WebApiModels
 {
-    public class ActivityPlannedMobileDto
+    public class PlannedMobileDto
     {
         public string Comment { get; set; }
         public string UserEmail { get; set; }

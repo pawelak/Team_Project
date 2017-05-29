@@ -5,6 +5,7 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using System.Web.Http.Description;
+using System.Web.Http.Results;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using TaskMaster.BLL.MobileService;
@@ -27,10 +28,10 @@ namespace TaskMaster.WebApi.Controllers
         //}
 
         // GET: api/Activity/email
-        [ResponseType(typeof(string))]
-        public HttpResponseMessage Get(HttpRequestMessage request ,string email)
+        public JsonResult <List<ActivityMobileDto>> Get(string email)
         {
-            return request.CreateResponse(HttpStatusCode.OK, JsonConvert.SerializeObject(_activityWebApiService.GetActivityFromLastWeek(email)));
+            var result = _activityWebApiService.GetActivityFromLastWeek(email);
+            return Json(result);
         }
 
         // POST: api/Activity

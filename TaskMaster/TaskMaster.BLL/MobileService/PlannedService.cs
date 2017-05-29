@@ -15,7 +15,7 @@ namespace TaskMaster.BLL.MobileService
         private DataSimulation _database = new DataSimulation();
 
 
-        public List<ActivityPlannedMobileDto> GetPlanned(string email)
+        public List<PlannedMobileDto> GetPlanned(string email)
         {
 
             var activityRawList = new List<ActivityDto>();
@@ -35,7 +35,7 @@ namespace TaskMaster.BLL.MobileService
                     Stop = raw.PartsOfActivity.First().Stop.ToString("HH:mm:ss dd/MM/yyyy", CultureInfo.InvariantCulture),
                     Duration = raw.PartsOfActivity.First().Duration.ToString("G", CultureInfo.InvariantCulture)
                 }
-                select new ActivityPlannedMobileDto()
+                select new PlannedMobileDto()
                 {
                     UserEmail = raw.User.Email,
                     Comment = raw.Comment,
