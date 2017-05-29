@@ -1,45 +1,44 @@
-﻿
-using System;
-using System.Web.UI;
+﻿using System;
 using AutoMapper;
 using TaskMaster.DAL.DTOModels;
 using TaskMaster.DAL.Models;
 
 namespace TaskMaster.DAL
 {
-    public class MapperProfileDAL : Profile
+    public class MapperProfileDal : Profile
     {
-        static  int dep = 500;
-        public MapperProfileDAL()
+        private const int Dep = 2;
+
+        public MapperProfileDal()
         {
             CreateMap<ActivityDto, Activity>()
                 .ReverseMap()
-                .MaxDepth(dep);
+                .MaxDepth(Dep);
             CreateMap<FavoritesDto, Favorites>()
                 .ReverseMap()
-                .MaxDepth(dep);
+                .MaxDepth(Dep);
             CreateMap<GroupDto, Group>()
                 .ReverseMap()
-                .MaxDepth(dep);
+                .MaxDepth(Dep);
             CreateMap<TaskDto, Task>()
                 .ReverseMap()
-                .MaxDepth(dep);
+                .MaxDepth(Dep);
             CreateMap<TokensDto, Tokens>()
                 .ReverseMap()
-                .MaxDepth(dep);
+                .MaxDepth(Dep);
             CreateMap<UserGroupDto, UserGroup>()
                 .ReverseMap()
-                .MaxDepth(dep);
+                .MaxDepth(Dep);
             CreateMap<UserDto, User>()
                 .ReverseMap()
-                .MaxDepth(dep);
+                .MaxDepth(Dep);
             CreateMap<PartsOfActivity, PartsOfActivityDto>()
-                .MaxDepth(dep)
+                .MaxDepth(Dep)
                 .ForMember(dest => dest.Duration,
                     opt => opt.MapFrom
                     (src =>src.Duration.Subtract(new DateTime(2000, 1, 1, 0, 0, 0))));
             CreateMap<PartsOfActivityDto, PartsOfActivity>()
-                .MaxDepth(dep)
+                .MaxDepth(Dep)
                 .ForMember(dest => dest.Duration,
                     opt => opt.MapFrom
                     (src => new DateTime(2000, 1, 1, 0, 0, 0).Add(src.Duration)));

@@ -9,6 +9,7 @@ namespace TaskMaster.DAL.Interface
         void Delete(FavoritesDto dto);
         IList<FavoritesDto> GetAll();
         FavoritesDto Get(int id);
+        IList<FavoritesDto> Get(string email);
         void Edit(FavoritesDto dto);
     }
 }

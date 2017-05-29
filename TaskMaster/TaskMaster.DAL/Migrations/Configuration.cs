@@ -242,7 +242,7 @@ namespace TaskMaster.DAL.Migrations
 
                 defaultActivity.Add(new Activity()
                 {
-                    GUID = "asd10",
+                    Guid = "asd10",
                     Comment = "Co sie dzieje",
                     State = State.Started,
                     User = defaultUsers[0],
@@ -251,7 +251,7 @@ namespace TaskMaster.DAL.Migrations
                 });
                 defaultActivity.Add(new Activity()
                 {
-                    GUID = "asd11",
+                    Guid = "asd11",
                     Comment = "Co sie bedzie dziac",
                     State = State.Paused,
                     User = defaultUsers[0],
@@ -260,7 +260,7 @@ namespace TaskMaster.DAL.Migrations
                 });
                 defaultActivity.Add(new Activity()
                 {
-                    GUID = "asd12",
+                    Guid = "asd12",
                     Comment = "Co sie stalo",
                     State = State.Ended,
                     User = defaultUsers[0],
@@ -269,7 +269,7 @@ namespace TaskMaster.DAL.Migrations
                 });
                 defaultActivity.Add(new Activity()
                 {
-                    GUID = "asd1",
+                    Guid = "asd1",
                     Comment = "activity testowy 1",
                     State = State.Paused,
                     User = defaultUsers[1],
@@ -278,7 +278,7 @@ namespace TaskMaster.DAL.Migrations
                 });
                 defaultActivity.Add(new Activity()
                 {
-                    GUID = "asd2",
+                    Guid = "asd2",
                     Comment = "activity testowy 2",
                     State = State.Paused,
                     User = defaultUsers[2],
@@ -287,7 +287,7 @@ namespace TaskMaster.DAL.Migrations
                 });
                 defaultActivity.Add(new Activity()
                 {
-                    GUID = "asd3",
+                    Guid = "asd3",
                     Comment = "activity testowy 3",
                     State = State.Paused,
                     User = defaultUsers[3],

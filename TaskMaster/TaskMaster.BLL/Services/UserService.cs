@@ -26,7 +26,7 @@ namespace TaskMaster.BLL.Services
         public List<UserDto> UsersInGroup(string groupName) //TODO - zmiana repo
         {
             var groupList = _groupRepositories.GetAll().FirstOrDefault(g => g.NameGroup.Equals(groupName));
-            var userList = groupList.UserGroup.Select(u => u.User).ToList();
+            var userList = groupList?.UserGroup.Select(u => u.User).ToList();
             return userList;
         }
 

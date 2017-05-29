@@ -5,10 +5,9 @@ namespace TaskMaster.DAL.DTOModels
 {
     public class ActivityDto
     {
-        public int ActivityId { get; set; }
         public State State { get; set; }
         public string Comment { get; set; }
-        public string GUID { get; set; }
+        public string Guid { get; set; }
 
         public UserDto User { get; set; }
         public GroupDto Group { get; set; }
