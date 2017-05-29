@@ -30,6 +30,12 @@ namespace TaskMaster.DAL.Repositories
             return Mapper.Map<ActivityDto>(base.Get(id));
         }
 
+        public IList<ActivityDto> Get(string email)
+        {
+            var list = GetAll();
+            return list.Where(l => l.User.Email.Equals(email)).ToList();
+        }
+
         public void Edit(ActivityDto dto)
         {
             base.Edit(Mapper.Map<Activity>(dto));
