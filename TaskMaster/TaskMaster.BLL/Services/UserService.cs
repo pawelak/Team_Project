@@ -11,19 +11,19 @@ namespace TaskMaster.BLL.Services
         private readonly TokensRepositories _tokensRepositories = new TokensRepositories();
         private readonly GroupRepositories _groupRepositories = new GroupRepositories();
 
-        public bool IsEmailInBase(string email)
+        public bool IsEmailInBase(string email) //TODO - zmiana repo
         {
             var userList = _userRepositories.GetAll();
             return userList.Any(u => u.Email.Equals(email));
         }
 
-        public bool IsNameInBase(string name)
+        public bool IsNameInBase(string name) //TODO - zmiana repo
         {
             var userList = _userRepositories.GetAll();
             return userList.Any(u => u.Name.Equals(name));
         }
 
-        public List<UserDto> UsersInGroup(string groupName)
+        public List<UserDto> UsersInGroup(string groupName) //TODO - zmiana repo
         {
             var groupList = _groupRepositories.GetAll().FirstOrDefault(g => g.NameGroup.Equals(groupName));
             var userList = groupList.UserGroup.Select(u => u.User).ToList();

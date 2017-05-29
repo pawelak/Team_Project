@@ -16,6 +16,8 @@ namespace TaskMaster.BLL.WebModels
 
         public double Hour;
 
-        public string Time;
+        public TimeSpan Time;
+
+        public long Percent;
     }
 }

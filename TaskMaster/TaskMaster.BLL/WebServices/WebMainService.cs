@@ -15,15 +15,22 @@ namespace TaskMaster.BLL.WebServices
         private readonly MainService _mainService = new MainService();
         private readonly TaskRepositories _taskRepositories = new TaskRepositories();
 
-        public List<ActivityViewModel> ShowActivity(string email)//, DateTime start, DateTime stop) FIX
+        public List<ActivityViewModel> ShowActivity(string email)
         {
-            var activityList = _mainService.ActivitiesFromTimeToTime(email);//, start, stop);FIX
+            var activityList = _mainService.ActivitiesFromTimeToTime(email);
             var resultList = new List<ActivityViewModel>();
+            var sum = new TimeSpan();
+            var name = "";
+            long max = 0;
+
             foreach (var a in activityList)
             {
-                var sum = new TimeSpan();
-                var name="";
-                
+                sum = a.PartsOfActivity.Aggregate(sum, (current, p) => current + p.Duration);
+                max = sum.Ticks;
+            }
+
+            foreach (var a in activityList)
+            {
                 var nameList = _taskRepositories.GetAll();
                 foreach (var n in nameList)
                 {
@@ -39,11 +46,12 @@ namespace TaskMaster.BLL.WebServices
                     Second = sum.Seconds,
                     Minute = sum.Minutes,
                     Hour = sum.Hours,
-                    Time = sum.ToString("g")
+                    Time = sum,
+                    Percent = sum.Ticks/max
                 };
                 resultList.Add(activityViewModel);
-
             }
+            
             return resultList;
         }
 

@@ -9,8 +9,6 @@ using TaskMaster.DAL.Repositories;
 namespace TaskMaster.BLL.Services
 {
     /*TODO
-    przekonwertowac aktivites w main services
-
 
     serwis dla historii oraz serwis dla home paga
     */
@@ -23,21 +21,17 @@ namespace TaskMaster.BLL.Services
         private readonly UserRepositories _userRepositories = new UserRepositories();
         private readonly TokensRepositories _tokensRepositories = new TokensRepositories();
 
-        public List<ActivityDto> ActivitiesFromTimeToTime(string email) 
+        public List<ActivityDto> ActivitiesFromTimeToTime(string email) //TODO - frow time to time
         {
+            var result = new List<ActivityDto>();
             var activityList = _activityRepositories.GetAll();
-
-            var user = _userRepositories.Get(email);
-            return (List<ActivityDto>) user.Activity; //DEL
-            //foreach (var act in user.Activity)
-            //{
-            //    activityList.AddRange(act.PartsOfActivity.Where(a => a.Start.CompareTo(start) > 0)
-            //        .Where(a => a.Start.CompareTo(stop) < 0)
-            //        .Where(a => a.Stop.CompareTo(start) > 0)
-            //        .Where(a => a.Stop.CompareTo(stop) < 0)
-            //        .Select(a => act));
-            //}
-            //return activityList;
+            var user = _userRepositories.GetAll();
+            foreach (var act in activityList)
+            {
+                if(act.User.Email.Equals(email)) result.Add(act);
+            }
+            result = activityList.ToList();
+            return result;
         }
 
 
