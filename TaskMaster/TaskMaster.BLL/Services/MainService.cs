@@ -8,12 +8,9 @@ using TaskMaster.DAL.Repositories;
 
 namespace TaskMaster.BLL.Services
 {
-    /*
+    /*TODO
     przekonwertowac aktivites w main services
 
-    przekonwertowac timespan na datatime w entity i przemapowac na time span w mapperze
-
-    dorobic rekorfdow anjlepiej od pawelka
 
     serwis dla historii oraz serwis dla home paga
     */
@@ -26,9 +23,10 @@ namespace TaskMaster.BLL.Services
         private readonly UserRepositories _userRepositories = new UserRepositories();
         private readonly TokensRepositories _tokensRepositories = new TokensRepositories();
 
-        public List<ActivityDto> ActivitiesFromTimeToTime(string email) //, DateTime start, DateTime stop) FIX
+        public List<ActivityDto> ActivitiesFromTimeToTime(string email) 
         {
-            var activityList = new List<ActivityDto>();
+            var activityList = _activityRepositories.GetAll();
+
             var user = _userRepositories.Get(email);
             return (List<ActivityDto>) user.Activity; //DEL
             //foreach (var act in user.Activity)
