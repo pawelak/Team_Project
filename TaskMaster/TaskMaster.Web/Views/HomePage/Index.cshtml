@@ -109,10 +109,10 @@
     @foreach (var p in alfa.ShowActivity("dlanorberta@gmail.com"))
     {
         <div>
-            <p>@p.Time.ToString()</p>
+            <p>@p.Name</p>
         </div>
         <div class="progress">
-            <div class="progress-bar progress-bar-success progress-bar-striped" role="progressbar" aria-valuenow=@p.Time.ToString() aria-valuemin="0" aria-valuemax="3600" style="width: 40%">
+            <div class="progress-bar progress-bar-success progress-bar-striped" role="progressbar" aria-valuenow=@p.Time.ToString() aria-valuemin="0" aria-valuemax="100" style="width: @p.Percent">
                 <span class="sr-only">40% Complete (success)</span>
             </div>
         </div>

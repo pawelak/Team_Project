@@ -15,35 +15,39 @@ namespace TaskMaster.BLL.WebServices
         private readonly MainService _mainService = new MainService();
         private readonly TaskRepositories _taskRepositories = new TaskRepositories();
 
-        public List<ActivityViewModel> ShowActivity(string email)//, DateTime start, DateTime stop) FIX
+        public List<ActivityViewModel> ShowActivity(string email)
         {
-            var activityList = _mainService.ActivitiesFromTimeToTime(email);//, start, stop);FIX
+            var activityList = _mainService.ActivitiesFromMonthAgo(email);
             var resultList = new List<ActivityViewModel>();
-            foreach (var a in activityList)
+            var sum = new TimeSpan();
+            long max = 0;
+
+            foreach (var act in activityList)
             {
-                var sum = new TimeSpan();
-                var name="";
-                
-                var nameList = _taskRepositories.GetAll();
-                foreach (var n in nameList)
+                sum = TimeSpan.Zero;
+                sum = act.PartsOfActivity.Aggregate(sum, (current, p) => current + p.Duration);
+                if (sum.Ticks > max)
                 {
-                    foreach (var v in n.Activity)
-                    {
-                        if (v.ActivityId == a.ActivityId) name = n.Name;
-                    }
+                    max = sum.Ticks;
                 }
-                sum = a.PartsOfActivity.Aggregate(sum, (current, p) => current + p.Duration);
+            }
+            foreach (var act in activityList)
+            {
+                sum = TimeSpan.Zero;
+                sum = act.PartsOfActivity.Aggregate(sum, (current, p) => current + p.Duration);
+                double pom = (int)((double) sum.Ticks / max * 100);
                 var activityViewModel = new ActivityViewModel
                 {
-                    Name = name,
+                    Name = act.Task.Name,
                     Second = sum.Seconds,
                     Minute = sum.Minutes,
                     Hour = sum.Hours,
-                    Time = sum.ToString("g")
+                    Time = sum,
+                    Percent =  pom+"%"
                 };
                 resultList.Add(activityViewModel);
-
             }
+            
             return resultList;
         }
 

@@ -8,14 +8,11 @@ namespace TaskMaster.BLL.WebModels
 {
     public class ActivityViewModel
     {
-        public string Name;
-
-        public double Second;
-
-        public double Minute;
-
-        public double Hour;
-
-        public string Time;
+        public string Name { get; set; }
+        public double Second { get; set; }
+        public double Minute { get; set; }
+        public double Hour { get; set; }
+        public TimeSpan Time { get; set; }
+        public string Percent { get; set; }
     }
 }
