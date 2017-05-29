@@ -11,8 +11,7 @@ namespace TaskMaster.Droid
     {
         public void LogOut()
         {
-            Auth.GoogleSignInApi.SignOut(MainActivity._mGoogleApiClient);
-            //Stop or pause all activities?
+            Auth.GoogleSignInApi.SignOut(MainActivity.MGoogleApiClient);
             ((Activity)Forms.Context).Finish();
         }
     }

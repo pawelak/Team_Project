@@ -13,6 +13,7 @@ namespace TaskMaster.Services
 {
     public class SynchronizationService
     {
+        private const string Ip = "http://192.168.1.14:65116/api"; 
         private static SynchronizationService _instance;
 
         private SynchronizationService()
@@ -33,7 +34,7 @@ namespace TaskMaster.Services
             };
             var userJson = JsonConvert.SerializeObject(userRest);
             var contentUser = new StringContent(userJson, Encoding.UTF8, "application/json");
-            var uri = new Uri("http://localhost:8000/api/users");
+            var uri = new Uri($"{Ip}/users");
             var response = await _client.PostAsync(uri,contentUser);
             if (!response.IsSuccessStatusCode)
             {
@@ -67,7 +68,7 @@ namespace TaskMaster.Services
             };
             var activityJson = JsonConvert.SerializeObject(activityRest);
             var contentActivity = new StringContent(activityJson, Encoding.UTF8, "application/json");
-            var uri = new Uri("http://localhost:8000/api/activities");
+            var uri = new Uri($"{Ip}/activities");
             var response = await _client.PostAsync(uri, contentActivity);
             if (!response.IsSuccessStatusCode)
             {
@@ -101,7 +102,7 @@ namespace TaskMaster.Services
             
             var favoriteJson = JsonConvert.SerializeObject(favoriteTasks);
             var contentFavorite = new StringContent(favoriteJson, Encoding.UTF8, "application/json");
-            var uri = new Uri("http://localhost:8000/api/favorites");
+            var uri = new Uri($"{Ip}/favorites");
             var response = await _client.PostAsync(uri, contentFavorite);
             if (!response.IsSuccessStatusCode)
             {
@@ -138,7 +139,7 @@ namespace TaskMaster.Services
             };
             var taskJson = JsonConvert.SerializeObject(plannedRest);
             var contentTask = new StringContent(taskJson, Encoding.UTF8, "application/json");
-            var uri = new Uri("http://localhost:8000/api/planned");
+            var uri = new Uri($"{Ip}/planned");
             var response = await _client.PostAsync(uri, contentTask);
             if (!response.IsSuccessStatusCode)
             {
@@ -150,8 +151,8 @@ namespace TaskMaster.Services
 
         public async Task GetActivities()
         {
-            var user = UserService.Instance.GetLoggedUser();
-            var uri = new Uri($"http://localhost:8000/api/activities/{user.Name}");
+            //var user = UserService.Instance.GetLoggedUser();
+            var uri = new Uri($"{Ip}/Activity/?email=b@b.pl");
             var response = await _client.GetAsync(uri);
             if (!response.IsSuccessStatusCode)
             {
@@ -276,7 +277,7 @@ namespace TaskMaster.Services
                     Status = activity.State,
                     GroupId = int.Parse(activity.GroupName),
                     SyncStatus = SyncStatus.Received,
-                    UserId =  user.UserId,
+                    //UserId =  user.UserId,
                     TaskId = taskDto2.TaskId
                 };
                 activityDto.ActivityId = await UserService.Instance.SaveActivity(activityDto);
@@ -296,7 +297,7 @@ namespace TaskMaster.Services
 
         public async Task GetFavorites()
         {
-            var uri = new Uri("http://localhost:8000/api/favorites");
+            var uri = new Uri($"{Ip}/favorites");
             var response = await _client.GetAsync(uri);
             if (!response.IsSuccessStatusCode)
             {
@@ -345,7 +346,7 @@ namespace TaskMaster.Services
 
         public async Task GetPlanned()
         {
-            var uri = new Uri("http://localhost:8000/api/planned");
+            var uri = new Uri($"{Ip}/planned");
             var response = await _client.GetAsync(uri);
             if (!response.IsSuccessStatusCode)
             {

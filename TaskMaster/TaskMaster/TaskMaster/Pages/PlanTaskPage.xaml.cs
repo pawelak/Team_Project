@@ -78,8 +78,8 @@ namespace TaskMaster
 	            var newActivity = new ActivitiesDto
 	            {
 	                Guid = Guid.NewGuid().ToString(),
-                    UserId = 1,
-	                //UserId = await UserService.Instance.GetLoggedUser(),
+                    //UserId = 1,
+	                UserId = UserService.Instance.GetLoggedUser().UserId,
                     TaskId = newTask.TaskId,
 	                GroupId = 1,
 	                Status = StatusType.Planned,

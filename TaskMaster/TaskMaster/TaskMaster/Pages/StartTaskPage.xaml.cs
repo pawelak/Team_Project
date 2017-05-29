@@ -53,8 +53,8 @@ namespace TaskMaster
 	            {
 	                Guid = Guid.NewGuid().ToString(),
                     TaskId = newTask.TaskId,
-	                UserId = 1,
-                    //UserId = await UserService.Instance.GetLoggedUser(),
+	                //UserId = 1,
+                    UserId = UserService.Instance.GetLoggedUser().UserId,
 	                Status = StatusType.Start,
 	                Comment = StartTaskDescription.Text
                 };

@@ -67,6 +67,19 @@ namespace TaskMaster.Services
             return insert;
         }
 
+        public async Task<bool> IsLoggedUser()
+        {
+            var user = await Database.GetLoggedUser();
+            if (user == null)
+            {
+                return false;
+            }
+            if (_loggedUser == null)
+            {
+                SetLoggedUser(user);
+            }
+            return true;
+        }
         public void SetLoggedUser(UserDto user)
         {
             _loggedUser = user;
@@ -74,7 +87,15 @@ namespace TaskMaster.Services
 
         public UserDto GetLoggedUser()
         {
-            return _loggedUser;
+            if (_loggedUser != null)
+            {
+                return _loggedUser;
+            }
+            var user = new UserDto
+            {
+                UserId = -1
+            };
+            return user;
         }
 
         public async Task<int> SaveUser(UserDto userDto)

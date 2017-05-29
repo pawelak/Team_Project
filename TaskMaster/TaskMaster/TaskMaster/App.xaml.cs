@@ -10,8 +10,8 @@ namespace TaskMaster
 	    public App ()
 		{
             InitializeComponent();
-		    
-		}
+		    MainPage = new NavigationPage(new MainPage());
+        }
 
         protected override async void OnStart()
         {
@@ -29,7 +29,7 @@ namespace TaskMaster
                                                                                     DateTime.ParseExact(part.Start, "HH:mm:ss dd/MM/yyyy", null));
                 }
             }
-            MainPage = new NavigationPage(new MainPage());
+            
         }
 
         protected override void OnSleep ()
