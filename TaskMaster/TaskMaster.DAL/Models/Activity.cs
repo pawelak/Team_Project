@@ -9,7 +9,8 @@ namespace TaskMaster.DAL.Models
         public State State { get; set; }
         public EditState EditState { get; set; }
         public string Comment { get; set; }
-
+        public string GUID { get; set; }
+         
         public int UserId { get; set; }
         public User User { get; set; }
         public int GroupId { get; set; }
@@ -18,6 +19,7 @@ namespace TaskMaster.DAL.Models
         public Task Task { get; set; }
         public string Guid { get; set; }
 
-        public ICollection<PartsOfActivity> PartsOfActivity { get; set; }
+         
+        public virtual ICollection<PartsOfActivity> PartsOfActivity { get; set; }
     }
 }
