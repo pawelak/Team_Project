@@ -12,7 +12,7 @@ using TaskMaster.DAL.Models;
 
 namespace TaskMaster.WebApi.Controllers
 {
-    public class PlanedController : ApiController
+    public class PlannedController : ApiController
     {
         private readonly PlannedService _activityPlanned = new PlannedService();
 

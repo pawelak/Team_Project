@@ -21,7 +21,7 @@ namespace TaskMaster.WebApi.Controllers
         // GET: api/Test
         public List<ActivityDto> Get()
         {
-            return _activityWebApiService.test3();
+            return null;
         }
 
         // GET: api/Test/5

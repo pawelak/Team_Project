@@ -26,8 +26,8 @@ namespace TaskMaster.BLL.MobileService
             var activityRawList = new List<ActivityDto>();
 
             //------------machlojenia z bazą----------------
-            var user = _database.userDtosList.First(a => a.Email.Equals(email));
-            //var user = _userRepositories.Get(email);
+            //var user = _database.userDtosList.First(a => a.Email.Equals(email));
+            var user = _userRepositories.Get(email);
 
 
 
