@@ -39,6 +39,7 @@ namespace TaskMaster.DAL.Repositories
             protected int Count()
             {
                 return Db.Set<T>().Count<T>();
+
             }
         }
 }

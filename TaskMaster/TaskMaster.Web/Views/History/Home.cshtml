@@ -1,6 +1,9 @@
-﻿
+﻿@using TaskMaster.BLL.WebServices
+
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
+    WebMainService alfa = new WebMainService();
+
 }
 
 <!DOCTYPE html>
@@ -22,8 +25,23 @@
                     <th>czas trwania</th>
                     <th>czas pracy</th>
                     <th>czas przerwy</th>
-                </tr>             
+                </tr>     
+                @foreach (var p in alfa.ShowActivity("dlanorberta@gmail.com"))
+                {
                     <tr class="activityDetails">                         
+                        <td>
+                            <a href='@Url.Action("Edit", "History")'>
+                                <img src="../../images/programming.png" />
+                            </a>
+                        </td>
+                        <td>@p.Name</td>
+                        <td>20.16.29</td>
+                        <td>@p.Time</td>
+                        <td>0:30:20</td>
+                        <td>0:10:20</td>                             
+                    </tr>
+                }        
+                <tr class="activityDetails">                         
                         <td>
                             <a href='@Url.Action("Edit", "History")'>
                                 <img src="../../images/programming.png" />

@@ -155,3 +155,17 @@ table img {
     margin-left: -10px;
     color: grey;
 }
+
+.activityCircle img {
+    width: 20px;
+    padding: 3px 3px;
+    background-color: #f1b5ac;
+    border-radius: 10px;
+    float: left;
+    margin-left: 5px;
+    margin-top: 3px;
+}
+
+.activityCircle img:hover {
+    background-color: #f9da8e;  
+}

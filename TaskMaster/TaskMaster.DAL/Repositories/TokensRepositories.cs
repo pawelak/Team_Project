@@ -29,6 +29,12 @@ namespace TaskMaster.DAL.Repositories
             return Mapper.Map<TokensDto>(base.Get(id));
         }
 
+        public IList<TokensDto> Get(string email)
+        {
+            var list = GetAll();
+            return list.Where(l => l.User.Email.Equals(email)).ToList();
+        }
+
         public void Edit(TokensDto dto)
         {
             base.Edit(Mapper.Map<Tokens>(dto));

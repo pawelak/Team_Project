@@ -9,15 +9,16 @@ namespace TaskMaster.DAL.Models
         public State State { get; set; }
         public EditState EditState { get; set; }
         public string Comment { get; set; }
-
-        public int UserId { get; set; }
-        public User User { get; set; }
-        public int GroupId { get; set; }
-        public Group Group { get; set; }
-        public int TaskId { get; set; }
-        public Task Task { get; set; }
         public string Guid { get; set; }
+         
+        public int UserId { get; set; }
+        public virtual User User { get; set; }
+        public int GroupId { get; set; }
+        public virtual Group Group { get; set; }
+        public int TaskId { get; set; }
+        public virtual Task Task { get; set; }
 
-        public ICollection<PartsOfActivity> PartsOfActivity { get; set; }
+         
+        public virtual ICollection<PartsOfActivity> PartsOfActivity { get; set; }
     }
 }

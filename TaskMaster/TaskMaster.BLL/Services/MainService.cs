@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
+﻿using System.Collections.Generic;
 using System.Linq;
 
 using TaskMaster.DAL.DTOModels;
@@ -10,26 +8,17 @@ namespace TaskMaster.BLL.Services
 {
     public class MainService
     {
-        private readonly ActivityRepositories _activityRepositories = new ActivityRepositories();
-        private readonly GroupRepositories _groupRepositories = new GroupRepositories();
         private readonly UserRepositories _userRepositories = new UserRepositories();
-        private readonly TokensRepositories _tokensRepositories = new TokensRepositories();
 
-        public List<ActivityDto> ActivitiesFromTimeToTime(string email, DateTime start, DateTime stop) 
+        public List<ActivityDto> ActivitiesFromMonthAgo(string email) 
         {
-            var activityList = new List<ActivityDto>();
-            var user = _userRepositories.Get(email);
-            foreach (var act in user.Activity)
-            {
-                activityList.AddRange(act.PartsOfActivity.Where(a => a.Start.CompareTo(start) > 0)
-                    .Where(a => a.Start.CompareTo(stop) < 0)
-                    .Where(a => a.Stop.CompareTo(start) > 0)
-                    .Where(a => a.Stop.CompareTo(stop) < 0)
-                    .Select(a => act));
-            }
-            return activityList;
+            var result = new List<ActivityDto>();
+            var activityList = _userRepositories.Get(email).Activity;
+            
+            //TODO sprzed miesiaca wyjmowanie czasu
+
+            result = activityList.ToList();
+            return result;
         }
-
     }
-
 }
