@@ -143,7 +143,7 @@ namespace TaskMaster.BLL.MobileServices
             {
                 var token = new TokensDto()
                 {
-                    BrowserType = BrowserType.none,
+                    BrowserType = BrowserType.None,
                     PlatformType = userMobileDto.PlatformType,
                     Token = userMobileDto.Token,
                 };
