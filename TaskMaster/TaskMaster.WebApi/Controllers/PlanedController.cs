@@ -5,7 +5,6 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using System.Web.Http.Description;
-using System.Web.Http.Results;
 using Newtonsoft.Json;
 using TaskMaster.BLL.MobileService;
 using TaskMaster.BLL.WebApiModels;
@@ -13,7 +12,7 @@ using TaskMaster.DAL.Models;
 
 namespace TaskMaster.WebApi.Controllers
 {
-    public class PlannedController : ApiController
+    public class PlanedController : ApiController
     {
         private readonly PlannedService _activityPlanned = new PlannedService();
 
@@ -24,9 +23,10 @@ namespace TaskMaster.WebApi.Controllers
         }
 
         // GET: api/Planed/email
-        public JsonResult<List<PlannedMobileDto>> Get(HttpRequestMessage request, string email)
+        [ResponseType(typeof(string))]
+        public HttpResponseMessage Get(HttpRequestMessage request, string email)
         {
-            return Json(_activityPlanned.GetPlanned(email));
+            return request.CreateResponse(HttpStatusCode.OK, JsonConvert.SerializeObject(_activityPlanned.GetPlanned(email)));
         }
 
         // POST: api/Planed

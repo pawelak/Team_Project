@@ -5,11 +5,8 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using System.Web.Http.Description;
-using System.Web.Http.Results;
-using System.Web.Mvc;
 using Newtonsoft.Json;
 using TaskMaster.BLL.MobileService;
-using TaskMaster.BLL.WebApiModels;
 
 namespace TaskMaster.WebApi.Controllers
 {
@@ -24,10 +21,10 @@ namespace TaskMaster.WebApi.Controllers
         }
 
         // GET: api/Favorites/email
-        public JsonResult<List<FavoritesMobileDto>> Get(string email)
+        [ResponseType(typeof(string))]
+        public HttpResponseMessage Get(HttpRequestMessage request ,string email)
         {
-            var result = _favoritesWebApiService.GetAllFavorites(email);
-            return Json(result);
+            return request.CreateResponse(HttpStatusCode.OK, JsonConvert.SerializeObject(_favoritesWebApiService.GetAllFavorites(email)));
         }
 
         // POST: api/Favorites

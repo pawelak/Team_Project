@@ -12,7 +12,6 @@ namespace TaskMaster.BLL.MobileService
     public class ActivityWebApiService
     {
         private readonly UserRepositories _userRepositories = new UserRepositories();
-        private readonly ActivityRepositories _activityRepositories = new ActivityRepositories();
         
         
 
@@ -23,22 +22,21 @@ namespace TaskMaster.BLL.MobileService
 
         public List<ActivityMobileDto> GetActivityFromLastWeek(string email)
         {
-            var date7daysAgo = DateTime.Now.AddDays(-7);
+            var dt7daysAgo = DateTime.Now.AddDays(-7);
             var activityRawList = new List<ActivityDto>();
 
             //------------machlojenia z bazą----------------
-            //var user = _database.userDtosList.First(a => a.Email.Equals(email));
-            var user = _userRepositories.Get(email);
-            var activityList = _activityRepositories.GetAll();
+            var user = _database.userDtosList.First(a => a.Email.Equals(email));
+            //var user = _userRepositories.Get(email);
 
 
 
-            foreach (var act in activityList)
+            foreach (var act in user.Activity)
             {
                 if (act.State != State.Planned)
                 {
                     activityRawList.AddRange(act.PartsOfActivity
-                    .Where(a => (a.Stop > date7daysAgo) && (a.Start < DateTime.Now))
+                    .Where(a => (a.Stop > dt7daysAgo) && (a.Start < DateTime.Now))
                     .Select(a => act));
                 }
               
@@ -141,7 +139,7 @@ namespace TaskMaster.BLL.MobileService
 
         public string test2()
         {
-            var date7daysAgo = DateTime.Now.AddDays(-7);
+            var dt7daysAgo = DateTime.Now.AddDays(-7);
             var activityRawList = new List<ActivityDto>();
 
             //------------machlojenia z bazą----------------
@@ -152,22 +150,11 @@ namespace TaskMaster.BLL.MobileService
             foreach (var act in user.Activity)
             {
                 activityRawList.AddRange(act.PartsOfActivity
-                    .Where(a => (a.Stop > date7daysAgo ) && (a.Start < DateTime.Now))
+                    .Where(a => (a.Stop > dt7daysAgo ) && (a.Start < DateTime.Now))
                     .Select(a => act));
             }
 
             return activityRawList.Count().ToString();
-        }
-
-        public List<ActivityDto> test3()
-        {
-
-            var activityRawList = _activityRepositories.GetAll().ToList();
-
-            //------------machlojenia z bazą----------------
-            var user = _userRepositories.GetAll().ToList();
-
-            return activityRawList;
         }
 
     }

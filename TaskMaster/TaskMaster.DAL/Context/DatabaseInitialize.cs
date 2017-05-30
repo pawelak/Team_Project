@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity;
-using TaskMaster.DAL.DTOModels;
 using TaskMaster.DAL.Enum;
 using TaskMaster.DAL.Models;
 
@@ -9,7 +8,7 @@ namespace TaskMaster.DAL.Context
 {
     public class DatabaseInitialize : CreateDatabaseIfNotExists<DatabaseContext>
     {
-        protected override void Seed(Context.DatabaseContext context)
+        protected override void Seed(DatabaseContext context)
         {
             IList<User> defaultUsers = new List<User>();
 
