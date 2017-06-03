@@ -114,7 +114,7 @@ namespace TaskMaster.DAL.Context
 
             defaultGroup.Add(new Group()
             {
-                NameGroup = "NiedzielniGracze"
+                NameGroup = "gr1 all"
             });
             defaultGroup.Add(new Group()
             {
@@ -143,7 +143,7 @@ namespace TaskMaster.DAL.Context
             defaultUserGroup.Add(new UserGroup()
             {
                 User = defaultUsers[0],
-                Group = defaultGroup[1]
+                Group = defaultGroup[0]
             });
             defaultUserGroup.Add(new UserGroup()
             {
@@ -153,7 +153,7 @@ namespace TaskMaster.DAL.Context
             defaultUserGroup.Add(new UserGroup()
             {
                 User = defaultUsers[2],
-                Group = defaultGroup[1]
+                Group = defaultGroup[0]
             });
 
             foreach (var elem in defaultUserGroup) context.UserGroup.Add(elem);
@@ -240,7 +240,7 @@ namespace TaskMaster.DAL.Context
                 State = State.Started,
                 User = defaultUsers[0],
                 Task = defaultTasks[0],
-                Group = defaultGroup[1]
+                Group = defaultGroup[0]
             });
             defaultActivity.Add(new Activity()
             {
@@ -249,7 +249,7 @@ namespace TaskMaster.DAL.Context
                 State = State.Paused,
                 User = defaultUsers[0],
                 Task = defaultTasks[0],
-                Group = defaultGroup[1]
+                Group = defaultGroup[0]
             });
             defaultActivity.Add(new Activity()
             {
@@ -258,7 +258,7 @@ namespace TaskMaster.DAL.Context
                 State = State.Stoped,
                 User = defaultUsers[0],
                 Task = defaultTasks[0],
-                Group = defaultGroup[1]
+                Group = defaultGroup[0]
             });
             defaultActivity.Add(new Activity()
             {
@@ -267,7 +267,7 @@ namespace TaskMaster.DAL.Context
                 State = State.Paused,
                 User = defaultUsers[1],
                 Task = defaultTasks[2],
-                Group = defaultGroup[2]
+                Group = defaultGroup[0]
             });
             defaultActivity.Add(new Activity()
             {
@@ -276,7 +276,7 @@ namespace TaskMaster.DAL.Context
                 State = State.Paused,
                 User = defaultUsers[2],
                 Task = defaultTasks[1],
-                Group = defaultGroup[2]
+                Group = defaultGroup[0]
             });
             defaultActivity.Add(new Activity()
             {
@@ -285,7 +285,7 @@ namespace TaskMaster.DAL.Context
                 State = State.Paused,
                 User = defaultUsers[3],
                 Task = defaultTasks[3],
-                Group = defaultGroup[2]
+                Group = defaultGroup[0]
             });
 
             foreach (var elem in defaultActivity) context.Activity.Add(elem);
@@ -297,21 +297,21 @@ namespace TaskMaster.DAL.Context
             defaultPartsOfActivity.Add(new PartsOfActivity()
             {
                 Activity = defaultActivity[0],
-                Start = new DateTime(2017, 5, 25, 11, 30, 10),
-                Stop = new DateTime(2017, 5, 25, 12, 30, 10),
+                Start = new DateTime(2017, 6, 1, 11, 30, 10),
+                Stop = new DateTime(2017, 6, 1, 12, 30, 10),
                 Duration = new DateTime(2000, 1, 1, 0, 30, 10),
             });
             defaultPartsOfActivity.Add(new PartsOfActivity()
             {
                 Activity = defaultActivity[0],
-                Start = new DateTime(2017, 5, 25, 12, 30, 10),
-                Stop = new DateTime(2017, 5, 25, 13, 30, 10),
+                Start = new DateTime(2017, 6, 1, 12, 30, 10),
+                Stop = new DateTime(2017, 6, 1, 13, 30, 10),
                 Duration = new DateTime(2000, 1, 1, 0, 2, 10),
             });
             defaultPartsOfActivity.Add(new PartsOfActivity()
             {
                 Activity = defaultActivity[1],
-                Start = new DateTime(2017, 5, 25, 13, 30, 10),
+                Start = new DateTime(2017, 6, 1, 13, 30, 10),
                 Stop = new DateTime(2017, 5, 25, 14, 30, 10),
                 Duration = new DateTime(2000, 1, 1, 0, 5, 40),
             });

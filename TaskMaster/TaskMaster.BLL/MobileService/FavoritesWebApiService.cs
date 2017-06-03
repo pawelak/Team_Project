@@ -14,33 +14,26 @@ namespace TaskMaster.BLL.MobileService
         private readonly UserWebApiService _userWebApiService = new UserWebApiService();
         private readonly UserRepositories _userRepositories = new UserRepositories();
 
-        //machlojona baza
-        private DataSimulation _database = new DataSimulation();
-
 
         public List<FavoritesMobileDto> GetAllFavorites(string email)
         {
-
-            //------------machlojenia z bazą----------------
-            var user = _database.userDtosList.First(a => a.Email.Equals(email));
-            //var users = _userRepositories.Get(email);
+            var user = _userRepositories.Get(email);
 
             var favorites = user.Favorites;
             var returnedFav = new List<FavoritesMobileDto>();
 
             foreach (var fav in favorites)
             {
-                var taskHelp = new TasksMobileDto()
-                {
-                    Name = fav.Task.Name,
-                    Type = fav.Task.Type
-                };
                 var tmpFav = new FavoritesMobileDto()
                 {
                     UserEmail = user.Email,
                     Token = null,
                     EditState = EditState.None,
-                    Task = taskHelp
+                    Task = new TasksMobileDto()
+                    {
+                        Name = fav.Task.Name,
+                        Type = fav.Task.Type
+                    }
                 };
                 returnedFav.Add(tmpFav);
             }

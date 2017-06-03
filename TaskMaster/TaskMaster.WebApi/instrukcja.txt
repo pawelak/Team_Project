@@ -14,10 +14,15 @@ Activity:
 
 GET: api/Activity/email - pobiera aktywnoœci z poprzednich 7 dni, nad httpclientem musze jeszcze popracowaæ
 w tokenie zwracanej klasy wpisuje null bo nie wiem z czego ktoœ mnie pyta zebym dobra³ adekwatny token 
+!!!! w bazie sa niektóre partsOfActivity z dalsza dat¹ ni¿ tydzieñ wiêc ich nei wyœwietli automatem w getAllActivity bo tam jest ¿e pobiera z tygodnia
 
-POST: api/Activity - to mo¿na próbowaæ szczelaæ ale prawie zawze odpowie true bo zachowanie symulowanej bazy odbiega od zwyk³ej 
 
 
+POST: api/Activity - dzia³a chodŸ chwilowo topornie bo dodaje nowe obiekty user group itp(wszytkei jakie s¹ wewn¹trz dto)
+obiekty maj¹ przychodziæ z grup¹ null a ja je wpisuje wszytkie do grupy o id 1
+przyk³ad jsona który zadzia³a³
+{"UserEmail":"a@a.pl","Comment":"test post","TaskName":"biega3","Token":null,"Guid":"asd3","EditState":0,"State":1,"TaskPartsList":[{"Start":"12:30:10 28/05/2017","Stop":"11:30:10 30/05/2017","Duration":"0:00:00:21.0000000"}]}]
+musze usun¹æ buga z dodawaniem nowych obiektów 
 
 
 
@@ -32,18 +37,14 @@ Testowanie czy coœ dzia³a na bazie jest banalne,
  w ka¿dym przypadku wystarczy wywaliæ linijki nastêpuj¹ce po obkomentowanej s³owami "machlojenia" linijce i odkomentowaæ nastêpn¹
  przyk³ad:
 
-//------------machlojenia z baz¹----------------
-var user = database.userDtosList.First(a => a.Email.Equals(email));
-//var user = _userRepositories.Get(email);
-
-i tu wystarczy wywaliæ liniê 2 i odkomentowaæ liniê 3 i ju¿ ko¿ystamy z bazy 
 
 
 W bazie mamy:
-User x2
-a@a.pl - biedny, po jednym wszytkim favorites, activity, group itp
-b@b.pl - bardziej z³o¿ony po 2-3
-
-
+dlapawela@gmail.com
+dlabartosza@gmail.com
+a@a.pl
+b@b.pl
+dlanorberta@gmail.com
+a@a.pl
 
 

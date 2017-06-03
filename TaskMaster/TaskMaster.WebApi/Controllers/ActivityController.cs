@@ -36,11 +36,15 @@ namespace TaskMaster.WebApi.Controllers
 
         // POST: api/Activity
         
-        public HttpResponseMessage Post([FromBody]string request)
+        public HttpResponseMessage Post([FromBody]ActivityMobileDto activityMobileDto)
         {
-            // var requestDto = JsonConvert.DeserializeObject(request);
-            // return new HttpResponseMessage(HttpStatusCode.OK);
-            return null;
+            var x = activityMobileDto;
+            if (_activityWebApiService.AddActivity(activityMobileDto))
+            {
+
+                return new HttpResponseMessage(HttpStatusCode.Accepted);
+            }
+            return new HttpResponseMessage(HttpStatusCode.BadRequest);
         }
 
         // PUT: api/Activity/5
