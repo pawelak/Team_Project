@@ -28,7 +28,7 @@ namespace TaskMaster.Droid
             base.OnCreate(bundle);
             Forms.Init(this, bundle);
             XamForms.Controls.Droid.Calendar.Init();
-            var gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DefaultSignIn)
+            /*var gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DefaultSignIn)
                 .RequestEmail()
                 .RequestIdToken("723494873981-np3v1u9js6jman2qri5r0gfd7fl3g3c2.apps.googleusercontent.com")
                 .Build();
@@ -36,7 +36,7 @@ namespace TaskMaster.Droid
                 .EnableAutoManage(this, this)
                 .AddApi(Auth.GOOGLE_SIGN_IN_API, gso)
                 .Build();
-            /*var check = await Services.UserService.Instance.IsLoggedUser();
+            var check = await Services.UserService.Instance.IsLoggedUser();
             if(check)
             {
                 LoadApplication(new App());
