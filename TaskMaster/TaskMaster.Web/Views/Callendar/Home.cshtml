@@ -22,8 +22,32 @@
     <div class="col-md-1 arrow">
         <img src="../../images/arrowRight.png"/>
     </div>
-    <div class="row">
-        
+
+</div>
+<div class="row"> 
+    <div id="tablePlace"class="col-md-8 col-md-offset-2">
+        <div class=" historyInCallendar">
+            <table>
+                <tr>
+                    <th></th>
+                    <th>Czynność</th> 
+                    <th>data</th>
+                    <th>czas trwania</th>
+                    <th>czas pracy</th>
+                    <th>czas przerwy</th>
+                </tr>             
+                <tr>                         
+                    <td><img src="../../images/eat.png" /></td>
+                    <td>jedzenie obiadu</td>
+                    <td>15.05.2017</td>
+                    <td>0:40:20</td>
+                    <td>0:30:20</td>
+                    <td>0:10:20</td>                             
+                </tr>
+               
+            </table>
+            
+        </div>
     </div>
 </div>
 
@@ -137,6 +161,13 @@
         }
     }
 
+
+    
+    function createTh(text) {
+        var th = document.createElement('th');
+        th.innerHTML = text;
+        return th;
+    }
 
    
 </script>

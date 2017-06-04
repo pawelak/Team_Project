@@ -170,3 +170,11 @@ table img {
 .activityCircle img:hover {
     background-color: #f9da8e;  
 }
+
+.historyInCallendar {
+    margin-top: 50px;
+    background-color: #333333;
+    padding: 20px 20px;
+    border: solid black 1px;
+   
+}
