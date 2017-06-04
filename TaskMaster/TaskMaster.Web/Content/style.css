@@ -115,6 +115,7 @@ table img {
     background-color: #375a7f;
     border: 1px black solid;
     padding: 5px 0px 0px 5px;
+    
 }
 
 .callendarTable th {
@@ -148,7 +149,7 @@ table img {
     width: 42px;
 }
 
-.month {
+#month {
     text-align: center;
     padding-bottom: 30px;
     font-size: 30px;
