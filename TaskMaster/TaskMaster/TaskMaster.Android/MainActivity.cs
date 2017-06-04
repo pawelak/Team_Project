@@ -36,7 +36,7 @@ namespace TaskMaster.Droid
                 .EnableAutoManage(this, this)
                 .AddApi(Auth.GOOGLE_SIGN_IN_API, gso)
                 .Build();
-            var check = await Services.UserService.Instance.IsLoggedUser();
+            /*var check = await Services.UserService.Instance.IsLoggedUser();
             if(check)
             {
                 LoadApplication(new App());
@@ -44,8 +44,8 @@ namespace TaskMaster.Droid
             else
             {
                 SignIn();
-            }
-            //LoadApplication(new App());
+            }*/
+            LoadApplication(new App());
         }
         private void SignIn()
         {
