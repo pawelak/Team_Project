@@ -58,7 +58,6 @@
         document.getElementById("callendar").appendChild(callendar);
 
 
-        document.getElementById("test").innerHTML = dayNumber;
     }
 
     function getCallendar(dayNumber, days2, days) {
@@ -99,6 +98,17 @@
             var cell = document.createElement('div');
             cell.className = "cell";
             cell.innerHTML = count;
+
+            // image in circle - temporary
+            var k = document.createElement('div');
+            k.className = "activityCircle";
+            var image = document.createElement('img');
+            image.setAttribute("src", "../../images/eat.png");
+            k.appendChild(image);
+            cell.appendChild(k);
+
+
+
             td.appendChild(cell);
             count++;
             tr.appendChild(td);
