@@ -8,6 +8,7 @@ namespace TaskMaster.DAL.DTOModels
         public State State { get; set; }
         public EditState EditState { get; set; }
         public string Comment { get; set; }
+        public string Guid { get; set; }
 
         public UserDto User { get; set; }
         public GroupDto Group { get; set; }

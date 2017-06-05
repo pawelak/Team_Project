@@ -1,34 +1,26 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using System.Web;
+using System.Web.Helpers;
 using System.Web.Mvc;
-using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.Owin;
-using TaskMaster.Web.Models;
+using TaskMaster.BLL.WebModels;
+using TaskMaster.BLL.WebServices;
 
 namespace TaskMaster.Web.Controllers
 {
     public class HomePageController : Controller
     {
+        private readonly WebMainService _webMainService = new WebMainService();
+
         // GET: HomePage
-        public ViewResult Index()
+        public ActionResult Index()
         {
-
-            var userId = User.Identity.GetUserId();
-
-            if (userId != null)
+            foreach (var s in _webMainService.ShowActivity("dlanorberta@gmail.com"))
             {
-                if (User.Identity.IsAuthenticated)
-                {
-                    var userName = User.Identity.GetUserName();
-
-                    return View();
-                }
-
+                s.Name.ToString();
             }
-            return View("View");
+            return View();
         }
     }
 }

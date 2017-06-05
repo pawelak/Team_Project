@@ -29,6 +29,12 @@ namespace TaskMaster.DAL.Repositories
             return Mapper.Map<FavoritesDto>(base.Get(id));
         }
 
+        public IList<FavoritesDto> Get(string email)
+        {
+            var list = GetAll();
+            return list.Where(l => l.User.Email.Equals(email)).ToList();
+        }
+
         public void Edit(FavoritesDto dto)
         {
             base.Edit(Mapper.Map<Favorites>(dto));

@@ -115,6 +115,7 @@ table img {
     background-color: #375a7f;
     border: 1px black solid;
     padding: 5px 0px 0px 5px;
+    
 }
 
 .callendarTable th {
@@ -148,10 +149,32 @@ table img {
     width: 42px;
 }
 
-.month {
+#month {
     text-align: center;
     padding-bottom: 30px;
     font-size: 30px;
     margin-left: -10px;
     color: grey;
+}
+
+.activityCircle img {
+    width: 20px;
+    padding: 3px 3px;
+    background-color: #f1b5ac;
+    border-radius: 10px;
+    float: left;
+    margin-left: 5px;
+    margin-top: 3px;
+}
+
+.activityCircle img:hover {
+    background-color: #f9da8e;  
+}
+
+.historyInCallendar {
+    margin-top: 50px;
+    background-color: #333333;
+    padding: 20px 20px;
+    border: solid black 1px;
+   
 }
