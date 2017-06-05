@@ -18,10 +18,6 @@ namespace TaskMaster.BLL.MobileService
         private readonly GroupRepositories _groupRepositories = new GroupRepositories();
 
 
-        //machlojona baza
-        private DataSimulation _database = new DataSimulation();
-
-
         public List<ActivityMobileDto> GetActivityFromLastWeek(string email)
         {
             var date7DaysAgo = DateTime.Now.AddDays(-7);
@@ -87,12 +83,7 @@ namespace TaskMaster.BLL.MobileService
             }
 
             var tmpGroup = _groupRepositories.Get(1);
-            tmpGroup.Activity = null;
-            tmpGroup.UserGroup = null;
             var tmpTask = _taskRepositories.Get(activityMobileDto.TaskName);
-            tmpTask.Activity = null;
-            tmpTask.Favorites = null;
-
 
             if (tmpTask == null)
             {
@@ -103,10 +94,6 @@ namespace TaskMaster.BLL.MobileService
                 };
             }
             var tmpUser = _userRepositories.Get(activityMobileDto.UserEmail);
-            tmpUser.Activity = null;
-            tmpUser.Favorites = null;
-            tmpUser.Tokens = null;
-            tmpUser.UserGroup = null;
 
             var tmpActivity = new ActivityDto
             {
@@ -131,43 +118,6 @@ namespace TaskMaster.BLL.MobileService
             return true;
         }
 
-
-        public List<PartsOfActivityMobileDto> test()
-        {
-            var old = _database.partsOfActivityDtosList;
-            var outList = new List<PartsOfActivityMobileDto>();
-            foreach (var tmp in old)
-            {
-                outList.Add(new PartsOfActivityMobileDto
-                {
-                    Start = tmp.Start.ToString(CultureInfo.InvariantCulture),
-                    Stop = tmp.Stop.ToString(CultureInfo.InvariantCulture)
-                   
-                });
-            }
-
-            return outList;
-        }
-
-        public string test2()
-        {
-            var dt7daysAgo = DateTime.Now.AddDays(-7);
-            var activityRawList = new List<ActivityDto>();
-
-            //------------machlojenia z bazą----------------
-            //var user = _userRepositories.Get(email);
-            var user = _database.userDtosList.First(a => a.Email.Equals("a@a.pl"));
-
-
-            foreach (var act in user.Activity)
-            {
-                activityRawList.AddRange(act.PartsOfActivity
-                    .Where(a => (a.Stop > dt7daysAgo ) && (a.Start < DateTime.Now))
-                    .Select(a => act));
-            }
-
-            return activityRawList.Count().ToString();
-        }
 
     }
 

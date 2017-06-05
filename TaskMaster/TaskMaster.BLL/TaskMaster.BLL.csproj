@@ -97,7 +97,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="MapperProfileBLL.cs" />
-    <Compile Include="MobileService\DataSimulation.cs" />
     <Compile Include="MobileService\GroupWebApiService.cs" />
     <Compile Include="MobileService\PlannedWebApiService.cs" />
     <Compile Include="MobileService\PrintAllTestService.cs" />
