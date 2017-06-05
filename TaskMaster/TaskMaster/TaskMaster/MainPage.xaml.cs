@@ -245,8 +245,8 @@ namespace TaskMaster
             {
                 Guid = Guid.NewGuid().ToString(),
                 Status = StatusType.Start,
-                UserId = 1,
-                //UserId = UserService.Instance.GetLoggedUser().UserId,
+                //UserId = 1,
+                UserId = UserService.Instance.GetLoggedUser().UserId,
                 GroupId = 1,
                 TaskId = 0
             };

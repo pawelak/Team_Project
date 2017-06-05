@@ -154,8 +154,7 @@ namespace TaskMaster.Services
         public async Task<List<ActivitiesDto>> GetActivitiesByStatus(StatusType status)
         {
             var update = await Database.GetActivitiesByStatus(status);
-            return update;
-            //return update.Where(activity => activity.UserId == _loggedUser.UserId).ToList();
+            return update.Where(activity => activity.UserId == _loggedUser.UserId).ToList();
         }
 
         public async Task<PartsOfActivityDto> GetLastActivityPart(int id)
