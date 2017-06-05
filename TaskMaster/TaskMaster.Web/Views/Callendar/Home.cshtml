@@ -2,121 +2,176 @@
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<script src="~/Scripts/jquery-3.1.1.min.js"></script>
+
+
+
 
 <div class="row quickFixMargin">
     <div class="col-md-2 arrow arrowFloatRight">
-         <img src="../../images/arrowLeft.png"/>
+        <img src="../../images/arrowLeft.png"/>
     </div>
   
     <div class="col-md-8 ">
-        <h4 class="month">czerwiec</h4>
-        <div>
-            <table class="callendarTable">
-                <tr>
-                    <th>poniedziałek</th>
-                    <th>wtorek</th>
-                    <th>środa</th>
-                    <th>czwartek</th>
-                    <th>piątek</th>
-                    <th>sobota</th>
-                    <th>niedziela</th>
-                </tr>
-                <tr>
-                    <td>
-                        <div class="cell">12
-                            <div class="activityCircle"><img src="../../images/eat.png"/></div>
-                            <div class="activityCircle"><img src="../../images/eat.png"/></div>
-                            <div class="activityCircle"><img src="../../images/eat.png"/></div>
-                            <div class="activityCircle"><img src="../../images/eat.png"/></div>
-                            <div class="activityCircle"><img src="../../images/eat.png"/></div>
-                            <div class="activityCircle"><img src="../../images/eat.png"/></div>
-                            <div class="activityCircle"><img src="../../images/eat.png"/></div>
-                        </div></td>
-                    <td>
-                        <div class="cell">12</div></td>
-                    <td>
-                        <div class="cell">12</div></td>
-                    <td>
-                        <div class="cell">12</div></td>
-                    <td>
-                        <div class="cell">12</div></td>
-                    <td>
-                        <div class="cell">12</div></td>
-                    <td>
-                        <div class="cell">12</div></td>
-                </tr>
-                <tr>
-                    <td>
-                        <div class="cell">12</div></td>
-                    <td>
-                        <div class="cell">12
-                            <div class="activityCircle"><img src="../../images/eat.png"/></div>
-                            <div class="activityCircle"><img src="../../images/eat.png"/></div>
-                        </div></td>
-                    <td>
-                        <div class="cell">12</div></td>
-                    <td>
-                        <div class="cell">12</div></td>
-                    <td>
-                        <div class="cell">12</div></td>
-                    <td>
-                        <div class="cell">12</div></td>
-                    <td>
-                        <div class="cell">12</div></td>
-                </tr>
-                <tr>
-                    <td>
-                        <div class="cell">12</div></td>
-                    <td>
-                        <div class="cell">12</div></td>
-                    <td>
-                        <div class="cell">12</div></td>
-                    <td>
-                        <div class="cell">12</div></td>
-                    <td>
-                        <div class="cell">12</div></td>
-                    <td>
-                        <div class="cell">12</div></td>
-                    <td>
-                        <div class="cell">12</div></td>
-                </tr>
-                <tr>
-                    <td>
-                        <div class="cell">12</div></td>
-                    <td>
-                        <div class="cell">12</div></td>
-                    <td>
-                        <div class="cell">12</div></td>
-                    <td>
-                        <div class="cell">12</div></td>
-                    <td>
-                        <div class="cell">12</div></td>
-                    <td>
-                        <div class="cell">12</div></td>
-                    <td>
-                        <div class="cell">12</div></td>
-                </tr>
-                <tr>
-                    <td>
-                        <div class="cell">12</div></td>
-                    <td>
-                        <div class="cell">12</div></td>
-                    <td>
-                        <div class="cell">12</div></td>
-                    <td>
-                        <div class="cell">12</div></td>
-                    <td>
-                        <div class="cell">12</div></td>
-                    <td>
-                        <div class="cell">12</div></td>
-                    <td>
-                        <div class="cell">12</div></td>
-                </tr>
-            </table>
+        <h4 id="month"></h4>
+        <div id="callendar">
+           
         </div>
 
     </div>
     <div class="col-md-1 arrow">
         <img src="../../images/arrowRight.png"/>
     </div>
+
 </div>
+<div class="row"> 
+    <div id="tablePlace"class="col-md-8 col-md-offset-2">
+        <div class=" historyInCallendar">
+            <table>
+                <tr>
+                    <th></th>
+                    <th>Czynność</th> 
+                    <th>data</th>
+                    <th>czas trwania</th>
+                    <th>czas pracy</th>
+                    <th>czas przerwy</th>
+                </tr>             
+                <tr>                         
+                    <td><img src="../../images/eat.png" /></td>
+                    <td>jedzenie obiadu</td>
+                    <td>15.05.2017</td>
+                    <td>0:40:20</td>
+                    <td>0:30:20</td>
+                    <td>0:10:20</td>                             
+                </tr>
+               
+            </table>
+            
+        </div>
+    </div>
+</div>
+
+<script>
+    window.onload = function () {
+        var date = new Date();
+        var months = [
+            'Styczeń', 'Luty', 'Marzec', 'Kwiecien', 'Maj', 'Czerwiec', 'Lipiec', 'Sierpien', 'Wrzesien', 'Pazdziernik',
+            'Listopad', 'Grudzien'
+        ];
+        var monthsEng = [
+            'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October',
+            'November', 'December'
+        ];
+        var month = date.getMonth();
+        var year = date.getFullYear();
+        var firstDate = monthsEng[month] + " " + 1 + ", " + year;
+        var tmp = new Date(firstDate);
+
+        var days = ['Poniedziałek', 'Wtorek', 'Środa', 'Czwartek', 'Piątek', 'Sobota', 'Niedziela'];
+        var dayNumber = tmp.getDay();
+        if (dayNumber != 0)
+            dayNumber--;
+        else
+            dayNumber = 6;
+
+        var days2 = new Date(year, month + 1, 0).getDate(); //total number of days in the current month
+
+        var callendar = getCallendar(dayNumber, days2, days);
+
+        document.getElementById("month").innerHTML = months[month];
+        document.getElementById("callendar").appendChild(callendar);
+
+
+    }
+
+    function getCallendar(dayNumber, days2, days) {
+        var table = document.createElement('table');
+        table.className = "callendarTable";
+        var tr = document.createElement('tr');
+
+
+        //days row
+        for (var c = 0; c < 7; c++) {
+            var th = document.createElement('th');
+            th.innerHTML = days[c];
+            tr.appendChild(th);
+        }
+        table.appendChild(tr);
+
+        //second row
+        tr = document.createElement('tr');
+        var c;
+        for (c = 0; c < 7; c++) {
+            if (c == dayNumber) {
+                break;
+            }
+            var td = document.createElement('td');
+            var cell = document.createElement('div');
+            cell.className = "cell";
+            cell.innerHTML = "";
+            td.appendChild(cell);
+
+           
+
+            tr.appendChild(td);
+        }
+
+        var count = 1;
+        for (; c < 7; c++) {
+            var td = document.createElement('td');
+            var cell = document.createElement('div');
+            cell.className = "cell";
+            cell.innerHTML = count;
+
+            // image in circle - temporary
+            var k = document.createElement('div');
+            k.className = "activityCircle";            
+            var image = document.createElement('img');
+            image.setAttribute("src", "../../images/eat.png");
+            k.appendChild(image);
+            cell.appendChild(k);
+
+
+
+            td.appendChild(cell);
+            count++;
+            tr.appendChild(td);
+        }
+
+        table.appendChild(tr);
+
+
+        //rest of rows
+        for (var r = 3; r <= 7; r++) {
+            tr = document.createElement('tr');
+            for (var c = 0; c < 7; c++) {
+                if (count > days2) {
+                    table.appendChild(tr);                   
+                    return table;
+                }
+                var td = document.createElement('td');
+                var cell = document.createElement('div');
+                cell.className = "cell";
+                cell.innerHTML = count;
+                td.appendChild(cell);
+                count++;
+                tr.appendChild(td);
+            }
+            table.appendChild(tr);
+        }
+    }
+
+
+    
+    function createTh(text) {
+        var th = document.createElement('th');
+        th.innerHTML = text;
+        return th;
+    }
+
+
+</script>
+
+
+
+

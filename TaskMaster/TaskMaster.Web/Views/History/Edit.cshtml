@@ -2,7 +2,7 @@
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
+<script src="~/Scripts/jquery-3.1.1.min.js"></script>
 <div class="quickFixMargin">
     <div class="form-group">
         <label class="control-label" for="focusedInput">Nazwa tasku</label>
@@ -10,12 +10,124 @@
     </div>
 
     <div class="edit">
-        <div class="progress">
-            <div class="progress-bar progress-bar-warning" style="width: 35%"><p>1:05:41</p></div>
+        <div class="progress" id="bars">
+            @*<div class="progress-bar progress-bar-warning" style="width: 35%"><p>1:05:41</p></div>
             <div class="progress-bar progress-bar-info" style="width: 20%"><p>0:30:45</p></div>
-            <div class="progress-bar progress-bar-warning" style="width: 45%"><p>1:54:12</p></div>
+            <div class="progress-bar progress-bar-warning" style="width: 45%"><p>1:54:12</p></div>*@
+        </div>
+    </div>
+    <div class="row">    
+        <h3>Edycja czasów</h3>    
+        <div class="col-md-2">
+            
+            <div id="editTimes" class="form-group">
+            </div>
+            </div>
+        <div class="col-md-2">
+            <div id="textBoxes" class="form-group">
+
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div id="accept" class="form-group">
+
+            </div>
         </div>
     </div>
 </div>
 
 
+<script>
+    var howManyTimes = 3; // this number will be taken from database
+    var percents = ["25%", "35%", "40%"];
+    var times = ["1:05:41", "0:30:45", "1:54:12"];
+
+    for (var i = 0; i < howManyTimes; i++) {
+        var progressBar = document.createElement('div');
+
+        if(i % 2 == 0)
+            progressBar.className = "progress-bar progress-bar-warning";
+        else
+            progressBar.className = "progress-bar progress-bar-info";
+
+        //progressBar.styleSheet = "width:" + percents[i];
+        $(progressBar).css("width", percents[i]);
+
+        var p = document.createElement('p');       
+        p.innerHTML = times[i];
+        progressBar.appendChild(p);
+
+        document.getElementById("bars").appendChild(progressBar);
+
+
+    }
+
+    for (var i = 0; i <= howManyTimes; i++) {
+        var button = document.createElement("button");
+
+        if (i % 2 == 0)
+            button.className = "btn btn-warning";
+        else
+            button.className = "btn btn-info";
+
+        if (i == howManyTimes){
+            button.innerHTML = "dodaj nowy odcinek czasu";
+            button.className = "btn btn-danger";
+        }
+        else
+            button.innerHTML = "edytuj czas " + i;
+
+        $(button).css("margin", "10px 0px ");
+        button.id = "editButton" + i;
+
+        //button.onclick = () => {
+        //     $("#editTextBox"+i).css("visibility", "visible");
+        //    alert(i);
+
+        //}
+        document.getElementById("editTimes").appendChild(button);
+
+
+   
+
+    }
+    
+    //function test() {
+    //    alert(this.i);
+    //}
+
+    for (var i = 0; i < howManyTimes; i++) {
+        var inp = document.createElement("input");
+        inp.className = "form-control";
+        inp.type = "text";
+        inp.value = "wpisz nowy czas";
+        inp.id = "editTextBox" + i;
+        $(inp).css("margin", "10px 0px 20px 0px ");
+        // $(inp).css("visibility", "hidden");
+        document.getElementById("textBoxes").appendChild(inp);
+
+    }
+
+
+    $(document).ready(function () {               
+        $("#editButton" + howManyTimes).click(function () {
+            var newTextBox = document.createElement('input');
+            newTextBox.className = "form-control";
+            newTextBox.type = "text";
+            newTextBox.value = "wpisz nowy czas";
+            newTextBox.id = "editTextBox" + i;
+            $(newTextBox).css("margin", "10px 0px 20px 0px ");
+            document.getElementById("textBoxes").appendChild(newTextBox);
+
+            
+            var button = document.createElement("button");
+            button.innerHTML = "wpisz czas ";
+            button.className = "btn btn-success";
+            $(button).css("margin", "10px 0px ");
+            $(button).insertBefore($("#editButton" + howManyTimes));
+           
+        });
+    });
+
+
+</script>
