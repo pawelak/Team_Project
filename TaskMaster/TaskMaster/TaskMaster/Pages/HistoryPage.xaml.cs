@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using TaskMaster.Interfaces;
 using TaskMaster.Pages;
 using TaskMaster.Services;
 using Xamarin.Forms;
@@ -37,9 +38,42 @@ namespace TaskMaster
 
         private async void LogoutItem_OnClicked(object sender, EventArgs e)
 	    {
+	        var result = await DisplayAlert("Uwaga",
+	            "Wszystkie aktywności zostaną automatycznie zakończone. Kontynuować?", "Tak", "Nie");
+	        if (!result)
+	        {
+	            return;
+	        }
+	        var activities = await UserService.Instance.GetActivitiesByStatus(StatusType.Start);
+	        if (activities.Any(activity => activity.TaskId == 0))
+	        {
+	            await DisplayAlert("Error", "Nie można wylogować gdyż są nienazwane aktywności", "Ok");
+	            return;
+	        }
+	        var activitiesPause = await UserService.Instance.GetActivitiesByStatus(StatusType.Pause);
+	        if (activitiesPause.Any(activity => activity.TaskId == 0))
+	        {
+	            await DisplayAlert("Error", "Nie można wylogować gdyż są nienazwane aktywności", "Ok");
+	            return;
+	        }
+	        foreach (var activity in activities)
+	        {
+	            var part = await UserService.Instance.GetLastActivityPart(activity.ActivityId);
+	            StopwatchesService.Instance.StopStopwatch(part.PartId);
+	            activity.Status = StatusType.Stop;
+	            part.Stop = DateTime.Now.ToString("HH:mm:ss dd/MM/yyyy");
+	            part.Duration = StopwatchesService.Instance.GetStopwatchTime(part.PartId).ToString();
+	            await UserService.Instance.SaveActivity(activity);
+	            await UserService.Instance.SavePartOfActivity(part);
+	        }
+	        foreach (var activity in activitiesPause)
+	        {
+	            activity.Status = StatusType.Stop;
+	            await UserService.Instance.SaveActivity(activity);
+	        }
 	        await UserService.Instance.LogoutUser();
-	        // tu musi być wyjście z apki
-	    }
+	        DependencyService.Get<ILogOutService>().LogOut();
+        }
 
         protected override void OnAppearing()
         {
@@ -49,7 +83,7 @@ namespace TaskMaster
 	    private async void ListInitiate()
 	    {
 	        var activitiesStoppedList = await UserService.Instance.GetActivitiesByStatus(StatusType.Stop);
-	        var historyPlan = new List<HistoryList>();
+	        var historyPlan = new List<HistoryListItem>();
 	        foreach (var activity in activitiesStoppedList)
 	        {
 	            if (activity.TaskId == 0)
@@ -73,7 +107,7 @@ namespace TaskMaster
 	            var task = await UserService.Instance.GetTaskById(activity.TaskId);
 	            var t = TimeSpan.FromMilliseconds(time);
 	            var answer = $"{t.Hours:D2}h:{t.Minutes:D2}m:{t.Seconds:D2}s";
-                var element = new HistoryList
+                var element = new HistoryListItem
                 {
                     Name = task.Name,
                     Description = activity.Comment,

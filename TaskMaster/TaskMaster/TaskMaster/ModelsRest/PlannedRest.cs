@@ -1,9 +1,8 @@
-﻿using System.Collections.Generic;
-using TaskMaster.Enums;
+﻿using TaskMaster.Enums;
 
 namespace TaskMaster.ModelsRest
 {
-    public class ActivitiesRest
+    public class PlannedRest
     {
         public string Guid { get; set; }
         public string Comment { get; set; }
@@ -13,6 +12,6 @@ namespace TaskMaster.ModelsRest
         public string Token { get; set; }
         public EditState EditState { get; set; }
         public StatusType State { get; set; }
-        public List<PartsOfActivityRest> TaskPartsList { get; set; }
+        public PartsOfActivityRest TaskParts { get; set; }
     }
 }

@@ -3,6 +3,7 @@ using Android.Gms.Auth.Api;
 using TaskMaster.Droid;
 using TaskMaster.Interfaces;
 using Xamarin.Forms;
+
 [assembly: Dependency(typeof(LogOutService))]
 namespace TaskMaster.Droid
 {
@@ -10,8 +11,7 @@ namespace TaskMaster.Droid
     {
         public void LogOut()
         {
-            Auth.GoogleSignInApi.SignOut(MainActivity._mGoogleApiClient);
-            //Stop or pause all activities?
+            Auth.GoogleSignInApi.SignOut(MainActivity.MGoogleApiClient);
             ((Activity)Forms.Context).Finish();
         }
     }

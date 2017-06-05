@@ -69,12 +69,6 @@
                        FontFamily="{x:StaticResource Font}" FontSize="{x:StaticResource Field}"/>
             </StackLayout>
             <StackLayout Orientation="Horizontal" Padding="5">
-                <Label Text="{x:StaticResource DateStartText}" WidthRequest="70" HorizontalTextAlignment="End" VerticalOptions="Center" TextColor="{x:StaticResource TextColor}"
-                       FontFamily="{x:StaticResource Font}" FontSize="{x:StaticResource Field}"/>
-                <Label x:Name="TaskDates" HorizontalOptions="FillAndExpand" TextColor="{x:StaticResource TextColor}" BackgroundColor="{x:StaticResource BackgroundButtonColor}"
-                       FontFamily="{x:StaticResource Font}" FontSize="{x:StaticResource Field}"/>
-            </StackLayout>
-            <StackLayout Orientation="Horizontal" Padding="5">
                 <Label Text="{x:StaticResource DescriptionText}" WidthRequest="70" HorizontalTextAlignment="End" VerticalOptions="Center" TextColor="{x:StaticResource TextColor}"
                        FontFamily="{x:StaticResource Font}" FontSize="{x:StaticResource Field}"/>
                 <Entry x:Name="ActivityDescription" HorizontalOptions="FillAndExpand" TextColor="{x:StaticResource TextColor}" Unfocused="ActivityDescription_OnUnfocused" 

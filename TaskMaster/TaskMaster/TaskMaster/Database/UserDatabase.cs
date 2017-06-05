@@ -68,6 +68,12 @@ namespace TaskMaster
             return partOfActivity.PartId;
         }
 
+        public async Task DeletePartOfActivity(PartsOfActivityDto partsOfActivityDto)
+        {
+            var partOfActivity = Mapper.Map<PartsOfActivity>(partsOfActivityDto);
+            await _database.DeleteAsync(partOfActivity);
+        }
+
         public async Task<int> InsertUser(UserDto userDto)
         {
             var user = Mapper.Map<User>(userDto);
@@ -82,14 +88,15 @@ namespace TaskMaster
             return user.UserId;
         }
 
-        public async Task<int> GetLoggedUser()
+        public async Task<UserDto> GetLoggedUser()
         {
             var result = await _database.Table<User>().Where(u => u.IsLoggedIn).FirstOrDefaultAsync();
             if (result == null)
             {
-                return -1;
+                return null;
             }
-            return result.UserId;
+            var userDto = Mapper.Map<UserDto>(result);
+            return userDto;
         }
 
         public async Task<UserDto> GetUser(int id)
@@ -99,6 +106,12 @@ namespace TaskMaster
             return userDto;
         }
 
+        public async Task<UserDto> GetUserByEmail(string email)
+        {
+            var user = await _database.Table<User>().Where(u => u.Name == email).FirstOrDefaultAsync();
+            var userDto = Mapper.Map<UserDto>(user);
+            return userDto;
+        }
         public async Task LogoutUser()
         {
             var user = await _database.Table<User>().Where(u => u.IsLoggedIn).FirstOrDefaultAsync();
@@ -186,10 +199,27 @@ namespace TaskMaster
             return list;
         }
 
+        public async Task<FavoritesDto> GetFavoriteByTaskId(int id)
+        {
+            var result = await _database.Table<Favorites>().Where(f => f.TaskId == id).FirstOrDefaultAsync();
+            if (result == null)
+            {
+                return null;
+            }
+            var fav = Mapper.Map<FavoritesDto>(result);
+            return fav;
+        }
+
         public async Task SaveFavorite(FavoritesDto favoritesDto)
         {
             var favorite = Mapper.Map<Favorites>(favoritesDto);
             await _database.InsertAsync(favorite);
+        }
+
+        public async Task DeleteFavorite(FavoritesDto favoritesDto)
+        {
+            var fav = Mapper.Map<Favorites>(favoritesDto);
+            await _database.DeleteAsync(fav);
         }
     }
 }

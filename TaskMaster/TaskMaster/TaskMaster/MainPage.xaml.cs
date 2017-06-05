@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 using System.Timers;
+using TaskMaster.Enums;
 using TaskMaster.Interfaces;
 using TaskMaster.ModelsDto;
 using TaskMaster.Pages;
@@ -13,7 +15,7 @@ namespace TaskMaster
     public partial class MainPage
     {
         private readonly Timer _listTimer = new Timer();
-        private readonly List<MainPageList> _activeTasksList = new List<MainPageList>();
+        private readonly List<MainPageListItem> _activeTasksList = new List<MainPageListItem>();
 
         public MainPage()
         {
@@ -23,10 +25,14 @@ namespace TaskMaster
         protected override async void OnAppearing()
         {
             base.OnAppearing();
+            //await SynchronizationService.Instance.GetActivities();
             await ListInitiateAsync();
             _listTimer.Elapsed += UpdateTime;
             _listTimer.Interval = 1000;
-            _listTimer.Start();
+            if (_activeTasksList.Count > 0)
+            {
+                _listTimer.Start();
+            }
         }
 
         protected override void OnDisappearing()
@@ -83,19 +89,56 @@ namespace TaskMaster
 
         private async void PlannedPageItem_OnClicked(object sender, EventArgs e)
         {
+            _listTimer.Stop();
             await Navigation.PushModalAsync(new NavigationPage(new PlannedViewPage()));
         }
 
-        private void SyncItem_OnClicked(object sender, EventArgs e)
+        private async void SyncItem_OnClicked(object sender, EventArgs e)
         {
-            throw new NotImplementedException();
+            _listTimer.Stop();
+            var isInternet = CheckInternetConnection();
+            if (isInternet)
+            {
+            }
+            else
+            {
+                await DisplayAlert("Error", "Nie można synchronizować bez internetu","Ok");
+            }
+            /*var activities = await UserService.Instance.GetActivitiesByStatus(StatusType.Stop);
+            {
+                foreach (var activitiesDto in activities)
+                {
+                    if (activitiesDto.SyncStatus != SyncStatus.ToUpload)
+                    {
+                        continue;
+                    }
+                    var task = await UserService.Instance.GetTaskById(activitiesDto.TaskId);
+                    await SynchronizationService.Instance.SendActivity(activitiesDto,task);
+                }
+            }
+            await SynchronizationService.Instance.SendFavorite();
+            var planned = await UserService.Instance.GetActivitiesByStatus(StatusType.Planned);
+            foreach (var activitiesDto in planned)
+            {
+                if (activitiesDto.SyncStatus != SyncStatus.ToUpload)
+                {
+                    continue;
+                }
+                var task = await UserService.Instance.GetTaskById(activitiesDto.TaskId);
+                await SynchronizationService.Instance.SendPlanned(activitiesDto,task);
+            }*/
+            
+            /*await SynchronizationService.Instance.GetActivities();
+            await SynchronizationService.Instance.GetFavorites();
+            await SynchronizationService.Instance.GetPlanned();*/
+            _listTimer.Start();
         }
 
         private async void ActiveTasks_OnItemTapped(object sender, ItemTappedEventArgs e)
         {
             _listTimer.Stop();
             ActiveTasks.ItemsSource = null;
-            var item = (MainPageList)e.Item;
+            var item = e.Item as MainPageListItem;
             await Navigation.PushModalAsync(new EditTaskPage(item));
         }
 
@@ -124,7 +167,7 @@ namespace TaskMaster
                 var parts = await UserService.Instance.GetPartsOfActivityByActivityId(activity.ActivityId);
                 var time = parts.Sum(part => long.Parse(part.Duration));
                 var t = TimeSpan.FromMilliseconds(time);
-                var item = new MainPageList
+                var item = new MainPageListItem
                 {
                     MyImageSource = ImageChoice(activity.Status),
                     ActivityId = activity.ActivityId,
@@ -156,7 +199,7 @@ namespace TaskMaster
                 var parts = await UserService.Instance.GetPartsOfActivityByActivityId(activity.ActivityId);
                 var time = parts.Sum(part => long.Parse(part.Duration));
                 var t = TimeSpan.FromMilliseconds(time);
-                var item = new MainPageList
+                var item = new MainPageListItem
                 {
                     MyImageSource = ImageChoice(activity.Status),
                     ActivityId = activity.ActivityId,
@@ -200,9 +243,10 @@ namespace TaskMaster
         {
             var activity = new ActivitiesDto
             {
+                Guid = Guid.NewGuid().ToString(),
                 Status = StatusType.Start,
                 //UserId = 1,
-                UserId = await UserService.Instance.GetLoggedUser(),
+                UserId = UserService.Instance.GetLoggedUser().UserId,
                 GroupId = 1,
                 TaskId = 0
             };
@@ -217,7 +261,7 @@ namespace TaskMaster
             part.PartId = await UserService.Instance.SavePartOfActivity(part);
             StopwatchesService.Instance.AddStopwatch(part.PartId);
             var t = TimeSpan.FromMilliseconds(0);
-            var item = new MainPageList
+            var item = new MainPageListItem
             {
                 MyImageSource = ImageChoice(activity.Status),
                 Name = "Unnamed Activity " + activity.ActivityId,
@@ -228,6 +272,7 @@ namespace TaskMaster
             };
             _activeTasksList.Add(item);
             UpdateList();
+            _listTimer.Start();
         }
 
         private async Task StartupResumeAsync(ActivitiesDto start)
@@ -289,8 +334,59 @@ namespace TaskMaster
 
         private async void LogoutItem_OnClicked(object sender, EventArgs e)
         {
+            var result = await DisplayAlert("Uwaga",
+                "Wszystkie aktywności zostaną automatycznie zakończone. Kontynuować?", "Tak", "Nie");
+            if (!result)
+            {
+                return;
+            }
+            var activities = await UserService.Instance.GetActivitiesByStatus(StatusType.Start);
+            if (activities.Any(activity => activity.TaskId == 0))
+            {
+                await DisplayAlert("Error", "Nie można wylogować gdyż są nienazwane aktywności", "Ok");
+                return;
+            }
+            var activitiesPause = await UserService.Instance.GetActivitiesByStatus(StatusType.Pause);
+            if (activitiesPause.Any(activity => activity.TaskId == 0))
+            {
+                await DisplayAlert("Error", "Nie można wylogować gdyż są nienazwane aktywności", "Ok");
+                return;
+            }
+            foreach (var activity in activities)
+            {
+                var part = await UserService.Instance.GetLastActivityPart(activity.ActivityId);
+                StopwatchesService.Instance.StopStopwatch(part.PartId);
+                activity.Status= StatusType.Stop;
+                part.Stop = DateTime.Now.ToString("HH:mm:ss dd/MM/yyyy");
+                part.Duration = StopwatchesService.Instance.GetStopwatchTime(part.PartId).ToString();
+                await UserService.Instance.SaveActivity(activity);
+                await UserService.Instance.SavePartOfActivity(part);
+            }
+            foreach (var activity in activitiesPause)
+            {
+                activity.Status = StatusType.Stop;
+                await UserService.Instance.SaveActivity(activity);   
+            }
             await UserService.Instance.LogoutUser();
             DependencyService.Get<ILogOutService>().LogOut();
+        }
+
+        public bool CheckInternetConnection()
+        {
+            const string checkUrl = "http://google.com";
+            try
+            {
+                var iNetRequest = (HttpWebRequest)WebRequest.Create(checkUrl);
+                iNetRequest.Timeout = 5000;
+                var iNetResponse = iNetRequest.GetResponse();
+                iNetResponse.Close();
+                return true;
+
+            }
+            catch (WebException)
+            {
+                return false;
+            }
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using TaskMaster.ModelsDto;
 using Xamarin.Forms;
@@ -10,23 +11,14 @@ namespace TaskMaster.Services
         private static UserService _instance;
         private static UserDatabase _database;
         private static UserDatabase Database => _database ?? (_database = new UserDatabase(DependencyService.Get<IFileHelper>().GetLocalFilePath("UserSQLite.db3")));
-
+        private UserDto _loggedUser;
         private UserService()
         {
             
         }
 
-        public static UserService Instance
-        {
-            get
-            {
-                if (_instance == null)
-                {
-                    _instance = new UserService();
-                }
-                return _instance;
-            }
-        }
+        public static UserService Instance => _instance ?? (_instance = new UserService());
+
         public async Task<int> SaveActivity(ActivitiesDto activitiesDto)
         {
             if (activitiesDto.ActivityId != 0)
@@ -60,8 +52,13 @@ namespace TaskMaster.Services
             return insert;
         }
 
-        public async Task<int> SaveTask(TasksDto tasksDto)
+        public async Task DeletePartOfActivity(PartsOfActivityDto partsOfActivityDto)
         {
+            await Database.DeletePartOfActivity(partsOfActivityDto);
+        }
+
+        public async Task<int> SaveTask(TasksDto tasksDto)
+        {            
             if (tasksDto.TaskId != 0)
             {
                 var update = await Database.UpdateTask(tasksDto);
@@ -71,10 +68,35 @@ namespace TaskMaster.Services
             return insert;
         }
 
-        public async Task<int> GetLoggedUser()
+        public async Task<bool> IsLoggedUser()
         {
-            var result = await Database.GetLoggedUser();
-            return result;
+            var user = await Database.GetLoggedUser();
+            if (user == null)
+            {
+                return false;
+            }
+            if (_loggedUser == null)
+            {
+                SetLoggedUser(user);
+            }
+            return true;
+        }
+        public void SetLoggedUser(UserDto user)
+        {
+            _loggedUser = user;
+        }
+
+        public UserDto GetLoggedUser()
+        {
+            if (_loggedUser != null)
+            {
+                return _loggedUser;
+            }
+            var user = new UserDto
+            {
+                UserId = -1
+            };
+            return user;
         }
 
         public async Task<int> SaveUser(UserDto userDto)
@@ -91,6 +113,12 @@ namespace TaskMaster.Services
         public async Task<UserDto> GetUserById(int id)
         {
             var user = await Database.GetUser(id);
+            return user;
+        }
+
+        public async Task<UserDto> GetUserByEmail(string email)
+        {
+            var user = await Database.GetUserByEmail(email);
             return user;
         }
 
@@ -126,7 +154,7 @@ namespace TaskMaster.Services
         public async Task<List<ActivitiesDto>> GetActivitiesByStatus(StatusType status)
         {
             var update = await Database.GetActivitiesByStatus(status);
-            return update;
+            return update.Where(activity => activity.UserId == _loggedUser.UserId).ToList();
         }
 
         public async Task<PartsOfActivityDto> GetLastActivityPart(int id)
@@ -152,9 +180,19 @@ namespace TaskMaster.Services
             return get;
         }
 
+        public async Task<FavoritesDto> GetFavoriteByTaskId(int id)
+        {
+            var get = await Database.GetFavoriteByTaskId(id);
+            return get;
+        }
         public async Task SaveFavorite(FavoritesDto favoritesDto)
         {
             await Database.SaveFavorite(favoritesDto);
+        }
+
+        public async Task DeleteFavorite(FavoritesDto favoritesDto)
+        {
+            await Database.DeleteFavorite(favoritesDto);
         }
     }
 }

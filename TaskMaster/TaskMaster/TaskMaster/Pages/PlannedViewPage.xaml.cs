@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
+using TaskMaster.Interfaces;
 using TaskMaster.Lists;
 using TaskMaster.Services;
 using Xamarin.Forms;
@@ -11,7 +13,7 @@ namespace TaskMaster.Pages
 	[XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class PlannedViewPage
 	{
-        private readonly List<PlannedList> _plannedList = new List<PlannedList>();
+        private readonly List<PlannedListItem> _plannedList = new List<PlannedListItem>();
 		public PlannedViewPage ()
 		{
 			InitializeComponent ();
@@ -44,9 +46,42 @@ namespace TaskMaster.Pages
 
 	    private async void LogoutItem_OnClicked(object sender, EventArgs e)
 	    {
+	        var result = await DisplayAlert("Uwaga",
+	            "Wszystkie aktywności zostaną automatycznie zakończone. Kontynuować?", "Tak", "Nie");
+	        if (!result)
+	        {
+	            return;
+	        }
+	        var activities = await UserService.Instance.GetActivitiesByStatus(StatusType.Start);
+	        if (activities.Any(activity => activity.TaskId == 0))
+	        {
+	            await DisplayAlert("Error", "Nie można wylogować gdyż są nienazwane aktywności", "Ok");
+	            return;
+	        }
+	        var activitiesPause = await UserService.Instance.GetActivitiesByStatus(StatusType.Pause);
+	        if (activitiesPause.Any(activity => activity.TaskId == 0))
+	        {
+	            await DisplayAlert("Error", "Nie można wylogować gdyż są nienazwane aktywności", "Ok");
+	            return;
+	        }
+	        foreach (var activity in activities)
+	        {
+	            var part = await UserService.Instance.GetLastActivityPart(activity.ActivityId);
+	            StopwatchesService.Instance.StopStopwatch(part.PartId);
+	            activity.Status = StatusType.Stop;
+	            part.Stop = DateTime.Now.ToString("HH:mm:ss dd/MM/yyyy");
+	            part.Duration = StopwatchesService.Instance.GetStopwatchTime(part.PartId).ToString();
+	            await UserService.Instance.SaveActivity(activity);
+	            await UserService.Instance.SavePartOfActivity(part);
+	        }
+	        foreach (var activity in activitiesPause)
+	        {
+	            activity.Status = StatusType.Stop;
+	            await UserService.Instance.SaveActivity(activity);
+	        }
 	        await UserService.Instance.LogoutUser();
-	        // tu musi być wyjście z apki
-	    }
+	        DependencyService.Get<ILogOutService>().LogOut();
+        }
 
 	    private async Task ListInitiate()
 	    {
@@ -55,8 +90,8 @@ namespace TaskMaster.Pages
 	        {
 	            var lastPart = await UserService.Instance.GetLastActivityPart(activity.ActivityId);
 	            var task = await UserService.Instance.GetTaskById(activity.TaskId);
-	            var element = new PlannedList
-	            {
+	            var element = new PlannedListItem
+                {
 	                ActivityId = activity.ActivityId,
 	                Name = task.Name,
 	                Description = activity.Comment,
@@ -112,7 +147,7 @@ namespace TaskMaster.Pages
 
 	    private async void PlannedTasks_OnItemTapped(object sender, ItemTappedEventArgs e)
 	    {
-	        var item = e.Item as PlannedList;
+	        var item = e.Item as PlannedListItem;
 	        if (item == null)
 	        {
 	            return;

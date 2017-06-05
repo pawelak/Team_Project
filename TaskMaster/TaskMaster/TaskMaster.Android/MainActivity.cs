@@ -7,6 +7,8 @@ using Android.Gms.Auth.Api.SignIn;
 using Android.Gms.Common;
 using Android.Gms.Common.Apis;
 using Android.OS;
+using Android.Widget;
+using TaskMaster.Enums;
 using TaskMaster.ModelsDto;
 using Xamarin.Forms;
 
@@ -17,9 +19,8 @@ namespace TaskMaster.Droid
     public class MainActivity : Xamarin.Forms.Platform.Android.FormsAppCompatActivity,
         GoogleApiClient.IOnConnectionFailedListener
     {
-        public static GoogleApiClient _mGoogleApiClient;
+        public static GoogleApiClient MGoogleApiClient;
         private const int RcSignIn = 9001;
-        private int user;
         protected override async void OnCreate(Bundle bundle)
         {
             TabLayoutResource = Resource.Layout.Tabbar;
@@ -27,33 +28,27 @@ namespace TaskMaster.Droid
             base.OnCreate(bundle);
             Forms.Init(this, bundle);
             XamForms.Controls.Droid.Calendar.Init();
-            /*var gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DefaultSignIn)
+            var gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DefaultSignIn)
                 .RequestEmail()
                 .RequestIdToken("723494873981-np3v1u9js6jman2qri5r0gfd7fl3g3c2.apps.googleusercontent.com")
                 .Build();
-            _mGoogleApiClient = new GoogleApiClient.Builder(this)
+            MGoogleApiClient = new GoogleApiClient.Builder(this)
                 .EnableAutoManage(this, this)
                 .AddApi(Auth.GOOGLE_SIGN_IN_API, gso)
                 .Build();
-            await GetUser();
-            if (user != -1)
+            var check = await Services.UserService.Instance.IsLoggedUser();
+            if(check)
             {
                 LoadApplication(new App());
             }
             else
             {
                 SignIn();
-            }*/
-            LoadApplication(new App());
-        }
-
-        private async Task GetUser()
-        {
-            user = await Services.UserService.Instance.GetLoggedUser();
+            }
         }
         private void SignIn()
         {
-            var signInIntent = Auth.GoogleSignInApi.GetSignInIntent(_mGoogleApiClient);
+            var signInIntent = Auth.GoogleSignInApi.GetSignInIntent(MGoogleApiClient);
             StartActivityForResult(signInIntent, RcSignIn);
         }
 
@@ -97,15 +92,17 @@ namespace TaskMaster.Droid
                     Name = email,
                     Token = idToken,
                     TypeOfRegistration = "Google",
-                    SyncStatus = SyncStatusType.ToUpload,
+                    SyncStatus = SyncStatus.ToUpload,
                     IsLoggedIn = true
                 };
-                await Services.UserService.Instance.SaveUser(userDto);
-                //await Services.SynchronizationService.Instance.SendUser(user);
+                userDto.UserId = await Services.UserService.Instance.SaveUser(userDto);
+                Services.UserService.Instance.SetLoggedUser(userDto);
+                //await Services.SynchronizationService.Instance.SendUser(userDto);
                 LoadApplication(new App());
             }
             else
             {
+                Toast.MakeText(this, "Nie udało się zalogować", ToastLength.Long);
                 Finish();
             }
         }
