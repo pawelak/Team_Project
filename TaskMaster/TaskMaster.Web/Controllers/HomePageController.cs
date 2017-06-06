@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Helpers;
 using System.Web.Mvc;
-using TaskMaster.BLL.WebModels;
-using TaskMaster.BLL.WebServices;
 
 namespace TaskMaster.Web.Controllers
 {
@@ -16,10 +15,6 @@ namespace TaskMaster.Web.Controllers
         // GET: HomePage
         public ActionResult Index()
         {
-            foreach (var s in _webMainService.ShowActivity("dlanorberta@gmail.com"))
-            {
-                s.Name.ToString();
-            }
             return View();
         }
     }
