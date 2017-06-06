@@ -14,6 +14,7 @@ namespace TaskMaster.DAL.Repositories
                 Db.SaveChanges();
             }
 
+
             protected void Delete(T x)
             {
                 Db.Set<T>().Remove(x);
@@ -22,7 +23,7 @@ namespace TaskMaster.DAL.Repositories
 
             protected IList<T> GetAll()
             {
-                return Db.Set<T>().ToList<T>();
+                return Db.Set<T>().ToList();
             }
 
             protected T Get(int id)
@@ -38,7 +39,7 @@ namespace TaskMaster.DAL.Repositories
 
             protected int Count()
             {
-                return Db.Set<T>().Count<T>();
+                return Db.Set<T>().Count();
 
             }
         }

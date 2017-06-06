@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Data.Entity;
+﻿using System.Data.Entity;
 using TaskMaster.DAL.Migrations;
 using TaskMaster.DAL.Models;
 
@@ -10,8 +9,8 @@ namespace TaskMaster.DAL.Context
     {
         public DatabaseContext(): base("name=TaskMasterBase")
         {
-            Database.SetInitializer(new DatabaseInitialize()); 
-            //Database.SetInitializer(new MigrateDatabaseToLatestVersion<DatabaseContext, Configuration>());
+            //Database.SetInitializer(new DatabaseInitialize()); 
+            Database.SetInitializer(new MigrateDatabaseToLatestVersion<DatabaseContext, Configuration>());
 
             Configuration.LazyLoadingEnabled = true;
             Configuration.ProxyCreationEnabled = true;
