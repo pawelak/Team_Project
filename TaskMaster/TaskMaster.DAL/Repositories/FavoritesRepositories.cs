@@ -37,7 +37,7 @@ namespace TaskMaster.DAL.Repositories
 
         public void Edit(FavoritesDto dto)
         {
-            base.Edit(Mapper.Map<Favorites>(dto));
+            base.Edit(Mapper.Map<Favorites>(dto),"FavoritesId");
         }
 
     }

@@ -36,7 +36,7 @@ namespace TaskMaster.DAL.Repositories
 
         public void Edit(TaskDto dto)
         {
-            base.Edit(Mapper.Map<Task>(dto));
+            base.Edit(Mapper.Map<Task>(dto),"TaskId");
         }
     }
 }

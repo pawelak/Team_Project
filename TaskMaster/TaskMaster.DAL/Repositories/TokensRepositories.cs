@@ -37,7 +37,7 @@ namespace TaskMaster.DAL.Repositories
 
         public void Edit(TokensDto dto)
         {
-            base.Edit(Mapper.Map<Tokens>(dto));
+            base.Edit(Mapper.Map<Tokens>(dto),"TokensId");
         }
     }
 }

@@ -31,7 +31,7 @@ namespace TaskMaster.DAL.Repositories
 
         public void Edit(PartsOfActivityDto dto)
         {
-            base.Edit(Mapper.Map<PartsOfActivity>(dto));
+            base.Edit(Mapper.Map<PartsOfActivity>(dto),"PartsOfActivityId");
         }
     }
 }

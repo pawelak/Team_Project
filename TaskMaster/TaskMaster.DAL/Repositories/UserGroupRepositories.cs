@@ -37,7 +37,7 @@ namespace TaskMaster.DAL.Repositories
 
         public void Edit(UserGroupDto dto)
         {
-            base.Edit(Mapper.Map<UserGroup>(dto));
+            base.Edit(Mapper.Map<UserGroup>(dto),"UserGroupId");
         }
     }
 }
