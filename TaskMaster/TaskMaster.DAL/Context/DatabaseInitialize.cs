@@ -255,7 +255,7 @@ namespace TaskMaster.DAL.Context
             {
                 Guid = "asd12",
                 Comment = "Co sie stalo",
-                State = State.Ended,
+                State = State.Stoped,
                 User = defaultUsers[0],
                 Task = defaultTasks[0],
                 Group = defaultGroup[1]

@@ -116,8 +116,11 @@
     <Compile Include="WebApiModels\PartsOfActivityMobileDto.cs" />
     <Compile Include="WebApiModels\TasksMobileDto.cs" />
     <Compile Include="WebApiModels\UserMobileDto.cs" />
+    <Compile Include="WebModels\ActivityDto.cs" />
     <Compile Include="WebModels\ActivityViewModel.cs" />
+    <Compile Include="WebModels\PartsOfActivityDto.cs" />
     <Compile Include="WebModels\UserViewModels.cs" />
+    <Compile Include="WebServices\ActivityWebService.cs" />
     <Compile Include="WebServices\WebMainService.cs" />
     <Compile Include="WebServices\WebUserService.cs" />
   </ItemGroup>

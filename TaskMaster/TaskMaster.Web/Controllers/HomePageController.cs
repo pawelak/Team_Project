@@ -5,6 +5,8 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Helpers;
 using System.Web.Mvc;
+using Microsoft.AspNet.Identity;
+using TaskMaster.BLL.WebServices;
 
 namespace TaskMaster.Web.Controllers
 {
@@ -15,7 +17,20 @@ namespace TaskMaster.Web.Controllers
         // GET: HomePage
         public ActionResult Index()
         {
-            return View();
+            var userId = User.Identity.GetUserId();
+
+            if (userId != null)
+            {
+                if (User.Identity.IsAuthenticated)
+                {
+                    var userName = User.Identity.GetUserName();
+
+                    return View();
+                }
+               
+            }
+
+            return RedirectToAction("Home","LandingPage");
         }
     }
 }
