@@ -157,6 +157,7 @@ namespace TaskMaster.Pages
 	        await UserService.Instance.SaveActivity(activity);
 	        // anulowanie notki
 	        // wysłać do webApi?
+            OnAppearing();
 	    }
 
 	    private void SyncItem_OnClicked(object sender, EventArgs e)

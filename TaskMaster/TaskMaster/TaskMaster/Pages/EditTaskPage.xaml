@@ -90,7 +90,7 @@
             </StackLayout>
             
             <StackLayout VerticalOptions="EndAndExpand"> 
-                <Button x:Name="AcceptButton" Text="End" Clicked="AcceptButton_OnClicked" TextColor="{x:StaticResource TextColor}" BackgroundColor="{x:StaticResource BackgroundColor}"
+                <Button x:Name="AcceptButton" Text="Zapisz" Clicked="AcceptButton_OnClicked" TextColor="{x:StaticResource TextColor}" BackgroundColor="{x:StaticResource BackgroundColor}"
                         FontFamily="{x:StaticResource Font}" FontSize="{x:StaticResource Medium}"/>
             </StackLayout>
         </StackLayout>

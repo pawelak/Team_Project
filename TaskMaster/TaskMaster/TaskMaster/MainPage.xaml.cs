@@ -178,7 +178,7 @@ namespace TaskMaster
                 };
                 if (activity.TaskId == 0)
                 {
-                    item.Name = "Unnamed Activity " + activity.ActivityId;
+                    item.Name = "Nowa Aktywność " + activity.ActivityId;
                 }
                 else
                 {
@@ -209,7 +209,7 @@ namespace TaskMaster
                 };
                 if (activity.TaskId == 0)
                 {
-                    item.Name = "Unnamed Activity " + activity.ActivityId;
+                    item.Name = "Nowa Aktywność " + activity.ActivityId;
                 }
                 else
                 {
@@ -264,7 +264,7 @@ namespace TaskMaster
             var item = new MainPageListItem
             {
                 MyImageSource = ImageChoice(activity.Status),
-                Name = "Unnamed Activity " + activity.ActivityId,
+                Name = "Nowa Aktywność " + activity.ActivityId,
                 ActivityId = activity.ActivityId,
                 PartId = part.PartId,
                 Duration = $"{t.Hours:D2}h:{t.Minutes:D2}m:{t.Seconds:D2}s",
@@ -279,7 +279,7 @@ namespace TaskMaster
         {
             var task = await UserService.Instance.GetTaskById(start.TaskId) ?? new TasksDto
             {
-                Name = "Unnamed Activity " + start.ActivityId
+                Name = "Nowa Aktywność " + start.ActivityId
             };
             var result = await DisplayAlert("Error", "Masz niezapauzowaną aktywność " + task.Name + ".\n " +
                                                      "Czy była ona aktywna od zamknięcia aplikacji? \n" +
