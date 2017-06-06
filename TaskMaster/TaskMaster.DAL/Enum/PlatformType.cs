@@ -5,6 +5,6 @@
         Android,
         WindowsPhone,
         Ios,
-        none
+        None
     }
 }

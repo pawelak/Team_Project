@@ -10,20 +10,20 @@ namespace TaskMaster.DAL.Context
         public DatabaseContext(): base("name=TaskMasterBase")
         {
             Database.SetInitializer(new DatabaseInitialize()); 
-            //Database.SetInitializer(new MigrateDatabaseToLatestVersion<DatabaseContext, Configuration>()); //Dla kolejnych ustawien
+            //Database.SetInitializer(new MigrateDatabaseToLatestVersion<DatabaseContext, Configuration>());
 
             Configuration.LazyLoadingEnabled = true;
             Configuration.ProxyCreationEnabled = true;
         }
 
-        public DbSet<Activity> Activity { get; set; }
-        public DbSet<Favorites> Favorites { get; set; }
-        public DbSet<Group> Group { get; set; }
-        public DbSet<PartsOfActivity> PartsOfActivity { get; set; }
-        public DbSet<Task> Task { get; set; }
-        public DbSet<Tokens> Tokens { get; set; }
-        public DbSet<User> User { get; set; }
-        public DbSet<UserGroup> UserGroup { get; set; }
+        public virtual DbSet<Activity> Activity { get; set; }
+        public virtual DbSet<Favorites> Favorites { get; set; }
+        public virtual DbSet<Group> Group { get; set; }
+        public virtual DbSet<PartsOfActivity> PartsOfActivity { get; set; }
+        public virtual DbSet<Task> Task { get; set; }
+        public virtual DbSet<Tokens> Tokens { get; set; }
+        public virtual DbSet<User> User { get; set; }
+        public virtual DbSet<UserGroup> UserGroup { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
