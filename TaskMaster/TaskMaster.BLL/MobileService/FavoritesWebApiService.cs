@@ -1,4 +1,8 @@
-﻿using TaskMaster.BLL.MobileModels;
+﻿using System.Collections.Generic;
+using System.Linq;
+using TaskMaster.BLL.MobileServices;
+using TaskMaster.BLL.WebApiModels;
+using TaskMaster.DAL.Enum;
 using TaskMaster.DAL.Repositories;
 
 namespace TaskMaster.BLL.MobileService
@@ -8,27 +12,36 @@ namespace TaskMaster.BLL.MobileService
     {
         private readonly FavoritesRepositories _favoritesRepositories = new FavoritesRepositories();
         private readonly UserWebApiService _userWebApiService = new UserWebApiService();
+        private readonly UserRepositories _userRepositories = new UserRepositories();
 
-        public FavoritesWebApi GetAllFavoritesForEmail(string email)
+
+        public List<FavoritesMobileDto> GetAllFavorites(string email)
         {
-            if (!_userWebApiService.IsEmailInDatabase(email)) return null;
-            var favoritesWebApi = new FavoritesWebApi {UserEmail = email};
-            var listOfAllFavorites = _favoritesRepositories.GetAll();
+            var user = _userRepositories.Get(email);
 
-            foreach (var fav in listOfAllFavorites)
+            var favorites = user.Favorites;
+            var returnedFav = new List<FavoritesMobileDto>();
+
+            foreach (var fav in favorites)
             {
-                if (fav.User.Email.Equals(email))
+                var tmpFav = new FavoritesMobileDto()
                 {
-                    var taskWebApi = new TaskWebApi
+                    UserEmail = user.Email,
+                    Token = null,
+                    EditState = EditState.None,
+                    Task = new TasksMobileDto()
                     {
                         Name = fav.Task.Name,
-                        //Description = fav.Task.Description
-                    };
-                    favoritesWebApi.Tasks.Add(taskWebApi);
-                }
+                        Type = fav.Task.Type
+                    }
+                };
+                returnedFav.Add(tmpFav);
             }
-            return favoritesWebApi;
+
+            return returnedFav;
         }
+
+
 
 
     }

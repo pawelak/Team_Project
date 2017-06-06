@@ -1,4 +1,5 @@
-﻿using System.Data.Entity;
+﻿using System.Collections.Generic;
+using System.Data.Entity;
 using TaskMaster.DAL.Migrations;
 using TaskMaster.DAL.Models;
 
@@ -27,7 +28,7 @@ namespace TaskMaster.DAL.Context
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
-            
+
         }
 
     }

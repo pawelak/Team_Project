@@ -1,0 +1,50 @@
+Instrukcja do tego co siê teraz dzieje
+
+
+WebApi:
+u¿ywanie linków:
+chc¹æ na geta wys³aæ jak¹œ zmienn¹ w stringu np "email" wygl¹da to tak:
+localhost:65116/api/Activity/?email=b@b.pl
+gdzie email="b@b.pl"
+
+
+
+funkcje:
+Activity:
+
+GET: api/Activity/email - pobiera aktywnoœci z poprzednich 7 dni, nad httpclientem musze jeszcze popracowaæ
+w tokenie zwracanej klasy wpisuje null bo nie wiem z czego ktoœ mnie pyta zebym dobra³ adekwatny token 
+!!!! w bazie sa niektóre partsOfActivity z dalsza dat¹ ni¿ tydzieñ wiêc ich nei wyœwietli automatem w getAllActivity bo tam jest ¿e pobiera z tygodnia
+
+
+
+POST: api/Activity - dzia³a chodŸ chwilowo topornie bo dodaje nowe obiekty user group itp(wszytkei jakie s¹ wewn¹trz dto)
+obiekty maj¹ przychodziæ z grup¹ null a ja je wpisuje wszytkie do grupy o id 1
+przyk³ad jsona który zadzia³a³
+{"UserEmail":"a@a.pl","Comment":"test post","TaskName":"biega3","Token":null,"Guid":"asd3","EditState":0,"State":1,"TaskPartsList":[{"Start":"12:30:10 28/05/2017","Stop":"11:30:10 30/05/2017","Duration":"0:00:00:21.0000000"}]}]
+musze usun¹æ buga z dodawaniem nowych obiektów 
+
+
+
+
+
+
+
+
+Baza:
+wkurzy³em siê na bazê i moje funkcje ko¿ystaj¹ z fejkowej bazy która znajduje siê w BLL w MobileService.
+Testowanie czy coœ dzia³a na bazie jest banalne,
+ w ka¿dym przypadku wystarczy wywaliæ linijki nastêpuj¹ce po obkomentowanej s³owami "machlojenia" linijce i odkomentowaæ nastêpn¹
+ przyk³ad:
+
+
+
+W bazie mamy:
+dlapawela@gmail.com
+dlabartosza@gmail.com
+a@a.pl
+b@b.pl
+dlanorberta@gmail.com
+a@a.pl
+
+
