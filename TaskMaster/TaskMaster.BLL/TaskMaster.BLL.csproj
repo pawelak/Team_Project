@@ -97,20 +97,19 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="MapperProfileBLL.cs" />
-    <Compile Include="MobileModels\FavoritesWebApi.cs" />
-    <Compile Include="MobileModels\TaskWebApi.cs" />
-    <Compile Include="MobileModels\UserWebApi.cs" />
-    <Compile Include="MobileServices\PrintAllTestService.cs" />
-    <Compile Include="MobileServices\TasksWebApiService.cs" />
-    <Compile Include="MobileServices\UserWebApiService.cs" />
-    <Compile Include="MobileServices\VeryficationService.cs" />
-    <Compile Include="MobileService\FavoritesWebApiService.cs" />
-    <Compile Include="MobileService\PrintAll.cs" />
+    <Compile Include="MobileService\GroupWebApiService.cs" />
+    <Compile Include="MobileService\PlannedWebApiService.cs" />
+    <Compile Include="MobileService\PrintAllTestService.cs" />
     <Compile Include="MobileService\UserWebApiService.cs" />
+    <Compile Include="MobileService\VeryficationService.cs" />
+    <Compile Include="MobileService\ActivityWebApiService.cs" />
+    <Compile Include="MobileService\FavoritesWebApiService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\MainService.cs" />
     <Compile Include="Services\UserService.cs" />
     <Compile Include="WebApiModels\ActivityMobileDto.cs" />
+    <Compile Include="WebApiModels\ActivityPlannedMobileDto.cs" />
+    <Compile Include="WebApiModels\PlannedMobileDto.cs" />
     <Compile Include="WebApiModels\FavoritesMobileDto.cs" />
     <Compile Include="WebApiModels\GoogleUser.cs" />
     <Compile Include="WebApiModels\PartsOfActivityMobileDto.cs" />

@@ -5,6 +5,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using Newtonsoft.Json;
 using TaskMaster.BLL.MobileServices;
 using TaskMaster.BLL.WebApiModels;
 
@@ -15,44 +16,43 @@ namespace TaskMaster.WebApi.Controllers
         private readonly UserWebApiService _userWebApiService = new UserWebApiService();
         private readonly PrintAllTestService _printAllTestService = new PrintAllTestService();
 
-        // GET: api/User                pod wszystkich urzytkowników -bardiej moja funkcja i zdaża jej się strzelić focha
+        // GET: api/User               
         public List<UserMobileDto> Get()
         {
             return _printAllTestService.PrintAllUserWebApi();
         }
 
-        // GET: api/User/tekst               pobiera dane urzytkownika o zadanym mailu
-        public UserMobileDto Get(string email)
+        // GET: api/User/email              pobiera dane urzytkownika o zadanym mailu
+        public HttpResponseMessage Get(HttpRequestMessage request ,string email)
         {
-            return _userWebApiService.GetUserByEmail(email);
+            return request.CreateResponse(HttpStatusCode.OK, JsonConvert.SerializeObject(_userWebApiService.GetUserByEmail(email)));
         }
 
         // POST: api/User                                       edycja użytkownika
-        public void Post([FromBody]UserMobileDto userMobileDto)
+        public HttpResponseMessage Post([FromBody]string usr)
         {
-            if (_userWebApiService.EditUser(userMobileDto))
-            {
-                Console.WriteLine("error, user can't be edit");
-            }
-
+            var tmp = JsonConvert.DeserializeObject<UserMobileDto>(usr);
+            return _userWebApiService.EditUser(tmp)
+                ? new HttpResponseMessage(HttpStatusCode.OK)
+                : new HttpResponseMessage(HttpStatusCode.NotFound);
         }
 
         // PUT: api/User                                    dodanie nowego użtkownika
-        public void Put([FromBody]UserMobileDto userMobileDto)
+        public HttpResponseMessage Put([FromBody]string user)
         {
-            if (_userWebApiService.AddNewUser(userMobileDto))
-            {
-                Console.WriteLine("error, user can't be added");
-            }
+            var tmp = JsonConvert.DeserializeObject<UserMobileDto>(user);
+          
+            return _userWebApiService.AddNewUser(tmp) 
+                ? new HttpResponseMessage(HttpStatusCode.OK) 
+                : new HttpResponseMessage(HttpStatusCode.NotFound);
         }
 
         // DELETE: api/User                                     usuwanie
-        public void Delete([FromBody]UserMobileDto userMobileDto)
+        public HttpResponseMessage Delete([FromBody]UserMobileDto userMobileDto)
         {
-            if (_userWebApiService.DeleteUserByEmail(userMobileDto))
-            {
-                Console.WriteLine("user not deleted");
-            }
+            return !_userWebApiService.DeleteUserByEmail(userMobileDto)
+                ? new HttpResponseMessage(HttpStatusCode.OK)
+                : new HttpResponseMessage(HttpStatusCode.NotFound);
         }
     }
 }

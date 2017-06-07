@@ -120,8 +120,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="scripts\ai.1.0.9-build01279.js" />
-    <Content Include="scripts\ai.1.0.9-build01279.min.js" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
