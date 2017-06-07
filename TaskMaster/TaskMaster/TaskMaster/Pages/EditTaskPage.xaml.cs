@@ -111,9 +111,9 @@ namespace TaskMaster.Pages
 
         private void UpdateButtons()
         {
-            PauseButton.IsEnabled = _activity.Status == StatusType.Start;
-            ResumeButton.IsEnabled = _activity.Status == StatusType.Pause;
-            StopButton.IsEnabled = _activity.Status != StatusType.Planned;
+            PauseButton.IsVisible = _activity.Status == StatusType.Start;
+            ResumeButton.IsVisible = _activity.Status == StatusType.Pause;
+            StopButton.IsVisible = _activity.Status != StatusType.Planned;
         }
         private async void StopButton_OnClicked(object sender, EventArgs e)
         {

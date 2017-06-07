@@ -64,6 +64,7 @@
             </StackLayout>
             <StackLayout VerticalOptions="EndAndExpand">
                 <Button Text="{x:StaticResource StartPlanText}" x:Name="PlanTaskStartButton" Clicked="PlanTaskStartButton_OnClicked"
+                        TextColor="{x:StaticResource TextColor}" BackgroundColor="{x:StaticResource BackgroundColor}"
                         FontFamily="{x:StaticResource Font}" FontSize="{x:StaticResource Medium}"/>
             </StackLayout>
         </StackLayout>
