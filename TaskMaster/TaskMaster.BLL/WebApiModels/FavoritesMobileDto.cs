@@ -9,7 +9,9 @@ namespace TaskMaster.BLL.WebApiModels
     {
         public string UserEmail { get; set; }
         public string Token { get; set; }
+
         public EditState EditState { get; set; }
-        public List<TasksMobileDto> TasksList { get; set; }
+
+        public TasksMobileDto Task { get; set; }
     }
 }

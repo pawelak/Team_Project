@@ -11,33 +11,38 @@ namespace TaskMaster.DAL.Repositories
     {
         public void Add(TokensDto dto)
         {
-            base.Add(Mapper.Map<Tokens>(dto));
+            var result = Mapper.Map<Tokens>(dto);
+            base.Add(result);
         }
-
+        public void Attach(TokensDto dto)
+        {
+            var result = Mapper.Map<Tokens>(dto);
+            base.Attach(result);
+        }
         public void Delete(TokensDto dto)
         {
-            base.Delete(Mapper.Map<Tokens>(dto));
+            var result = Mapper.Map<Tokens>(dto);
+            base.Delete(result);
         }
-
         public new IList<TokensDto> GetAll()
         {
-            return base.GetAll().Select(Mapper.Map<TokensDto>).ToList();
+            var result = base.GetAll().Select(Mapper.Map<TokensDto>);
+            return result.ToList();
         }
-
         public new TokensDto Get(int id)
         {
-            return Mapper.Map<TokensDto>(base.Get(id));
+            var result = Mapper.Map<TokensDto>(base.Get(id));
+            return result;
         }
-
         public IList<TokensDto> Get(string email)
         {
-            var list = GetAll();
-            return list.Where(l => l.User.Email.Equals(email)).ToList();
+            var result = GetAll().Where(l => l.User.Email.Equals(email));
+            return result.ToList();
         }
-
         public void Edit(TokensDto dto)
         {
-            base.Edit(Mapper.Map<Tokens>(dto));
+            var result = Mapper.Map<Tokens>(dto);
+            base.Edit(result, p => p.TokensId);
         }
     }
 }

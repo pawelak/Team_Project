@@ -6,6 +6,6 @@
         Chrome,
         Opera,
         Safari,
-        none
+        None
     }
 }
