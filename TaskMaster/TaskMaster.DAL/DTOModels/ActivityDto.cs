@@ -7,7 +7,6 @@ namespace TaskMaster.DAL.DTOModels
     {
         public string Comment { get; set; }
         public string Guid { get; set; }
-
         public State State { get; set; }
         public EditState EditState { get; set; }    
         

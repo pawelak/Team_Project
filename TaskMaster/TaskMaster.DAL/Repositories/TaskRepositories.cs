@@ -11,32 +11,38 @@ namespace TaskMaster.DAL.Repositories
     {
         public void Add(TaskDto dto)
         {
-            base.Add(Mapper.Map<Task>(dto));
+            var result = Mapper.Map<Task>(dto);
+            base.Add(result);
         }
-
+        public void Attach(TaskDto dto)
+        {
+            var result = Mapper.Map<Task>(dto);
+            base.Attach(result);
+        }
         public void Delete(TaskDto dto)
         {
-            base.Delete(Mapper.Map<Task>(dto));
+            var result = Mapper.Map<Task>(dto);
+            base.Delete(result);
         }
-
         public new IList<TaskDto> GetAll()
         {
-            return base.GetAll().Select(Mapper.Map<TaskDto>).ToList();
+            var result = base.GetAll().Select(Mapper.Map<TaskDto>);
+            return result.ToList();
         }
-
         public new TaskDto Get(int id)
         {
-            return Mapper.Map<TaskDto>(base.Get(id));
+            var result = Mapper.Map<TaskDto>(base.Get(id));
+            return result;
         }
-
         public TaskDto Get(string name)
         {
-            return GetAll().FirstOrDefault(v => v.Name.Equals(name));
+            var result = GetAll().FirstOrDefault(v => v.Name.Equals(name));
+            return result;
         }
-
         public void Edit(TaskDto dto)
         {
-            base.Edit(Mapper.Map<Task>(dto),"TaskId");
+            var result = Mapper.Map<Task>(dto);
+            base.Edit(result, p => p.TaskId);
         }
     }
 }

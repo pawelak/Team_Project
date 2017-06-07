@@ -6,6 +6,7 @@ namespace TaskMaster.DAL.Interface
     public interface ITokensRepositories
     {
         void Add(TokensDto dto);
+        void Attach(TokensDto dto);
         void Delete(TokensDto dto);
         IList<TokensDto> GetAll();
         TokensDto Get(int id);

@@ -11,33 +11,38 @@ namespace TaskMaster.DAL.Repositories
     {
         public void Add(UserGroupDto dto)
         {
-            base.Add(Mapper.Map<UserGroup>(dto));
+            var result = Mapper.Map<UserGroup>(dto);
+            base.Add(result);
         }
-
+        public void Attach(UserGroupDto dto)
+        {
+            var result = Mapper.Map<UserGroup>(dto);
+            base.Attach(result);
+        }
         public void Delete(UserGroupDto dto)
         {
-            base.Delete(Mapper.Map<UserGroup>(dto));
+            var result = Mapper.Map<UserGroup>(dto);
+            base.Delete(result);
         }
-
         public new IList<UserGroupDto> GetAll()
         {
-            return base.GetAll().Select(Mapper.Map<UserGroupDto>).ToList();
+            var result = base.GetAll().Select(Mapper.Map<UserGroupDto>);
+            return result.ToList();
         }
-
         public new UserGroupDto Get(int id)
         {
-            return Mapper.Map<UserGroupDto>(base.Get(id));
+            var result = Mapper.Map<UserGroupDto>(base.Get(id));
+            return result;
         }
-
         public IList<UserGroupDto> Get(string email)
         {
-            var list = GetAll();
-            return list.Where(l => l.User.Email.Equals(email)).ToList();
+            var result = GetAll().Where(l => l.User.Email.Equals(email));
+            return result.ToList();
         }
-
         public void Edit(UserGroupDto dto)
         {
-            base.Edit(Mapper.Map<UserGroup>(dto),"UserGroupId");
+            var result = Mapper.Map<UserGroup>(dto);
+            base.Edit(result, p => p.UserGroupId);
         }
     }
 }

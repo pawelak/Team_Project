@@ -1,7 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Data.Entity;
+using System.Linq.Expressions;
 
 namespace TaskMaster.DAL.Repositories
 {
@@ -32,11 +34,13 @@ namespace TaskMaster.DAL.Repositories
             {
                 return Db.Set<T>().Find(id);
             }
-            protected void Edit(T x,string key)
+            protected void Edit(T x, params Expression<Func<T, object>>[] key)
             {
                 Db.Set<T>().Attach(x);
-                Db.Entry(x).Property(i => GetAll()).IsModified = true;
-                Db.Entry(x).Property(i => i).IsModified = true;
+                foreach (var k in key)
+                {
+                    Db.Entry(x).Property(k).IsModified = true;
+                }
                 Db.SaveChanges();
             }
             protected int Count()
