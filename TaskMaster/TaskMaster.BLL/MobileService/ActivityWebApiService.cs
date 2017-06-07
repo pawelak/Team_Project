@@ -24,7 +24,7 @@ namespace TaskMaster.BLL.MobileService
             var user = _userRepositories.Get(email);
             var activityRawList = new List<ActivityDto>();
 
-            foreach (var act in user.Activity)
+            foreach (var act in user.Activities)
             {
                 if (act.State != State.Planned)
                 {
@@ -77,21 +77,28 @@ namespace TaskMaster.BLL.MobileService
                 };
                 tmpListOfParts.Add(tmpPart);
             }
-
-            var pomUser = new UserDto();
-            var pomTask = new TaskDto();
-            var pomGroup = new GroupDto();
-
+            var tmpTask = _taskRepositories.Get(activityMobileDto.TaskName);
+            //if (tmpTask == null)
+            //{
+            //    tmpTask = new TaskDto()
+            //    {
+            //        Description = "",
+            //        Name = activityMobileDto.TaskName,
+            //    };
+            //    _taskRepositories.Add(tmpTask);
+            //}
+            tmpTask.Description = "alleluja";
+            _taskRepositories.Edit(tmpTask);
             var tmpActivity = new ActivityDto
             {
                 Comment = activityMobileDto.Comment,
                 Guid = activityMobileDto.Guid,
                 State = activityMobileDto.State,
                 EditState = activityMobileDto.EditState,
-                PartsOfActivity = tmpListOfParts,
-                User = pomUser,
-                Task = pomTask,
-                Group = pomGroup,
+                PartsOfActivity = null,
+                User = _userRepositories.Get(activityMobileDto.UserEmail),
+                Task = _taskRepositories.Get(activityMobileDto.TaskName),
+                Group = _groupRepositories.Get(1),
             };
             //try
             //{
@@ -101,35 +108,8 @@ namespace TaskMaster.BLL.MobileService
             //{
             //    return false;
             //}
+            _groupRepositories.Delete(_groupRepositories.Get(2));
             _activityRepositories.Add(tmpActivity);
-
-            var tmpGroup = _groupRepositories.Get(1);
-            tmpGroup.Activity.Add(tmpActivity);
-            _groupRepositories.Edit(tmpGroup);
-
-            var tmpTask = _taskRepositories.Get(activityMobileDto.TaskName);
-            if (tmpTask == null)
-            {
-                tmpTask = new TaskDto()
-                {
-                    Description = "",
-                    Name = activityMobileDto.TaskName,
-                };
-                _taskRepositories.Add(tmpTask);
-                tmpTask.Activity=new List<ActivityDto>();
-            }
-            tmpTask.Activity.Add(tmpActivity);
-            _taskRepositories.Edit(tmpTask);
-
-            var tmpUser = _userRepositories.Get(activityMobileDto.UserEmail);
-            tmpUser.Activity.Add(tmpActivity);
-            _userRepositories.Edit(tmpUser);
-
-            tmpActivity.User = tmpUser;
-            tmpActivity.Group = tmpGroup;
-            tmpActivity.Task = tmpTask;
-            _activityRepositories.Edit(tmpActivity);
-
             return true;
         }
             

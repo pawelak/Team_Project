@@ -12,9 +12,12 @@ namespace TaskMaster.DAL.Repositories
         public void Add(PartsOfActivityDto dto)
         {
             var result = Mapper.Map<PartsOfActivity>(dto);
-            result.ActivityId = result.Activity.ActivityId;
-            result.Activity = null;
             base.Add(result);
+        }
+        public void Attach(PartsOfActivityDto dto)
+        {
+            var result = Mapper.Map<PartsOfActivity>(dto);
+            base.Attach(result);
         }
         public void Delete(PartsOfActivityDto dto)
         {
@@ -34,7 +37,7 @@ namespace TaskMaster.DAL.Repositories
         public void Edit(PartsOfActivityDto dto)
         {
             var result = Mapper.Map<PartsOfActivity>(dto);
-            base.Edit(result);
+            base.Edit(result, p => p.PartsOfActivityId);
         }
     }
 }

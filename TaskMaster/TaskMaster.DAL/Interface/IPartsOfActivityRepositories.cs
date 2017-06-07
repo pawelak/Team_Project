@@ -6,7 +6,6 @@ namespace TaskMaster.DAL.Interface
     public interface IPartsOfActivityRepositories
     {
         void Add(PartsOfActivityDto dto);
-        void Attach(PartsOfActivityDto dto);
         void Delete(PartsOfActivityDto dto);
         IList<PartsOfActivityDto> GetAll();
         PartsOfActivityDto Get(int id);

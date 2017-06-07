@@ -12,12 +12,9 @@ namespace TaskMaster.DAL.Repositories
         public void Add(GroupDto dto)
         {
             var result = Mapper.Map<Group>(dto);
+            result.Activities = null;
+            result.UserGroup = null;
             base.Add(result);
-        }
-        public void Attach(GroupDto dto)
-        {
-            var result = Mapper.Map<Group>(dto);
-            base.Attach(result);
         }
         public void Delete(GroupDto dto)
         {
@@ -42,7 +39,7 @@ namespace TaskMaster.DAL.Repositories
         public void Edit(GroupDto dto)
         {
             var result = Mapper.Map<Group>(dto);
-            base.Edit(result, p => p.GroupId);
+            base.Edit(result);
         }
     }
 }

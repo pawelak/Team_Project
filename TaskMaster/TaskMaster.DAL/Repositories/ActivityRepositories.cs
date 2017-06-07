@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using AutoMapper;
 using TaskMaster.DAL.Models;
@@ -13,12 +14,14 @@ namespace TaskMaster.DAL.Repositories
         public void Add(ActivityDto dto)
         {
             var result = Mapper.Map<Activity>(dto);
+            result.UserId = result.User.UserId;
+            result.User = null;
+            result.TaskId = result.Task.TaskId;
+            result.Task = null;
+            result.GroupId = result.Group.GroupId;
+            result.Group = null;
+            result.PartsOfActivity = null;
             base.Add(result);
-        }
-        public void Attach(ActivityDto dto)
-        {
-            var result = Mapper.Map<Activity>(dto);
-            base.Attach(result);
         }
         public void Delete(ActivityDto dto)
         {
@@ -42,8 +45,15 @@ namespace TaskMaster.DAL.Repositories
         }
         public void Edit(ActivityDto dto)
         {
-            var result = Mapper.Map<Activity>(dto);
-            base.Edit(result, p=>p.UserId);
+            var obj = Mapper.Map<Activity>(dto);
+            var result = Db.Activity.Find(obj.ActivityId);
+            Db.Activity.Attach(result);
+            result.UserId = obj.UserId;
+            result.GroupId = obj.GroupId;
+            result.TaskId = obj.TaskId;
+            result.Comment = obj.Comment;
+            result.State = obj.State;
+            base.Edit(result);
         }
     }
 }

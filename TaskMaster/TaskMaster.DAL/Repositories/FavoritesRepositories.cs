@@ -12,12 +12,11 @@ namespace TaskMaster.DAL.Repositories
         public void Add(FavoritesDto dto)
         {
             var result = Mapper.Map<Favorites>(dto);
+            result.UserId = result.User.UserId;
+            result.User = null;
+            result.TaskId = result.Task.TaskId;
+            result.Task = null;
             base.Add(result);
-        }
-        public void Attach(FavoritesDto dto)
-        {
-            var result = Mapper.Map<Favorites>(dto);
-            base.Attach(result);
         }
         public void Delete(FavoritesDto dto)
         {
@@ -42,7 +41,7 @@ namespace TaskMaster.DAL.Repositories
         public void Edit(FavoritesDto dto)
         {
             var result = Mapper.Map<Favorites>(dto);
-            base.Edit(result, p => p.FavoritesId);
+            base.Edit(result);
         }
     }
 }

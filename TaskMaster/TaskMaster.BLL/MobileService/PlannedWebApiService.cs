@@ -21,7 +21,7 @@ namespace TaskMaster.BLL.MobileService
             var date7DaysAgo = DateTime.Now.AddDays(-7);
             var user = _userRepositories.Get(email);
 
-            var activityRawList = user.Activity.Where(act => act.State == State.Planned).ToList();
+            var activityRawList = user.Activities.Where(act => act.State == State.Planned).ToList();
 
             var returnedList = new List<PlannedMobileDto>();
 

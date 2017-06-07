@@ -12,12 +12,11 @@ namespace TaskMaster.DAL.Repositories
         public void Add(UserGroupDto dto)
         {
             var result = Mapper.Map<UserGroup>(dto);
+            result.UserId = result.User.UserId;
+            result.User = null;
+            result.GroupId = result.Group.GroupId;
+            result.Group = null;
             base.Add(result);
-        }
-        public void Attach(UserGroupDto dto)
-        {
-            var result = Mapper.Map<UserGroup>(dto);
-            base.Attach(result);
         }
         public void Delete(UserGroupDto dto)
         {
@@ -42,7 +41,7 @@ namespace TaskMaster.DAL.Repositories
         public void Edit(UserGroupDto dto)
         {
             var result = Mapper.Map<UserGroup>(dto);
-            base.Edit(result, p => p.UserGroupId);
+            base.Edit(result);
         }
     }
 }

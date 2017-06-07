@@ -6,7 +6,6 @@ namespace TaskMaster.DAL.Interface
     public interface IUserRepositories
     {
         void Add(UserDto dto);
-        void Attach(UserDto dto);
         void Delete(UserDto dto);
         IList<UserDto> GetAll();
         UserDto Get(int id);

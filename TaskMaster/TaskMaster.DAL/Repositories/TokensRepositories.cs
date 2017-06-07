@@ -12,12 +12,9 @@ namespace TaskMaster.DAL.Repositories
         public void Add(TokensDto dto)
         {
             var result = Mapper.Map<Tokens>(dto);
+            result.UserId = result.User.UserId;
+            result.User = null;
             base.Add(result);
-        }
-        public void Attach(TokensDto dto)
-        {
-            var result = Mapper.Map<Tokens>(dto);
-            base.Attach(result);
         }
         public void Delete(TokensDto dto)
         {
@@ -42,7 +39,7 @@ namespace TaskMaster.DAL.Repositories
         public void Edit(TokensDto dto)
         {
             var result = Mapper.Map<Tokens>(dto);
-            base.Edit(result, p => p.TokensId);
+            base.Edit(result);
         }
     }
 }
