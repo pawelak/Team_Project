@@ -7,31 +7,38 @@ namespace TaskMaster.DAL
 {
     public class MapperProfileDal : Profile
     {
-        private const int Dep = 50;
+        private const int Dep = 5;
 
         public MapperProfileDal()
         {
             CreateMap<ActivityDto, Activity>()
-                .ReverseMap()
+                .MaxDepth(Dep);
+            CreateMap<Activity, ActivityDto>()
                 .MaxDepth(Dep);
             CreateMap<FavoritesDto, Favorites>()
-                .ReverseMap()
+                .MaxDepth(Dep);
+            CreateMap<Favorites, FavoritesDto>()
                 .MaxDepth(Dep);
             CreateMap<GroupDto, Group>()
-                .ReverseMap()
                 .MaxDepth(Dep);
+            CreateMap<Group, GroupDto>()
+               .MaxDepth(Dep);
             CreateMap<TaskDto, Task>()
-                .ReverseMap()
+                .MaxDepth(Dep);
+            CreateMap<Task, TaskDto>()
                 .MaxDepth(Dep);
             CreateMap<TokensDto, Tokens>()
-                .ReverseMap()
                 .MaxDepth(Dep);
+            CreateMap<Tokens, TokensDto>()
+               .MaxDepth(Dep);
             CreateMap<UserGroupDto, UserGroup>()
-                .ReverseMap()
                 .MaxDepth(Dep);
+            CreateMap<UserGroup, UserGroupDto>()
+               .MaxDepth(Dep);
             CreateMap<UserDto, User>()
-                .ReverseMap()
                 .MaxDepth(Dep);
+            CreateMap<User, UserDto>()
+               .MaxDepth(Dep);
             CreateMap<PartsOfActivity, PartsOfActivityDto>()
                 .MaxDepth(Dep)
                 .ForMember(dest => dest.Duration,

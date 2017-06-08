@@ -41,6 +41,14 @@ namespace TaskMaster.BLL.MobileService
             return returnedFav;
         }
 
+        public bool AddFavorites(FavoritesMobileDto favoritesMobileDto)
+        {
+
+
+
+            return false;
+        }
+
 
 
 

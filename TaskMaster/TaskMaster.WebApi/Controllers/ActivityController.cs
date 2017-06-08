@@ -39,7 +39,7 @@ namespace TaskMaster.WebApi.Controllers
         public HttpResponseMessage Post([FromBody]ActivityMobileDto activityMobileDto)
         {
             var x = activityMobileDto;
-            if (_activityWebApiService.AddActivity(activityMobileDto))
+            if (_activityWebApiService.AddActivity2(activityMobileDto))
             {
 
                 return new HttpResponseMessage(HttpStatusCode.Accepted);
