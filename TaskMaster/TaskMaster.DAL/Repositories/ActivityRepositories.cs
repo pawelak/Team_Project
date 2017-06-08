@@ -25,7 +25,8 @@ namespace TaskMaster.DAL.Repositories
         }
         public void Delete(ActivityDto dto)
         {
-            var result = Mapper.Map<Activity>(dto);
+            var obj = Mapper.Map<Activity>(dto);
+            var result = Db.Activity.Find(obj.ActivityId);
             base.Delete(result);
         }
         public new IList<ActivityDto> GetAll()
@@ -48,11 +49,14 @@ namespace TaskMaster.DAL.Repositories
             var obj = Mapper.Map<Activity>(dto);
             var result = Db.Activity.Find(obj.ActivityId);
             Db.Activity.Attach(result);
+            result.State = obj.State;
+            result.EditState = obj.EditState;
+            result.Comment = obj.Comment;
+            result.Guid = obj.Guid;
             result.UserId = obj.UserId;
             result.GroupId = obj.GroupId;
             result.TaskId = obj.TaskId;
             result.Comment = obj.Comment;
-            result.State = obj.State;
             base.Edit(result);
         }
     }

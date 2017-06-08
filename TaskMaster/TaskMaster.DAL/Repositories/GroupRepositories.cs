@@ -18,7 +18,8 @@ namespace TaskMaster.DAL.Repositories
         }
         public void Delete(GroupDto dto)
         {
-            var result = Mapper.Map<Group>(dto);
+            var obj = Mapper.Map<Group>(dto);
+            var result = Db.Group.Find(obj.GroupId);
             base.Delete(result);
         }
         public new IList<GroupDto> GetAll()
@@ -38,7 +39,9 @@ namespace TaskMaster.DAL.Repositories
         }
         public void Edit(GroupDto dto)
         {
-            var result = Mapper.Map<Group>(dto);
+            var obj = Mapper.Map<Group>(dto);
+            var result = Db.Group.Find(obj.GroupId);
+            result.NameGroup = obj.NameGroup;
             base.Edit(result);
         }
     }

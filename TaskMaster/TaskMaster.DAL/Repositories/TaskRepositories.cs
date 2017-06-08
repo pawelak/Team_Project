@@ -20,7 +20,8 @@ namespace TaskMaster.DAL.Repositories
         }
         public void Delete(TaskDto dto)
         {
-            var result = Mapper.Map<Task>(dto);
+            var obj = Mapper.Map<Task>(dto);
+            var result = Db.Task.Find(obj.TaskId);
             base.Delete(result);
         }
         public new IList<TaskDto> GetAll()

@@ -20,7 +20,8 @@ namespace TaskMaster.DAL.Repositories
         }
         public void Delete(UserGroupDto dto)
         {
-            var result = Mapper.Map<UserGroup>(dto);
+            var obj = Mapper.Map<UserGroup>(dto);
+            var result = Db.UserGroup.Find(obj.UserGroupId);
             base.Delete(result);
         }
         public new IList<UserGroupDto> GetAll()
@@ -40,7 +41,10 @@ namespace TaskMaster.DAL.Repositories
         }
         public void Edit(UserGroupDto dto)
         {
-            var result = Mapper.Map<UserGroup>(dto);
+            var obj = Mapper.Map<UserGroup>(dto);
+            var result = Db.UserGroup.Find(obj.UserGroupId);
+            result.GroupId = obj.GroupId;
+            result.UserId = obj.UserId;
             base.Edit(result);
         }
     }

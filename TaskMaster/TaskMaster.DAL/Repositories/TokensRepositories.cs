@@ -18,7 +18,8 @@ namespace TaskMaster.DAL.Repositories
         }
         public void Delete(TokensDto dto)
         {
-            var result = Mapper.Map<Tokens>(dto);
+            var obj = Mapper.Map<Tokens>(dto);
+            var result = Db.Tokens.Find(obj.TokensId);
             base.Delete(result);
         }
         public new IList<TokensDto> GetAll()
@@ -38,7 +39,12 @@ namespace TaskMaster.DAL.Repositories
         }
         public void Edit(TokensDto dto)
         {
-            var result = Mapper.Map<Tokens>(dto);
+            var obj = Mapper.Map<Tokens>(dto);
+            var result = Db.Tokens.Find(obj.TokensId);
+            result.Token = obj.Token;
+            result.BrowserType = obj.BrowserType;
+            result.PlatformType = obj.PlatformType;
+            result.UserId = obj.UserId;
             base.Edit(result);
         }
     }

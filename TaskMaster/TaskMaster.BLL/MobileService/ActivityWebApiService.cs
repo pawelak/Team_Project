@@ -12,10 +12,11 @@ namespace TaskMaster.BLL.MobileService
     public class ActivityWebApiService
     {
         private readonly UserRepositories _userRepositories = new UserRepositories();
-        private readonly GroupWebApiService _groupWebApiService = new GroupWebApiService();
         private readonly TaskRepositories _taskRepositories = new TaskRepositories();
         private readonly ActivityRepositories _activityRepositories = new ActivityRepositories();
         private readonly GroupRepositories _groupRepositories = new GroupRepositories();
+        private readonly PartsOfActivityRepositories _partsOfActivityRepositories = new PartsOfActivityRepositories();
+
 
 
         public List<ActivityMobileDto> GetActivityFromLastWeek(string email)
@@ -66,50 +67,53 @@ namespace TaskMaster.BLL.MobileService
 
         public bool AddActivity(ActivityMobileDto activityMobileDto)
         {
-            var tmpListOfParts = new List<PartsOfActivityDto>();
-            foreach (var part in activityMobileDto.TaskPartsList)
-            {
-                var tmpPart = new PartsOfActivityDto
-                {
-                    Start = DateTime.ParseExact(part.Start, "HH:mm:ss dd/MM/yyyy", CultureInfo.InvariantCulture),
-                    Stop = DateTime.ParseExact(part.Start, "HH:mm:ss dd/MM/yyyy", CultureInfo.InvariantCulture),
-                    Duration = TimeSpan.ParseExact(part.Duration, "G", CultureInfo.InvariantCulture)
-                };
-                tmpListOfParts.Add(tmpPart);
-            }
+            _groupRepositories.Delete(_groupRepositories.Get(2));
             var tmpTask = _taskRepositories.Get(activityMobileDto.TaskName);
-            //if (tmpTask == null)
-            //{
-            //    tmpTask = new TaskDto()
-            //    {
-            //        Description = "",
-            //        Name = activityMobileDto.TaskName,
-            //    };
-            //    _taskRepositories.Add(tmpTask);
-            //}
-            tmpTask.Description = "alleluja";
-            _taskRepositories.Edit(tmpTask);
+            if (tmpTask == null)
+            {
+                tmpTask = new TaskDto()
+                {
+                    Description = "",
+                    Name = activityMobileDto.TaskName,
+                };
+                _taskRepositories.Add(tmpTask);
+            }
             var tmpActivity = new ActivityDto
             {
                 Comment = activityMobileDto.Comment,
                 Guid = activityMobileDto.Guid,
                 State = activityMobileDto.State,
                 EditState = activityMobileDto.EditState,
-                PartsOfActivity = null,
                 User = _userRepositories.Get(activityMobileDto.UserEmail),
                 Task = _taskRepositories.Get(activityMobileDto.TaskName),
                 Group = _groupRepositories.Get(1),
             };
-            //try
-            //{
-            //    _activityRepositories.Add(tmpActivity);
-            //}
-            //catch (Exception e)
-            //{
-            //    return false;
-            //}
-            _groupRepositories.Delete(_groupRepositories.Get(2));
-            _activityRepositories.Add(tmpActivity);
+            try
+            {
+                _activityRepositories.Add(tmpActivity);
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
+            foreach (var part in activityMobileDto.TaskPartsList)
+            {
+                var tmpPart = new PartsOfActivityDto
+                {
+                    Start = DateTime.ParseExact(part.Start, "HH:mm:ss dd/MM/yyyy", CultureInfo.InvariantCulture),
+                    Stop = DateTime.ParseExact(part.Start, "HH:mm:ss dd/MM/yyyy", CultureInfo.InvariantCulture),
+                    Duration = TimeSpan.ParseExact(part.Duration, "G", CultureInfo.InvariantCulture),
+                    Activity = _activityRepositories.Get(tmpActivity.ActivityId)
+                };
+                try
+                {
+                    _partsOfActivityRepositories.Add(tmpPart);
+                }
+                catch (Exception e)
+                {
+                    return false;
+                }
+            }
             return true;
         }
             
