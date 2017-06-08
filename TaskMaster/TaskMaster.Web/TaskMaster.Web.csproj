@@ -227,6 +227,7 @@
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\UserAccount.cs" />
     <Compile Include="Models\UsersDataBase.cs" />
+    <Compile Include="PartsOfActivityRepositories.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Resources\LandingPageText.Designer.cs">
       <AutoGen>True</AutoGen>

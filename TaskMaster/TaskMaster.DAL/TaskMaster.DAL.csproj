@@ -120,24 +120,22 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="scripts\ai.1.0.9-build01279.js" />
-    <Content Include="scripts\ai.1.0.9-build01279.min.js" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Context\DatabaseInitialize.cs" />
     <Compile Include="DTOModels\ActivityDto.cs" />
-    <Compile Include="Enum\BrowserType.cs" />
     <Compile Include="DTOModels\FavoritesDto.cs" />
     <Compile Include="DTOModels\GroupDto.cs" />
     <Compile Include="DTOModels\PartsOfActivityDto.cs" />
-    <Compile Include="Enum\EditState.cs" />
-    <Compile Include="Enum\PlatformType.cs" />
-    <Compile Include="Enum\State.cs" />
     <Compile Include="DTOModels\TaskDto.cs" />
     <Compile Include="DTOModels\TokensDto.cs" />
     <Compile Include="DTOModels\UserDto.cs" />
-    <Compile Include="DTOModels\UserGroupDto.cs" />
+    <Compile Include="DTOModels\UserGroupdto.cs" />
+    <Compile Include="Enum\BrowserType.cs" />
+    <Compile Include="Enum\EditState.cs" />
+    <Compile Include="Enum\PlatformType.cs" />
+    <Compile Include="Enum\State.cs" />
     <Compile Include="MapperProfileDAL.cs" />
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Favorites.cs" />

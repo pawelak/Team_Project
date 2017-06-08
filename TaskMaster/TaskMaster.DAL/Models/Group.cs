@@ -6,7 +6,8 @@ namespace TaskMaster.DAL.Models
     {
         public int GroupId { get; set; }
         public string NameGroup { get; set; }
-        public virtual ICollection<Activity> Activity { get; set; }
+
+        public virtual ICollection<Activity> Activities { get; set; }
         public virtual ICollection<UserGroup> UserGroup { get; set; }
     }
 }

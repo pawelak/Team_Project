@@ -56,7 +56,7 @@ namespace TaskMaster.BLL.MobileServices
                     {
                         Email = userWebApi.Email,
                         Description = userWebApi.Description,
-                        Activity = new List<ActivityDto>(),
+                        Activities = new List<ActivityDto>(),
                         Favorites = new List<FavoritesDto>(),
                         UserGroup = new List<UserGroupDto>(),
                         Tokens = new List<TokensDto>()

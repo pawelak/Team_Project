@@ -12,19 +12,20 @@ namespace TaskMaster.BLL.MobileService
     public class ActivityWebApiService
     {
         private readonly UserRepositories _userRepositories = new UserRepositories();
-        private readonly GroupWebApiService _groupWebApiService = new GroupWebApiService();
         private readonly TaskRepositories _taskRepositories = new TaskRepositories();
         private readonly ActivityRepositories _activityRepositories = new ActivityRepositories();
         private readonly GroupRepositories _groupRepositories = new GroupRepositories();
+        private readonly PartsOfActivityRepositories _partsOfActivityRepositories = new PartsOfActivityRepositories();
+
 
 
         public List<ActivityMobileDto> GetActivityFromLastWeek(string email)
         {
-            var date7DaysAgo = DateTime.Now.AddDays(-7);
+            var date7DaysAgo = DateTime.Now.AddDays(-10);
             var user = _userRepositories.Get(email);
             var activityRawList = new List<ActivityDto>();
 
-            foreach (var act in user.Activity)
+            foreach (var act in user.Activities)
             {
                 if (act.State != State.Planned)
                 {
@@ -63,110 +64,30 @@ namespace TaskMaster.BLL.MobileService
             return returnedList;
         }
 
-        public bool AddActivity2(ActivityMobileDto activityMobileDto)
-        {
-            var tmpListOfParts = new List<PartsOfActivityDto>();
-            foreach (var part in activityMobileDto.TaskPartsList)
-            {
-
-                var tmpPart = new PartsOfActivityDto
-                {
-                    Start = DateTime.ParseExact(part.Start, "HH:mm:ss dd/MM/yyyy", CultureInfo.InvariantCulture),
-                    Stop = DateTime.ParseExact(part.Start, "HH:mm:ss dd/MM/yyyy", CultureInfo.InvariantCulture),
-                    Duration = TimeSpan.ParseExact(part.Duration, "G", CultureInfo.InvariantCulture),
-                };
-                tmpListOfParts.Add(tmpPart);
-            }
-            var tmpActivity = new ActivityDto
-            {
-                Comment = activityMobileDto.Comment,
-                Guid = activityMobileDto.Guid,
-                State = activityMobileDto.State,
-                EditState = activityMobileDto.EditState,
-                PartsOfActivity = tmpListOfParts,
-                Group = new GroupDto(),
-                Task = new TaskDto(),
-                User = new UserDto(),
-            };
-            try
-            {
-             //   _activityRepositories.Add(tmpActivity);
-            }
-            catch (Exception e)
-            {
-                return false;
-            }
-            _activityRepositories.Add(tmpActivity);
-
-            var tmpGroup = _groupRepositories.Get(1);
-            tmpGroup.Activity.Add(tmpActivity);
-            _groupRepositories.Edit(tmpGroup);
-
-            var tmpTask = _taskRepositories.Get(activityMobileDto.TaskName);
-            if (tmpTask == null)
-            {
-                tmpTask = new TaskDto()
-                {
-                    Description = "",
-                    Name = activityMobileDto.TaskName
-                };
-
-            }
-
-            var tmpUser = _userRepositories.Get(activityMobileDto.UserEmail);
-
-
-            return true;
-        }
-
-
 
         public bool AddActivity(ActivityMobileDto activityMobileDto)
         {
-            //veryfikacje i walidacje dorzucić 
-
-            
-
-            var tmpGroup = _groupRepositories.Get(1);
+            _groupRepositories.Delete(_groupRepositories.Get(2));
             var tmpTask = _taskRepositories.Get(activityMobileDto.TaskName);
-
             if (tmpTask == null)
             {
                 tmpTask = new TaskDto()
                 {
                     Description = "",
-                    Name = activityMobileDto.TaskName
+                    Name = activityMobileDto.TaskName,
                 };
+                _taskRepositories.Add(tmpTask);
             }
-            var tmpUser = _userRepositories.Get(activityMobileDto.UserEmail);
-
             var tmpActivity = new ActivityDto
             {
                 Comment = activityMobileDto.Comment,
                 Guid = activityMobileDto.Guid,
                 State = activityMobileDto.State,
                 EditState = activityMobileDto.EditState,
-                PartsOfActivity = new List<PartsOfActivityDto>(),
-                Group = tmpGroup,
-                Task = tmpTask,
-                User = tmpUser
+                User = _userRepositories.Get(activityMobileDto.UserEmail),
+                Task = _taskRepositories.Get(activityMobileDto.TaskName),
+                Group = _groupRepositories.Get(1),
             };
-            var tmpListOfParts = new List<PartsOfActivityDto>();
-            foreach (var part in activityMobileDto.TaskPartsList)
-            {
-
-                var tmpPart = new PartsOfActivityDto
-                {
-                    Start = DateTime.ParseExact(part.Start, "HH:mm:ss dd/MM/yyyy", CultureInfo.InvariantCulture),
-                    Stop = DateTime.ParseExact(part.Start, "HH:mm:ss dd/MM/yyyy", CultureInfo.InvariantCulture),
-                    Duration = TimeSpan.ParseExact(part.Duration, "G", CultureInfo.InvariantCulture),
-                    Activity = tmpActivity
-                };
-                tmpActivity.PartsOfActivity.Add(tmpPart);
-                tmpListOfParts.Add(tmpPart);
-            }
-
-
             try
             {
                 _activityRepositories.Add(tmpActivity);
@@ -175,12 +96,28 @@ namespace TaskMaster.BLL.MobileService
             {
                 return false;
             }
-
+            foreach (var part in activityMobileDto.TaskPartsList)
+            {
+                var tmpPart = new PartsOfActivityDto
+                {
+                    Start = DateTime.ParseExact(part.Start, "HH:mm:ss dd/MM/yyyy", CultureInfo.InvariantCulture),
+                    Stop = DateTime.ParseExact(part.Start, "HH:mm:ss dd/MM/yyyy", CultureInfo.InvariantCulture),
+                    Duration = TimeSpan.ParseExact(part.Duration, "G", CultureInfo.InvariantCulture),
+                    Activity = _activityRepositories.Get(tmpActivity.ActivityId)
+                };
+                try
+                {
+                    _partsOfActivityRepositories.Add(tmpPart);
+                }
+                catch (Exception e)
+                {
+                    return false;
+                }
+            }
             return true;
         }
+            
 
 
     }
-
-
 }

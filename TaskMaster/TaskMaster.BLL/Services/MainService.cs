@@ -13,7 +13,7 @@ namespace TaskMaster.BLL.Services
         public List<ActivityDto> ActivitiesFromMonthAgo(string email) 
         {
             var result = new List<ActivityDto>();
-            var activityList = _userRepositories.Get(email).Activity;
+            var activityList = _userRepositories.Get(email).Activities;
             
             //TODO sprzed miesiaca wyjmowanie czasu
 
