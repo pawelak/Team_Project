@@ -30,7 +30,10 @@ namespace TaskMaster.WebApi.Controllers
         // GET: api/Activity/email
         public JsonResult <List<ActivityMobileDto>> Get(string email)
         {
+            // TODO Zła nazwa - GetActivitiesFromLastWeek
             var result = _activityWebApiService.GetActivityFromLastWeek(email);
+
+            // TODO to return Json jest niepotrzebne, w webApi wystarczy zwrocic List<ActivityMobileDto>
             return Json(result);
         }
 
@@ -39,6 +42,8 @@ namespace TaskMaster.WebApi.Controllers
         public HttpResponseMessage Post([FromBody]ActivityMobileDto activityMobileDto)
         {
             var x = activityMobileDto;
+
+            // TODO wywołanie metody poza if'em
             if (_activityWebApiService.AddActivity(activityMobileDto))
             {
 

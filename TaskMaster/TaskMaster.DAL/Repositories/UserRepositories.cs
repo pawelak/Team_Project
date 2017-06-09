@@ -7,6 +7,8 @@ using TaskMaster.DAL.Models;
 
 namespace TaskMaster.DAL.Repositories
 {
+    // TODO uwagi z klasy ActivityRepositories obowiazuja rowniez tutaj
+    // TODO co jest identyfikatorem w User? email czy id? bo to trzeba konsekwentnie, albo korzystać z jednego, albo z drugiego
     public class UserRepositories : RepoBase<User>, IUserRepositories
     {
         public void Add(UserDto dto)

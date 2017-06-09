@@ -7,6 +7,7 @@ using TaskMaster.DAL.Models;
 
 namespace TaskMaster.DAL.Repositories
 {
+    // TODO uwagi z klasy ActivityRepositories obowiazuja rowniez tutaj
     public class FavoritesRepositories : RepoBase<Favorites>, IFavoritesRepositories
     {
         public void Add(FavoritesDto dto)

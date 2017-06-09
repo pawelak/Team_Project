@@ -10,6 +10,7 @@ namespace TaskMaster.BLL.MobileService
 {
     public class PlannedWebApiService
     {
+        // TODO interfejsy
         private readonly UserRepositories _userRepositories = new UserRepositories();
         private readonly GroupWebApiService _groupWebApiService = new GroupWebApiService();
         private readonly TaskRepositories _taskRepositories = new TaskRepositories();
@@ -19,12 +20,15 @@ namespace TaskMaster.BLL.MobileService
         public List<PlannedMobileDto> GetPlanned(string email)
         {
             var date7DaysAgo = DateTime.Now.AddDays(-7);
+
+            // TODO pobierajcie aktywnosci bezposrednio z tabeli, nie trzeba robic takich krokow posrednich
             var user = _userRepositories.Get(email);
 
             var activityRawList = user.Activities.Where(act => act.State == State.Planned).ToList();
 
             var returnedList = new List<PlannedMobileDto>();
-
+            
+            // TODO automapper
             foreach (var raw in activityRawList)
             {
                 var tmpListOfPatrs = raw.PartsOfActivity.Select(part => new PartsOfActivityMobileDto

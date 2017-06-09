@@ -24,6 +24,8 @@ namespace TaskMaster.WebApi.Controllers
         [ResponseType(typeof(string))]
         public HttpResponseMessage Get(HttpRequestMessage request ,string email)
         {
+            // TODO wywołanie metody, w metodzie, w metodzie
+            // TODO wystarczy return _favoritesWebApiService.GetAllFavorites(email))
             return request.CreateResponse(HttpStatusCode.OK, JsonConvert.SerializeObject(_favoritesWebApiService.GetAllFavorites(email)));
         }
 

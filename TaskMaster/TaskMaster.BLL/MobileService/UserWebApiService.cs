@@ -12,17 +12,20 @@ namespace TaskMaster.BLL.MobileServices
 {
     public class UserWebApiService
     {
+        // TODO interfejsy
         private readonly UserRepositories _userRepositories = new UserRepositories();
         private readonly TokensRepositories _tokensRepositories = new TokensRepositories();
 
         public bool IsEmailInDatabase(string email)
         {
+            // TODO tą operację można zrobić bezposrednio na bazie danych, nie trzeba pobierac wszystkich userów
             var userList = _userRepositories.GetAll();
             return userList.Any(u => u.Email.Equals(email));
         }
 
         public bool IsNameInDatabase(string name)
         {
+            // TODO tą operację można zrobić bezposrednio na bazie danych, nie trzeba pobierac wszystkich userów
             var userList = _userRepositories.GetAll();
             return userList.Any(u => u.Name.Equals(name));
         }
@@ -30,6 +33,7 @@ namespace TaskMaster.BLL.MobileServices
 
         public UserMobileDto GetUserByEmail(string email)
         {
+            // TODO pobierz jednego usera bezposrednio z bazy danych, a nie wszystkich a potem filtrowanie
             var tmpUserDto = _userRepositories.GetAll().First(u => u.Email.Equals(email));
             return new UserMobileDto()
             {
@@ -43,6 +47,7 @@ namespace TaskMaster.BLL.MobileServices
 
         public bool AddNewUser(UserMobileDto userWebApi)
         {
+            // TODO ????? if true ?
             if (true)                   //potwierdzenie od googla
             {
                 if (!IsEmailInDatabase(userWebApi.Email))
@@ -52,10 +57,14 @@ namespace TaskMaster.BLL.MobileServices
                         Token = userWebApi.Token,
                         PlatformType = userWebApi.PlatformType,
                     };
+
+                    // TODO automapper
                     var tmpUserDto = new UserDto()
                     {
                         Email = userWebApi.Email,
                         Description = userWebApi.Description,
+                        
+                        // TODO inicjalizacja list powinna byc w konstruktorze
                         Activities = new List<ActivityDto>(),
                         Favorites = new List<FavoritesDto>(),
                         UserGroup = new List<UserGroupDto>(),
@@ -76,10 +85,12 @@ namespace TaskMaster.BLL.MobileServices
         {
             if (true)       //google
             {
+                // TODO pobrac listę tokenów bezposrednio z tabeli tokenow 
                 var listTokens =
                     _userRepositories.GetAll().Where(u => u.Email.Equals(userMobileDto.Email)).Select(t => t.Tokens);
                 foreach (var tmpToken in listTokens) _tokensRepositories.Delete((TokensDto)tmpToken);
 
+                // TODO po co sprawdzać czy użytkownik jest w bazie? usuncie go i tyle, jak nie bedzie to 0 rows affected
                 if (IsEmailInDatabase(userMobileDto.Email))
                 {
                     var userDto =_userRepositories.GetAll().First(user => user.Email.Equals(userMobileDto.Email));
@@ -94,14 +105,17 @@ namespace TaskMaster.BLL.MobileServices
         {
             if (true)       //google
             {
+                // TODO po co to sprawdzenie?
                 if (IsEmailInDatabase(userMobileDto.Email))
                 {
+                    // TODO filtrowanie powinno byc na bazie danych
                     var tmpUserDto = _userRepositories.GetAll().First(user => user.Email.Equals(userMobileDto.Email));
 
                     tmpUserDto.Description = userMobileDto.Description;
 
                     _userRepositories.Edit(tmpUserDto);
 
+                    // TODO filtrowanie na bazie danych
                     var tmpTokenDto = _tokensRepositories.GetAll()
                         .First(t => (t.PlatformType == userMobileDto.PlatformType)
                                     && (t.PlatformType == PlatformType.None)
@@ -121,8 +135,10 @@ namespace TaskMaster.BLL.MobileServices
         public bool UpdateToken(UserMobileDto userMobileDto)
         {
             UserDto user;
+            // TODO po co to sprawdzenie?
             if (IsEmailInDatabase(userMobileDto.Email))
             {
+                // TODO filtrowanie na bazie danych
                 user = _userRepositories
                     .GetAll(
                     ).First(u => u.Email.Equals(userMobileDto.Email));
@@ -132,7 +148,7 @@ namespace TaskMaster.BLL.MobileServices
                 return false;
             }
 
-
+            // TODO to można na bazie danych zrobić
             if (user.Tokens.Any(t => t.PlatformType == userMobileDto.PlatformType))
             {
                 var token = user.Tokens.First(t => t.PlatformType == userMobileDto.PlatformType);
@@ -141,6 +157,7 @@ namespace TaskMaster.BLL.MobileServices
             }
             else
             {
+                // TODO update token robi add token ?
                 var token = new TokensDto()
                 {
                     BrowserType = BrowserType.None,

@@ -12,6 +12,7 @@ namespace TaskMaster.BLL.WebApiModels
 
         public EditState EditState { get; set; }
 
+        // TODO inicjalizować w konstruktorze
         public TasksMobileDto Task { get; set; }
     }
 }

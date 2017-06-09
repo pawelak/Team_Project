@@ -14,6 +14,7 @@ namespace TaskMaster.BLL.WebApiModels
         public EditState EditState { get; set; }
         public State State { get; set; }
 
+        // TODO inicjalizować w konstruktorze
         public PartsOfActivityMobileDto TaskPart { get; set; }
 
     }

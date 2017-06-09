@@ -7,6 +7,7 @@ using TaskMaster.DAL.Models;
 
 namespace TaskMaster.DAL.Repositories
 {
+    // TODO uwagi z klasy ActivityRepositories obowiazuja rowniez tutaj
     public class UserGroupRepositories : RepoBase<UserGroup>, IUserGroupRepositories
     {
         public void Add(UserGroupDto dto)

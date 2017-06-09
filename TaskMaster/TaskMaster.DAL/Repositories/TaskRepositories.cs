@@ -36,6 +36,7 @@ namespace TaskMaster.DAL.Repositories
         }
         public TaskDto Get(string name)
         {
+            // TODO czemu identyfikatorem jest nazwa a nie ID ? a jak bedzie wiecej wpisów o takiej nazwie?
             var result = GetAll().FirstOrDefault(v => v.Name.Equals(name));
             return result;
         }

@@ -30,8 +30,11 @@ namespace TaskMaster.BLL.MobileServices
             var listOfUsers = _userRepositories.GetAll();
             var listOfTokens = _tokensRepositories.GetAll();
             var listOfWebApiModels = new List<UserMobileDto>();
+            
+            // TODO automapper
             foreach (var tmpLoopUser in listOfUsers)
             {
+                // TODO filtrowanie na poziomie bazy danych (sql o wiele szybciej robi filtrowanie)
                 TokensDto tmpToken = _tokensRepositories.GetAll().First(t => t.User.Email.Equals(tmpLoopUser.Email));
                 var tmpMobileDto = new UserMobileDto()
                 {

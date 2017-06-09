@@ -18,6 +18,7 @@ namespace TaskMaster.WebApi.Controllers
         // GET: api/Planned/email
         public JsonResult<List<PlannedMobileDto>> Get(string email)
         {
+            // TODO to return Json jest niepotrzebne, w webApi wystarczy zwrocic List<PlannedMobileDto>
             var result = _plannedWebApiService.GetPlanned(email);
             return Json(result);
         }

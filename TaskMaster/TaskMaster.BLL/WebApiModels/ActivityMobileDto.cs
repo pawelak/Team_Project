@@ -15,6 +15,7 @@ namespace TaskMaster.BLL.WebApiModels
         public EditState EditState { get; set; }
         public State State { get; set; }
 
+        // TODO lepiej w modelu mieć IEnumerable i inicjalizwoać w konstruktorze
         public List<PartsOfActivityMobileDto> TaskPartsList{ get; set; } 
 
     }
