@@ -18,7 +18,6 @@ namespace TaskMaster.BLL.MobileService
         private readonly PartsOfActivityRepositories _partsOfActivityRepositories = new PartsOfActivityRepositories();
 
 
-
         public List<ActivityMobileDto> GetActivityFromLastWeek(string email)
         {
             var date7DaysAgo = DateTime.Now.AddDays(-10);
@@ -67,7 +66,7 @@ namespace TaskMaster.BLL.MobileService
 
         public bool AddActivity(ActivityMobileDto activityMobileDto)
         {
-            
+            var idAct = 0;
             var tmpTask = _taskRepositories.Get(activityMobileDto.TaskName);
             if (tmpTask == null)
             {
@@ -87,10 +86,11 @@ namespace TaskMaster.BLL.MobileService
                 User = _userRepositories.Get(activityMobileDto.UserEmail),
                 Task = _taskRepositories.Get(activityMobileDto.TaskName),
                 Group = _groupRepositories.Get(1),
+                PartsOfActivity = new List<PartsOfActivityDto>()
             };
             try
             {
-                _activityRepositories.Add(tmpActivity);
+                idAct = _activityRepositories.Add(tmpActivity);
             }
             catch (Exception e)
             {
@@ -103,7 +103,7 @@ namespace TaskMaster.BLL.MobileService
                     Start = DateTime.ParseExact(part.Start, "HH:mm:ss dd/MM/yyyy", CultureInfo.InvariantCulture),
                     Stop = DateTime.ParseExact(part.Start, "HH:mm:ss dd/MM/yyyy", CultureInfo.InvariantCulture),
                     Duration = TimeSpan.ParseExact(part.Duration, "G", CultureInfo.InvariantCulture),
-                    Activity = _activityRepositories.Get(tmpActivity.ActivityId)
+                    Activity = _activityRepositories.Get(idAct)
                 };
                 try
                 {

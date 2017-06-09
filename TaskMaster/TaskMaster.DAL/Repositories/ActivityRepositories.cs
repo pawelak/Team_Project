@@ -11,7 +11,7 @@ namespace TaskMaster.DAL.Repositories
 {
     public class ActivityRepositories : RepoBase<Activity>, IActivityRepositories
     {
-        public void Add(ActivityDto dto)
+        public int Add(ActivityDto dto)
         {
             var result = Mapper.Map<Activity>(dto);
             result.UserId = result.User.UserId;
@@ -22,6 +22,7 @@ namespace TaskMaster.DAL.Repositories
             result.Group = null;
             result.PartsOfActivity = null;
             base.Add(result);
+            return result.ActivityId;
         }
         public void Delete(ActivityDto dto)
         {
