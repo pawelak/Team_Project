@@ -48,3 +48,11 @@ dlanorberta@gmail.com
 a@a.pl
 
 
+
+Jesli pojawi siê problem z migracj¹ w bazie prawdopodobnie na kompie macie star¹ bazê ¿eby temu zaradziæ naj³aatwiej:
+
+Wejœæ w profil urytkownika i usun¹c 2 pliki zwi¹zane z baz¹ danych zaczynaj¹ce siê od "DAL.User..."\
+nastêpnie nale¿y w³aczyc widocznoœæ niewidoczych plików i folderów i wejœæ w
+AppData - Local - Microsoft - Microsoft SQL Server Local DB - Instaces 
+i wywaliæ ca³e MSSqlLocalDB
+i nastêpnie zrestartowaæ kompa 
