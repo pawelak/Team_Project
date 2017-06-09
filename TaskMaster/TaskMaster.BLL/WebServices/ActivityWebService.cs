@@ -11,7 +11,7 @@ using TaskMaster.DAL.Repositories;
 
 namespace TaskMaster.BLL.WebServices
 {
-    class ActivityWebService
+    public class ActivityWebService
     {
         private readonly UserRepositories _userRepositories = new UserRepositories();
         private readonly TaskRepositories _taskRepositories = new TaskRepositories();
@@ -20,7 +20,7 @@ namespace TaskMaster.BLL.WebServices
         public List<ActivityDto> getActivitiesFromPeriod(string email,int days)
         {
             days = 7;
-            var date7DaysAgo = DateTime.Now.AddDays(-days);
+            var date7DaysAgo = DateTime.Now.Add(-days);
             var user = _userRepositories.Get(email);
             var activityRawList = new List<DAL.DTOModels.ActivityDto>();
 

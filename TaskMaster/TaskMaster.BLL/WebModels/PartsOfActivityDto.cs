@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace TaskMaster.BLL.WebModels
 {
-    class PartsOfActivityDto
+    public class PartsOfActivityDto
     {
         public string Start { get; set; }
         public string Stop { get; set; }

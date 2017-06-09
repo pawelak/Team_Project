@@ -8,7 +8,7 @@ using TaskMaster.DAL.Enum;
 
 namespace TaskMaster.BLL.WebModels
 {
-    class ActivityDto
+    public class ActivityDto
     {
         public string UserEmail { get; set; }
         public string Comment { get; set; }

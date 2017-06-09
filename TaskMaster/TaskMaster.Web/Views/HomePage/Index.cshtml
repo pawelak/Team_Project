@@ -3,27 +3,26 @@
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
     //WebMainService alfa = new WebMainService();
-}
+    ActivityWebService alfa2 = new ActivityWebService();
+ 
+    }
 
 
 
 <div class="col-md-3 quickFixMargin ">
     <div class="lastActivities">
         <h4>Ostatni miesiąc</h4>
-        @*@foreach (var p in alfa.ShowActivity("dlanorberta@gmail.com"))
+        @foreach (var p in @ViewBag.mod)
         {
             <div class="singleActivity">
                 <div class="singleActivityContent"><img src="../../images/sport.png"/>
                 </div>
                 <div class="singleActivityContent">
-                    <p>@p.Name</p>
+                    <p>@p.Comment " " @p.TaskName</p>
                 </div>
-                <div class="singleActivityContent">
-                    <p>@p.Time.ToString()</p>
-                </div>
-                <div class="clear"></div>
+             <div class="clear"></div>
             </div>
-        }*@
+        }
 
 
 
