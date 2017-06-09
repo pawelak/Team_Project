@@ -1,0 +1,68 @@
+Instrukcja do tego co siê teraz dzieje
+
+
+WebApi:
+u¿ywanie linków:
+chc¹æ na geta wys³aæ jak¹œ zmienn¹ w stringu np "email" wygl¹da to tak:
+localhost:65116/api/Activity/?email=b@b.pl
+gdzie email="b@b.pl"
+
+
+
+funkcje:
+Activity:
+
+GET: api/Activity/email - pobiera aktywnoœci z poprzednich 7 dni, nad httpclientem musze jeszcze popracowaæ
+!!!! w bazie sa niektóre partsOfActivity z dalsza dat¹ ni¿ tydzieñ wiêc ich nei wyœwietli automatem w getAllActivity bo tam jest ¿e pobiera z tygodnia
+warunek wszukiwania to: czy stop mieœcie siê w zakresie <-7dni, teraz>
+zwraca z pustym tokenem narazie 
+
+POST: brak bo activity nie mo¿na edytowaæ z apki, wiec nie pisa³em 
+
+PUT: api/Activity  
+obiekty maj¹ przychodziæ z grup¹ null a ja je wpisuje wszytkie do grupy o id 1, która oznacza ¿e nie jest w ¿adnej grupie
+przyk³ad jsona który zadzia³a³
+{"UserEmail":"a@a.pl","Comment":"test post","TaskName":"biega3","Token":null,"Guid":"asd3","EditState":0,"State":1,"TaskPartsList":[{"Start":"12:30:10 28/05/2017","Stop":"11:30:10 30/05/2017","Duration":"0:00:00:21.0000000"}]}]
+musze usun¹æ buga z dodawaniem nowych obiektów 
+nie przyjmie danych z EditState.Planned
+
+
+
+Planned:
+
+
+
+
+Baza:
+wkurzy³em siê na bazê i moje funkcje ko¿ystaj¹ z fejkowej bazy która znajduje siê w BLL w MobileService.
+Testowanie czy coœ dzia³a na bazie jest banalne,
+ w ka¿dym przypadku wystarczy wywaliæ linijki nastêpuj¹ce po obkomentowanej s³owami "machlojenia" linijce i odkomentowaæ nastêpn¹
+ przyk³ad:
+
+
+
+W bazie mamy:
+dlapawela@gmail.com
+dlabartosza@gmail.com
+a@a.pl
+b@b.pl
+dlanorberta@gmail.com
+a@a.pl
+
+
+
+Jesli pojawi siê problem z migracj¹ w bazie prawdopodobnie na kompie macie star¹ bazê ¿eby temu zaradziæ naj³aatwiej:
+
+Wejœæ w profil urytkownika i usun¹c 2 pliki zwi¹zane z baz¹ danych zaczynaj¹ce siê od "DAL.User..."\
+nastêpnie nale¿y w³aczyc widocznoœæ niewidoczych plików i folderów i wejœæ w
+AppData - Local - Microsoft - Microsoft SQL Server Local DB - Instaces 
+i wywaliæ ca³e MSSqlLocalDB
+i nastêpnie zrestartowaæ kompa 
+
+
+
+
+kolejnoœæ synchronizacji ¿eby nic siê nie wywali³o pownna byæ taka 
+Takski
+Activity
+Favorites

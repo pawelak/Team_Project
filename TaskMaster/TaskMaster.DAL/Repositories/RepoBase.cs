@@ -1,6 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Data.Entity;
+using System.Linq.Expressions;
 
 namespace TaskMaster.DAL.Repositories
 {
@@ -12,34 +15,24 @@ namespace TaskMaster.DAL.Repositories
             {
                 Db.Set<T>().Add(x);
                 Db.SaveChanges();
-            }
-
+            } 
             protected void Delete(T x)
             {
                 Db.Set<T>().Remove(x);
                 Db.SaveChanges();
             }
-
             protected IList<T> GetAll()
             {
-                return Db.Set<T>().ToList<T>();
+                return Db.Set<T>().ToList();
             }
-
             protected T Get(int id)
             {
                 return Db.Set<T>().Find(id);
             }
-
             protected void Edit(T x)
             {
                 Db.Entry(x).State = EntityState.Modified;
                 Db.SaveChanges();
             }
-
-            protected int Count()
-            {
-                return Db.Set<T>().Count<T>();
-
-            }
-        }
+    }
 }

@@ -11,33 +11,41 @@ namespace TaskMaster.DAL.Repositories
     {
         public void Add(TokensDto dto)
         {
-            base.Add(Mapper.Map<Tokens>(dto));
+            var result = Mapper.Map<Tokens>(dto);
+            result.UserId = result.User.UserId;
+            result.User = null;
+            base.Add(result);
         }
-
         public void Delete(TokensDto dto)
         {
-            base.Delete(Mapper.Map<Tokens>(dto));
+            var obj = Mapper.Map<Tokens>(dto);
+            var result = Db.Tokens.Find(obj.TokensId);
+            base.Delete(result);
         }
-
         public new IList<TokensDto> GetAll()
         {
-            return base.GetAll().Select(Mapper.Map<TokensDto>).ToList();
+            var result = base.GetAll().Select(Mapper.Map<TokensDto>);
+            return result.ToList();
         }
-
         public new TokensDto Get(int id)
         {
-            return Mapper.Map<TokensDto>(base.Get(id));
+            var result = Mapper.Map<TokensDto>(base.Get(id));
+            return result;
         }
-
         public IList<TokensDto> Get(string email)
         {
-            var list = GetAll();
-            return list.Where(l => l.User.Email.Equals(email)).ToList();
+            var result = GetAll().Where(l => l.User.Email.Equals(email));
+            return result.ToList();
         }
-
         public void Edit(TokensDto dto)
         {
-            base.Edit(Mapper.Map<Tokens>(dto));
+            var obj = Mapper.Map<Tokens>(dto);
+            var result = Db.Tokens.Find(obj.TokensId);
+            result.Token = obj.Token;
+            result.BrowserType = obj.BrowserType;
+            result.PlatformType = obj.PlatformType;
+            result.UserId = obj.UserId;
+            base.Edit(result);
         }
     }
 }

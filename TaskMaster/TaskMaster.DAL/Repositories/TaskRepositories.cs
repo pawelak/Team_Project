@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using AutoMapper;
+using TaskMaster.DAL.Context;
 using TaskMaster.DAL.DTOModels;
 using TaskMaster.DAL.Interface;
 using TaskMaster.DAL.Models;
@@ -11,32 +13,41 @@ namespace TaskMaster.DAL.Repositories
     {
         public void Add(TaskDto dto)
         {
-            base.Add(Mapper.Map<Task>(dto));
+            var result = Mapper.Map<Task>(dto);
+            result.Activities = null;
+            result.Favorites = null;
+            base.Add(result);
         }
-
         public void Delete(TaskDto dto)
         {
-            base.Delete(Mapper.Map<Task>(dto));
+            var obj = Mapper.Map<Task>(dto);
+            var result = Db.Task.Find(obj.TaskId);
+            base.Delete(result);
         }
-
         public new IList<TaskDto> GetAll()
         {
-            return base.GetAll().Select(Mapper.Map<TaskDto>).ToList();
+            var result = base.GetAll().Select(Mapper.Map<TaskDto>);
+            return result.ToList();
         }
-
         public new TaskDto Get(int id)
         {
-            return Mapper.Map<TaskDto>(base.Get(id));
+            var result = Mapper.Map<TaskDto>(base.Get(id));
+            return result;
         }
-
         public TaskDto Get(string name)
         {
-            return GetAll().FirstOrDefault(v => v.Name.Equals(name));
+            var result = GetAll().FirstOrDefault(v => v.Name.Equals(name));
+            return result;
         }
-
         public void Edit(TaskDto dto)
         {
-            base.Edit(Mapper.Map<Task>(dto));
+            var obj = Mapper.Map<Task>(dto);
+            var result = Db.Task.Find(obj.TaskId);
+            Db.Task.Attach(result);
+            result.Description = obj.Description;
+            result.Name = obj.Name;
+            result.Type = obj.Type;
+            base.Edit(result);
         }
     }
 }
