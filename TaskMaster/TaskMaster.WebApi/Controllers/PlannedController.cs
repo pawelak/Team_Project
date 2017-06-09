@@ -27,6 +27,17 @@ namespace TaskMaster.WebApi.Controllers
         {
         }
 
+        // PUT: api/Activity
+        public HttpResponseMessage Put([FromBody]PlannedMobileDto activityMobileDto)
+        {
+            var x = activityMobileDto;
+            if (_plannedWebApiService.AddPlanned(activityMobileDto))
+            {
+                return new HttpResponseMessage(HttpStatusCode.Accepted);
+            }
+            return new HttpResponseMessage(HttpStatusCode.BadRequest);
+        }
+
 
     }
 }

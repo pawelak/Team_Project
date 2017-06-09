@@ -36,25 +36,22 @@ namespace TaskMaster.WebApi.Controllers
 
         // POST: api/Activity
         
-        public HttpResponseMessage Post([FromBody]ActivityMobileDto activityMobileDto)
+        public void Post([FromBody]ActivityMobileDto activityMobileDto)
+        {
+            
+        }
+
+        // PUT: api/Activity
+        public HttpResponseMessage Put([FromBody]ActivityMobileDto activityMobileDto)
         {
             var x = activityMobileDto;
             if (_activityWebApiService.AddActivity(activityMobileDto))
             {
-
                 return new HttpResponseMessage(HttpStatusCode.Accepted);
             }
             return new HttpResponseMessage(HttpStatusCode.BadRequest);
         }
 
-        // PUT: api/Activity/5
-        public void Put(int id, [FromBody]string value)
-        {
-        }
 
-        // DELETE: api/Activity/5
-        public void Delete(int id)
-        {
-        }
     }
 }

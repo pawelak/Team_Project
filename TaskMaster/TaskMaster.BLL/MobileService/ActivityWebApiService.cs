@@ -20,7 +20,7 @@ namespace TaskMaster.BLL.MobileService
 
         public List<ActivityMobileDto> GetActivityFromLastWeek(string email)
         {
-            var date7DaysAgo = DateTime.Now.AddDays(-10);
+            var date7DaysAgo = DateTime.Now.AddDays(-7);
             var user = _userRepositories.Get(email);
             var activityRawList = new List<ActivityDto>();
 
@@ -66,6 +66,7 @@ namespace TaskMaster.BLL.MobileService
 
         public bool AddActivity(ActivityMobileDto activityMobileDto)
         {
+            if (activityMobileDto.State == State.Planned) return false;
             var idAct = 0;
             var tmpTask = _taskRepositories.Get(activityMobileDto.TaskName);
             if (tmpTask == null)
