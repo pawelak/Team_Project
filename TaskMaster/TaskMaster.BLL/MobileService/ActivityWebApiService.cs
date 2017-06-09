@@ -67,7 +67,7 @@ namespace TaskMaster.BLL.MobileService
 
         public bool AddActivity(ActivityMobileDto activityMobileDto)
         {
-            _groupRepositories.Delete(_groupRepositories.Get(2));
+            
             var tmpTask = _taskRepositories.Get(activityMobileDto.TaskName);
             if (tmpTask == null)
             {
