@@ -2,6 +2,7 @@
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using System.Web.Http.Results;
 using Newtonsoft.Json;
 using TaskMaster.BLL.MobileService;
 using TaskMaster.BLL.MobileServices;
@@ -20,29 +21,23 @@ namespace TaskMaster.WebApi.Controllers
             return _printAllTestService.PrintAllUserWebApi();
         }
 
-        // GET: api/User/email              pobiera dane urzytkownika o zadanym mailu
-        public HttpResponseMessage Get(HttpRequestMessage request ,string email)
+        // GET: api/User/email             
+        public JsonResult<UserMobileDto> Get(string email)
         {
-            return request.CreateResponse(HttpStatusCode.OK, JsonConvert.SerializeObject(_userWebApiService.GetUserByEmail(email)));
+            return Json(_userWebApiService.GetUserByEmail(email));
         }
 
-        // POST: api/User                                       edycja użytkownika
-        public HttpResponseMessage Post([FromBody]string usr)
-        {
-            var tmp = JsonConvert.DeserializeObject<UserMobileDto>(usr);
-            return _userWebApiService.EditUser(tmp)
-                ? new HttpResponseMessage(HttpStatusCode.OK)
-                : new HttpResponseMessage(HttpStatusCode.NotFound);
-        }
+       
 
         // PUT: api/User                                    dodanie nowego użtkownika
-        public HttpResponseMessage Put([FromBody]string user)
+        public HttpResponseMessage Put([FromBody]UserMobileDto user)
         {
-            var tmp = JsonConvert.DeserializeObject<UserMobileDto>(user);
+            if (_userWebApiService.AddNewUser(user) == true)
+            {
+                return new HttpResponseMessage(HttpStatusCode.Accepted);
+            }
+            return new HttpResponseMessage(HttpStatusCode.BadRequest);
           
-            return _userWebApiService.AddNewUser(tmp) 
-                ? new HttpResponseMessage(HttpStatusCode.OK) 
-                : new HttpResponseMessage(HttpStatusCode.NotFound);
         }
 
         // DELETE: api/User                                     usuwanie

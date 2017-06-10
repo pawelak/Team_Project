@@ -65,6 +65,12 @@ zadajemy ca³y obiekt FavoitesMobileDto i go usuwa bo w fav mamy tylko opcjê usuñ
 
 ------------------------------------------------------------
 
+User:
+GET: pobiera obiekt usera po jego emailu
+
+PUT: dodaje usera np:
+{"Email":"testek@b.pl","Description":"testowy nowy user","Token":null,"PlatformType":3}
+
 
 
 Baza:
