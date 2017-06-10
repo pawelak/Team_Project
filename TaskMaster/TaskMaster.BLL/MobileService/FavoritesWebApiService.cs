@@ -14,7 +14,6 @@ namespace TaskMaster.BLL.MobileService
     public class FavoritesWebApiService
     {
         private readonly FavoritesRepositories _favoritesRepositories = new FavoritesRepositories();
-        private readonly UserWebApiService _userWebApiService = new UserWebApiService();
         private readonly UserRepositories _userRepositories = new UserRepositories();
         private readonly TaskRepositories _taskRepositories = new TaskRepositories();
 
@@ -46,27 +45,38 @@ namespace TaskMaster.BLL.MobileService
 
         public bool AddFavorites(FavoritesMobileDto favoritesMobileDto)
         {
-            var tmpTask = _taskRepositories.Get(favoritesMobileDto.Task.Name) ?? new TaskDto()
+
+            var tmpTask = _taskRepositories.Get(favoritesMobileDto.Task.Name);
+            if (tmpTask == null)
             {
-                Description = "",
-                Name = favoritesMobileDto.Task.Name
+                tmpTask = new TaskDto()
+                {
+                    Description = "",
+                    Name = favoritesMobileDto.Task.Name,
+                    Activities = new List<ActivityDto>(),
+                    Favorites = new List<FavoritesDto>(),
+
+                };
+                _taskRepositories.Add(tmpTask);
+            }
+            var fav = new FavoritesDto()
+            {
+                Task = _taskRepositories.Get(tmpTask.Name),
+                User = _userRepositories.Get(favoritesMobileDto.UserEmail)
             };
             try
             {
-                var fav = new FavoritesDto
-                {
-                    User = _userRepositories.Get(favoritesMobileDto.UserEmail),
-                    Task = tmpTask
-                };
+                _favoritesRepositories.Add(fav);
             }
             catch (Exception e)
             {
                 return false;
             }
+            
             return true;
         }
 
-        public bool deleteFromFav(FavoritesMobileDto favoritesMobileDto)
+        public bool DeleteFromFavorites(FavoritesMobileDto favoritesMobileDto)
         {
             var del =
                 _favoritesRepositories.Get(favoritesMobileDto.UserEmail)

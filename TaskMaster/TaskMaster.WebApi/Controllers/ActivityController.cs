@@ -20,12 +20,6 @@ namespace TaskMaster.WebApi.Controllers
     {
         private readonly ActivityWebApiService _activityWebApiService = new ActivityWebApiService();
 
-        //// GET: api/Activity
-        //public string Get()
-        //{
-        //    //var returnText = JsonConvert.SerializeObject(_activityWebApiService);
-        //    return JsonConvert.SerializeObject(_activityWebApiService.test());
-        //}
 
         // GET: api/Activity/email
         public JsonResult <List<ActivityMobileDto>> Get(string email)
@@ -44,13 +38,13 @@ namespace TaskMaster.WebApi.Controllers
         // PUT: api/Activity
         public HttpResponseMessage Put([FromBody]ActivityMobileDto activityMobileDto)
         {
-            var x = activityMobileDto;
             if (_activityWebApiService.AddActivity(activityMobileDto))
             {
                 return new HttpResponseMessage(HttpStatusCode.Accepted);
             }
             return new HttpResponseMessage(HttpStatusCode.BadRequest);
         }
+
 
 
     }

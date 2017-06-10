@@ -28,7 +28,30 @@ nie przyjmie danych z EditState.Planned
 
 
 
-Planned:
+Planned:(ogólnie podobnie jak actvity)
+GET: api/Planned/email
+zwraca wszytkie! planowane jeœli bêdzie taka potrzeba mogê ograniczyæ b¹dŸ jakoœ posortowaæ
+
+PUT: api/Planned/
+dodaje ale ylko i wy³¹cznie jesli status by³ na planned 
+
+DELETE:
+usuwani jest bo neima opcji edycji tak jak mówiliœmy planowane mo¿na ewentualnei usun¹c(jesli jest taki przycisk)
+poza tym trzeba bêdzie sprz¹taæ bo myœlê ¿e planowany który zmieni³ siê w zakoñczony bêdzie dodawany na nowo jako stopped 
+
+
+
+Favorites:
+GET: localhost:65116/api/Favorites
+bierze wszytkie ulubione dla danego urzytkownika w po podanym przez zmienn¹ mailu
+
+PUT: localhost:65116/api/Favorites
+bierze i tworzy Task jeœli go niema w bazie
+potem dowi¹zuje do nowego ulubionego, zadajemy ca³y obiekt FavoritesMobileDto
+
+DELETE: localhost:65116/api/Favorites
+zadajemy ca³y obiekt FavoitesMobileDto i go usuwa bo w fav mamy tylko opcjê usuñ i dodaj
+
 
 
 

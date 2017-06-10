@@ -74,7 +74,7 @@ namespace TaskMaster.BLL.MobileService
                 tmpTask = new TaskDto()
                 {
                     Description = "",
-                    Name = activityMobileDto.TaskName,
+                    Name = activityMobileDto.TaskName
                 };
                 _taskRepositories.Add(tmpTask);
             }

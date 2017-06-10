@@ -22,16 +22,23 @@ namespace TaskMaster.WebApi.Controllers
             return Json(result);
         }
 
-        // POST: api/Planned
-        public void Post([FromBody]string value)
-        {
-        }
+       
 
-        // PUT: api/Activity
+        // PUT: api/Planned
         public HttpResponseMessage Put([FromBody]PlannedMobileDto activityMobileDto)
         {
             var x = activityMobileDto;
             if (_plannedWebApiService.AddPlanned(activityMobileDto))
+            {
+                return new HttpResponseMessage(HttpStatusCode.Accepted);
+            }
+            return new HttpResponseMessage(HttpStatusCode.BadRequest);
+        }
+
+        // DELETE: api/PLanned
+        public HttpResponseMessage Delete(PlannedMobileDto plannedMobileDto)
+        {
+            if (_plannedWebApiService.Delete(plannedMobileDto))
             {
                 return new HttpResponseMessage(HttpStatusCode.Accepted);
             }

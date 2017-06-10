@@ -9,7 +9,7 @@ namespace TaskMaster.DAL.Repositories
 {
     public class FavoritesRepositories : RepoBase<Favorites>, IFavoritesRepositories
     {
-        public void Add(FavoritesDto dto)
+        public int Add(FavoritesDto dto)
         {
             var result = Mapper.Map<Favorites>(dto);
             result.UserId = result.User.UserId;
@@ -17,6 +17,7 @@ namespace TaskMaster.DAL.Repositories
             result.TaskId = result.Task.TaskId;
             result.Task = null;
             base.Add(result);
+            return result.TaskId;
         }
         public void Delete(FavoritesDto dto)
         {
