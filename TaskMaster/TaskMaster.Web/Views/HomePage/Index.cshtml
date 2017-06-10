@@ -3,7 +3,7 @@
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
     //WebMainService alfa = new WebMainService();
-    ActivityWebService alfa2 = new ActivityWebService();
+    
  
     }
 
@@ -18,11 +18,17 @@
                 <div class="singleActivityContent"><img src="../../images/sport.png"/>
                 </div>
                 <div class="singleActivityContent">
-                    <p>@p.Comment " " @p.TaskName</p>
+                    <p>@p[0]</p>
                 </div>
-             <div class="clear"></div>
+                <div class="singleActivityContent">
+                    <p>@p[1]</p>
+                </div>
+                <div class="clear"></div>
             </div>
         }
+        
+    
+        
 
 
 
@@ -87,10 +93,15 @@
     <div class="lastActivities">
         <h4>Najdłużej wykonywane</h4>
         <div class="singleActivity">
-            <div class="singleActivityContent"><img src="../../images/programming.png" /></div>
-            <div class="singleActivityContent"><p>programowanie</p> </div>
-            <div class="singleActivityContent"><p>10:40:21</p></div>
-            <div class="clear"></div>
+           
+            @foreach (var p in @ViewBag.tab)
+            {
+                <div class="singleActivityContent"><img src="../../images/programming.png" /></div>
+                <div class="singleActivityContent"><p>@p[0]</p> </div>
+                <div class="singleActivityContent"><p>@p[1]</p></div>
+                <div class="clear"></div>
+            }
+
         </div>
         <div class="singleActivity">
             <div class="singleActivityContent"><img src="../../images/sport.png" /></div>
@@ -100,7 +111,8 @@
         </div>
     </div>
     <div>
-        <button type="button" class="btn btn-info">Zobacz wszystkie statystyki</button>
+        <button type="button" class="btn btn-info">@Html.ActionLink("Zobacz wszystkie statystyki", "Home", "Statistics")</button>
+
     </div>
 </div>
 <div class="col-md-8 quickFixMargin ">

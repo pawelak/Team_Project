@@ -25,9 +25,12 @@ namespace TaskMaster.Web.Controllers
             //    if (User.Identity.IsAuthenticated)
             //    {
                     var userName = User.Identity.GetUserName();
-                    var act = _activityWebService.getActivitiesFromPeriod("dlanorberta@gmail.com", 7);
-                    ViewBag.mod = act;
-                    return View(act);
+                    var act = _activityWebService.getActivitiesFromPeriod("dlanorberta@gmail.com", 12);
+                    var lastMonth = _activityWebService.LastMonth("dlanorberta@gmail.com", 12);
+                    var longestTask = _activityWebService.LongestTask("dlanorberta@gmail.com");
+                    ViewBag.mod = lastMonth;
+                    ViewBag.tab = longestTask;
+                    return View();
             //    }
                
             //}
