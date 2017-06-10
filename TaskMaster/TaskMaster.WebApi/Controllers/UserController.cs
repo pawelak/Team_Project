@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using Newtonsoft.Json;
+using TaskMaster.BLL.MobileService;
 using TaskMaster.BLL.MobileServices;
 using TaskMaster.BLL.WebApiModels;
 

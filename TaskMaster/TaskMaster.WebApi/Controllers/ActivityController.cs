@@ -1,16 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
-using System.Web.Http.Description;
 using System.Web.Http.Results;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
 using TaskMaster.BLL.MobileService;
 using TaskMaster.BLL.WebApiModels;
-using TaskMaster.DAL.Models;
+
 
 namespace TaskMaster.WebApi.Controllers
 {

@@ -20,6 +20,7 @@ namespace TaskMaster.BLL.MobileService
 
         public List<ActivityMobileDto> GetActivityFromLastWeek(string email)
         {
+            
             var date7DaysAgo = DateTime.Now.AddDays(-7);
             var user = _userRepositories.Get(email);
             var activityRawList = new List<ActivityDto>();
@@ -36,9 +37,9 @@ namespace TaskMaster.BLL.MobileService
 
             var returnedList = new List<ActivityMobileDto>();
 
-            foreach (var raw in activityRawList)
+            foreach (var rawActivity in activityRawList)
             {
-                var tmpListOfPatrs = raw.PartsOfActivity.Select(part => new PartsOfActivityMobileDto
+                var tmpListOfPatrs = rawActivity.PartsOfActivity.Select(part => new PartsOfActivityMobileDto
                 {
                     Start = part.Start.ToString("HH:mm:ss dd/MM/yyyy", CultureInfo.InvariantCulture),
                     Stop = part.Stop.ToString("HH:mm:ss dd/MM/yyyy", CultureInfo.InvariantCulture),
@@ -47,13 +48,13 @@ namespace TaskMaster.BLL.MobileService
 
                 var tmp = new ActivityMobileDto
                 {
-                    UserEmail = raw.User.Email,
-                    Comment = raw.Comment,
-                    Guid = raw.Guid,
-                    TaskName = raw.Task.Name,
+                    UserEmail = rawActivity.User.Email,
+                    Comment = rawActivity.Comment,
+                    Guid = rawActivity.Guid,
+                    TaskName = rawActivity.Task.Name,
                     Token = null,
-                    EditState = raw.EditState,
-                    State = raw.State,
+                    EditState = rawActivity.EditState,
+                    State = rawActivity.State,
                     TaskPartsList = tmpListOfPatrs
 
                 };
@@ -67,14 +68,18 @@ namespace TaskMaster.BLL.MobileService
         public bool AddActivity(ActivityMobileDto activityMobileDto)
         {
             if (activityMobileDto.State == State.Planned) return false;
-            var idAct = 0;
+            int idAct;
             var tmpTask = _taskRepositories.Get(activityMobileDto.TaskName);
             if (tmpTask == null)
             {
                 tmpTask = new TaskDto()
                 {
                     Description = "",
-                    Name = activityMobileDto.TaskName
+                    Name = activityMobileDto.TaskName,
+                    Activities = new List<ActivityDto>(),
+                    Favorites = new List<FavoritesDto>(),
+                    Type = ""
+                    
                 };
                 _taskRepositories.Add(tmpTask);
             }
@@ -93,7 +98,7 @@ namespace TaskMaster.BLL.MobileService
             {
                 idAct = _activityRepositories.Add(tmpActivity);
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 return false;
             }
@@ -110,7 +115,7 @@ namespace TaskMaster.BLL.MobileService
                 {
                     _partsOfActivityRepositories.Add(tmpPart);
                 }
-                catch (Exception e)
+                catch (Exception)
                 {
                     return false;
                 }

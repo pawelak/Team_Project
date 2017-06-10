@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
-using System.Web.Http.Description;
 using System.Web.Http.Results;
-using System.Web.Mvc;
-using Newtonsoft.Json;
 using TaskMaster.BLL.MobileService;
 using TaskMaster.BLL.WebApiModels;
 
@@ -37,7 +32,7 @@ namespace TaskMaster.WebApi.Controllers
         }
 
         // DELETE: api/Favorites
-        public HttpResponseMessage Delete(FavoritesMobileDto favoritesMobileDto)
+        public HttpResponseMessage Delete([FromBody]FavoritesMobileDto favoritesMobileDto)
         {
             if (_favoritesWebApiService.DeleteFromFavorites(favoritesMobileDto))
             {

@@ -12,7 +12,6 @@ namespace TaskMaster.BLL.MobileService
     public class PlannedWebApiService
     {
         private readonly UserRepositories _userRepositories = new UserRepositories();
-        private readonly GroupWebApiService _groupWebApiService = new GroupWebApiService();
         private readonly TaskRepositories _taskRepositories = new TaskRepositories();
         private readonly ActivityRepositories _activityRepositories = new ActivityRepositories();
         private readonly GroupRepositories _groupRepositories = new GroupRepositories();
@@ -22,15 +21,15 @@ namespace TaskMaster.BLL.MobileService
 
         public List<PlannedMobileDto> GetPlanned(string email)
         {
+            //weryfikacja i wykluzenie inego maila
             var user = _userRepositories.Get(email);
 
             var activityRawList = user.Activities.Where(act => act.State == State.Planned).ToList();
-
             var returnedList = new List<PlannedMobileDto>();
 
-            foreach (var raw in activityRawList)
+            foreach (var rawActivity in activityRawList)
             {
-                var tmpListOfPatrs = raw.PartsOfActivity.Select(part => new PartsOfActivityMobileDto
+                var tmpListOfPatrs = rawActivity.PartsOfActivity.Select(part => new PartsOfActivityMobileDto
                 {
                     Start = part.Start.ToString("HH:mm:ss dd/MM/yyyy", CultureInfo.InvariantCulture),
                     Stop = part.Stop.ToString("HH:mm:ss dd/MM/yyyy", CultureInfo.InvariantCulture),
@@ -41,18 +40,18 @@ namespace TaskMaster.BLL.MobileService
                 {
                     var tmp = new PlannedMobileDto()
                     {
-                        UserEmail = raw.User.Email,
-                        Comment = raw.Comment,
-                        Guid = raw.Guid,
-                        TaskName = raw.Task.Name,
+                        UserEmail = rawActivity.User.Email,
+                        Comment = rawActivity.Comment,
+                        Guid = rawActivity.Guid,
+                        TaskName = rawActivity.Task.Name,
                         Token = null,
-                        EditState = raw.EditState,
-                        State = raw.State,
+                        EditState = rawActivity.EditState,
+                        State = rawActivity.State,
                         TaskPart = tmpListOfPatrs.First()
                     };
                     returnedList.Add(tmp);
                 }
-                catch (Exception e)
+                catch (Exception)
                 {
                     return null;
                 }
@@ -65,7 +64,7 @@ namespace TaskMaster.BLL.MobileService
         {
             if (plannedMobileDto.State != State.Planned) return false;
 
-            var idAct = 0;
+            int idAct;
             var tmpTask = _taskRepositories.Get(plannedMobileDto.TaskName);
             if (tmpTask == null)
             {
@@ -90,7 +89,7 @@ namespace TaskMaster.BLL.MobileService
             {
                 idAct = _activityRepositories.Add(tmpActivity);
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 return false;
             }
@@ -106,7 +105,7 @@ namespace TaskMaster.BLL.MobileService
                 };
                 _partsOfActivityRepositories.Add(tmpPart);
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 return false;
             }
@@ -121,11 +120,11 @@ namespace TaskMaster.BLL.MobileService
             {
                 _activityRepositories.Delete(toDel);
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 return false;
             }
-            return true;;
+            return true;
         }
 
 

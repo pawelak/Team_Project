@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using TaskMaster.BLL.MobileServices;
 using TaskMaster.BLL.WebApiModels;
 using TaskMaster.DAL.DTOModels;
 using TaskMaster.DAL.Enum;
-using TaskMaster.DAL.Models;
 using TaskMaster.DAL.Repositories;
 
 namespace TaskMaster.BLL.MobileService
@@ -55,6 +53,7 @@ namespace TaskMaster.BLL.MobileService
                     Name = favoritesMobileDto.Task.Name,
                     Activities = new List<ActivityDto>(),
                     Favorites = new List<FavoritesDto>(),
+                    Type = ""
 
                 };
                 _taskRepositories.Add(tmpTask);
@@ -68,7 +67,7 @@ namespace TaskMaster.BLL.MobileService
             {
                 _favoritesRepositories.Add(fav);
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 return false;
             }
@@ -85,7 +84,7 @@ namespace TaskMaster.BLL.MobileService
             {
                 _favoritesRepositories.Delete(del);
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 return false;
             }
