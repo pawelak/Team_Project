@@ -25,9 +25,13 @@ namespace TaskMaster.WebApi.Controllers
 
 
         // PUT: api/User  
-        public JsonResult<string> Put([FromBody]UserMobileDto user, string jwtToken)
+        public JsonResult<TokenMobileDto> Put([FromBody]UserMobileDto user, string jwtToken)
         {
-            var tmp = _userWebApiService.AddNewUser(user, jwtToken);
+            TokenMobileDto tmp = new TokenMobileDto()
+            {
+                Token = _userWebApiService.AddNewUser(user, jwtToken)
+            };
+           
             return Json(tmp);
         }
     }
