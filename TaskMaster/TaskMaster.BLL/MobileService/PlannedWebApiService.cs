@@ -118,6 +118,16 @@ namespace TaskMaster.BLL.MobileService
 
         }
 
+        public bool EndPlanned(PlannedMobileDto plannedMobileDto)
+        {
+            var user = _userRepositories.Get(plannedMobileDto.UserEmail);
+            var planned = user.Activities.First(g => g.Guid.Equals(plannedMobileDto.Guid));
+            planned.EditState = EditState.Delete;
+            _activityRepositories.Edit(planned);
+            return true;
+
+        }
+
         public bool Delete(PlannedMobileDto plannedMobileDto)
         {
             var toDel = _activityRepositories.Get(plannedMobileDto.UserEmail).First(g => g.Guid.Equals(plannedMobileDto.Guid));

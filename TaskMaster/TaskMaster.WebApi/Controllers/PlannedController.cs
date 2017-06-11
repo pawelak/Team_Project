@@ -45,7 +45,23 @@ namespace TaskMaster.WebApi.Controllers
         }
 
 
-        // DELETE: api/PLanned
+        // POST: api/Planned
+        public HttpResponseMessage Post(PlannedMobileDto plannedMobileDto)
+        {
+            if (_veryficationService.Authorization(plannedMobileDto.UserEmail, plannedMobileDto.Token))
+            {
+                if (_plannedWebApiService.EndPlanned(plannedMobileDto))
+                {
+                    return new HttpResponseMessage(HttpStatusCode.Accepted);
+                }
+                return new HttpResponseMessage(HttpStatusCode.BadRequest);
+            }
+            return new HttpResponseMessage(HttpStatusCode.Unauthorized);
+        }
+
+
+
+        // DELETE: api/Planned
         public HttpResponseMessage Delete(PlannedMobileDto plannedMobileDto)
         {
             if (_veryficationService.Authorization(plannedMobileDto.UserEmail, plannedMobileDto.Token))
