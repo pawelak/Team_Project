@@ -16,7 +16,7 @@ namespace TaskMaster.BLL.MobileServices
     {
         private readonly UserRepositories _userRepositories = new UserRepositories();
 
-        private const string GoogleApiTokenInfoUrl = "www.googleapis.com/drive/v2/files?access_token=";
+        private const string GoogleApiTokenInfoUrl = "www.googleapis.com/drive/v2/files?access_token={0}";
 
         public bool Verify(string token)
         {
@@ -36,7 +36,7 @@ namespace TaskMaster.BLL.MobileServices
             return g.ToString();
         }
 
-        public GoogleUser GetUserDetails(string token)
+        public bool VeryfyGoogle(string token)
         {
 
             var httpClient = new HttpClient();
@@ -49,24 +49,15 @@ namespace TaskMaster.BLL.MobileServices
             }
             catch (Exception ex)
             {
-                return null;
+                return false;
             }
 
             if (httpResponseMessage.StatusCode != HttpStatusCode.OK)
             {
-                return null;
+                return false;
             }
 
-            var response = httpResponseMessage.Content.ReadAsStringAsync().Result;
-            var googleApiTokenInfo = JsonConvert.DeserializeObject<GoogleUser>(response);
-
-            if (response == null)
-            {
-                Console.WriteLine("Google API Token Info aud field ({0}) not containing the required client id");
-                return null;
-            }
-
-            return googleApiTokenInfo;
+            return true;
         }
     }
 }

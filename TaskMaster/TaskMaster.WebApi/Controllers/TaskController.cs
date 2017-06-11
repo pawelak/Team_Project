@@ -3,6 +3,7 @@ using System.Net.Http;
 using System.Web.Http;
 using System.Web.Http.Results;
 using TaskMaster.BLL.MobileService;
+using TaskMaster.BLL.MobileServices;
 using TaskMaster.BLL.WebApiModels;
 
 namespace TaskMaster.WebApi.Controllers
@@ -10,23 +11,34 @@ namespace TaskMaster.WebApi.Controllers
     public class TaskController : ApiController
     {
         private readonly TaskWebApiService _taskWebApiService = new TaskWebApiService();
+        private readonly VeryficationService _veryficationService = new VeryficationService();
+
+
+
 
         // GET: api/Task/name
-        public JsonResult<TasksMobileDto> Get(string name)
+        public JsonResult<TasksMobileDto> Get(string name, string email, string token)
         {
-
-            return Json(_taskWebApiService.GetTask(name));
+            if (_veryficationService.Authorization(email, token))
+            {
+                return Json(_taskWebApiService.GetTask(name));
+            }
+            return null;
         }
 
 
         // PUT: api/Task/5
         public HttpResponseMessage Put([FromBody]TasksMobileDto tasksMobileDto)
         {
-            if (_taskWebApiService.AddTask(tasksMobileDto))
+            if (_veryficationService.Authorization(tasksMobileDto.Email, tasksMobileDto.Token))
             {
-                return new HttpResponseMessage(HttpStatusCode.Accepted);
+                if (_taskWebApiService.AddTask(tasksMobileDto))
+                {
+                    return new HttpResponseMessage(HttpStatusCode.Accepted);
+                }
+                return new HttpResponseMessage(HttpStatusCode.BadRequest);
             }
-            return new HttpResponseMessage(HttpStatusCode.BadRequest);
+            return new HttpResponseMessage(HttpStatusCode.Unauthorized);
         }
 
 
