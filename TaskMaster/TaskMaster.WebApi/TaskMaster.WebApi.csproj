@@ -271,7 +271,6 @@
     <Compile Include="Controllers\PlannedController.cs" />
     <Compile Include="Controllers\TaskController.cs" />
     <Compile Include="Controllers\UserController.cs" />
-    <Compile Include="Controllers\VeryficationController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>

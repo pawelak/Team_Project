@@ -23,7 +23,6 @@ namespace TaskMaster.WebApi.Controllers
             return Json(_userWebApiService.GetUserByEmail(email));
         }
 
-       
 
         // PUT: api/User  
         public JsonResult<string> Put([FromBody]UserMobileDto user, string jwtToken)

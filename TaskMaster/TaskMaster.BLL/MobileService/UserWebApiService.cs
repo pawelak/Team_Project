@@ -44,7 +44,7 @@ namespace TaskMaster.BLL.MobileServices
 
         public string AddNewUser(UserMobileDto userWebApi, string jwtToken)
         {
-            if (_veryficationService.Verify(jwtToken))              
+            if (_veryficationService.Verify(jwtToken))
             {
                 if (!IsEmailInDatabase(userWebApi.Email))
                 {
@@ -71,108 +71,42 @@ namespace TaskMaster.BLL.MobileServices
 
                     return t;
                 }
-            }
-
-            return null;
-        }
-
-        public string LogInUser(string email, string jwtToken)
-        {
-            if (_veryficationService.Verify(jwtToken) && (IsEmailInDatabase(email)))
-            {
-                var t = _veryficationService.GenereteToken();
-                var tmpTokenDto = new TokensDto()
+                else                //tokeny zostają więc możnaby zrobić ich czyszczenie bo bespieczeństwo spada
                 {
-                    Token = t,
-                    PlatformType = PlatformType.Android,
-                    User = _userRepositories.Get(email)
-                };
-                _tokensRepositories.Add(tmpTokenDto);
-                return t;
+                    var t = _veryficationService.GenereteToken();
+                    var tmpTokenDto = new TokensDto()
+                    {
+                        Token = t,
+                        PlatformType = PlatformType.Android,
+                        User = _userRepositories.Get(userWebApi.Email)
+                    };
+                    _tokensRepositories.Add(tmpTokenDto);
+                    return t;
+                }
             }
+
             return null;
         }
 
 
-        public bool DeleteUserByEmail(UserMobileDto userMobileDto)
+
+
+        public bool DeleteUserByEmail(UserMobileDto userMobileDto, string jwtToken)
         {
-            if (true)       //google
+            if (_veryficationService.Verify(jwtToken)) //google
             {
                 var listTokens =
                     _userRepositories.GetAll().Where(u => u.Email.Equals(userMobileDto.Email)).Select(t => t.Tokens);
-                foreach (var tmpToken in listTokens) _tokensRepositories.Delete((TokensDto)tmpToken);
+                foreach (var tmpToken in listTokens) _tokensRepositories.Delete((TokensDto) tmpToken);
 
                 if (IsEmailInDatabase(userMobileDto.Email))
                 {
-                    var userDto =_userRepositories.GetAll().First(user => user.Email.Equals(userMobileDto.Email));
+                    var userDto = _userRepositories.GetAll().First(user => user.Email.Equals(userMobileDto.Email));
                     _userRepositories.Delete(userDto);
                 }
             }
             return true;
         }
 
-
-        public bool EditUser(UserMobileDto userMobileDto)
-        {
-            if (true)       //google
-            {
-                if (IsEmailInDatabase(userMobileDto.Email))
-                {
-                    var tmpUserDto = _userRepositories.GetAll().First(user => user.Email.Equals(userMobileDto.Email));
-
-                    tmpUserDto.Description = userMobileDto.Description;
-
-                    _userRepositories.Edit(tmpUserDto);
-
-                    var tmpTokenDto = _tokensRepositories.GetAll()
-                        .First(t => (t.PlatformType == userMobileDto.PlatformType)
-                                    && (t.PlatformType == PlatformType.None)
-                                    && !(t.Token.Equals(userMobileDto.Token)));
-
-                    tmpTokenDto.Token = userMobileDto.Token;
-
-                    _tokensRepositories.Edit(tmpTokenDto);
-                }
-                
-            }
-            return true;
-        }
-
-
-
-        public bool UpdateToken(UserMobileDto userMobileDto)
-        {
-            UserDto user;
-            if (IsEmailInDatabase(userMobileDto.Email))
-            {
-                user = _userRepositories
-                    .GetAll(
-                    ).First(u => u.Email.Equals(userMobileDto.Email));
-            }
-            else
-            {
-                return false;
-            }
-
-
-            if (user.Tokens.Any(t => t.PlatformType == userMobileDto.PlatformType))
-            {
-                var token = user.Tokens.First(t => t.PlatformType == userMobileDto.PlatformType);
-                token.Token = userMobileDto.Token;
-                _tokensRepositories.Edit(token);
-            }
-            else
-            {
-                var token = new TokensDto()
-                {
-                    BrowserType = BrowserType.None,
-                    PlatformType = userMobileDto.PlatformType,
-                    Token = userMobileDto.Token,
-                };
-                user.Tokens.Add(token);
-            }
-            return true;
-        }
     }
-
 }

@@ -6,99 +6,17 @@ u¿ywanie linków:
 chc¹æ na geta wys³aæ jak¹œ zmienn¹ w stringu np "email" wygl¹da to tak:
 localhost:65116/api/Activity/?email=b@b.pl
 gdzie email="b@b.pl"
-
-
-
-funkcje:
-------------------------------------------------------------
-Activity:
-
-GET: api/Activity/email - pobiera aktywnoœci z poprzednich 7 dni, nad httpclientem musze jeszcze popracowaæ
-!!!! w bazie sa niektóre partsOfActivity z dalsza dat¹ ni¿ tydzieñ wiêc ich nei wyœwietli automatem w getAllActivity bo tam jest ¿e pobiera z tygodnia
-warunek wszukiwania to: czy stop mieœcie siê w zakresie <-7dni, teraz>
-zwraca z pustym tokenem narazie 
-
-POST: brak bo activity nie mo¿na edytowaæ z apki, wiec nie pisa³em 
-
-PUT: api/Activity  
-obiekty maj¹ przychodziæ z grup¹ null a ja je wpisuje wszytkie do grupy o id 1, która oznacza ¿e nie jest w ¿adnej grupie
-przyk³ad jsona który zadzia³a³
-[{"UserEmail":"a@a.pl","Comment":"test post","TaskName":"biega3","Token":null,"Guid":"asd3","EditState":0,"State":1,"TaskPartsList":[{"Start":"12:30:10 28/05/2017","Stop":"11:30:10 30/05/2017","Duration":"0:00:00:21.0000000"}]}]
-musze usun¹æ buga z dodawaniem nowych obiektów 
-nie przyjmie danych z EditState.Planned
-
--------------------------------------------------------------
-
-Planned:(ogólnie podobnie jak actvity)
-GET: api/Planned/email
-zwraca wszytkie! planowane jeœli bêdzie taka potrzeba mogê ograniczyæ b¹dŸ jakoœ posortowaæ
-
-PUT: api/Planned/
-dodaje ale tylko i wy³¹cznie jesli status by³ na planned 
-
-DELETE:
-usuwani jest bo niema opcji edycji tak jak mówiliœmy planowane mo¿na ewentualnie usun¹c(jesli jest taki przycisk)
-poza tym trzeba bêdzie sprz¹taæ bo myœlê ¿e planowany który zmieni³ siê w zakoñczony bêdzie dodawany na nowo jako stopped ale jeœli jest inaczej to mogê dorobiæ post którym bêdzie sie da³o edytowaæ 
-
-------------------------------------------------------------
-
-
-Task: z taskami jest s³abo bo jak siê doda o takiej samej nazwie to go nie wstawi a czasem chcielibyœmy taki samo ale o innym obrazku, ¿eby rozwi¹zaæ to musze wstawiæ nowe pole w modelu wiêc narazie zaniecha³em 
-PUT: 
-powinno siê dodawaæ wszytkie nowe taksk przed wszelkimi innymi modealmi, jeœli bêdzie inaczej to taski zostan¹ utworzonê automatem ale typ bêdzie przypisany jako "", mo¿na dostawiæ pole typ do ka¿dego modelu gdzie siê u¿ywa tasków albo ca³y objekt task ale narazie tak zadzia³a
-
-GET: raczej nie potrzebne ale coœ testowa³em 
-
-------------------------------------------------------------
-
-Favorites:
-GET: localhost:65116/api/Favorites
-bierze wszytkie ulubione dla danego urzytkownika w po podanym przez zmienn¹ mailu
-
-PUT: localhost:65116/api/Favorites
-bierze i tworzy Task jeœli go niema w bazie
-potem dowi¹zuje do nowego ulubionego, zadajemy ca³y obiekt FavoritesMobileDto
-
-DELETE: localhost:65116/api/Favorites
-zadajemy ca³y obiekt FavoitesMobileDto i go usuwa bo w fav mamy tylko opcjê usuñ i dodaj
-
-
-------------------------------------------------------------
-
-User:
-GET: pobiera obiekt usera po jego emailu
-
-PUT: dodaje usera np:
-{"Email":"testek@b.pl","Description":"testowy nowy user","Token":null,"PlatformType":3}
-
-
-
-Baza:
-wkurzy³em siê na bazê i moje funkcje ko¿ystaj¹ z fejkowej bazy która znajduje siê w BLL w MobileService.
-Testowanie czy coœ dzia³a na bazie jest banalne,
- w ka¿dym przypadku wystarczy wywaliæ linijki nastêpuj¹ce po obkomentowanej s³owami "machlojenia" linijce i odkomentowaæ nastêpn¹
- przyk³ad:
-
-
-
-W bazie mamy:
-dlapawela@gmail.com
-dlabartosza@gmail.com
-a@a.pl
-b@b.pl
-dlanorberta@gmail.com
-a@a.pl
-
+jeœli mamy 2 zmienne to ³¹czymy je &
+.../?email=b@b.pl&Token=123
 
 
 Jesli pojawi siê problem z migracj¹ w bazie prawdopodobnie na kompie macie star¹ bazê ¿eby temu zaradziæ naj³aatwiej:
 
-Wejœæ w profil urytkownika i usun¹c 2 pliki zwi¹zane z baz¹ danych zaczynaj¹ce siê od "DAL.User..."\
+Wejœæ w profil u¿ytkownika i usun¹c 2 pliki zwi¹zane z baz¹ danych zaczynaj¹ce siê od "DAL.User..."\
 nastêpnie nale¿y w³aczyc widocznoœæ niewidoczych plików i folderów i wejœæ w
 AppData - Local - Microsoft - Microsoft SQL Server Local DB - Instaces 
 i wywaliæ ca³e MSSqlLocalDB
 i nastêpnie zrestartowaæ kompa 
-
 
 
 
@@ -110,4 +28,122 @@ Favorites
 
 
 nowoœci:
-get-y chyba tez musz¹ byæ w jakiœ sposób poœwiadczae wiêc przekazywane do nich musza byæ email i token 
+get-y chyba te musz¹ byæ w jakiœ sposób poœwiadczae wiêc przekazywane do nich musza byæ email i token alternatyw¹ jest niepoœwiadczanie ich
+wiecej info ponizej
+
+
+
+
+
+Opis 2.0 
+
+weryfikacja:
+dziala to na tej zasadzie ¿e przy zak³adaniu konta lub logowaniu podajemy nasz token jwt w linku 
+1. narazie dzia³a na metodzie Verify która na dowolny string odpowie true 
+2. nalezy przetestowaæ to póŸniej na metodzie VerifyGoogle która tylko na œwie¿y i prawid³owy token odpoeiw true
+
+PUT: (w linku jwtToken)(u¿ywac jeœli usera niema w bazie)
+w odpowiedzi na funkcjê PUT (która w linku musi mieæ jwtToken=jakiœRandomChwilowo) otrzymamy stringa który bêdzie naszym tokenem do autoryzacji (czyli nale¿y go z³apaæ)
+funkcja ta doda usera, wygeneruje mu token i go zwróci
+
+POST: (w linku jwtToken)(u¿ywac eœli user jest w bazie)
+w odpowiedzi funkcji POST (która w linku musi mieæ jwtToken=jakiœRandomChwilowo) otrzymamy stringa który bêdzie naszym tokenem do autoryzacji (czyli nale¿y go z³apaæ)
+
+Token:
+-przypadku GETów ma byæ przekazywany wraz z emailem w linku 
+np 
+localhost:65116/api/Favorites/email/?email=dlapawela@gmail.com&token=123
+
+-nastomiast w przypadku PUTów i DELETów musi on siê znajdowaæ wewn¹trz przesy³anego obiektu
+(ka¿dy obiekt typu MobieDto ma w sobie Token jak i email czyli dane niezbêdne do uwie¿ytelnienia)
+
+
+
+
+User:
+GET: pobiera obiekt usera po jego emailu
+weryfikacja: mail i Token w linku 
+
+PUT: dodaje usera np:
+{"Email":"testek@b.pl","Description":"testowy nowy user","Token":null,"PlatformType":3}
+weryfikacja: jwtToken w linku
+
+-------------------------------------------------------------------------------
+
+Activity:
+
+GET: api/Activity/email - pobiera aktywnoœci z poprzednich 7 dni, ale niestety w przypadku skceku wysy³a httpresponse.OK ale b³êdu po prostu null
+weryfikacja: mail i Token w linku 
+warunek wszukiwania to: czy stop mieœcie siê w zakresie <-7dni, teraz>
+token jaki zwracam jest pusty, bo nie konieczne jest czcze przesy³anie tokenu chyba ¿e Tobie siê on do czegoœ przyda tam- mogê to zmieniæ
+!!!! w bazie sa niektóre partsOfActivity z dalsza dat¹ ni¿ tydzieñ wiêc ich nie wyœwietli automatem w getAllActivity bo tam jest ¿e pobiera z tygodnia
+
+POST: brak bo activity nie mo¿na edytowaæ z apki, wiec nie pisa³em 
+
+PUT: api/Activity  
+obiekty maj¹ przychodziæ z grup¹ null a ja je wpisuje wszytkie do grupy o id 1, co  oznacza ¿e nie s¹ w ¿adnej grupie
+weryfikacja: musi mieæ w modelu(przesy³anym jsonie wype³nione prawid³owo UserEmail i Token)
+przyk³ad jsona który zadzia³a³
+[{"UserEmail":"a@a.pl","Comment":"test post","TaskName":"biega3","Token":null,"Guid":"asd3","EditState":0,"State":1,"TaskPartsList":[{"Start":"12:30:10 28/05/2017","Stop":"11:30:10 30/05/2017","Duration":"0:00:00:21.0000000"}]}]
+mo¿e zwróciæ Accepted, BadRequest albo Unauthorized
+!!! nie przyjmie danych z EditState.Planned
+!!! w przypadku jeœli task nie zosta³ wczeœniej wys³any controllerem o dodawania tasków(czyli neima go w bazie) to zostanie dodany tyle ¿e z pustym polem typ - mogê to zmieniæ ale wymaga to modyfikacji modelów MobileDto
+
+--------------------------------------------------------------------------------------------
+
+
+Planned:(ogólnie podobnie jak actvity)
+
+
+GET: api/Planned/email
+weryfikacja: mail i Token w linku 
+zwraca WSZYTKIE planowane - jeœli bêdzie taka potrzeba mogê ograniczyæ b¹dŸ jakoœ posortowaæ lub zawê¿yæ co jakiegoœ oresu
+
+PUT: api/Planned
+weryfikacja: musi mieæ w modelu(przesy³anym jsonie wype³nione prawid³owo UserEmail i Token)
+dodaje ale tylko i wy³¹cznie jesli status by³ na planned 
+!!! przyjmuje tylko State.Planned
+
+DELETE: api/Planned
+weryfikacja: musi mieæ w modelu(przesy³anym jsonie wype³nione prawid³owo UserEmail i Token)
+usuwani jest bo niema opcji edycji, tak jak mówiliœmy planowane mo¿na ewentualnie usun¹c(jesli jest taki przycisk)
+poza tym trzeba bêdzie sprz¹taæ bo myœlê ¿e planowany który zmieni³ siê w zakoñczony bêdzie dodawany na nowo jako stopped ale jeœli jest inaczej to mogê dorobiæ post którym bêdzie sie da³o edytowaæ 
+
+
+
+------------------------------------------------------------------------------------------------
+
+
+
+Task: z taskami jest s³abo bo jak siê doda o takiej samej nazwie to go nie wstawi a czasem chcielibyœmy taki samo ale o innym obrazku, ¿eby rozwi¹zaæ to musze wstawiæ nowe pole w modelu wiêc narazie zaniecha³em 
+!!! taski mo¿na dodawaæ z poziomu aktywnoœci, planownych i ulubionych ale tam nie doda typu - chyba ze ma dodawaæ to daj znaæ i zedytuje modele MobileDto
+
+
+Task: 
+PUT: api/Favorites
+weryfikacja: musi mieæ w modelu(przesy³anym jsonie wype³nione prawid³owo UserEmail i Token)
+
+
+---------------------------------------------------------------------------------------------
+
+
+Favorites:
+
+GET: api/Favorites
+weryfikacja: mail i Token w linku 
+bierze wszytkie ulubione dla danego urzytkownika w popodanym przez zmienn¹ mailu
+
+PUT: localhost:65116/api/Favorites
+weryfikacja: musi mieæ w modelu(przesy³anym jsonie wype³nione prawid³owo UserEmail i Token)
+bierze i tworzy Task jeœli go niema w bazie (ta sama historia z type)
+mo¿e zwróciæ Accepted, BadRequest albo Unauthorized
+
+DELETE: api/Favorites
+weryfikacja: musi mieæ w modelu(przesy³anym jsonie wype³nione prawid³owo UserEmail i Token)
+zadajemy ca³y obiekt FavoitesMobileDto i go usuwa bo w fav mamy tylko opcjê usuñ i dodaj
+
+
+
+
+
+

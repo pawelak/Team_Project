@@ -21,9 +21,7 @@ namespace TaskMaster.BLL.MobileService
 
         public List<PlannedMobileDto> GetPlanned(string email)
         {
-            //weryfikacja i wykluzenie inego maila
             var user = _userRepositories.Get(email);
-
             var activityRawList = user.Activities.Where(act => act.State == State.Planned).ToList();
             var returnedList = new List<PlannedMobileDto>();
 
