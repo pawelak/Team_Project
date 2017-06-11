@@ -19,7 +19,6 @@ i wywaliæ ca³e MSSqlLocalDB
 i nastêpnie zrestartowaæ kompa 
 
 
-
 kolejnoœæ synchronizacji ¿eby nic siê nie wywali³o pownna byæ taka 
 Takski
 Activity
