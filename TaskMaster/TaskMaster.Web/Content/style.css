@@ -178,3 +178,8 @@ table img {
     border: solid black 1px;
    
 }
+#yearActivity, #monthName {
+    margin-top: 40px;
+    text-align: center;
+    padding-bottom: 20px;
+}
