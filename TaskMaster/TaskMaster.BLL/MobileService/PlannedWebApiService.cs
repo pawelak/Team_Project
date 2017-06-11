@@ -104,8 +104,8 @@ namespace TaskMaster.BLL.MobileService
                 var tmpPart = new PartsOfActivityDto
                 {
                     Start = DateTime.ParseExact(plannedMobileDto.TaskPart.Start, "HH:mm:ss dd/MM/yyyy", CultureInfo.InvariantCulture),
-                    Stop = DateTime.ParseExact(plannedMobileDto.TaskPart.Start, "HH:mm:ss dd/MM/yyyy", CultureInfo.InvariantCulture),
-                    Duration = TimeSpan.ParseExact(plannedMobileDto.TaskPart.Duration, "G", CultureInfo.InvariantCulture),
+                    Stop =  DateTime.MaxValue,
+                    Duration = TimeSpan.Zero,
                     Activity = _activityRepositories.Get(idAct)
                 };
                 _partsOfActivityRepositories.Add(tmpPart);
@@ -136,3 +136,13 @@ namespace TaskMaster.BLL.MobileService
 
     }
 }
+
+
+
+//var tmpPart = new PartsOfActivityDto
+//{
+//    Start = DateTime.ParseExact(plannedMobileDto.TaskPart.Start, "HH:mm:ss dd/MM/yyyy", CultureInfo.InvariantCulture),
+//    Stop = new DateTime(),
+//    Duration = new TimeSpan(),
+//    Activity = _activityRepositories.Get(idAct)
+//};
