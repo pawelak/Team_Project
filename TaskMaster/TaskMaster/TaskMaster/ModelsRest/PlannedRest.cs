@@ -12,6 +12,6 @@ namespace TaskMaster.ModelsRest
         public string Token { get; set; }
         public EditState EditState { get; set; }
         public StatusType State { get; set; }
-        public PartsOfActivityRest TaskParts { get; set; }
+        public PartsOfActivityRest TaskPart { get; set; }
     }
 }

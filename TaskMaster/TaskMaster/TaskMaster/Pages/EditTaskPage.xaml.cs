@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using System.Timers;
+using TaskMaster.Enums;
 using TaskMaster.ModelsDto;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -53,10 +54,15 @@ namespace TaskMaster.Pages
 
         private async Task AddToFavoritesList()
         {
-            var favorites = await UserService.Instance.GetUserFavorites(1);
+            var user = UserService.Instance.GetLoggedUser();
+            var favorites = await UserService.Instance.GetUserFavorites(user.UserId);
             if (favorites == null)
             {
-                FavoritePicker.IsEnabled = false;
+                Device.BeginInvokeOnMainThread(() =>
+                {
+                    FavoritePicker.IsVisible = false;
+                    FavText.IsVisible = false;
+                });
             }
             else
             {
@@ -133,7 +139,7 @@ namespace TaskMaster.Pages
                 _task.TaskId = await UserService.Instance.SaveTask(_task);
                 _activity.TaskId = _task.TaskId;
                 await UserService.Instance.SaveActivity(_activity);
-                //await SynchronizationService.Instance.SendActivity(_activity,_task);
+                await SynchronizationService.Instance.SendActivity(_activity,_task);
                 await Navigation.PushModalAsync(new NavigationPage(new MainPage()));
             }
         }
@@ -158,7 +164,8 @@ namespace TaskMaster.Pages
             {
                 ActivityId = _activity.ActivityId,
                 Start = DateTime.Now.ToString("HH:mm:ss dd/MM/yyyy"),
-                Duration = "0",
+                Stop = "",
+                Duration = "0"
             };
             part.PartId = await UserService.Instance.SavePartOfActivity(part);
             StopwatchesService.Instance.AddStopwatch(part.PartId);
@@ -184,7 +191,14 @@ namespace TaskMaster.Pages
         {
             if (_task.TaskId == 0)
             {
-                await Navigation.PushModalAsync(new FillInformationPage(_activity));
+                if (TaskName.Text == $"Nowa Aktywność {_activity.ActivityId}")
+                {
+                    return;
+                }
+                _task.TaskId = await UserService.Instance.SaveTask(_task);
+                _activity.TaskId = _task.TaskId;
+                await UserService.Instance.SaveActivity(_activity);
+                await Navigation.PopModalAsync();
             }
             else
             {
@@ -234,7 +248,11 @@ namespace TaskMaster.Pages
                     UserId = _activity.UserId
                 };
                 await UserService.Instance.SaveFavorite(favorite);
-                //await SynchronizationService.Instance.SendFavorite(favorite);
+                if (_task.SyncStatus == SyncStatus.ToUpload)
+                {
+                    await SynchronizationService.Instance.SendTask(_task);
+                }
+                await SynchronizationService.Instance.SendFavorite(favorite);
                 AddFavorite.IsEnabled = false;
             }
         }
@@ -295,9 +313,10 @@ namespace TaskMaster.Pages
             {
                 Name = select
             };
-            _task = await UserService.Instance.GetTask(taskDto);
-            TaskName.Text = _task.Name;
-            TypePickerImage.Source = SelectImage(_task.Typ);
+            var task = await UserService.Instance.GetTask(taskDto);
+            TaskName.Text = task.Name;
+            ActivityName.Text = task.Name;
+            TypePickerImage.Source = SelectImage(task.Typ);
         }
     }
 }

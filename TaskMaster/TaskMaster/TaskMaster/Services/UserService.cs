@@ -133,6 +133,12 @@ namespace TaskMaster.Services
             return update;
         }
 
+        public async Task<List<TasksDto>> GetTasksToUpload()
+        {
+            var list = await Database.GetTasksToUpload();
+            return list;
+        }
+
         public async Task<TasksDto> GetTaskById(int id)
         {
             var update = await Database.GetTaskById(id);

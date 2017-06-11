@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Net;
 using TaskMaster.Interfaces;
 using TaskMaster.Pages;
 using TaskMaster.Services;
@@ -41,9 +42,42 @@ namespace TaskMaster
             await Navigation.PushModalAsync(new NavigationPage(new PlannedViewPage()));
         }
 
-        private void SyncItem_OnClicked(object sender, EventArgs e)
+        private async void SyncItem_OnClicked(object sender, EventArgs e)
         {
-            throw new NotImplementedException();
+            Content.IsEnabled = false;
+            var isInternet = CheckInternetConnection();
+            if (isInternet)
+            {
+                await SynchronizationService.Instance.SendTasks();
+                await SynchronizationService.Instance.SendActivities();
+                await SynchronizationService.Instance.GetActivities();
+                await SynchronizationService.Instance.SendFavorites();
+                await SynchronizationService.Instance.GetFavorites();
+                await SynchronizationService.Instance.SendPlannedAsync();
+                await SynchronizationService.Instance.GetPlanned();
+            }
+            else
+            {
+                await DisplayAlert("Error", "Nie można synchronizować bez internetu", "Ok");
+            }
+            Content.IsEnabled = true;
+        }
+        private static bool CheckInternetConnection()
+        {
+            const string checkUrl = "http://google.com";
+            try
+            {
+                var iNetRequest = (HttpWebRequest)WebRequest.Create(checkUrl);
+                iNetRequest.Timeout = 3000;
+                var iNetResponse = iNetRequest.GetResponse();
+                iNetResponse.Close();
+                return true;
+
+            }
+            catch (WebException)
+            {
+                return false;
+            }
         }
 
         private async void LogoutItem_OnClicked(object sender, EventArgs e)
