@@ -7,8 +7,7 @@ namespace TaskMaster.DAL
 {
     public class MapperProfileDal : Profile
     {
-        private const int Dep = 1;
-
+        private const int Dep = 2;
         public MapperProfileDal()
         {
             CreateMap<ActivityDto, Activity>()
@@ -43,12 +42,12 @@ namespace TaskMaster.DAL
                 .MaxDepth(Dep)
                 .ForMember(dest => dest.Duration,
                     opt => opt.MapFrom
-                    (src =>src.Duration.Subtract(new DateTime(2000, 1, 1, 0, 0, 0))));
+                        (src => src.Duration.Subtract(new DateTime(2000, 1, 1, 0, 0, 0))));
             CreateMap<PartsOfActivityDto, PartsOfActivity>()
                 .MaxDepth(Dep)
                 .ForMember(dest => dest.Duration,
                     opt => opt.MapFrom
-                    (src => new DateTime(2000, 1, 1, 0, 0, 0).Add(src.Duration)));
+                        (src => new DateTime(2000, 1, 1, 0, 0, 0).Add(src.Duration)));
         }
     }
 }

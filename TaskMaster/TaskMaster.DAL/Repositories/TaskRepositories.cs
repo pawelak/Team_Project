@@ -31,7 +31,8 @@ namespace TaskMaster.DAL.Repositories
         }
         public new TaskDto Get(int id)
         {
-            var result = Mapper.Map<TaskDto>(base.Get(id));
+            var prob = Db.Task.Include(i => i.Favorites).Include(i => i.Activities).First(s=>s.TaskId==id);
+            var result = Mapper.Map<TaskDto>(prob);
             return result;
         }
         public TaskDto Get(string name)

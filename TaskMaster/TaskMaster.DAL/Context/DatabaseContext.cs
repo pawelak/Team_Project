@@ -12,7 +12,7 @@ namespace TaskMaster.DAL.Context
             Database.SetInitializer(new DatabaseInitialize()); 
             //Database.SetInitializer(new MigrateDatabaseToLatestVersion<DatabaseContext, Configuration>());
 
-            Configuration.LazyLoadingEnabled = true;
+            Configuration.LazyLoadingEnabled = false;
             Configuration.ProxyCreationEnabled = true;
         }
 

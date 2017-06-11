@@ -19,9 +19,8 @@ namespace TaskMaster.DAL.Repositories
             protected void Delete(T x)
             {
                 Db.Set<T>().Remove(x);
-                Db.SaveChanges();
             }
-            protected IList<T> GetAll()
+            protected IEnumerable<T> GetAll()
             {
                 return Db.Set<T>().ToList();
             }
@@ -32,7 +31,11 @@ namespace TaskMaster.DAL.Repositories
             protected void Edit(T x)
             {
                 Db.Entry(x).State = EntityState.Modified;
+            }
+            protected void Save()
+            {
                 Db.SaveChanges();
             }
+
     }
 }

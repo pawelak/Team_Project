@@ -14,14 +14,11 @@ namespace TaskMaster.DAL.Repositories
         public void Add(ActivityDto dto)
         {
             var result = Mapper.Map<Activity>(dto);
-            result.UserId = result.User.UserId;
-            result.User = null;
-            result.TaskId = result.Task.TaskId;
-            result.Task = null;
-            result.GroupId = result.Group.GroupId;
-            result.Group = null;
-            result.PartsOfActivity = null;
+            Db.User.Attach(result.User);
+            Db.Task.Attach(result.Task);
+            Db.Group.Attach(result.Group);
             base.Add(result);
+            Save();
         }
         public void Delete(ActivityDto dto)
         {
