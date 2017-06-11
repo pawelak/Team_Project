@@ -13,5 +13,9 @@ namespace TaskMaster.Web.Controllers
         {
             return View();
         }
+
+        public ActionResult MartynasNewIdea() {
+            return View();
+        }
     }
 }

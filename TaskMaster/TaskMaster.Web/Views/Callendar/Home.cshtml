@@ -8,7 +8,7 @@
 
 
 <div class="row quickFixMargin">
-    <div class="col-md-2 arrow arrowFloatRight">
+    <div class="col-md-2 arrow arrowFloatRight" onclick="subtractMonth()">
         <img src="../../images/arrowLeft.png"/>
     </div>
   
@@ -19,7 +19,7 @@
         </div>
 
     </div>
-    <div class="col-md-1 arrow">
+    <div class="col-md-1 arrow" onclick="addMonth()">
         <img src="../../images/arrowRight.png"/>
     </div>
 
@@ -52,7 +52,9 @@
 </div>
 
 <script>
-    window.onload = function () {
+    var changeMonth = 0;
+    function createCallendar() {
+        document.getElementById("callendar").innerHTML = '';
         var date = new Date();
         var months = [
             'Styczeń', 'Luty', 'Marzec', 'Kwiecien', 'Maj', 'Czerwiec', 'Lipiec', 'Sierpien', 'Wrzesien', 'Pazdziernik',
@@ -62,7 +64,7 @@
             'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October',
             'November', 'December'
         ];
-        var month = date.getMonth();
+        var month = date.getMonth() + changeMonth;
         var year = date.getFullYear();
         var firstDate = monthsEng[month] + " " + 1 + ", " + year;
         var tmp = new Date(firstDate);
@@ -84,6 +86,16 @@
 
     }
 
+    createCallendar();
+
+    function addMonth() {
+        changeMonth++;
+        createCallendar();
+    }
+    function subtractMonth() {
+        changeMonth--;
+        createCallendar();
+    }
     function getCallendar(dayNumber, days2, days) {
         var table = document.createElement('table');
         table.className = "callendarTable";
