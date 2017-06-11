@@ -62,11 +62,11 @@ namespace TaskMaster.WebApi.Controllers
 
 
         // DELETE: api/Planned
-        public HttpResponseMessage Delete(PlannedMobileDto plannedMobileDto)
+        public HttpResponseMessage Delete(string guid, string email, string token)
         {
-            if (_veryficationService.Authorization(plannedMobileDto.UserEmail, plannedMobileDto.Token))
+            if (_veryficationService.Authorization(email, token))
             {
-                if (_plannedWebApiService.Delete(plannedMobileDto))
+                if (_plannedWebApiService.Delete(guid,email))
                 {
                     return new HttpResponseMessage(HttpStatusCode.Accepted);
                 }

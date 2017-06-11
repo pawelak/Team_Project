@@ -128,9 +128,9 @@ namespace TaskMaster.BLL.MobileService
 
         }
 
-        public bool Delete(PlannedMobileDto plannedMobileDto)
+        public bool Delete(string guid, string email)
         {
-            var toDel = _activityRepositories.Get(plannedMobileDto.UserEmail).First(g => g.Guid.Equals(plannedMobileDto.Guid));
+            var toDel = _activityRepositories.Get(email).First(g => g.Guid.Equals(guid));
             try
             {
                 _activityRepositories.Delete(toDel);
