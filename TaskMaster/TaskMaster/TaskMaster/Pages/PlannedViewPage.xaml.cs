@@ -156,14 +156,19 @@ namespace TaskMaster.Pages
 	        }
 	        var activity = await UserService.Instance.GetActivity(item.ActivityId);
 	        var task = await UserService.Instance.GetTaskById(activity.TaskId);
-	        if (activity.SyncStatus == SyncStatus.Uploaded)
+	        if (activity.SyncStatus != SyncStatus.ToUpload)
 	        {
 	            await SynchronizationService.Instance.DeletePlanned(activity, task);
 	        }
 	        activity.Status = StatusType.Canceled;
             await UserService.Instance.SaveActivity(activity);
-            OnAppearing();
-	    }
+            _plannedList.Clear();
+	        await ListInitiate();
+	        Device.BeginInvokeOnMainThread(() =>
+	        {
+	            PlannedTasks.ItemsSource = _plannedList;
+	        });
+        }
 
 	    private async void SyncItem_OnClicked(object sender, EventArgs e)
 	    {
