@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.Design;
 using System.Globalization;
 using System.Linq;
 using System.Text;
@@ -11,6 +12,15 @@ using TaskMaster.DAL.Repositories;
 
 namespace TaskMaster.BLL.WebServices
 {
+
+
+    struct LongTask
+    {
+        public string name;
+        public TimeSpan dur;
+    }
+
+
     public class ActivityWebService
     {
         private readonly UserRepositories _userRepositories = new UserRepositories();
@@ -72,107 +82,105 @@ namespace TaskMaster.BLL.WebServices
             return returnedList;
 
         }
-
         public List<List<string>> LastMonth(string email, int days)
         {
             days = 10;
             var date7DaysAgo = DateTime.Now.AddDays(-days);
             var user = _userRepositories.Get(email);
             var listOfAct = new List<DAL.DTOModels.ActivityDto>();
-
+            
             var result = new List<List<string>>();
 
-            foreach(var act in user.Activities)
+            var tabUserAct = user.Activities;
+            var notPlaned = tabUserAct.Where(a => a.State != State.Planned);
+           
+
+            foreach (var cos in notPlaned)
             {
-                if (act.State != State.Planned)
+                foreach (var part in cos.PartsOfActivity)
                 {
-                    listOfAct.AddRange(act.PartsOfActivity
-                        .Where(a => (a.Stop > date7DaysAgo) && (a.Start < DateTime.Now))
-                        .Select(a => act));
+                    if ((part.Stop > date7DaysAgo) && (part.Start < DateTime.Now))
+                    {
+                        listOfAct.Add(cos);
+                        break;
+                    }
                 }
             }
-
+            
+           
             foreach (var act in listOfAct)
             {
-               
-                TimeSpan sum = new TimeSpan();
-                foreach (var part in act.PartsOfActivity)
-                {
-                    sum += part.Duration;
-                }
-                List<string> help = new List<string>();
-              
-                help.Add(act.Task.Name);
-                help.Add(sum.ToString());
-                result.Add(help);
+           
+
+                    TimeSpan sum = new TimeSpan();
+                    foreach (var part in act.PartsOfActivity)
+                    {
+                        sum += part.Duration;
+                    }
+
+                    List<string> help = new List<string>();
+
+                    help.Add(act.Task.Name);
+                    help.Add(sum.ToString());
+
+                    result.Add(help);
+                
             }
+            
 
             return result;
         }
-
-        
         public List<List<string>> LongestTask(string email)
         {
-            //var user = _userRepositories.Get(email);
-            // var listOfAct = user.Activities;
-
-            // var result = new List<List<string>>();
-
-            // foreach (var act in listOfAct)
-            // {
-
-            //     TimeSpan sum = new TimeSpan();
-            //     foreach (var part in act.PartsOfActivity)
-            //     {
-            //         sum += part.Duration;
-            //     }
-            //     List<string> help = new List<string>();
-
-            //     help.Add(act.Task.Name);
-            //     help.Add(sum.ToString());
-
-            //     result.Add(help);
-            // }
-
-            // return result;
+            var list = new List<LongTask>();
 
             var user = _userRepositories.Get(email);
-            var listOfAct = new List<DAL.DTOModels.ActivityDto>();
-            var result = new List<List<string>>();
-            int r;
-            int tmpMaks = Int32.MinValue;
+
 
             foreach (var act in user.Activities)
             {
                 TimeSpan sum = new TimeSpan();
-                TimeSpan max2 = new TimeSpan(Int32.MinValue);
-          
+               
+
                 foreach (var parts in act.PartsOfActivity)
                 {
                     sum += parts.Duration;
                 }
-
-                var help = new List<string>();
-
-                help.Add(act.Task.Name);
-                help.Add(sum.ToString());
+                LongTask strLongTask =new LongTask();
+                strLongTask.dur = sum;
+                strLongTask.name = act.Task.Name;
                 
-                result.Add(help);
-           }
+                list.Add(strLongTask);
+               
+            }
 
-           foreach (var maks in result)
-           {
+            var orderList = list.OrderByDescending(x => x.dur).ToList();
+            var max = orderList[0].dur.TotalSeconds;
 
-               r = Int32.Parse(maks[1]);
-                
-               if ( r > tmpMaks )
-               {
-                   
-               }
+            var returned = new List<List<string>>();
 
-           }
-            
-            return result;
+            foreach (var item in orderList)
+            {
+                    
+
+                var tmp = item.dur.ToString();
+                    var tmpPerc = (item.dur.TotalSeconds / max)*100;
+                    var tmp3 = Math.Round(tmpPerc, 0);
+                var cos = new List<string>();
+
+                cos.Add(tmp);
+                cos.Add(item.name);
+                    cos.Add(tmp3.ToString());
+
+                returned.Add(cos);
+               
+            }
+
+            return returned;
         }
+
+
+
+
     }
 }
