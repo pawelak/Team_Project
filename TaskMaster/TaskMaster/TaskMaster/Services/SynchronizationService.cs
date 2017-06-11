@@ -20,7 +20,7 @@ namespace TaskMaster.Services
         private SynchronizationService()
         {
             _client.MaxResponseContentBufferSize = 256000;
-            _client.Timeout = TimeSpan.FromSeconds(3);
+            //_client.Timeout = TimeSpan.FromSeconds(3);
         }
 
         private readonly HttpClient _client = new HttpClient();

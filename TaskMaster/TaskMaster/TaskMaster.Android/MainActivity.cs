@@ -112,13 +112,6 @@ namespace TaskMaster.Droid
                     Services.UserService.Instance.SetLoggedUser(user);
                     await SynchronizationService.Instance.SendUser(user);
                 }
-                /*await SynchronizationService.Instance.SendTasks();
-                await SynchronizationService.Instance.SendActivities();
-                await SynchronizationService.Instance.GetActivities();
-                await SynchronizationService.Instance.SendFavorites();
-                await SynchronizationService.Instance.GetFavorites();
-                await SynchronizationService.Instance.SendPlannedAsync();
-                await SynchronizationService.Instance.GetPlanned();*/
                 LoadApplication(new App());
             }
             else
