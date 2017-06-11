@@ -1,6 +1,7 @@
 ﻿
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
+ 
 }
 
 
@@ -18,10 +19,18 @@
         <h4 id="monthName"></h4>
         <canvas id="pieChart" height="400" width="400"></canvas>
     </div>
+    @foreach (var p in @ViewBag.mod) 
+    {
+        <p>@p.name @p.dur @p.totalDur</p>//co ma byc widac jak najedziesz myszka
+    }
     <div class="col-md-6 col-md-offset-1">
         <h4 id="yearActivity"></h4>
         <canvas id="barChart"></canvas>
     </div>
+    @foreach (var p in @ViewBag.tab) 
+    {
+        <p>@p[0] @p[1]</p>
+    }
 </div>
 </body>
 </html>
@@ -32,7 +41,7 @@
 
     var numberOfDifferentActivities;
     function getActivitiesNumber() {
-        return 5; //tu trzeba z bazy
+        return 5; //tu trzeba z bazy liczba aktywnosci
     }
 
     numberOfDifferentActivities = getActivitiesNumber();
@@ -49,11 +58,16 @@
 
     var listOfNames = [];
     var listOfValues = [];
+
+   
+  
+
     function fillListOfNamesAndTheirValues() {
         for (var i = 0; i < numberOfDifferentActivities; i++) {
-            var name = "aktywnosc"; //tu z bazy
+            var name = "olo"; //tu z bazy
+     
             listOfNames.push(name);
-            var value = "20"; //tu tez z bazy
+            var value = "20"; //tu tez z bazy sekund
             listOfValues.push(value);
             
         }

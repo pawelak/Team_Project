@@ -12,12 +12,11 @@ using TaskMaster.DAL.Repositories;
 
 namespace TaskMaster.BLL.WebServices
 {
-
-
-    struct LongTask
+    public struct LongTask
     {
         public string name;
         public TimeSpan dur;
+        public double totalDur;
     }
 
 
@@ -179,8 +178,161 @@ namespace TaskMaster.BLL.WebServices
             return returned;
         }
 
+        public List<LongTask> ActivityFromBase(string email)
+        {
+            //------------------Geslerowa---------------------------
+            
+            var Period = DateTime.Now.AddDays(-30);
+            var user = _userRepositories.Get(email);
+            var listOfAct = new List<DAL.DTOModels.ActivityDto>();
+            var tabUserAct = user.Activities;
+
+            var notPlaned = tabUserAct.Where(a => a.State != State.Planned);
 
 
+            foreach (var cos in notPlaned)
+            {
+                foreach (var part in cos.PartsOfActivity)
+                {
+                    if ((part.Stop > Period) && (part.Start < DateTime.Now))
+                    {
+                        listOfAct.Add(cos);
+                        break;
+                    }
+                }
+            }
+            //--------------------------------------------------------
+
+
+            var list = new List<LongTask>();
+
+            
+
+
+            foreach (var act in user.Activities)
+            {
+                    TimeSpan sum = new TimeSpan();
+
+
+                    foreach (var parts in act.PartsOfActivity)
+                    {
+                        sum += parts.Duration;
+                    }
+                    LongTask strLongTask = new LongTask();
+                    strLongTask.dur = sum;
+                    strLongTask.name = act.Task.Name;
+
+                    list.Add(strLongTask);
+
+            }
+
+            var list2 = new List<LongTask>();
+
+          
+
+            foreach (var element in list)
+            {
+                    var tmpName = element.name;
+                    var tmpDur = TimeSpan.Zero;
+                    var obi = new LongTask()
+                    {
+                        dur = tmpDur,
+                        name = tmpName
+                    };
+
+                    if (!list2.Any(a => a.name.Equals(tmpName)))
+                    {
+                        list2.Add(obi);
+                    }
+            }
+
+
+            var list3 = new List<LongTask>();
+
+
+            foreach (var el2 in list2)
+            {
+                    var tmpName = el2.name;
+                    var tmpDur = el2.dur;
+                    var obi2 = new LongTask()
+                    {
+                        dur = tmpDur,
+                        name = tmpName
+                    };
+
+                
+                    foreach (var element in list)
+                    {
+                  
+                        if (el2.name.Equals(element.name))
+                        {
+                            tmpDur += element.dur;
+                        }
+                    
+                    }
+
+                    LongTask strLongTask = new LongTask();
+                    strLongTask.name = tmpName;
+                    strLongTask.dur = tmpDur;
+                    strLongTask.totalDur = Math.Round(tmpDur.TotalSeconds, 0);
+                    list3.Add(strLongTask);
+                    
+
+            }
+
+
+            
+
+
+            return list3;
+        }
+
+        public List<List<string>> Last12MOfWork(string email)
+        {
+            var Period = DateTime.Now.AddMonths(-12);
+            var user = _userRepositories.Get(email);
+            var listOfAct = new List<DAL.DTOModels.ActivityDto>();
+            var tabUserAct = user.Activities;
+
+            var notPlaned = tabUserAct.Where(a => a.State != State.Planned);
+
+
+            foreach (var cos in notPlaned)
+            {
+                foreach (var part in cos.PartsOfActivity)
+                {
+                    if ((part.Stop > Period) && (part.Start < DateTime.Now))
+                    {
+                        listOfAct.Add(cos);
+                        break;
+                    }
+                }
+            }
+
+            var result = new List<List<string>>();
+            foreach (var act in listOfAct)
+            {
+
+
+                TimeSpan sum = new TimeSpan();
+                foreach (var part in act.PartsOfActivity)
+                {
+                    sum += part.Duration;
+                }
+
+                List<string> help = new List<string>();
+
+                help.Add(act.Task.Name);
+                help.Add(Math.Round(sum.TotalMinutes,0).ToString());
+
+                result.Add(help);
+
+            }
+
+
+
+            return result;
+         }
 
     }
 }
