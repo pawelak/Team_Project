@@ -14,11 +14,13 @@
 </head>
 <body>
 <div>
-    <div class="col-md-3">
+    <div class="col-md-3 col-md-offset-1">
         <h4 id="monthName"></h4>
-        <canvas id="pieChart" height="400" width="400">
-
-        </canvas>
+        <canvas id="pieChart" height="400" width="400"></canvas>
+    </div>
+    <div class="col-md-6 col-md-offset-1">
+        <h4 id="yearActivity"></h4>
+        <canvas id="barChart"></canvas>
     </div>
 </div>
 </body>
@@ -69,6 +71,46 @@
                         label: 'Points',
                         backgroundColor: ['#f39c12', '#3498db', '#e74c3c', '#00bc8c', '#f35611', '#349855', '#e34c3c', '#008f8c'],
                         data: listOfValues
+                    }
+                ]
+            }
+        });
+</script>
+
+<script>
+    var chart = document.getElementById("barChart");
+    Chart.defaults.scale.ticks.beginAtZero = true;
+    var date = new Date();
+    var year = date.getFullYear();
+    document.getElementById("yearActivity").innerHTML = "Łączny czas twojej pracy w " + year + " roku";
+    var months = [
+        'Styczeń', 'Luty', 'Marzec', 'Kwiecien', 'Maj', 'Czerwiec', 'Lipiec', 'Sierpien', 'Wrzesien', 'Pazdziernik',
+        'Listopad', 'Grudzien'
+    ];
+
+    var valuesInEveryMonth = []; //kazdy index to kolejny miesiac
+    function fillValues() {
+        for (var i = 0; i < 12; i++) {
+            var value = Math.floor((Math.random() * 10) + 1); //tu z bazy
+            valuesInEveryMonth.push(value);
+        }
+    }
+
+    fillValues();
+
+    var barChart = new Chart(chart,
+        {
+            type: 'bar',
+            data: {
+                labels: months,
+                datasets: [
+                    {
+                        label: '',
+                        backgroundColor: [
+                            '#f39c12', '#3498db', '#e74c3c', '#00bc8c', '#f35611', '#349855', '#e34c3c', '#008f8c',
+                            '#f39c12', '#349855', '#e34c3c', '#008f8c'
+                        ],
+                        data: valuesInEveryMonth
                     }
                 ]
             }
