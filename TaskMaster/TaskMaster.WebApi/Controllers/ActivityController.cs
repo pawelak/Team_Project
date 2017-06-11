@@ -1,16 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
-using System.Web.Http.Description;
 using System.Web.Http.Results;
+using System.Web.Mvc;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
 using TaskMaster.BLL.MobileService;
+using TaskMaster.BLL.MobileServices;
 using TaskMaster.BLL.WebApiModels;
-using TaskMaster.DAL.Models;
+
 
 namespace TaskMaster.WebApi.Controllers
 {
@@ -19,39 +17,34 @@ namespace TaskMaster.WebApi.Controllers
     public class ActivityController : ApiController
     {
         private readonly ActivityWebApiService _activityWebApiService = new ActivityWebApiService();
-
-        //// GET: api/Activity
-        //public string Get()
-        //{
-        //    //var returnText = JsonConvert.SerializeObject(_activityWebApiService);
-        //    return JsonConvert.SerializeObject(_activityWebApiService.test());
-        //}
+        private readonly VeryficationService _veryficationService = new VeryficationService();
 
         // GET: api/Activity/email
-        public JsonResult <List<ActivityMobileDto>> Get(string email)
+        public JsonResult <List<ActivityMobileDto>> Get(string email, string token)
         {
-            var result = _activityWebApiService.GetActivityFromLastWeek(email);
-            return Json(result);
+            if (_veryficationService.Authorization(email,token))
+            {
+                var result = _activityWebApiService.GetActivityFromLastWeek(email);
+                return Json(result);
+            }
+            return null;
         }
 
-        // POST: api/Activity
-        
-        public void Post([FromBody]ActivityMobileDto activityMobileDto)
-        {
-            
-        }
+
 
         // PUT: api/Activity
         public HttpResponseMessage Put([FromBody]ActivityMobileDto activityMobileDto)
         {
-            var x = activityMobileDto;
-            if (_activityWebApiService.AddActivity(activityMobileDto))
+            if (_veryficationService.Authorization(activityMobileDto.UserEmail, activityMobileDto.Token))
             {
-                return new HttpResponseMessage(HttpStatusCode.Accepted);
+                if (_activityWebApiService.AddActivity(activityMobileDto))
+                {
+                    return new HttpResponseMessage(HttpStatusCode.Accepted);
+                }
+                return new HttpResponseMessage(HttpStatusCode.BadRequest);
             }
-            return new HttpResponseMessage(HttpStatusCode.BadRequest);
+            return new HttpResponseMessage(HttpStatusCode.Unauthorized);
         }
-
 
     }
 }

@@ -1,45 +1,58 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
-using System.Web.Http.Description;
-using Newtonsoft.Json;
+using System.Web.Http.Results;
 using TaskMaster.BLL.MobileService;
+using TaskMaster.BLL.MobileServices;
+using TaskMaster.BLL.WebApiModels;
 
 namespace TaskMaster.WebApi.Controllers
 {
     public class FavoritesController : ApiController
     {
         private readonly FavoritesWebApiService _favoritesWebApiService = new FavoritesWebApiService();
-
-        // GET: api/Favorites
-        public IEnumerable<string> Get()
-        {
-            return new string[] { "value1", "value2" };
-        }
+        private readonly VeryficationService _veryficationService = new VeryficationService();
 
         // GET: api/Favorites/email
-        [ResponseType(typeof(string))]
-        public HttpResponseMessage Get(HttpRequestMessage request ,string email)
+        public JsonResult <List<FavoritesMobileDto>>  Get(string email, string token)
         {
-            return request.CreateResponse(HttpStatusCode.OK, JsonConvert.SerializeObject(_favoritesWebApiService.GetAllFavorites(email)));
+            if (_veryficationService.Authorization(email, token))
+            {
+                var result = _favoritesWebApiService.GetAllFavorites(email);
+                return Json(result);
+            }
+            return null;
         }
 
-        // POST: api/Favorites
-        public void Post([FromBody]string value)
+
+        // PUT: api/Favorites
+        public HttpResponseMessage Put([FromBody]FavoritesMobileDto favoritesMobileDto)
         {
+            if (_veryficationService.Authorization(favoritesMobileDto.UserEmail, favoritesMobileDto.Token))
+            {
+                if (_favoritesWebApiService.AddFavorites(favoritesMobileDto))
+                {
+                    return new HttpResponseMessage(HttpStatusCode.Accepted);
+                }
+                return new HttpResponseMessage(HttpStatusCode.BadRequest);
+            }
+            return new HttpResponseMessage(HttpStatusCode.Unauthorized);
         }
 
-        // PUT: api/Favorites/5
-        public void Put(int id, [FromBody]string value)
-        {
-        }
 
-        // DELETE: api/Favorites/5
-        public void Delete(int id)
+        // DELETE: api/Favorites
+        public HttpResponseMessage Delete([FromBody]FavoritesMobileDto favoritesMobileDto)
         {
+            if (_veryficationService.Authorization(favoritesMobileDto.UserEmail, favoritesMobileDto.Token))
+            {
+                if (_favoritesWebApiService.DeleteFromFavorites(favoritesMobileDto))
+                {
+                    return new HttpResponseMessage(HttpStatusCode.Accepted);
+                }
+                return new HttpResponseMessage(HttpStatusCode.BadRequest);
+            }
+            return new HttpResponseMessage(HttpStatusCode.Unauthorized);
         }
     }
 }

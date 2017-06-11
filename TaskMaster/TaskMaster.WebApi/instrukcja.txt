@@ -10,6 +10,7 @@ gdzie email="b@b.pl"
 
 
 funkcje:
+------------------------------------------------------------
 Activity:
 
 GET: api/Activity/email - pobiera aktywnoœci z poprzednich 7 dni, nad httpclientem musze jeszcze popracowaæ
@@ -22,14 +23,53 @@ POST: brak bo activity nie mo¿na edytowaæ z apki, wiec nie pisa³em
 PUT: api/Activity  
 obiekty maj¹ przychodziæ z grup¹ null a ja je wpisuje wszytkie do grupy o id 1, która oznacza ¿e nie jest w ¿adnej grupie
 przyk³ad jsona który zadzia³a³
-{"UserEmail":"a@a.pl","Comment":"test post","TaskName":"biega3","Token":null,"Guid":"asd3","EditState":0,"State":1,"TaskPartsList":[{"Start":"12:30:10 28/05/2017","Stop":"11:30:10 30/05/2017","Duration":"0:00:00:21.0000000"}]}]
+[{"UserEmail":"a@a.pl","Comment":"test post","TaskName":"biega3","Token":null,"Guid":"asd3","EditState":0,"State":1,"TaskPartsList":[{"Start":"12:30:10 28/05/2017","Stop":"11:30:10 30/05/2017","Duration":"0:00:00:21.0000000"}]}]
 musze usun¹æ buga z dodawaniem nowych obiektów 
 nie przyjmie danych z EditState.Planned
 
+-------------------------------------------------------------
+
+Planned:(ogólnie podobnie jak actvity)
+GET: api/Planned/email
+zwraca wszytkie! planowane jeœli bêdzie taka potrzeba mogê ograniczyæ b¹dŸ jakoœ posortowaæ
+
+PUT: api/Planned/
+dodaje ale tylko i wy³¹cznie jesli status by³ na planned 
+
+DELETE:
+usuwani jest bo niema opcji edycji tak jak mówiliœmy planowane mo¿na ewentualnie usun¹c(jesli jest taki przycisk)
+poza tym trzeba bêdzie sprz¹taæ bo myœlê ¿e planowany który zmieni³ siê w zakoñczony bêdzie dodawany na nowo jako stopped ale jeœli jest inaczej to mogê dorobiæ post którym bêdzie sie da³o edytowaæ 
+
+------------------------------------------------------------
 
 
-Planned:
+Task: z taskami jest s³abo bo jak siê doda o takiej samej nazwie to go nie wstawi a czasem chcielibyœmy taki samo ale o innym obrazku, ¿eby rozwi¹zaæ to musze wstawiæ nowe pole w modelu wiêc narazie zaniecha³em 
+PUT: 
+powinno siê dodawaæ wszytkie nowe taksk przed wszelkimi innymi modealmi, jeœli bêdzie inaczej to taski zostan¹ utworzonê automatem ale typ bêdzie przypisany jako "", mo¿na dostawiæ pole typ do ka¿dego modelu gdzie siê u¿ywa tasków albo ca³y objekt task ale narazie tak zadzia³a
 
+GET: raczej nie potrzebne ale coœ testowa³em 
+
+------------------------------------------------------------
+
+Favorites:
+GET: localhost:65116/api/Favorites
+bierze wszytkie ulubione dla danego urzytkownika w po podanym przez zmienn¹ mailu
+
+PUT: localhost:65116/api/Favorites
+bierze i tworzy Task jeœli go niema w bazie
+potem dowi¹zuje do nowego ulubionego, zadajemy ca³y obiekt FavoritesMobileDto
+
+DELETE: localhost:65116/api/Favorites
+zadajemy ca³y obiekt FavoitesMobileDto i go usuwa bo w fav mamy tylko opcjê usuñ i dodaj
+
+
+------------------------------------------------------------
+
+User:
+GET: pobiera obiekt usera po jego emailu
+
+PUT: dodaje usera np:
+{"Email":"testek@b.pl","Description":"testowy nowy user","Token":null,"PlatformType":3}
 
 
 
@@ -66,3 +106,8 @@ kolejnoœæ synchronizacji ¿eby nic siê nie wywali³o pownna byæ taka
 Takski
 Activity
 Favorites
+
+
+
+nowoœci:
+get-y chyba tez musz¹ byæ w jakiœ sposób poœwiadczae wiêc przekazywane do nich musza byæ email i token 

@@ -100,6 +100,7 @@
     <Compile Include="MobileService\GroupWebApiService.cs" />
     <Compile Include="MobileService\PlannedWebApiService.cs" />
     <Compile Include="MobileService\PrintAllTestService.cs" />
+    <Compile Include="MobileService\TaskWebApiService.cs" />
     <Compile Include="MobileService\UserWebApiService.cs" />
     <Compile Include="MobileService\VeryficationService.cs" />
     <Compile Include="MobileService\ActivityWebApiService.cs" />
