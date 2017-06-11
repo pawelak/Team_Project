@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using TaskMaster.BLL.MobileServices;
 using TaskMaster.BLL.WebApiModels;
 using TaskMaster.DAL.DTOModels;
 using TaskMaster.DAL.Enum;
+using TaskMaster.DAL.Models;
 using TaskMaster.DAL.Repositories;
 
 namespace TaskMaster.BLL.MobileService
@@ -43,34 +45,43 @@ namespace TaskMaster.BLL.MobileService
 
         public bool AddFavorites(FavoritesMobileDto favoritesMobileDto)
         {
-
-            var tmpTask = _taskRepositories.Get(favoritesMobileDto.Task.Name);
-            if (tmpTask == null)
-            {
-                tmpTask = new TaskDto()
-                {
-                    Description = "",
-                    Name = favoritesMobileDto.Task.Name,
-                    Activities = new List<ActivityDto>(),
-                    Favorites = new List<FavoritesDto>(),
-                    Type = ""
-
-                };
-                _taskRepositories.Add(tmpTask);
-            }
-            var fav = new FavoritesDto()
-            {
-                Task = _taskRepositories.Get(tmpTask.Name),
-                User = _userRepositories.Get(favoritesMobileDto.UserEmail)
-            };
+            TaskDto tmpTask = null;
             try
             {
+                try
+                {
+                    tmpTask = _taskRepositories.Get(favoritesMobileDto.Task.Name);
+                }
+                catch (Exception e)
+                {
+                }
+                
+                if (tmpTask == null)
+                {
+                    tmpTask = new TaskDto()
+                    {
+                        Description = "",
+                        Name = favoritesMobileDto.Task.Name,
+                        Activities = new List<ActivityDto>(),
+                        Favorites = new List<FavoritesDto>(),
+                        Type = ""
+
+                    };
+
+                    _taskRepositories.Add(tmpTask);
+                }
+                var fav = new FavoritesDto()
+                {
+                    Task = _taskRepositories.Get(tmpTask.Name),
+                    User = _userRepositories.Get(favoritesMobileDto.UserEmail)
+                };
                 _favoritesRepositories.Add(fav);
             }
-            catch (Exception)
+            catch (Exception e)
             {
                 return false;
             }
+            
             
             return true;
         }
@@ -84,7 +95,7 @@ namespace TaskMaster.BLL.MobileService
             {
                 _favoritesRepositories.Delete(del);
             }
-            catch (Exception)
+            catch (Exception e)
             {
                 return false;
             }

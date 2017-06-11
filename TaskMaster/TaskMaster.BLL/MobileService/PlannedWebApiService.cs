@@ -63,9 +63,16 @@ namespace TaskMaster.BLL.MobileService
         public bool AddPlanned(PlannedMobileDto plannedMobileDto)
         {
             if (plannedMobileDto.State != State.Planned) return false;
-
+            TaskDto tmpTask = null;
             int idAct;
-            var tmpTask = _taskRepositories.Get(plannedMobileDto.TaskName);
+            try
+            {
+                tmpTask = _taskRepositories.Get(plannedMobileDto.TaskName);
+            }
+            catch (Exception e)
+            {
+            }
+
             if (tmpTask == null)
             {
                 tmpTask = new TaskDto()
@@ -96,7 +103,7 @@ namespace TaskMaster.BLL.MobileService
             
             try
             {
-                PartsOfActivityDto tmpPart = new PartsOfActivityDto
+                var tmpPart = new PartsOfActivityDto
                 {
                     Start = DateTime.ParseExact(plannedMobileDto.TaskPart.Start, "HH:mm:ss dd/MM/yyyy", CultureInfo.InvariantCulture),
                     Stop = DateTime.ParseExact(plannedMobileDto.TaskPart.Start, "HH:mm:ss dd/MM/yyyy", CultureInfo.InvariantCulture),

@@ -4,6 +4,7 @@ using System.Net.Http;
 using System.Web.Http;
 using System.Web.Http.Results;
 using TaskMaster.BLL.MobileService;
+using TaskMaster.BLL.MobileServices;
 using TaskMaster.BLL.WebApiModels;
 
 namespace TaskMaster.WebApi.Controllers
@@ -11,13 +12,18 @@ namespace TaskMaster.WebApi.Controllers
     public class PlannedController : ApiController
     {
         private readonly PlannedWebApiService _plannedWebApiService = new PlannedWebApiService();
+        private readonly VeryficationService _veryficationService = new VeryficationService();
 
 
         // GET: api/Planned/email
-        public JsonResult<List<PlannedMobileDto>> Get(string email)
+        public JsonResult<List<PlannedMobileDto>> Get(string email, string token)
         {
-            var result = _plannedWebApiService.GetPlanned(email);
-            return Json(result);
+            if (_veryficationService.Authorization(email, token))
+            {
+                var result = _plannedWebApiService.GetPlanned(email);
+                return Json(result);
+            }
+            return null;
         }
 
        
@@ -25,22 +31,32 @@ namespace TaskMaster.WebApi.Controllers
         // PUT: api/Planned
         public HttpResponseMessage Put([FromBody]PlannedMobileDto activityMobileDto)
         {
-            var x = activityMobileDto;
-            if (_plannedWebApiService.AddPlanned(activityMobileDto))
+            if (_veryficationService.Authorization(activityMobileDto.UserEmail, activityMobileDto.Token))
             {
-                return new HttpResponseMessage(HttpStatusCode.Accepted);
+                var x = activityMobileDto;
+                if (_plannedWebApiService.AddPlanned(activityMobileDto))
+                {
+
+                    return new HttpResponseMessage(HttpStatusCode.Accepted);
+                }
+                return new HttpResponseMessage(HttpStatusCode.BadRequest);
             }
-            return new HttpResponseMessage(HttpStatusCode.BadRequest);
+            return new HttpResponseMessage(HttpStatusCode.Unauthorized);
         }
+
 
         // DELETE: api/PLanned
         public HttpResponseMessage Delete(PlannedMobileDto plannedMobileDto)
         {
-            if (_plannedWebApiService.Delete(plannedMobileDto))
+            if (_veryficationService.Authorization(plannedMobileDto.UserEmail, plannedMobileDto.Token))
             {
-                return new HttpResponseMessage(HttpStatusCode.Accepted);
+                if (_plannedWebApiService.Delete(plannedMobileDto))
+                {
+                    return new HttpResponseMessage(HttpStatusCode.Accepted);
+                }
+                return new HttpResponseMessage(HttpStatusCode.BadRequest);
             }
-            return new HttpResponseMessage(HttpStatusCode.BadRequest);
+            return new HttpResponseMessage(HttpStatusCode.Unauthorized);
         }
 
 

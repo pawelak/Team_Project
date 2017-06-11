@@ -14,6 +14,7 @@ namespace TaskMaster.BLL.MobileServices
     {
         private readonly UserRepositories _userRepositories = new UserRepositories();
         private readonly TokensRepositories _tokensRepositories = new TokensRepositories();
+        private readonly VeryficationService _veryficationService = new VeryficationService();
 
         public bool IsEmailInDatabase(string email)
         {
@@ -41,17 +42,12 @@ namespace TaskMaster.BLL.MobileServices
 
         }
 
-        public bool AddNewUser(UserMobileDto userWebApi)
+        public string AddNewUser(UserMobileDto userWebApi, string jwtToken)
         {
-            if (true)                   //potwierdzenie od googla
+            if (_veryficationService.Verify(jwtToken))              
             {
                 if (!IsEmailInDatabase(userWebApi.Email))
                 {
-                    var tmpTokenDto = new TokensDto()
-                    {
-                        Token = userWebApi.Token,
-                        PlatformType = userWebApi.PlatformType,
-                    };
                     var tmpUserDto = new UserDto()
                     {
                         Email = userWebApi.Email,
@@ -61,16 +57,42 @@ namespace TaskMaster.BLL.MobileServices
                         UserGroup = new List<UserGroupDto>(),
                         Tokens = new List<TokensDto>()
                     };
-                    tmpUserDto.Tokens.Add(tmpTokenDto);
+                    var nrId = _userRepositories.Add(tmpUserDto);
 
-                    _userRepositories.Add(tmpUserDto);
+                    var t = _veryficationService.GenereteToken();
+                    var tmpTokenDto = new TokensDto()
+                    {
+                        Token = t,
+                        PlatformType = userWebApi.PlatformType,
+                        User = _userRepositories.Get(nrId),
+                        BrowserType = BrowserType.None
+                    };
+                    _tokensRepositories.Add(tmpTokenDto);
 
-                    return true;
+                    return t;
                 }
             }
-            
-            return false;
+
+            return null;
         }
+
+        public string LogInUser(string email, string jwtToken)
+        {
+            if (_veryficationService.Verify(jwtToken) && (IsEmailInDatabase(email)))
+            {
+                var t = _veryficationService.GenereteToken();
+                var tmpTokenDto = new TokensDto()
+                {
+                    Token = t,
+                    PlatformType = PlatformType.Android,
+                    User = _userRepositories.Get(email)
+                };
+                _tokensRepositories.Add(tmpTokenDto);
+                return t;
+            }
+            return null;
+        }
+
 
         public bool DeleteUserByEmail(UserMobileDto userMobileDto)
         {

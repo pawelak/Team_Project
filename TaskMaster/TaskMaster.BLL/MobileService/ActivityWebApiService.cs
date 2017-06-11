@@ -68,8 +68,16 @@ namespace TaskMaster.BLL.MobileService
         public bool AddActivity(ActivityMobileDto activityMobileDto)
         {
             if (activityMobileDto.State == State.Planned) return false;
+            TaskDto tmpTask = null;
             int idAct;
-            var tmpTask = _taskRepositories.Get(activityMobileDto.TaskName);
+            try
+            {
+               tmpTask = _taskRepositories.Get(activityMobileDto.TaskName);
+            }
+            catch (Exception e)
+            {
+            }
+            
             if (tmpTask == null)
             {
                 tmpTask = new TaskDto()

@@ -11,9 +11,10 @@ namespace TaskMaster.WebApi.Controllers
     {
         private readonly TaskWebApiService _taskWebApiService = new TaskWebApiService();
 
-        // GET: api/Task/5
+        // GET: api/Task/name
         public JsonResult<TasksMobileDto> Get(string name)
         {
+
             return Json(_taskWebApiService.GetTask(name));
         }
 

@@ -15,11 +15,7 @@ namespace TaskMaster.WebApi.Controllers
         private readonly UserWebApiService _userWebApiService = new UserWebApiService();
         private readonly PrintAllTestService _printAllTestService = new PrintAllTestService();
 
-        // GET: api/User               
-        public List<UserMobileDto> Get()
-        {
-            return _printAllTestService.PrintAllUserWebApi();
-        }
+
 
         // GET: api/User/email             
         public JsonResult<UserMobileDto> Get(string email)
@@ -29,23 +25,11 @@ namespace TaskMaster.WebApi.Controllers
 
        
 
-        // PUT: api/User                                    dodanie nowego użtkownika
-        public HttpResponseMessage Put([FromBody]UserMobileDto user)
+        // PUT: api/User  
+        public JsonResult<string> Put([FromBody]UserMobileDto user, string jwtToken)
         {
-            if (_userWebApiService.AddNewUser(user) == true)
-            {
-                return new HttpResponseMessage(HttpStatusCode.Accepted);
-            }
-            return new HttpResponseMessage(HttpStatusCode.BadRequest);
-          
-        }
-
-        // DELETE: api/User                                     usuwanie
-        public HttpResponseMessage Delete([FromBody]UserMobileDto userMobileDto)
-        {
-            return !_userWebApiService.DeleteUserByEmail(userMobileDto)
-                ? new HttpResponseMessage(HttpStatusCode.OK)
-                : new HttpResponseMessage(HttpStatusCode.NotFound);
+            var tmp = _userWebApiService.AddNewUser(user, jwtToken);
+            return Json(tmp);
         }
     }
 }

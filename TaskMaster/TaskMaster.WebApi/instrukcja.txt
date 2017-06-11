@@ -23,7 +23,7 @@ POST: brak bo activity nie mo¿na edytowaæ z apki, wiec nie pisa³em
 PUT: api/Activity  
 obiekty maj¹ przychodziæ z grup¹ null a ja je wpisuje wszytkie do grupy o id 1, która oznacza ¿e nie jest w ¿adnej grupie
 przyk³ad jsona który zadzia³a³
-{"UserEmail":"a@a.pl","Comment":"test post","TaskName":"biega3","Token":null,"Guid":"asd3","EditState":0,"State":1,"TaskPartsList":[{"Start":"12:30:10 28/05/2017","Stop":"11:30:10 30/05/2017","Duration":"0:00:00:21.0000000"}]}]
+[{"UserEmail":"a@a.pl","Comment":"test post","TaskName":"biega3","Token":null,"Guid":"asd3","EditState":0,"State":1,"TaskPartsList":[{"Start":"12:30:10 28/05/2017","Stop":"11:30:10 30/05/2017","Duration":"0:00:00:21.0000000"}]}]
 musze usun¹æ buga z dodawaniem nowych obiektów 
 nie przyjmie danych z EditState.Planned
 
@@ -106,3 +106,8 @@ kolejnoœæ synchronizacji ¿eby nic siê nie wywali³o pownna byæ taka
 Takski
 Activity
 Favorites
+
+
+
+nowoœci:
+get-y chyba tez musz¹ byæ w jakiœ sposób poœwiadczae wiêc przekazywane do nich musza byæ email i token 

@@ -9,7 +9,7 @@ namespace TaskMaster.DAL.Repositories
 {
     public class UserRepositories : RepoBase<User>, IUserRepositories
     {
-        public void Add(UserDto dto)
+        public int Add(UserDto dto)
         {
             var result = Mapper.Map<User>(dto);
             result.Activities = null;
@@ -17,6 +17,7 @@ namespace TaskMaster.DAL.Repositories
             result.Favorites = null;
             result.UserGroup = null;
             base.Add(result);
+            return result.UserId;
         }
         public void Delete(UserDto dto)
         {
