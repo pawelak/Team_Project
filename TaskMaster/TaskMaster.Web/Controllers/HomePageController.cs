@@ -38,5 +38,9 @@ namespace TaskMaster.Web.Controllers
 
             //return RedirectToAction("Home","LandingPage");
         }
+
+        public ActionResult MartynasNewIdea() {
+            return View();
+        }
     }
 }

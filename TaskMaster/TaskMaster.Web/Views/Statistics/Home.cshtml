@@ -96,6 +96,7 @@
     Chart.defaults.scale.ticks.beginAtZero = true;
     var date = new Date();
     var year = date.getFullYear();
+    var month = date.getMonth();
     document.getElementById("yearActivity").innerHTML = "Łączny czas twojej pracy w " + year + " roku";
     var months = [
         'Styczeń', 'Luty', 'Marzec', 'Kwiecien', 'Maj', 'Czerwiec', 'Lipiec', 'Sierpien', 'Wrzesien', 'Pazdziernik',
@@ -110,13 +111,23 @@
         }
     }
 
+    var sortedMonths = [];
+    for (var i = month+1; i <= 12; i++) {
+        if (i == 12)
+            i = 0;
+        alert(i);
+        sortedMonths.push(months[i]);
+        if (sortedMonths.length == 12)
+            break;
+    }
+
     fillValues();
 
     var barChart = new Chart(chart,
         {
             type: 'bar',
             data: {
-                labels: months,
+                labels: sortedMonths,
                 datasets: [
                     {
                         label: '',

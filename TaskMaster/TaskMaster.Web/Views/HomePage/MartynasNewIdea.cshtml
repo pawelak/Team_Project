@@ -1,0 +1,120 @@
+﻿
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.6.0/Chart.min.js"></script>
+
+<div class="col-md-3 quickFixMargin ">
+    <div class="lastActivities">
+        <h4>Ostatni miesiąc</h4>
+        <div class="singleActivity">
+            <div class="singleActivityContent"><img src="../../images/sport.png" /></div>
+            <div class="singleActivityContent"><p>bieganie</p> </div>
+            <div class="singleActivityContent"><p>2:40:21</p></div>
+            <div class="clear"></div>
+        </div>
+        <div class="singleActivity">
+            <div class="singleActivityContent"><img src="../../images/programming.png" /></div>
+            <div class="singleActivityContent"><p>programowanie</p> </div>
+            <div class="singleActivityContent"><p>1:20:00</p></div>
+            <div class="clear"></div>
+        </div>
+        <div class="singleActivity">
+            <div class="singleActivityContent"><img src="../../images/Cafe.png" /></div>
+            <div class="singleActivityContent"><p>Picie kawy</p> </div>
+            <div class="singleActivityContent"><p>2:30:15</p></div>
+            <div class="clear"></div>
+        </div>
+        <div class="singleActivity">
+            <div class="singleActivityContent"><img src="../../images/art.png" /></div>
+            <div class="singleActivityContent"><p>Pisanie książki</p> </div>
+            <div class="singleActivityContent"><p>4:02:30</p></div>
+            <div class="clear"></div>
+        </div>
+        <div class="singleActivity">
+            <div class="singleActivityContent"><img src="../../images/OK.png" /></div>
+            <div class="singleActivityContent"><p>Drzemka</p> </div>
+            <div class="singleActivityContent"><p>2:00:10</p></div>
+            <div class="clear"></div>
+        </div>
+    </div>
+
+    <div class="lastActivities">
+        <h4>Najdłużej wykonywane</h4>
+        <div class="singleActivity">
+            <div class="singleActivityContent"><img src="../../images/programming.png" /></div>
+            <div class="singleActivityContent"><p>programowanie</p> </div>
+            <div class="singleActivityContent"><p>10:40:21</p></div>
+            <div class="clear"></div>
+        </div>
+        <div class="singleActivity">
+            <div class="singleActivityContent"><img src="../../images/sport.png" /></div>
+            <div class="singleActivityContent"><p>bieganie</p> </div>
+            <div class="singleActivityContent"><p>2:40:21</p></div>
+            <div class="clear"></div>
+        </div>
+    </div>
+    <div>
+        <button type="button" class="btn btn-info">Zobacz wszystkie statystyki</button>
+    </div>
+</div>
+<div class="col-md-8 quickFixMargin ">
+    <h3>Ostatni miesiąc</h3>
+
+        <h4 id="horizontalBarActivity"></h4>
+        <canvas id="horizontalBarChart" height="70" ></canvas>
+ 
+
+
+</div>
+
+
+<script>
+    var chart = document.getElementById("horizontalBarChart");
+    Chart.defaults.scale.ticks.beginAtZero = true;
+    
+    var numberOfDifferentActivities;
+    function getActivitiesNumber() {
+        return 5; //tu trzeba z bazy
+    }
+
+    numberOfDifferentActivities = getActivitiesNumber();
+
+    var listOfNames = [];
+    var listOfValues = [];
+    function fillListOfNamesAndTheirValues() {
+        for (var i = 0; i < numberOfDifferentActivities; i++) {
+            var name = "aktywnosc"; //tu z bazy
+            listOfNames.push(name);
+            var value = Math.floor((Math.random() * 10) + 1); //tu tez z bazy
+            listOfValues.push(value);
+
+        }
+    }
+
+    fillListOfNamesAndTheirValues();
+
+
+    var horizontalBarChart = new Chart(chart,
+        {
+            scaleOverride: true,
+
+            scaleSteps: 5,
+            scaleStepWidth: 20,
+            scaleStartValue: -50,
+            type: 'horizontalBar',
+            data: {
+                labels: listOfNames,
+                datasets: [
+                    {
+                        label: 'Points',
+                        backgroundColor: [
+                            '#f39c12', '#3498db', '#e74c3c', '#00bc8c', '#f35611', '#349855', '#e34c3c', '#008f8c'
+                        ],
+                        data: listOfValues
+                    }
+                ]
+            }
+        });
+</script>
