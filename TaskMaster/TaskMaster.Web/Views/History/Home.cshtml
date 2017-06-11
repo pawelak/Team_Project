@@ -3,6 +3,7 @@
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
     WebMainService alfa = new WebMainService();
+    
 
 }
 
@@ -26,32 +27,36 @@
                     <th>czas pracy</th>
                     <th>czas przerwy</th>
                 </tr>     
-                @foreach (var p in alfa.ShowActivity("dlanorberta@gmail.com"))
+
+                @foreach (var p in alfa.History("dlanorberta@gmail.com"))
                 {
-                    <tr class="activityDetails">                         
-                        <td>
-                            <a href='@Url.Action("Edit", "History")'>
-                                <img src="../../images/programming.png" />
-                            </a>
-                        </td>
-                        <td>@p.Name</td>
-                        <td>20.16.29</td>
-                        <td>@p.Time</td>
-                        <td>0:30:20</td>
-                        <td>0:10:20</td>                             
+                    <tr class="activityDetails">
+                    
+                    <td>
+                        <a href='@Url.Action("Edit", "History")'>
+                            <img src="../../images/programming.png" />
+                        </a>
+                    </td>
+                        <td>@p[0]</td>
+                        <td>@p[1]</td>
+                        <td>@p[2]</td>
+                        <td>@p[3]</td>
+                        <td>@p[4]</td>
+
+
                     </tr>
-                }        
-                <tr class="activityDetails">                         
+                }           
+                @*<tr class="activityDetails">                         
                         <td>
                             <a href='@Url.Action("Edit", "History")'>
                                 <img src="../../images/programming.png" />
                             </a>
                         </td>
-                        <td>programowanie</td>
-                        <td>15.05.2017</td>
-                        <td>0:40:20</td>
-                        <td>0:30:20</td>
-                        <td>0:10:20</td>                             
+                        <td>@p[0]</td>
+                        <td>@p[1]</td>
+                        <td>@p[2]</td>
+                        <td>@p[3]</td>
+                        <td>@p[4]</td>                            
                     </tr>
                 <tr class="activityDetails">
                     <td>
@@ -64,7 +69,7 @@
                     <td>0:10:20</td>
                     <td>0:10:20</td>
                     <td>0:00:00</td>
-                </tr>
+                </tr>*@
             </table>
             
         </div>

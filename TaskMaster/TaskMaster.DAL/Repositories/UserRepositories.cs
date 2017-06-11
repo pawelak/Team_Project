@@ -12,16 +12,16 @@ namespace TaskMaster.DAL.Repositories
         public void Add(UserDto dto)
         {
             var result = Mapper.Map<User>(dto);
+            result.Activities = null;
+            result.Tokens = null;
+            result.Favorites = null;
+            result.UserGroup = null;
             base.Add(result);
-        }
-        public void Attach(UserDto dto)
-        {
-            var result = Mapper.Map<User>(dto);
-            base.Attach(result);
         }
         public void Delete(UserDto dto)
         {
-            var result = Mapper.Map<User>(dto);
+            var obj = Mapper.Map<User>(dto);
+            var result = Db.User.Find(obj.UserId);
             base.Delete(result);
         }
         public new IList<UserDto> GetAll()
@@ -41,8 +41,12 @@ namespace TaskMaster.DAL.Repositories
         }
         public void Edit(UserDto dto)
         {
-            var result = Mapper.Map<User>(dto);
-            base.Edit(result, p => p.UserId);
+            var obj = Mapper.Map<User>(dto);
+            var result = Db.User.Find(obj.UserId);
+            result.Description = obj.Description;
+            result.Email = obj.Email;
+            result.Name = obj.Name;
+            base.Edit(result);
         }
     }
 }

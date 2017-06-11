@@ -4,6 +4,8 @@
 }
 <script src="~/Scripts/jquery-3.1.1.min.js"></script>
 <div class="quickFixMargin">
+    @ViewBag.tym = @TempData["idAction"]
+    <div>@ViewBag.tym</div>
     <div class="form-group">
         <label class="control-label" for="focusedInput">Nazwa tasku</label>
         <input class="form-control" id="focusedInput" type="text" value="tu pobrana z bazy">
@@ -16,13 +18,13 @@
             <div class="progress-bar progress-bar-warning" style="width: 45%"><p>1:54:12</p></div>*@
         </div>
     </div>
-    <div class="row">    
-        <h3>Edycja czasów</h3>    
+    <div class="row">
+        <h3>Edycja czasów</h3>
         <div class="col-md-2">
-            
+
             <div id="editTimes" class="form-group">
             </div>
-            </div>
+        </div>
         <div class="col-md-2">
             <div id="textBoxes" class="form-group">
 

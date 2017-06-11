@@ -6,7 +6,6 @@ namespace TaskMaster.DAL.Interface
     public interface IGroupRepositories
     {
         void Add(GroupDto dto);
-        void Attach(GroupDto dto);
         void Delete(GroupDto dto);
         IList<GroupDto> GetAll();
         GroupDto Get(int id);

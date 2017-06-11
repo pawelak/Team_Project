@@ -12,16 +12,14 @@ namespace TaskMaster.DAL.Repositories
         public void Add(PartsOfActivityDto dto)
         {
             var result = Mapper.Map<PartsOfActivity>(dto);
+            result.ActivityId = result.Activity.ActivityId;
+            result.Activity = null;
             base.Add(result);
-        }
-        public void Attach(PartsOfActivityDto dto)
-        {
-            var result = Mapper.Map<PartsOfActivity>(dto);
-            base.Attach(result);
         }
         public void Delete(PartsOfActivityDto dto)
         {
-            var result = Mapper.Map<PartsOfActivity>(dto);
+            var obj = Mapper.Map<PartsOfActivity>(dto);
+            var result = Db.PartsOfActivity.Find(obj.PartsOfActivityId);
             base.Delete(result);
         }
         public new IList<PartsOfActivityDto> GetAll()
@@ -36,8 +34,13 @@ namespace TaskMaster.DAL.Repositories
         }
         public void Edit(PartsOfActivityDto dto)
         {
-            var result = Mapper.Map<PartsOfActivity>(dto);
-            base.Edit(result, p => p.PartsOfActivityId);
+            var obj = Mapper.Map<PartsOfActivity>(dto);
+            var result = Db.PartsOfActivity.Find(obj.PartsOfActivityId);
+            result.ActivityId = obj.ActivityId;
+            result.Duration = obj.Duration;
+            result.Start = obj.Start;
+            result.Stop = obj.Stop;
+            base.Edit(result);
         }
     }
 }

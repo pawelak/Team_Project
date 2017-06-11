@@ -18,7 +18,6 @@ namespace TaskMaster.DAL.Models
         public int TaskId { get; set; }
         public virtual Task Task { get; set; }
 
-         
         public virtual ICollection<PartsOfActivity> PartsOfActivity { get; set; }
     }
 }

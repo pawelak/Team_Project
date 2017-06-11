@@ -13,20 +13,22 @@ funkcje:
 Activity:
 
 GET: api/Activity/email - pobiera aktywnoœci z poprzednich 7 dni, nad httpclientem musze jeszcze popracowaæ
-w tokenie zwracanej klasy wpisuje null bo nie wiem z czego ktoœ mnie pyta zebym dobra³ adekwatny token 
 !!!! w bazie sa niektóre partsOfActivity z dalsza dat¹ ni¿ tydzieñ wiêc ich nei wyœwietli automatem w getAllActivity bo tam jest ¿e pobiera z tygodnia
+warunek wszukiwania to: czy stop mieœcie siê w zakresie <-7dni, teraz>
+zwraca z pustym tokenem narazie 
 
+POST: brak bo activity nie mo¿na edytowaæ z apki, wiec nie pisa³em 
 
-
-POST: api/Activity - dzia³a chodŸ chwilowo topornie bo dodaje nowe obiekty user group itp(wszytkei jakie s¹ wewn¹trz dto)
-obiekty maj¹ przychodziæ z grup¹ null a ja je wpisuje wszytkie do grupy o id 1
+PUT: api/Activity  
+obiekty maj¹ przychodziæ z grup¹ null a ja je wpisuje wszytkie do grupy o id 1, która oznacza ¿e nie jest w ¿adnej grupie
 przyk³ad jsona który zadzia³a³
 {"UserEmail":"a@a.pl","Comment":"test post","TaskName":"biega3","Token":null,"Guid":"asd3","EditState":0,"State":1,"TaskPartsList":[{"Start":"12:30:10 28/05/2017","Stop":"11:30:10 30/05/2017","Duration":"0:00:00:21.0000000"}]}]
 musze usun¹æ buga z dodawaniem nowych obiektów 
+nie przyjmie danych z EditState.Planned
 
 
 
-
+Planned:
 
 
 
@@ -48,3 +50,19 @@ dlanorberta@gmail.com
 a@a.pl
 
 
+
+Jesli pojawi siê problem z migracj¹ w bazie prawdopodobnie na kompie macie star¹ bazê ¿eby temu zaradziæ naj³aatwiej:
+
+Wejœæ w profil urytkownika i usun¹c 2 pliki zwi¹zane z baz¹ danych zaczynaj¹ce siê od "DAL.User..."\
+nastêpnie nale¿y w³aczyc widocznoœæ niewidoczych plików i folderów i wejœæ w
+AppData - Local - Microsoft - Microsoft SQL Server Local DB - Instaces 
+i wywaliæ ca³e MSSqlLocalDB
+i nastêpnie zrestartowaæ kompa 
+
+
+
+
+kolejnoœæ synchronizacji ¿eby nic siê nie wywali³o pownna byæ taka 
+Takski
+Activity
+Favorites

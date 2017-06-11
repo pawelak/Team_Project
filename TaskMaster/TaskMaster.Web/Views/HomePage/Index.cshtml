@@ -2,28 +2,33 @@
 @using TaskMaster.BLL.WebServices;
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
-    WebMainService alfa = new WebMainService();
-}
+    //WebMainService alfa = new WebMainService();
+    
+ 
+    }
 
 
 
 <div class="col-md-3 quickFixMargin ">
     <div class="lastActivities">
         <h4>Ostatni miesiąc</h4>
-        @foreach (var p in alfa.ShowActivity("dlanorberta@gmail.com"))
+        @foreach (var p in @ViewBag.mod)
         {
             <div class="singleActivity">
                 <div class="singleActivityContent"><img src="../../images/sport.png"/>
                 </div>
                 <div class="singleActivityContent">
-                    <p>@p.Name</p>
+                    <p>@p[0]</p>
                 </div>
                 <div class="singleActivityContent">
-                    <p>@p.Time.ToString()</p>
+                    <p>@p[1]</p>
                 </div>
                 <div class="clear"></div>
             </div>
         }
+        
+    
+        
 
 
 
@@ -88,10 +93,15 @@
     <div class="lastActivities">
         <h4>Najdłużej wykonywane</h4>
         <div class="singleActivity">
-            <div class="singleActivityContent"><img src="../../images/programming.png" /></div>
-            <div class="singleActivityContent"><p>programowanie</p> </div>
-            <div class="singleActivityContent"><p>10:40:21</p></div>
-            <div class="clear"></div>
+           
+            @foreach (var p in @ViewBag.tab)
+            {
+                <div class="singleActivityContent"><img src="../../images/programming.png" /></div>
+                <div class="singleActivityContent"><p>@p[1]</p> </div>
+                <div class="singleActivityContent"><p>@p[0]</p></div>
+                <div class="clear"></div>
+            }
+
         </div>
         <div class="singleActivity">
             <div class="singleActivityContent"><img src="../../images/sport.png" /></div>
@@ -101,12 +111,13 @@
         </div>
     </div>
     <div>
-        <button type="button" class="btn btn-info">Zobacz wszystkie statystyki</button>
+        <button type="button" class="btn btn-info">@Html.ActionLink("Zobacz wszystkie statystyki", "Home", "Statistics")</button>
+
     </div>
 </div>
 <div class="col-md-8 quickFixMargin ">
     <h3>Ostatni miesiąc</h3>
-    @foreach (var p in alfa.ShowActivity("dlanorberta@gmail.com"))
+    @*@foreach (var p in alfa.ShowActivity("dlanorberta@gmail.com"))
     {
         <div>
             <p>@p.Name</p>
@@ -116,15 +127,18 @@
                 <span class="sr-only">40% Complete (success)</span>
             </div>
         </div>
-    }
-    <div>
-        <p>programowanie</p>
-    </div>
-    <div class="progress">
-        <div class="progress-bar progress-bar-success progress-bar-striped" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 40%">
-            <span class="sr-only">40% Complete (success)</span>
+    }*@
+    @foreach (var p in @ViewBag.tab)
+    {
+        <div>
+            <p>@p[1]</p>
         </div>
-    </div>
+        <div class="progress">
+            <div class="progress-bar progress-bar-success progress-bar-striped" role="progressbar" aria-valuenow="@p[2]" aria-valuemin="0" aria-valuemax="100" style="width: @p[2]%">
+                <span class="sr-only">@p[2]% Complete (success)</span>
+            </div>
+        </div>
+    }
     <div>
         <p>bieganie</p>
     </div>

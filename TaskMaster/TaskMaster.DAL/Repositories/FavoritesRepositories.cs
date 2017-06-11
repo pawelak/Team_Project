@@ -12,16 +12,16 @@ namespace TaskMaster.DAL.Repositories
         public void Add(FavoritesDto dto)
         {
             var result = Mapper.Map<Favorites>(dto);
+            result.UserId = result.User.UserId;
+            result.User = null;
+            result.TaskId = result.Task.TaskId;
+            result.Task = null;
             base.Add(result);
-        }
-        public void Attach(FavoritesDto dto)
-        {
-            var result = Mapper.Map<Favorites>(dto);
-            base.Attach(result);
         }
         public void Delete(FavoritesDto dto)
         {
-            var result = Mapper.Map<Favorites>(dto);
+            var obj = Mapper.Map<Favorites>(dto);
+            var result = Db.Favorites.Find(obj.FavoritesId);
             base.Delete(result);
         }
         public new IList<FavoritesDto> GetAll()
@@ -41,8 +41,11 @@ namespace TaskMaster.DAL.Repositories
         }
         public void Edit(FavoritesDto dto)
         {
-            var result = Mapper.Map<Favorites>(dto);
-            base.Edit(result, p => p.FavoritesId);
+            var obj = Mapper.Map<Favorites>(dto);
+            var result = Db.Favorites.Find(obj.FavoritesId);
+            result.UserId = obj.UserId;
+            result.TaskId = obj.TaskId;
+            base.Edit(result);
         }
     }
 }

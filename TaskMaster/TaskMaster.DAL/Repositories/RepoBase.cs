@@ -16,11 +16,6 @@ namespace TaskMaster.DAL.Repositories
                 Db.Set<T>().Add(x);
                 Db.SaveChanges();
             } 
-            protected void Attach(T x)
-            {
-                Db.Set<T>().Attach(x);
-                Db.SaveChanges();
-            }
             protected void Delete(T x)
             {
                 Db.Set<T>().Remove(x);
@@ -34,18 +29,10 @@ namespace TaskMaster.DAL.Repositories
             {
                 return Db.Set<T>().Find(id);
             }
-            protected void Edit(T x, params Expression<Func<T, object>>[] key)
+            protected void Edit(T x)
             {
-                Db.Set<T>().Attach(x);
-                foreach (var k in key)
-                {
-                    Db.Entry(x).Property(k).IsModified = true;
-                }
+                Db.Entry(x).State = EntityState.Modified;
                 Db.SaveChanges();
             }
-            protected int Count()
-            {
-                return Db.Set<T>().Count();
-            }
-        }
+    }
 }
