@@ -8,6 +8,6 @@ namespace TaskMaster.ModelsRest
         public string UserEmail { get; set; }
         public string Token { get; set; }
         public EditState EditState { get; set; }
-        public TasksRest TasksList { get; set; }
+        public TasksRest Task { get; set; }
     }
 }

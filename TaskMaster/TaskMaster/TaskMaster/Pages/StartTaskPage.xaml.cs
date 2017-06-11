@@ -9,6 +9,7 @@ namespace TaskMaster
 	[XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class StartTaskPage
 	{
+	    private string _typSelected;
 		public StartTaskPage ()
 		{
 			InitializeComponent ();
@@ -17,11 +18,16 @@ namespace TaskMaster
 
 	    private async void AddToFavoritesList()
 	    {
-	        var favorites = await UserService.Instance.GetUserFavorites(1);
-	        if (favorites == null)
+	        var user = UserService.Instance.GetLoggedUser();
+	        var favorites = await UserService.Instance.GetUserFavorites(user.UserId);
+            if (favorites == null)
 	        {
-	            FavoritePicker.IsEnabled = false;
-	        }
+	            Device.BeginInvokeOnMainThread(() =>
+	            {
+	                FavoritePicker.IsVisible = false;
+	                FavText.IsVisible = false;
+	            });
+            }
 	        else
 	        {
 	            foreach (var item in favorites)
@@ -33,6 +39,11 @@ namespace TaskMaster
 
 	    }
 
+	    private void TypePicker_SelectedIndexChanged(object sender, EventArgs e)
+	    {
+	        _typSelected = TypePicker.Items[TypePicker.SelectedIndex];
+	    }
+	  
         private async void StartTaskButton_OnClicked(object sender, EventArgs e)
 	    {
 	        if (StartTaskName.Text != null)
@@ -40,20 +51,21 @@ namespace TaskMaster
 	            var newTask = new TasksDto
 	            {
 	                Name = StartTaskName.Text,
+                    Typ = _typSelected
 	            };
-	            if (await UserService.Instance.GetTask(newTask) == null)
+	            var task = await UserService.Instance.GetTask(newTask);
+                if ( task == null)
 	            {
 	                newTask.TaskId = await UserService.Instance.SaveTask(newTask);
 	            }
 	            else
 	            {
-	                newTask = UserService.Instance.GetTask(newTask).Result;
+	                newTask = await UserService.Instance.GetTask(newTask);
 	            }
 	            var newActivity = new ActivitiesDto
 	            {
 	                Guid = Guid.NewGuid().ToString(),
                     TaskId = newTask.TaskId,
-	                //UserId = 1,
                     UserId = UserService.Instance.GetLoggedUser().UserId,
 	                Status = StatusType.Start,
 	                Comment = StartTaskDescription.Text
@@ -64,6 +76,7 @@ namespace TaskMaster
 	            {
 	                ActivityId = newActivity.ActivityId,
 	                Start = date,
+                    Stop = "",
 	                Duration = "0"
 	            };
 	            part.PartId = await UserService.Instance.SavePartOfActivity(part);
@@ -85,6 +98,6 @@ namespace TaskMaster
 	        };
 	        var task = await UserService.Instance.GetTask(taskDto);
 	        StartTaskName.Text = task.Name;
-	    }
+        }
     }
 }
