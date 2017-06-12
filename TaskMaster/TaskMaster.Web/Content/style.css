@@ -183,3 +183,8 @@ table img {
     text-align: center;
     padding-bottom: 20px;
 }
+
+#removeButtonStyle a {
+    text-decoration: none;
+    color: white;
+}

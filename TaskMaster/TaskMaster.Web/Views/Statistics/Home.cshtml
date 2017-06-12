@@ -19,18 +19,14 @@
         <h4 id="monthName"></h4>
         <canvas id="pieChart" height="400" width="400"></canvas>
     </div>
-    @foreach (var p in @ViewBag.mod) 
-    {
-        <p>@p.name @p.dur @p.totalDur</p>//co ma byc widac jak najedziesz myszka
-    }
+
     <div class="col-md-6 col-md-offset-1">
         <h4 id="yearActivity"></h4>
         <canvas id="barChart"></canvas>
     </div>
-    @foreach (var p in @ViewBag.tab) 
-    {
-        <p>@p[0] @p[1]</p>
-    }
+
+    
+
 </div>
 </body>
 </html>
@@ -39,12 +35,7 @@
     var chart = document.getElementById("pieChart");
     Chart.defaults.scale.ticks.beginAtZero = true;
 
-    var numberOfDifferentActivities;
-    function getActivitiesNumber() {
-        return 5; //tu trzeba z bazy liczba aktywnosci
-    }
-
-    numberOfDifferentActivities = getActivitiesNumber();
+ 
     
     var date = new Date();
     var months = [
@@ -54,7 +45,7 @@
     var month = date.getMonth();
     var monthPolish = months[month];
 
-    document.getElementById("monthName").innerHTML = "Twoje aktywności w " + monthPolish;
+    document.getElementById("monthName").innerHTML = "Twoje aktywności w ostatnich 30 dniach";
 
     var listOfNames = [];
     var listOfValues = [];
@@ -63,13 +54,14 @@
   
 
     function fillListOfNamesAndTheirValues() {
-        for (var i = 0; i < numberOfDifferentActivities; i++) {
-            var name = "olo"; //tu z bazy
-     
-            listOfNames.push(name);
-            var value = "20"; //tu tez z bazy sekund
-            listOfValues.push(value);
-            
+        var array = @Html.Raw(Json.Encode(@ViewBag.mod));
+
+        for (var i = 0; i < array.length; i++) { 
+
+            listOfNames[i] = array[i].name; 
+            listOfValues[i] = array[i].totalDur;
+
+
         }
     }
 
@@ -97,26 +89,30 @@
     var date = new Date();
     var year = date.getFullYear();
     var month = date.getMonth();
-    document.getElementById("yearActivity").innerHTML = "Łączny czas twojej pracy w " + year + " roku";
+    document.getElementById("yearActivity").innerHTML = "Łączny czas twojej pracy w ostatnim roku";
     var months = [
         'Styczeń', 'Luty', 'Marzec', 'Kwiecien', 'Maj', 'Czerwiec', 'Lipiec', 'Sierpien', 'Wrzesien', 'Pazdziernik',
         'Listopad', 'Grudzien'
     ];
 
+    var array2 = @Html.Raw(Json.Encode(@ViewBag.tab));
+
     var valuesInEveryMonth = []; //kazdy index to kolejny miesiac
     function fillValues() {
         for (var i = 0; i < 12; i++) {
-            var value = Math.floor((Math.random() * 10) + 1); //tu z bazy
-            valuesInEveryMonth.push(value);
+            valuesInEveryMonth[i] = array2[i];
         }
     }
 
     var sortedMonths = [];
+    var sortedValuesInEveryMonths = [];
     for (var i = month+1; i <= 12; i++) {
         if (i == 12)
             i = 0;
-       
+
         sortedMonths.push(months[i]);
+        sortedValuesInEveryMonths.push(array2[i]);
+        
         if (sortedMonths.length == 12)
             break;
     }
@@ -135,7 +131,7 @@
                             '#f39c12', '#3498db', '#e74c3c', '#00bc8c', '#f35611', '#349855', '#e34c3c', '#008f8c',
                             '#f39c12', '#349855', '#e34c3c', '#008f8c'
                         ],
-                        data: valuesInEveryMonth
+                        data: sortedValuesInEveryMonths
                     }
                 ]
             }

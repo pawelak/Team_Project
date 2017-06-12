@@ -33,16 +33,16 @@
                     <tr class="activityDetails">
                     
                     <td>
-                        <a href='@Url.Action("Edit", "History")'>
+                        @*<a href='@Url.Action("Edit", "History")'>
                             <img src="../../images/programming.png" />
-                        </a>
+                        </a>*@
                     </td>
                         <td>@p[0]</td>
                         <td>@p[1]</td>
                         <td>@p[2]</td>
                         <td>@p[3]</td>
                         <td>@p[4]</td>
-
+                        @{ TempData["Id"] = p[0];}
 
                     </tr>
                 }           

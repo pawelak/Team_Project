@@ -83,7 +83,7 @@ namespace TaskMaster.BLL.WebServices
         }
         public List<List<string>> LastMonth(string email, int days)
         {
-            days = 10;
+            days = 11;
             var date7DaysAgo = DateTime.Now.AddDays(-days);
             var user = _userRepositories.Get(email);
             var listOfAct = new List<DAL.DTOModels.ActivityDto>();
@@ -173,6 +173,77 @@ namespace TaskMaster.BLL.WebServices
 
                 returned.Add(cos);
                
+            }
+
+            return returned;
+        }
+
+        public List<List<string>> LongestTaskToChart(string email,int days)
+        {
+            var list = new List<LongTask>();
+
+          
+            days = 11;
+            var date7DaysAgo = DateTime.Now.AddDays(-days);
+            var user = _userRepositories.Get(email);
+            var listOfAct = new List<DAL.DTOModels.ActivityDto>();
+
+            var result = new List<List<string>>();
+
+            var tabUserAct = user.Activities;
+            var notPlaned = tabUserAct.Where(a => a.State != State.Planned);
+
+
+            foreach (var cos in notPlaned)
+            {
+                foreach (var part in cos.PartsOfActivity)
+                {
+                    if ((part.Stop > date7DaysAgo) && (part.Start < DateTime.Now))
+                    {
+                        listOfAct.Add(cos);
+                        break;
+                    }
+                }
+            }
+
+
+            foreach (var act in listOfAct)
+            {
+                TimeSpan sum = new TimeSpan();
+
+
+                foreach (var parts in act.PartsOfActivity)
+                {
+                    sum += parts.Duration;
+                }
+                LongTask strLongTask = new LongTask();
+                strLongTask.dur = sum;
+                strLongTask.name = act.Task.Name;
+
+                list.Add(strLongTask);
+
+            }
+
+            var orderList = list.OrderByDescending(x => x.dur).ToList();
+            var max = orderList[0].dur.TotalSeconds;
+
+            var returned = new List<List<string>>();
+
+            foreach (var item in orderList)
+            {
+
+
+                var tmp = item.dur.ToString();
+                var tmpPerc = (item.dur.TotalSeconds / max) * 100;
+                var tmp3 = Math.Round(tmpPerc, 0);
+                var cos = new List<string>();
+
+                cos.Add(tmp);
+                cos.Add(item.name);
+                cos.Add(tmp3.ToString());
+
+                returned.Add(cos);
+
             }
 
             return returned;
@@ -287,7 +358,8 @@ namespace TaskMaster.BLL.WebServices
             return list3;
         }
 
-        public List<List<string>> Last12MOfWork(string email)
+        //---------------------------Probny ryneczek lidla----------------------
+        public List<double> Last12MOfWork(string email)
         {
             var Period = DateTime.Now.AddMonths(-12);
             var user = _userRepositories.Get(email);
@@ -296,34 +368,49 @@ namespace TaskMaster.BLL.WebServices
 
             var notPlaned = tabUserAct.Where(a => a.State != State.Planned);
 
-
-            foreach (var cos in notPlaned)
-            {
-                foreach (var part in cos.PartsOfActivity)
-                {
-                    if ((part.Stop > Period) && (part.Start < DateTime.Now))
+                    //--------------Okrasa----------------------------------
+                    foreach (var cos in notPlaned)
                     {
-                        listOfAct.Add(cos);
-                        break;
+                        foreach (var part in cos.PartsOfActivity)
+                        {
+                            if ((part.Stop > Period) && (part.Start < DateTime.Now))
+                            {
+                                listOfAct.Add(cos);
+                                break;
+                            }
+                        }
                     }
-                }
-            }
+                    //------------------------------------------------------
 
             var result = new List<List<string>>();
+            List<double> timeOfMonth = new List<double>();
+
+            for (int i = 0; i < 12; i++)
+            {
+                timeOfMonth.Add(0);
+            }
             foreach (var act in listOfAct)
             {
 
 
                 TimeSpan sum = new TimeSpan();
+               
+                int inum = 0;
+
+
                 foreach (var part in act.PartsOfActivity)
                 {
                     sum += part.Duration;
+                    inum = part.Stop.Month;
                 }
+
+                timeOfMonth[inum-1] += Math.Round(sum.TotalMinutes,0);
 
                 List<string> help = new List<string>();
 
                 help.Add(act.Task.Name);
                 help.Add(Math.Round(sum.TotalMinutes,0).ToString());
+                help.Add(timeOfMonth.ToString());
 
                 result.Add(help);
 
@@ -331,7 +418,7 @@ namespace TaskMaster.BLL.WebServices
 
 
 
-            return result;
+            return timeOfMonth;
          }
 
     }
