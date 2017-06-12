@@ -4,7 +4,10 @@
 }
 <script src="~/Scripts/jquery-3.1.1.min.js"></script>
 <div class="quickFixMargin">
-    @ViewBag.tym = @TempData["idAction"]
+   @foreach (var p in @ViewBag.mod)
+   {
+       <p>@p</p>
+   }
     <div>@ViewBag.tym</div>
     <div class="form-group">
         <label class="control-label" for="focusedInput">Nazwa tasku</label>
