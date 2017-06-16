@@ -120,6 +120,7 @@
     <Compile Include="WebModels\PartsOfActivityDto.cs" />
     <Compile Include="WebModels\UserViewModels.cs" />
     <Compile Include="WebServices\ActivityWebService.cs" />
+    <Compile Include="WebServices\WebCalService.cs" />
     <Compile Include="WebServices\WebMainService.cs" />
     <Compile Include="WebServices\WebUserService.cs" />
   </ItemGroup>
