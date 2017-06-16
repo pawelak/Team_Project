@@ -28,7 +28,7 @@ namespace TaskMaster.BLL.WebServices
 
         public List<ActivityDto> getActivitiesFromPeriod(string email,int days)
         {
-            days = 30;
+          
             var date7DaysAgo = DateTime.Now.AddDays(-days);
             var user = _userRepositories.Get(email);
             var activityRawList = new List<DAL.DTOModels.ActivityDto>();
@@ -83,7 +83,7 @@ namespace TaskMaster.BLL.WebServices
         }
         public List<List<string>> LastMonth(string email, int days)
         {
-            days = 11;
+           
             var date7DaysAgo = DateTime.Now.AddDays(-days);
             var user = _userRepositories.Get(email);
             var listOfAct = new List<DAL.DTOModels.ActivityDto>();
@@ -183,7 +183,7 @@ namespace TaskMaster.BLL.WebServices
             var list = new List<LongTask>();
 
           
-            days = 11;
+       
             var date7DaysAgo = DateTime.Now.AddDays(-days);
             var user = _userRepositories.Get(email);
             var listOfAct = new List<DAL.DTOModels.ActivityDto>();
@@ -223,9 +223,17 @@ namespace TaskMaster.BLL.WebServices
                 list.Add(strLongTask);
 
             }
-
+            var max = 1.0;
             var orderList = list.OrderByDescending(x => x.dur).ToList();
-            var max = orderList[0].dur.TotalSeconds;
+            try
+            {
+                 max = orderList[0].dur.TotalSeconds;
+            }
+            catch
+            {
+                max = 1;
+            }
+           
 
             var returned = new List<List<string>>();
 

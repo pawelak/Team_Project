@@ -26,9 +26,9 @@ namespace TaskMaster.Web.Controllers
             //    {
                    
 
-                    var lastMonth = _activityWebService.LastMonth("dlanorberta@gmail.com", 12);
+                    var lastMonth = _activityWebService.LastMonth("dlanorberta@gmail.com", 30);
                     var longestTask = _activityWebService.LongestTask("dlanorberta@gmail.com");
-                    var longestTaskToChart = _activityWebService.LongestTaskToChart("dlanorberta@gmail.com", 12);
+                    var longestTaskToChart = _activityWebService.LongestTaskToChart("dlanorberta@gmail.com", 30);
     
                     ViewBag.mod = lastMonth;
                     ViewBag.tab = longestTask;
