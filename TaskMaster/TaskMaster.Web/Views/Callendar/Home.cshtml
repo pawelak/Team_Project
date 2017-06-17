@@ -36,15 +36,28 @@
                     <th>czas pracy</th>
                     <th>czas przerwy</th>
                 </tr>             
-                <tr>                         
+                                        
                     <td><img src="../../images/eat.png" /></td>
-                    <td>jedzenie obiadu</td>
-                    <td>15.05.2017</td>
-                    <td>0:40:20</td>
-                    <td>0:30:20</td>
-                    <td>0:10:20</td>                             
-                </tr>
-               
+                    @if (@ViewBag.mod == null)
+                    {
+
+                    }
+                    else
+                    {
+                        foreach (var p in @ViewBag.mod)
+                        {
+                            <tr>
+                                <th></th>
+                                <td>@p[0]</td>
+                                <td>@p[1]</td>
+                                <td>@p[2]</td>
+                                <td>@p[3]</td>
+                                <td>@p[4]</td>
+                            </tr>
+                         }
+                    }
+                     
+
             </table>
             
         </div>

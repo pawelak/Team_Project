@@ -24,7 +24,10 @@ namespace TaskMaster.Web.Controllers
 
         public ActionResult Edit()
         {
-            ViewBag.mod = y;
+            WebHistEditService _webHistEditService = new WebHistEditService();
+            var taskEdit = _webHistEditService.ShowEditTask("dlanorberta@gmail.com", 4);
+            ViewBag.mod = taskEdit;
+
             return View();
         }
     }
