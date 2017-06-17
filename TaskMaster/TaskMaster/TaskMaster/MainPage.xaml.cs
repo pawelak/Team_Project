@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
 using System.Threading.Tasks;
 using System.Timers;
 using TaskMaster.Interfaces;
@@ -93,25 +92,20 @@ namespace TaskMaster
 
         private async void SyncItem_OnClicked(object sender, EventArgs e)
         {
-            Content.IsEnabled = false;
             _listTimer.Stop();
-            var isInternet = CheckInternetConnection();
-            if (isInternet)
+            var send = await SynchronizationService.Instance.SendTasks();
+            if (!send)
             {
-                await SynchronizationService.Instance.SendTasks();
-                await SynchronizationService.Instance.SendActivities();
-                await SynchronizationService.Instance.GetActivities();
-                await SynchronizationService.Instance.SendFavorites();
-                await SynchronizationService.Instance.GetFavorites();
-                await SynchronizationService.Instance.SendPlannedAsync();
-                await SynchronizationService.Instance.GetPlanned();
+                await DisplayAlert("Error", "Wystąpił problem z synchronizacją", "Ok");
+                return;
             }
-            else
-            {
-                await DisplayAlert("Error", "Nie można synchronizować bez internetu","Ok");
-            }
+            await SynchronizationService.Instance.SendActivities();
+            await SynchronizationService.Instance.GetActivities();
+            await SynchronizationService.Instance.SendFavorites();
+            await SynchronizationService.Instance.GetFavorites();
+            await SynchronizationService.Instance.SendPlannedAsync();
+            await SynchronizationService.Instance.GetPlanned();
             _listTimer.Start();
-            Content.IsEnabled = true;
         }
 
         private async void ActiveTasks_OnItemTapped(object sender, ItemTappedEventArgs e)
@@ -349,24 +343,6 @@ namespace TaskMaster
             }
             await UserService.Instance.LogoutUser();
             DependencyService.Get<ILogOutService>().LogOut();
-        }
-
-        public bool CheckInternetConnection()
-        {
-            const string checkUrl = "http://google.com";
-            try
-            {
-                var iNetRequest = (HttpWebRequest)WebRequest.Create(checkUrl);
-                iNetRequest.Timeout = 3000;
-                var iNetResponse = iNetRequest.GetResponse();
-                iNetResponse.Close();
-                return true;
-
-            }
-            catch (WebException)
-            {
-                return false;
-            }
         }
     }
 }

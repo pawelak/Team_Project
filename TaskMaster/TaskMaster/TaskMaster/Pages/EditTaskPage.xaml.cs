@@ -31,20 +31,6 @@ namespace TaskMaster.Pages
             AddItemsToPicker();
         }
 
-        private void AddItemsToPicker()
-        {
-            TypePicker.Items.Add("Sztuka");
-            TypePicker.Items.Add("Inne");
-            TypePicker.Items.Add("Programowanie");
-            TypePicker.Items.Add("Sport");
-            TypePicker.Items.Add("Muzyka");
-            TypePicker.Items.Add("Języki");
-            TypePicker.Items.Add("Jedzenie");
-            TypePicker.Items.Add("Rozrywka");
-            TypePicker.Items.Add("Podróż");
-            TypePicker.Items.Add("Przerwa");
-        }
-
         protected override async void OnAppearing()
         {
             base.OnAppearing();
@@ -52,11 +38,20 @@ namespace TaskMaster.Pages
             await AddToFavoritesList();
         }
 
+        private void AddItemsToPicker()
+        {
+            string[] types = { "Sztuka", "Inne", "Programowanie", "Sport", "Muzyka", "Języki", "Jedzenie", "Rozrywka", "Podróż", "Przerwa", "Inne" };
+            foreach (var type in types)
+            {
+                TypePicker.Items.Add(type);
+            }
+        }
+
         private async Task AddToFavoritesList()
         {
             var user = UserService.Instance.GetLoggedUser();
             var favorites = await UserService.Instance.GetUserFavorites(user.UserId);
-            if (favorites == null)
+            if (favorites.Count == 0)
             {
                 Device.BeginInvokeOnMainThread(() =>
                 {
@@ -121,6 +116,7 @@ namespace TaskMaster.Pages
             ResumeButton.IsVisible = _activity.Status == StatusType.Pause;
             StopButton.IsVisible = _activity.Status != StatusType.Planned;
         }
+
         private async void StopButton_OnClicked(object sender, EventArgs e)
         {
             _timer.Stop();
@@ -222,7 +218,7 @@ namespace TaskMaster.Pages
             }
             Device.BeginInvokeOnMainThread(async () =>
             {
-                var result = await DisplayAlert("Error", "Niezapisane dane zostaną utracone. Czy kontynuować",
+                var result = await DisplayAlert("Error", "Niezapisane dane zostaną utracone. Czy kontynuować?",
                     "Tak", "Nie");
                 if (!result)
                 {
@@ -253,57 +249,15 @@ namespace TaskMaster.Pages
                     await SynchronizationService.Instance.SendTask(_task);
                 }
                 await SynchronizationService.Instance.SendFavorite(favorite);
-                AddFavorite.IsEnabled = false;
+                AddFavorite.IsVisible = false;
             }
         }
 
         private void TypePicker_SelectedIndexChanged(object sender, EventArgs e)
         {
             var typ = TypePicker.Items[TypePicker.SelectedIndex];
-            TypePickerImage.Source = SelectImage(typ);
+            TypePickerImage.Source = ImagesService.Instance.SelectImage(typ);
             _task.Typ = typ;
-        }
-
-        private static string SelectImage(string item)
-        {
-            string type;
-            switch (item)
-            {
-                case "Sztuka":
-                    type = "art.png";
-                    break;
-                case "Inne":
-                    type = "OK.png";
-                    break;
-                case "Programowanie":
-                    type = "programming.png";
-                    break;
-                case "Sport":
-                    type = "sport.png";
-                    break;
-                case "Muzyka":
-                    type = "music.png";
-                    break;
-                case "Języki":
-                    type = "language.png";
-                    break;
-                case "Jedzenie":
-                    type = "eat.png";
-                    break;
-                case "Rozrywka":
-                    type = "instrument.png";
-                    break;
-                case "Podróż":
-                    type = "car.png";
-                    break;
-                case "Przerwa":
-                    type = "Cafe.png";
-                    break;
-                default:
-                    type = "OK.png";
-                    break;
-            }
-            return type;
         }
 
         private async void FavoritePicker_OnSelectedIndexChanged(object sender, EventArgs e)
@@ -316,7 +270,7 @@ namespace TaskMaster.Pages
             var task = await UserService.Instance.GetTask(taskDto);
             TaskName.Text = task.Name;
             ActivityName.Text = task.Name;
-            TypePickerImage.Source = SelectImage(task.Typ);
+            TypePickerImage.Source = ImagesService.Instance.SelectImage(task.Typ);
         }
     }
 }

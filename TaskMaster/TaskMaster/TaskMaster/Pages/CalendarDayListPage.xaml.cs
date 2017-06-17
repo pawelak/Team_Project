@@ -11,15 +11,20 @@ namespace TaskMaster.Pages
     public partial class CalendarDayListPage
     {
         private readonly List<CustomListItem> _dayPlan = new List<CustomListItem>();
-        private DateTime _calendarDay;
+        private readonly string _calendarDayString;
         public CalendarDayListPage(DateTime dateTime)
         {
-            _calendarDay = dateTime;
+            _calendarDayString = dateTime.ToString("dd/MM/yyyy");
             InitializeComponent();
-            ListInitiate();            
         }
 
-        private async void ListInitiate()
+        protected override async void OnAppearing()
+        {
+            base.OnAppearing();
+            await ListInitiateAsync();
+        }
+
+        private async Task ListInitiateAsync()
         {
             await AddActivitiesByStatus(StatusType.Stop);
             await AddActivitiesByStatus(StatusType.Planned);
@@ -35,29 +40,29 @@ namespace TaskMaster.Pages
             var activities = await UserService.Instance.GetActivitiesByStatus(status);
             foreach (var activity in activities)
             {
-                var parts = await UserService.Instance.GetPartsOfActivityByActivityId(activity.ActivityId);
+                var task = await UserService.Instance.GetTaskById(activity.TaskId);
+                if (task == null)
+                {
+                    continue;
+                }
                 long time = 0;
                 if (status == StatusType.Planned)
                 {
                     var part = await UserService.Instance.GetLastActivityPart(activity.ActivityId);
-                    if (DateTime.ParseExact(part.Start, "HH:mm:ss dd/MM/yyyy", null).ToString("dd/MM/yyyy") != _calendarDay.ToString("dd/MM/yyyy"))
+                    if (DateTime.ParseExact(part.Start, "HH:mm:ss dd/MM/yyyy", null).ToString("dd/MM/yyyy") != _calendarDayString)
                     {
                         continue;
                     }
                 }
                 else
                 {
-                    time += parts.Where(part => DateTime.ParseExact(part.Start, "HH:mm:ss dd/MM/yyyy", null).ToString("dd/MM/yyyy") == _calendarDay.ToString("dd/MM/yyyy"))
+                    var parts = await UserService.Instance.GetPartsOfActivityByActivityId(activity.ActivityId);
+                    time += parts.Where(part => DateTime.ParseExact(part.Start, "HH:mm:ss dd/MM/yyyy", null).ToString("dd/MM/yyyy") == _calendarDayString)
                         .Sum(part => long.Parse(part.Duration));
                     if (time == 0)
                     {
                         continue;
                     }
-                }
-                var task = await UserService.Instance.GetTaskById(activity.TaskId);
-                if (task == null)
-                {
-                    continue;
                 }
                 var t = TimeSpan.FromMilliseconds(time);
                 var element = new CustomListItem
@@ -65,7 +70,7 @@ namespace TaskMaster.Pages
                     Name = task.Name,
                     Description = activity.Status.ToString(),
                     Time = $"{t.Hours:D2}h:{t.Minutes:D2}m:{t.Seconds:D2}s",
-                    Image = SelectImage(task.Typ)
+                    Image = ImagesService.Instance.SelectImage(task.Typ)
                 };
                 _dayPlan.Add(element);
             }
@@ -78,53 +83,6 @@ namespace TaskMaster.Pages
                 await Navigation.PushModalAsync(new NavigationPage(new MainPage()));
             });
             return true;
-        }
-
-        private void DayPlan_OnItemTapped(object sender, ItemTappedEventArgs e)
-        {
-            //Nothing
-        }
-
-        private static string SelectImage(string item)
-        {
-            string type;
-            switch (item)
-            {
-                case "Sztuka":
-                    type = "art.png";
-                    break;
-                case "Inne":
-                    type = "OK.png";
-                    break;
-                case "Programowanie":
-                    type = "programming.png";
-                    break;
-                case "Sport":
-                    type = "sport.png";
-                    break;
-                case "Muzyka":
-                    type = "music.png";
-                    break;
-                case "Języki":
-                    type = "language.png";
-                    break;
-                case "Jedzenie":
-                    type = "eat.png";
-                    break;
-                case "Rozrywka":
-                    type = "instrument.png";
-                    break;
-                case "Podróż":
-                    type = "car.png";
-                    break;
-                case "Przerwa":
-                    type = "Cafe.png";
-                    break;
-                default:
-                    type = "OK.png";
-                    break;
-            }
-            return type;
         }
     }
 }

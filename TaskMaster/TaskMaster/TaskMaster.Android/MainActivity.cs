@@ -116,7 +116,6 @@ namespace TaskMaster.Droid
             }
             else
             {
-                Toast.MakeText(this, "Nie udało się zalogować", ToastLength.Long);
                 Finish();
             }
         }

@@ -13,14 +13,24 @@ namespace TaskMaster
 		public StartTaskPage ()
 		{
 			InitializeComponent ();
+            AddItemsToPicker();
             AddToFavoritesList();
 		}
 
-	    private async void AddToFavoritesList()
+	    private void AddItemsToPicker()
+	    {
+	        string[] types = {"Sztuka","Inne","Programowanie","Sport","Muzyka","Języki","Jedzenie","Rozrywka","Podróż","Przerwa","Inne" };
+	        foreach (var type in types)
+	        {
+	            TypePicker.Items.Add(type);
+	        }
+        }
+
+        private async void AddToFavoritesList()
 	    {
 	        var user = UserService.Instance.GetLoggedUser();
 	        var favorites = await UserService.Instance.GetUserFavorites(user.UserId);
-            if (favorites == null)
+            if (favorites.Count == 0)
 	        {
 	            Device.BeginInvokeOnMainThread(() =>
 	            {

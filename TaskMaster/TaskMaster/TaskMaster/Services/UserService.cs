@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using TaskMaster.ModelsDto;
@@ -163,6 +164,12 @@ namespace TaskMaster.Services
             return update.Where(activity => activity.UserId == _loggedUser.UserId).ToList();
         }
 
+        public async Task<List<ActivitiesDto>> GetActivitiesToUpload(StatusType status)
+        {
+            var result = await Database.GetActivitiesToUpload(status);
+            return result;
+        }
+
         public async Task<PartsOfActivityDto> GetLastActivityPart(int id)
         {
             var update = await Database.GetLastActivityPart(id);
@@ -184,6 +191,12 @@ namespace TaskMaster.Services
         {
             var get = await Database.GetUserFavorites(id);
             return get;
+        }
+
+        public async Task<List<FavoritesDto>> GetFavoritesToUpload()
+        {
+            var result = await Database.GetFavoritesToUpload();
+            return result;
         }
 
         public async Task<FavoritesDto> GetFavoriteByTaskId(int id)

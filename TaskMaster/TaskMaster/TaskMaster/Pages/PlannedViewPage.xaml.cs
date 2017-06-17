@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
 using System.Threading.Tasks;
 using TaskMaster.Enums;
 using TaskMaster.Interfaces;
@@ -24,11 +23,7 @@ namespace TaskMaster.Pages
 	    protected override async void OnAppearing()
 	    {
 	        base.OnAppearing();
-	        await ListInitiate();
-	        Device.BeginInvokeOnMainThread(() =>
-	        {
-	            PlannedTasks.ItemsSource = _plannedList;
-	        });
+	        await ListInitiateAsync();
 	    }
 
 	    private async void MainPageItem_OnClicked(object sender, EventArgs e)
@@ -85,7 +80,7 @@ namespace TaskMaster.Pages
 	        DependencyService.Get<ILogOutService>().LogOut();
         }
 
-	    private async Task ListInitiate()
+	    private async Task ListInitiateAsync()
 	    {
 	        var activitiesPlannedList = await UserService.Instance.GetActivitiesByStatus(StatusType.Planned);
 	        foreach (var activity in activitiesPlannedList)
@@ -98,58 +93,19 @@ namespace TaskMaster.Pages
 	                Name = task.Name,
 	                Description = activity.Comment,
 	                Date = lastPart.Start,
-	                Image = SelectImage(task.Typ)
+	                Image = ImagesService.Instance.SelectImage(task.Typ)
 	            };
 	            _plannedList.Add(element);
 	        }
-
-	    }
-
-	    private static string SelectImage(string item)
-	    {
-	        string obraz;
-	        switch (item)
+	        Device.BeginInvokeOnMainThread(() =>
 	        {
-	            case "Sztuka":
-	                obraz = "art.png";
-	                break;
-	            case "Inne":
-	                obraz = "OK.png";
-	                break;
-	            case "Programowanie":
-	                obraz = "programming.png";
-	                break;
-	            case "Sport":
-	                obraz = "sport.png";
-	                break;
-	            case "Muzyka":
-	                obraz = "music.png";
-	                break;
-	            case "Języki":
-	                obraz = "language.png";
-	                break;
-	            case "Jedzenie":
-	                obraz = "eat.png";
-	                break;
-	            case "Rozrywka":
-	                obraz = "instrument.png";
-	                break;
-	            case "Podróż":
-	                obraz = "car.png";
-	                break;
-	            case "Przerwa":
-	                obraz = "Cafe.png";
-	                break;
-	            default:
-	                obraz = "OK.png";
-	                break;
-	        }
-	        return obraz;
-	    }
+	            PlannedTasks.ItemsSource = _plannedList;
+	        });
+        }
 
 	    private async void PlannedTasks_OnItemTapped(object sender, ItemTappedEventArgs e)
 	    {
-	        var item = e.Item as PlannedListItem;
+            var item = e.Item as PlannedListItem;
 	        if (item == null)
 	        {
 	            return;
@@ -161,51 +117,25 @@ namespace TaskMaster.Pages
 	            await SynchronizationService.Instance.DeletePlanned(activity, task);
 	        }
 	        activity.Status = StatusType.Canceled;
-            await UserService.Instance.SaveActivity(activity);
-            _plannedList.Clear();
-	        await ListInitiate();
-	        Device.BeginInvokeOnMainThread(() =>
-	        {
-	            PlannedTasks.ItemsSource = _plannedList;
-	        });
+	        await UserService.Instance.SaveActivity(activity);
+	        _plannedList.Clear();
+	        await ListInitiateAsync();
         }
 
 	    private async void SyncItem_OnClicked(object sender, EventArgs e)
 	    {
-	        Content.IsEnabled = false;
-	        var isInternet = CheckInternetConnection();
-	        if (isInternet)
+	        var send = await SynchronizationService.Instance.SendTasks();
+	        if (!send)
 	        {
-	            await SynchronizationService.Instance.SendTasks();
-	            await SynchronizationService.Instance.SendActivities();
-	            await SynchronizationService.Instance.GetActivities();
-	            await SynchronizationService.Instance.SendFavorites();
-	            await SynchronizationService.Instance.GetFavorites();
-	            await SynchronizationService.Instance.SendPlannedAsync();
-	            await SynchronizationService.Instance.GetPlanned();
+	            await DisplayAlert("Error", "Wystąpił problem z synchronizacją", "Ok");
+	            return;
 	        }
-	        else
-	        {
-	            await DisplayAlert("Error", "Nie można synchronizować bez internetu", "Ok");
-	        }
-	        Content.IsEnabled = true;
+	        await SynchronizationService.Instance.SendActivities();
+	        await SynchronizationService.Instance.GetActivities();
+	        await SynchronizationService.Instance.SendFavorites();
+	        await SynchronizationService.Instance.GetFavorites();
+	        await SynchronizationService.Instance.SendPlannedAsync();
+	        await SynchronizationService.Instance.GetPlanned();
         }
-	    private static bool CheckInternetConnection()
-	    {
-	        const string checkUrl = "http://google.com";
-	        try
-	        {
-	            var iNetRequest = (HttpWebRequest)WebRequest.Create(checkUrl);
-	            iNetRequest.Timeout = 3000;
-	            var iNetResponse = iNetRequest.GetResponse();
-	            iNetResponse.Close();
-	            return true;
-
-	        }
-	        catch (WebException)
-	        {
-	            return false;
-	        }
-	    }
     }
 }
