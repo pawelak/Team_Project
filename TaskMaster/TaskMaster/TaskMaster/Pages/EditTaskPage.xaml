@@ -77,7 +77,7 @@
             </StackLayout>
             
             <StackLayout Orientation="Horizontal" Padding="5">
-                <Label Text="{x:StaticResource FavoriteText}" WidthRequest="70" HorizontalTextAlignment="End" VerticalOptions="Center" TextColor="{x:StaticResource TextColor}"
+                <Label x:Name="FavText" Text="{x:StaticResource FavoriteText}" WidthRequest="70" HorizontalTextAlignment="End" VerticalOptions="Center" TextColor="{x:StaticResource TextColor}"
                        FontFamily="{x:StaticResource Font}" FontSize="{x:StaticResource Field}"/>
                 <Picker x:Name="FavoritePicker" SelectedIndexChanged="FavoritePicker_OnSelectedIndexChanged" HorizontalOptions="FillAndExpand" TextColor="{x:StaticResource TextColor}" 
                         BackgroundColor="{x:StaticResource BackgroundButtonColor}"/>
@@ -89,8 +89,8 @@
                         BackgroundColor="{x:StaticResource BackgroundButtonColor}" />
             </StackLayout>
             
-            <StackLayout VerticalOptions="EndAndExpand"> 
-                <Button x:Name="AcceptButton" Text="End" Clicked="AcceptButton_OnClicked" TextColor="{x:StaticResource TextColor}" BackgroundColor="{x:StaticResource BackgroundColor}"
+            <StackLayout VerticalOptions="EndAndExpand">
+                <Button x:Name="AcceptButton" Text="Zapisz" Clicked="AcceptButton_OnClicked" TextColor="{x:StaticResource TextColor}" BackgroundColor="{x:StaticResource BackgroundColor}"
                         FontFamily="{x:StaticResource Font}" FontSize="{x:StaticResource Medium}"/>
             </StackLayout>
         </StackLayout>

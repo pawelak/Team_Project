@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using TaskMaster.Enums;
 using TaskMaster.ModelsDto;
 using TaskMaster.Services;
 using Xamarin.Forms;
@@ -41,7 +42,8 @@ namespace TaskMaster.Pages
 	        var favorites = await UserService.Instance.GetUserFavorites(1);
 	        if (favorites == null)
 	        {
-	            FavoritePicker.IsEnabled = false;
+	            FavoritePicker.IsVisible = false;
+	            FavText.IsVisible = false;
 	        }
 	        else
 	        {
@@ -81,10 +83,12 @@ namespace TaskMaster.Pages
 	        {
 	            if (await UserService.Instance.GetTask(_task) == null)
 	            {
-	                var result = await UserService.Instance.SaveTask(_task);
-	                _activity.TaskId = result;
+	                _task.TaskId = await UserService.Instance.SaveTask(_task);
+	                _activity.TaskId = _task.TaskId;
                     _activity.Status = StatusType.Stop;
 	                await UserService.Instance.SaveActivity(_activity);
+	                await SynchronizationService.Instance.SendTask(_task);
+	                await SynchronizationService.Instance.SendActivity(_activity,_task);
 	                await Navigation.PushModalAsync(new NavigationPage(new MainPage()));
 	            }
 	            else
@@ -93,7 +97,12 @@ namespace TaskMaster.Pages
 	                _activity.TaskId = _task.TaskId;
 	                _activity.Status = StatusType.Stop;
                     await UserService.Instance.SaveActivity(_activity);
-	                await Navigation.PushModalAsync(new NavigationPage(new MainPage()));
+	                if (_task.SyncStatus == SyncStatus.ToUpload)
+	                {
+	                    await SynchronizationService.Instance.SendTask(_task);
+	                }
+	                await SynchronizationService.Instance.SendActivity(_activity, _task);
+                    await Navigation.PushModalAsync(new NavigationPage(new MainPage()));
 	            }
             }
 	        else

@@ -4,28 +4,21 @@ using SQLite;
 using TaskMaster.Models;
 using TaskMaster.ModelsDto;
 using AutoMapper;
+using TaskMaster.Enums;
 
 namespace TaskMaster
 {
     public class UserDatabase
     {
         readonly SQLiteAsyncConnection _database;
-        public UserDatabase (string dbpath)
+
+        public UserDatabase(string dbpath)
         {
             Mapper.Initialize(cfg => cfg.AddProfile<UserMapProfile>());
             _database = new SQLiteAsyncConnection(dbpath);
-            DropTables();
             _database.CreateTablesAsync<Activities, Favorites, PartsOfActivity, Tasks, User>().Wait();
         }
 
-        private void DropTables()
-        {
-            _database.DropTableAsync<Activities>();
-            _database.DropTableAsync<Favorites>();
-            _database.DropTableAsync<PartsOfActivity>();
-            _database.DropTableAsync<Tasks>();
-            _database.DropTableAsync<User>();
-        }
         public async Task<int> UpdateActivity(ActivitiesDto activitiesDto)
         {
             var activity = Mapper.Map<Activities>(activitiesDto);
@@ -130,6 +123,13 @@ namespace TaskMaster
             var task = Mapper.Map<Tasks>(taskDto);
             await _database.UpdateAsync(task);           
             return task.TaskId;
+        }
+
+        public async Task<List<TasksDto>> GetTasksToUpload()
+        {
+            var list = await _database.Table<Tasks>().Where(t => t.SyncStatus == SyncStatus.ToUpload).ToListAsync();
+            var listDto = Mapper.Map<List<TasksDto>>(list);
+            return listDto;
         }
 
         public async Task<TasksDto> GetTask(TasksDto taskDto)

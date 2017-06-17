@@ -11,12 +11,13 @@ namespace TaskMaster.DAL.Repositories
 {
     public class TaskRepositories : RepoBase<Task>, ITaskRepositories
     {
-        public void Add(TaskDto dto)
+        public int Add(TaskDto dto)
         {
             var result = Mapper.Map<Task>(dto);
             result.Activities = null;
             result.Favorites = null;
             base.Add(result);
+            return result.TaskId;
         }
         public void Delete(TaskDto dto)
         {
@@ -49,5 +50,6 @@ namespace TaskMaster.DAL.Repositories
             result.Type = obj.Type;
             base.Edit(result);
         }
+
     }
 }

@@ -8,8 +8,8 @@
 
 
 <div class="row quickFixMargin">
-    <div class="col-md-2 arrow arrowFloatRight" onclick="subtractMonth()">
-        <img src="../../images/arrowLeft.png"/>
+    <div class="col-md-2 arrow arrowFloatRight">
+        <img src="../../images/arrowLeft.png"  onclick="subtractMonth()"/>
     </div>
   
     <div class="col-md-8 ">
@@ -19,14 +19,14 @@
         </div>
 
     </div>
-    <div class="col-md-1 arrow" onclick="addMonth()">
-        <img src="../../images/arrowRight.png"/>
+    <div class="col-md-1 arrow">
+        <img src="../../images/arrowRight.png"  onclick="addMonth()"/>
     </div>
 
 </div>
 <div class="row"> 
     <div id="tablePlace"class="col-md-8 col-md-offset-2">
-        <div class=" historyInCallendar">
+        <div class="historyInCallendar">
             <table>
                 <tr>
                     <th></th>
@@ -53,6 +53,9 @@
 
 <script>
     var changeMonth = 0;
+    var changeYear = 0;
+    var month = 0;
+    var year = 0;
     function createCallendar() {
         document.getElementById("callendar").innerHTML = '';
         var date = new Date();
@@ -64,8 +67,9 @@
             'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October',
             'November', 'December'
         ];
-        var month = date.getMonth() + changeMonth;
-        var year = date.getFullYear();
+
+        month = date.getMonth() + changeMonth;
+        year = date.getFullYear() + changeYear;
         var firstDate = monthsEng[month] + " " + 1 + ", " + year;
         var tmp = new Date(firstDate);
 
@@ -79,8 +83,8 @@
         var days2 = new Date(year, month + 1, 0).getDate(); //total number of days in the current month
 
         var callendar = getCallendar(dayNumber, days2, days);
-
-        document.getElementById("month").innerHTML = months[month];
+        
+        document.getElementById("month").innerHTML = months[month] +" "+ year;
         document.getElementById("callendar").appendChild(callendar);
 
 
@@ -88,12 +92,44 @@
 
     createCallendar();
 
+    function sendMonth() {
+        var dataToSend = {
+            month: month + 1,
+            year: year        
+    };        
+        $.ajax({
+            url: "/Callendar/GetMonthAndYear",
+            type: "POST",
+            dataType: "json",
+            data: dataToSend          
+        });        
+        return false;
+    }
+    
+
     function addMonth() {
         changeMonth++;
+        if (month == 11) {            
+            month = 0;
+            var d = new Date();
+            var currentMonth = d.getMonth();
+            changeMonth = 0;
+            changeMonth -= currentMonth;
+            changeYear++;
+        }        
         createCallendar();
+        sendMonth();
     }
     function subtractMonth() {
         changeMonth--;
+        if (month == 0) {
+            month = 11;
+            var d = new Date();
+            var currentMonth = d.getMonth();
+            changeMonth = 11;
+            changeMonth -= currentMonth;
+            changeYear--;
+        }
         createCallendar();
     }
     function getCallendar(dayNumber, days2, days) {

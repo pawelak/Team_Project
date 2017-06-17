@@ -1,4 +1,5 @@
 ﻿using SQLite;
+using TaskMaster.Enums;
 
 namespace TaskMaster.Models
 {
@@ -9,5 +10,6 @@ namespace TaskMaster.Models
         [Unique]
         public string Name { get; set; }
         public string Typ { get; set; }
+        public SyncStatus SyncStatus { get; set; }
     }
 }

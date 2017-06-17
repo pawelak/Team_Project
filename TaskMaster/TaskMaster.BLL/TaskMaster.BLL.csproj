@@ -100,6 +100,7 @@
     <Compile Include="MobileService\GroupWebApiService.cs" />
     <Compile Include="MobileService\PlannedWebApiService.cs" />
     <Compile Include="MobileService\PrintAllTestService.cs" />
+    <Compile Include="MobileService\TaskWebApiService.cs" />
     <Compile Include="MobileService\UserWebApiService.cs" />
     <Compile Include="MobileService\VeryficationService.cs" />
     <Compile Include="MobileService\ActivityWebApiService.cs" />
@@ -114,6 +115,7 @@
     <Compile Include="WebApiModels\GoogleUser.cs" />
     <Compile Include="WebApiModels\PartsOfActivityMobileDto.cs" />
     <Compile Include="WebApiModels\TasksMobileDto.cs" />
+    <Compile Include="WebApiModels\TokenMobileDto.cs" />
     <Compile Include="WebApiModels\UserMobileDto.cs" />
     <Compile Include="WebModels\ActivityDto.cs" />
     <Compile Include="WebModels\ActivityViewModel.cs" />

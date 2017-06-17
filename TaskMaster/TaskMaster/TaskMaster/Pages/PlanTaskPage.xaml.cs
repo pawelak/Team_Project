@@ -35,11 +35,16 @@ namespace TaskMaster
 
 	    private async void AddToFavoritesList()
 	    {
-	        var favorites = await UserService.Instance.GetUserFavorites(1);
+	        var user = UserService.Instance.GetLoggedUser();
+	        var favorites = await UserService.Instance.GetUserFavorites(user.UserId);
 	        if (favorites == null)
 	        {
-	            FavoritePicker.IsVisible = false;
-	        }
+                Device.BeginInvokeOnMainThread(() =>
+                {
+                    FavoritePicker.IsVisible = false;
+                    FavText.IsVisible = false;
+                });
+            }
 	        else
 	        {
 	            foreach (var item in favorites)
@@ -78,7 +83,6 @@ namespace TaskMaster
 	            var newActivity = new ActivitiesDto
 	            {
 	                Guid = Guid.NewGuid().ToString(),
-                    //UserId = 1,
 	                UserId = UserService.Instance.GetLoggedUser().UserId,
                     TaskId = newTask.TaskId,
 	                GroupId = 1,
@@ -90,12 +94,13 @@ namespace TaskMaster
 	            {
 	                ActivityId = newActivity.ActivityId,
 	                Start = start,
+                    Stop = "",
 	                Duration = "0"
 	            };
 	            part.PartId = await UserService.Instance.SavePartOfActivity(part);
 	            DependencyService.Get<INotificationService>().LoadNotifications(newTask.Name, "Naciśnij aby rozpocząć aktywność", part.ActivityId, 
 	                DateTime.ParseExact(part.Start, "HH:mm:ss dd/MM/yyyy", null));
-	            //await SynchronizationService.Instance.SendPlanned(newActivity);
+	            await SynchronizationService.Instance.SendPlanned(newActivity,newTask);
                 await Navigation.PushModalAsync(new NavigationPage(new MainPage()));
 	        }
 	        else
@@ -181,6 +186,7 @@ namespace TaskMaster
             };
 	        var task = await UserService.Instance.GetTask(taskDto);
 	        TaskName.Text = task.Name;
+	        ActivityName.Text = task.Name;
 	        TypePickerImage.Source = SelectImage(task.Typ);
 	    }
 	}

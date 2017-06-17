@@ -15,6 +15,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)CalendarVm.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Database\UserDatabase.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Enums\EditState.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Enums\PlatformType.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Enums\StatusType.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Enums\SyncStatus.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Interfaces\IFileHelper.cs" />
@@ -35,6 +36,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)ModelsRest\PartsOfActivityRest.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ModelsRest\PlannedRest.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ModelsRest\TasksRest.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ModelsRest\TokenRest.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ModelsRest\UserRest.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\Activities.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\Favorites.cs" />

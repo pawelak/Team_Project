@@ -4,7 +4,6 @@ using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using System.Timers;
-using TaskMaster.Enums;
 using TaskMaster.Interfaces;
 using TaskMaster.ModelsDto;
 using TaskMaster.Pages;
@@ -25,7 +24,6 @@ namespace TaskMaster
         protected override async void OnAppearing()
         {
             base.OnAppearing();
-            //await SynchronizationService.Instance.GetActivities();
             await ListInitiateAsync();
             _listTimer.Elapsed += UpdateTime;
             _listTimer.Interval = 1000;
@@ -95,43 +93,25 @@ namespace TaskMaster
 
         private async void SyncItem_OnClicked(object sender, EventArgs e)
         {
+            Content.IsEnabled = false;
             _listTimer.Stop();
             var isInternet = CheckInternetConnection();
             if (isInternet)
             {
+                await SynchronizationService.Instance.SendTasks();
+                await SynchronizationService.Instance.SendActivities();
+                await SynchronizationService.Instance.GetActivities();
+                await SynchronizationService.Instance.SendFavorites();
+                await SynchronizationService.Instance.GetFavorites();
+                await SynchronizationService.Instance.SendPlannedAsync();
+                await SynchronizationService.Instance.GetPlanned();
             }
             else
             {
                 await DisplayAlert("Error", "Nie można synchronizować bez internetu","Ok");
             }
-            /*var activities = await UserService.Instance.GetActivitiesByStatus(StatusType.Stop);
-            {
-                foreach (var activitiesDto in activities)
-                {
-                    if (activitiesDto.SyncStatus != SyncStatus.ToUpload)
-                    {
-                        continue;
-                    }
-                    var task = await UserService.Instance.GetTaskById(activitiesDto.TaskId);
-                    await SynchronizationService.Instance.SendActivity(activitiesDto,task);
-                }
-            }
-            await SynchronizationService.Instance.SendFavorite();
-            var planned = await UserService.Instance.GetActivitiesByStatus(StatusType.Planned);
-            foreach (var activitiesDto in planned)
-            {
-                if (activitiesDto.SyncStatus != SyncStatus.ToUpload)
-                {
-                    continue;
-                }
-                var task = await UserService.Instance.GetTaskById(activitiesDto.TaskId);
-                await SynchronizationService.Instance.SendPlanned(activitiesDto,task);
-            }*/
-            
-            /*await SynchronizationService.Instance.GetActivities();
-            await SynchronizationService.Instance.GetFavorites();
-            await SynchronizationService.Instance.GetPlanned();*/
             _listTimer.Start();
+            Content.IsEnabled = true;
         }
 
         private async void ActiveTasks_OnItemTapped(object sender, ItemTappedEventArgs e)
@@ -178,7 +158,7 @@ namespace TaskMaster
                 };
                 if (activity.TaskId == 0)
                 {
-                    item.Name = "Unnamed Activity " + activity.ActivityId;
+                    item.Name = "Nowa Aktywność " + activity.ActivityId;
                 }
                 else
                 {
@@ -209,7 +189,7 @@ namespace TaskMaster
                 };
                 if (activity.TaskId == 0)
                 {
-                    item.Name = "Unnamed Activity " + activity.ActivityId;
+                    item.Name = "Nowa Aktywność " + activity.ActivityId;
                 }
                 else
                 {
@@ -245,7 +225,6 @@ namespace TaskMaster
             {
                 Guid = Guid.NewGuid().ToString(),
                 Status = StatusType.Start,
-                //UserId = 1,
                 UserId = UserService.Instance.GetLoggedUser().UserId,
                 GroupId = 1,
                 TaskId = 0
@@ -256,6 +235,7 @@ namespace TaskMaster
             {
                 ActivityId = activity.ActivityId,
                 Start = now.ToString("HH:mm:ss dd/MM/yyyy"),
+                Stop = "",
                 Duration = "0"
             };
             part.PartId = await UserService.Instance.SavePartOfActivity(part);
@@ -264,7 +244,7 @@ namespace TaskMaster
             var item = new MainPageListItem
             {
                 MyImageSource = ImageChoice(activity.Status),
-                Name = "Unnamed Activity " + activity.ActivityId,
+                Name = "Nowa Aktywność " + activity.ActivityId,
                 ActivityId = activity.ActivityId,
                 PartId = part.PartId,
                 Duration = $"{t.Hours:D2}h:{t.Minutes:D2}m:{t.Seconds:D2}s",
@@ -279,7 +259,7 @@ namespace TaskMaster
         {
             var task = await UserService.Instance.GetTaskById(start.TaskId) ?? new TasksDto
             {
-                Name = "Unnamed Activity " + start.ActivityId
+                Name = "Nowa Aktywność " + start.ActivityId
             };
             var result = await DisplayAlert("Error", "Masz niezapauzowaną aktywność " + task.Name + ".\n " +
                                                      "Czy była ona aktywna od zamknięcia aplikacji? \n" +
@@ -377,7 +357,7 @@ namespace TaskMaster
             try
             {
                 var iNetRequest = (HttpWebRequest)WebRequest.Create(checkUrl);
-                iNetRequest.Timeout = 5000;
+                iNetRequest.Timeout = 3000;
                 var iNetResponse = iNetRequest.GetResponse();
                 iNetResponse.Close();
                 return true;

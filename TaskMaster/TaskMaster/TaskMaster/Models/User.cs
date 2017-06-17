@@ -12,5 +12,6 @@ namespace TaskMaster.Models
         public string TypeOfRegistration { get; set; }
         public bool IsLoggedIn { get; set; }
         public SyncStatus SyncStatus { get; set; }
+        public string ApiToken { get; set; }
     }
 }

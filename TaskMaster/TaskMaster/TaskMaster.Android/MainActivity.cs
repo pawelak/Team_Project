@@ -10,6 +10,7 @@ using Android.OS;
 using Android.Widget;
 using TaskMaster.Enums;
 using TaskMaster.ModelsDto;
+using TaskMaster.Services;
 using Xamarin.Forms;
 
 namespace TaskMaster.Droid
@@ -87,17 +88,30 @@ namespace TaskMaster.Droid
                 var acc = result.SignInAccount;
                 var email = acc.Email;
                 var idToken = acc.IdToken;
-                var userDto = new UserDto
+                var user = await Services.UserService.Instance.GetUserByEmail(email);
+                if (user == null)
                 {
-                    Name = email,
-                    Token = idToken,
-                    TypeOfRegistration = "Google",
-                    SyncStatus = SyncStatus.ToUpload,
-                    IsLoggedIn = true
-                };
-                userDto.UserId = await Services.UserService.Instance.SaveUser(userDto);
-                Services.UserService.Instance.SetLoggedUser(userDto);
-                //await Services.SynchronizationService.Instance.SendUser(userDto);
+                    var userDto = new UserDto
+                    {
+                        Name = email,
+                        Token = idToken,
+                        TypeOfRegistration = "Google",
+                        SyncStatus = SyncStatus.ToUpload,
+                        IsLoggedIn = true
+                    };
+                    userDto.UserId = await Services.UserService.Instance.SaveUser(userDto);
+                    Services.UserService.Instance.SetLoggedUser(userDto);
+                    await SynchronizationService.Instance.SendUser(userDto);
+                }
+                else
+                {
+                    user.Token = idToken;
+                    user.SyncStatus = SyncStatus.ToUpload;
+                    user.IsLoggedIn = true;
+                    user.UserId = await Services.UserService.Instance.SaveUser(user);
+                    Services.UserService.Instance.SetLoggedUser(user);
+                    await SynchronizationService.Instance.SendUser(user);
+                }
                 LoadApplication(new App());
             }
             else

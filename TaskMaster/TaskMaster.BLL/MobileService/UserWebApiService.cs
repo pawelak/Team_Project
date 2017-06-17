@@ -14,6 +14,7 @@ namespace TaskMaster.BLL.MobileServices
     {
         private readonly UserRepositories _userRepositories = new UserRepositories();
         private readonly TokensRepositories _tokensRepositories = new TokensRepositories();
+        private readonly VeryficationService _veryficationService = new VeryficationService();
 
         public bool IsEmailInDatabase(string email)
         {
@@ -41,17 +42,12 @@ namespace TaskMaster.BLL.MobileServices
 
         }
 
-        public bool AddNewUser(UserMobileDto userWebApi)
+        public string AddNewUser(UserMobileDto userWebApi, string jwtToken)
         {
-            if (true)                   //potwierdzenie od googla
+            if (_veryficationService.Verify(jwtToken))
             {
                 if (!IsEmailInDatabase(userWebApi.Email))
                 {
-                    var tmpTokenDto = new TokensDto()
-                    {
-                        Token = userWebApi.Token,
-                        PlatformType = userWebApi.PlatformType,
-                    };
                     var tmpUserDto = new UserDto()
                     {
                         Email = userWebApi.Email,
@@ -61,96 +57,56 @@ namespace TaskMaster.BLL.MobileServices
                         UserGroup = new List<UserGroupDto>(),
                         Tokens = new List<TokensDto>()
                     };
-                    tmpUserDto.Tokens.Add(tmpTokenDto);
+                    var nrId = _userRepositories.Add(tmpUserDto);
 
-                    _userRepositories.Add(tmpUserDto);
+                    var t = _veryficationService.GenereteToken();
+                    var tmpTokenDto = new TokensDto()
+                    {
+                        Token = t,
+                        PlatformType = userWebApi.PlatformType,
+                        User = _userRepositories.Get(nrId),
+                        BrowserType = BrowserType.None
+                    };
+                    _tokensRepositories.Add(tmpTokenDto);
 
-                    return true;
+                    return t;
+                }
+                else                //tokeny zostają więc możnaby zrobić ich czyszczenie bo bespieczeństwo spada
+                {
+                    var t = _veryficationService.GenereteToken();
+                    var tmpTokenDto = new TokensDto()
+                    {
+                        Token = t,
+                        PlatformType = PlatformType.Android,
+                        User = _userRepositories.Get(userWebApi.Email)
+                    };
+                    _tokensRepositories.Add(tmpTokenDto);
+                    return t;
                 }
             }
-            
-            return false;
+
+            return null;
         }
 
-        public bool DeleteUserByEmail(UserMobileDto userMobileDto)
+
+
+
+        public bool DeleteUserByEmail(UserMobileDto userMobileDto, string jwtToken)
         {
-            if (true)       //google
+            if (_veryficationService.Verify(jwtToken)) //google
             {
                 var listTokens =
                     _userRepositories.GetAll().Where(u => u.Email.Equals(userMobileDto.Email)).Select(t => t.Tokens);
-                foreach (var tmpToken in listTokens) _tokensRepositories.Delete((TokensDto)tmpToken);
+                foreach (var tmpToken in listTokens) _tokensRepositories.Delete((TokensDto) tmpToken);
 
                 if (IsEmailInDatabase(userMobileDto.Email))
                 {
-                    var userDto =_userRepositories.GetAll().First(user => user.Email.Equals(userMobileDto.Email));
+                    var userDto = _userRepositories.GetAll().First(user => user.Email.Equals(userMobileDto.Email));
                     _userRepositories.Delete(userDto);
                 }
             }
             return true;
         }
 
-
-        public bool EditUser(UserMobileDto userMobileDto)
-        {
-            if (true)       //google
-            {
-                if (IsEmailInDatabase(userMobileDto.Email))
-                {
-                    var tmpUserDto = _userRepositories.GetAll().First(user => user.Email.Equals(userMobileDto.Email));
-
-                    tmpUserDto.Description = userMobileDto.Description;
-
-                    _userRepositories.Edit(tmpUserDto);
-
-                    var tmpTokenDto = _tokensRepositories.GetAll()
-                        .First(t => (t.PlatformType == userMobileDto.PlatformType)
-                                    && (t.PlatformType == PlatformType.None)
-                                    && !(t.Token.Equals(userMobileDto.Token)));
-
-                    tmpTokenDto.Token = userMobileDto.Token;
-
-                    _tokensRepositories.Edit(tmpTokenDto);
-                }
-                
-            }
-            return true;
-        }
-
-
-
-        public bool UpdateToken(UserMobileDto userMobileDto)
-        {
-            UserDto user;
-            if (IsEmailInDatabase(userMobileDto.Email))
-            {
-                user = _userRepositories
-                    .GetAll(
-                    ).First(u => u.Email.Equals(userMobileDto.Email));
-            }
-            else
-            {
-                return false;
-            }
-
-
-            if (user.Tokens.Any(t => t.PlatformType == userMobileDto.PlatformType))
-            {
-                var token = user.Tokens.First(t => t.PlatformType == userMobileDto.PlatformType);
-                token.Token = userMobileDto.Token;
-                _tokensRepositories.Edit(token);
-            }
-            else
-            {
-                var token = new TokensDto()
-                {
-                    BrowserType = BrowserType.None,
-                    PlatformType = userMobileDto.PlatformType,
-                    Token = userMobileDto.Token,
-                };
-                user.Tokens.Add(token);
-            }
-            return true;
-        }
     }
-
 }

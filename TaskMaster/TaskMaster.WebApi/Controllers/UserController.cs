@@ -1,11 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using System.Web.Http.Results;
 using Newtonsoft.Json;
+using TaskMaster.BLL.MobileService;
 using TaskMaster.BLL.MobileServices;
 using TaskMaster.BLL.WebApiModels;
 
@@ -16,43 +15,24 @@ namespace TaskMaster.WebApi.Controllers
         private readonly UserWebApiService _userWebApiService = new UserWebApiService();
         private readonly PrintAllTestService _printAllTestService = new PrintAllTestService();
 
-        // GET: api/User               
-        public List<UserMobileDto> Get()
+
+
+        // GET: api/User/email             
+        public JsonResult<UserMobileDto> Get(string email)
         {
-            return _printAllTestService.PrintAllUserWebApi();
+            return Json(_userWebApiService.GetUserByEmail(email));
         }
 
-        // GET: api/User/email              pobiera dane urzytkownika o zadanym mailu
-        public HttpResponseMessage Get(HttpRequestMessage request ,string email)
-        {
-            return request.CreateResponse(HttpStatusCode.OK, JsonConvert.SerializeObject(_userWebApiService.GetUserByEmail(email)));
-        }
 
-        // POST: api/User                                       edycja użytkownika
-        public HttpResponseMessage Post([FromBody]string usr)
+        // PUT: api/User  
+        public JsonResult<TokenMobileDto> Put([FromBody]UserMobileDto user, string jwtToken)
         {
-            var tmp = JsonConvert.DeserializeObject<UserMobileDto>(usr);
-            return _userWebApiService.EditUser(tmp)
-                ? new HttpResponseMessage(HttpStatusCode.OK)
-                : new HttpResponseMessage(HttpStatusCode.NotFound);
-        }
-
-        // PUT: api/User                                    dodanie nowego użtkownika
-        public HttpResponseMessage Put([FromBody]string user)
-        {
-            var tmp = JsonConvert.DeserializeObject<UserMobileDto>(user);
-          
-            return _userWebApiService.AddNewUser(tmp) 
-                ? new HttpResponseMessage(HttpStatusCode.OK) 
-                : new HttpResponseMessage(HttpStatusCode.NotFound);
-        }
-
-        // DELETE: api/User                                     usuwanie
-        public HttpResponseMessage Delete([FromBody]UserMobileDto userMobileDto)
-        {
-            return !_userWebApiService.DeleteUserByEmail(userMobileDto)
-                ? new HttpResponseMessage(HttpStatusCode.OK)
-                : new HttpResponseMessage(HttpStatusCode.NotFound);
+            TokenMobileDto tmp = new TokenMobileDto()
+            {
+                Token = _userWebApiService.AddNewUser(user, jwtToken)
+            };
+           
+            return Json(tmp);
         }
     }
 }

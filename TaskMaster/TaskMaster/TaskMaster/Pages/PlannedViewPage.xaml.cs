@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
+using TaskMaster.Enums;
 using TaskMaster.Interfaces;
 using TaskMaster.Lists;
 using TaskMaster.Services;
@@ -153,15 +155,57 @@ namespace TaskMaster.Pages
 	            return;
 	        }
 	        var activity = await UserService.Instance.GetActivity(item.ActivityId);
+	        var task = await UserService.Instance.GetTaskById(activity.TaskId);
+	        if (activity.SyncStatus != SyncStatus.ToUpload)
+	        {
+	            await SynchronizationService.Instance.DeletePlanned(activity, task);
+	        }
 	        activity.Status = StatusType.Canceled;
-	        await UserService.Instance.SaveActivity(activity);
-	        // anulowanie notki
-	        // wysłać do webApi?
-	    }
+            await UserService.Instance.SaveActivity(activity);
+            _plannedList.Clear();
+	        await ListInitiate();
+	        Device.BeginInvokeOnMainThread(() =>
+	        {
+	            PlannedTasks.ItemsSource = _plannedList;
+	        });
+        }
 
-	    private void SyncItem_OnClicked(object sender, EventArgs e)
+	    private async void SyncItem_OnClicked(object sender, EventArgs e)
 	    {
-	        throw new NotImplementedException();
+	        Content.IsEnabled = false;
+	        var isInternet = CheckInternetConnection();
+	        if (isInternet)
+	        {
+	            await SynchronizationService.Instance.SendTasks();
+	            await SynchronizationService.Instance.SendActivities();
+	            await SynchronizationService.Instance.GetActivities();
+	            await SynchronizationService.Instance.SendFavorites();
+	            await SynchronizationService.Instance.GetFavorites();
+	            await SynchronizationService.Instance.SendPlannedAsync();
+	            await SynchronizationService.Instance.GetPlanned();
+	        }
+	        else
+	        {
+	            await DisplayAlert("Error", "Nie można synchronizować bez internetu", "Ok");
+	        }
+	        Content.IsEnabled = true;
+        }
+	    private static bool CheckInternetConnection()
+	    {
+	        const string checkUrl = "http://google.com";
+	        try
+	        {
+	            var iNetRequest = (HttpWebRequest)WebRequest.Create(checkUrl);
+	            iNetRequest.Timeout = 3000;
+	            var iNetResponse = iNetRequest.GetResponse();
+	            iNetResponse.Close();
+	            return true;
+
+	        }
+	        catch (WebException)
+	        {
+	            return false;
+	        }
 	    }
-	}
+    }
 }

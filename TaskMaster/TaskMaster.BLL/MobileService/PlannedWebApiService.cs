@@ -12,7 +12,6 @@ namespace TaskMaster.BLL.MobileService
     public class PlannedWebApiService
     {
         private readonly UserRepositories _userRepositories = new UserRepositories();
-        private readonly GroupWebApiService _groupWebApiService = new GroupWebApiService();
         private readonly TaskRepositories _taskRepositories = new TaskRepositories();
         private readonly ActivityRepositories _activityRepositories = new ActivityRepositories();
         private readonly GroupRepositories _groupRepositories = new GroupRepositories();
@@ -23,92 +22,137 @@ namespace TaskMaster.BLL.MobileService
         public List<PlannedMobileDto> GetPlanned(string email)
         {
             var user = _userRepositories.Get(email);
-
             var activityRawList = user.Activities.Where(act => act.State == State.Planned).ToList();
-
             var returnedList = new List<PlannedMobileDto>();
 
-            foreach (var raw in activityRawList)
+            foreach (var rawActivity in activityRawList)
             {
-                var tmpListOfPatrs = raw.PartsOfActivity.Select(part => new PartsOfActivityMobileDto
+                var tmpListOfPatrs = rawActivity.PartsOfActivity.Select(part => new PartsOfActivityMobileDto
                 {
                     Start = part.Start.ToString("HH:mm:ss dd/MM/yyyy", CultureInfo.InvariantCulture),
                     Stop = part.Stop.ToString("HH:mm:ss dd/MM/yyyy", CultureInfo.InvariantCulture),
                     Duration = part.Duration.ToString("G", CultureInfo.InvariantCulture)
                 }).ToList();
 
-                var tmp = new PlannedMobileDto()
+                try
                 {
-                    UserEmail = raw.User.Email,
-                    Comment = raw.Comment,
-                    Guid = raw.Guid,
-                    TaskName = raw.Task.Name,
-                    Token = null,
-                    EditState = raw.EditState,
-                    State = raw.State,
-                    TaskPart = tmpListOfPatrs.First()
-                };
-                returnedList.Add(tmp);
+                    var tmp = new PlannedMobileDto()
+                    {
+                        UserEmail = rawActivity.User.Email,
+                        Comment = rawActivity.Comment,
+                        Guid = rawActivity.Guid,
+                        TaskName = rawActivity.Task.Name,
+                        Token = null,
+                        EditState = rawActivity.EditState,
+                        State = rawActivity.State,
+                        TaskPart = tmpListOfPatrs.First()
+                    };
+                    returnedList.Add(tmp);
+                }
+                catch (Exception)
+                {
+                    return null;
+                }
             }
 
             return returnedList;
         }
 
-        public bool AddPlanned(PlannedMobileDto plannActivityMobileDto)
+        public bool AddPlanned(PlannedMobileDto plannedMobileDto)
         {
-            if (plannActivityMobileDto.State != State.Planned) return false;
+            if (plannedMobileDto.State != State.Planned) return false;
+            TaskDto tmpTask = null;
+            int idAct;
+            try
+            {
+                tmpTask = _taskRepositories.Get(plannedMobileDto.TaskName);
+            }
+            catch (Exception e)
+            {
+            }
 
-            var idAct = 0;
-            var tmpTask = _taskRepositories.Get(plannActivityMobileDto.TaskName);
             if (tmpTask == null)
             {
                 tmpTask = new TaskDto()
                 {
                     Description = "",
-                    Name = plannActivityMobileDto.TaskName,
+                    Name = plannedMobileDto.TaskName,
                 };
                 _taskRepositories.Add(tmpTask);
             }
             var tmpActivity = new ActivityDto
             {
-                Comment = plannActivityMobileDto.Comment,
-                Guid = plannActivityMobileDto.Guid,
-                State = plannActivityMobileDto.State,
-                EditState = plannActivityMobileDto.EditState,
-                User = _userRepositories.Get(plannActivityMobileDto.UserEmail),
-                Task = _taskRepositories.Get(plannActivityMobileDto.TaskName),
+                Comment = plannedMobileDto.Comment,
+                Guid = plannedMobileDto.Guid,
+                State = plannedMobileDto.State,
+                EditState = plannedMobileDto.EditState,
+                User = _userRepositories.Get(plannedMobileDto.UserEmail),
+                Task = _taskRepositories.Get(plannedMobileDto.TaskName),
                 Group = _groupRepositories.Get(1)
             };
             try
             {
                 idAct = _activityRepositories.Add(tmpActivity);
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 return false;
             }
-            var tmpPart = new PartsOfActivityDto
-            {
-                Start = DateTime.ParseExact(plannActivityMobileDto.TaskPart.Start, "HH:mm:ss dd/MM/yyyy", CultureInfo.InvariantCulture),
-                Stop = DateTime.ParseExact(plannActivityMobileDto.TaskPart.Start, "HH:mm:ss dd/MM/yyyy", CultureInfo.InvariantCulture),
-                Duration = TimeSpan.ParseExact(plannActivityMobileDto.TaskPart.Duration, "G", CultureInfo.InvariantCulture),
-                Activity = _activityRepositories.Get(idAct)
-            };
+            
             try
             {
+                var tmpPart = new PartsOfActivityDto
+                {
+                    Start = DateTime.ParseExact(plannedMobileDto.TaskPart.Start, "HH:mm:ss dd/MM/yyyy", CultureInfo.InvariantCulture),
+                    Stop =  DateTime.MaxValue,
+                    Duration = TimeSpan.Zero,
+                    Activity = _activityRepositories.Get(idAct)
+                };
                 _partsOfActivityRepositories.Add(tmpPart);
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 return false;
             }
-            return false;
+            return true;
 
+        }
+
+        public bool EndPlanned(PlannedMobileDto plannedMobileDto)
+        {
+            var user = _userRepositories.Get(plannedMobileDto.UserEmail);
+            var planned = user.Activities.First(g => g.Guid.Equals(plannedMobileDto.Guid));
+            planned.EditState = EditState.Delete;
+            _activityRepositories.Edit(planned);
+            return true;
+
+        }
+
+        public bool Delete(string guid, string email)
+        {
+            var toDel = _activityRepositories.Get(email).First(g => g.Guid.Equals(guid));
+            try
+            {
+                _activityRepositories.Delete(toDel);
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+            return true;
         }
 
 
 
-        //tu edit jeszcze
-
     }
 }
+
+
+
+//var tmpPart = new PartsOfActivityDto
+//{
+//    Start = DateTime.ParseExact(plannedMobileDto.TaskPart.Start, "HH:mm:ss dd/MM/yyyy", CultureInfo.InvariantCulture),
+//    Stop = new DateTime(),
+//    Duration = new TimeSpan(),
+//    Activity = _activityRepositories.Get(idAct)
+//};
