@@ -85,7 +85,9 @@ namespace TaskMaster.BLL.WebServices
                 help.Add((max-min).ToString());
                 help.Add(sum.ToString());
                 help.Add(((max-min)-sum).ToString());
+
                 help.Add(act.ActivityId.ToString());
+                help.Add(act.Task.TaskId.ToString()); 
 
                 result.Add(help);
             }
