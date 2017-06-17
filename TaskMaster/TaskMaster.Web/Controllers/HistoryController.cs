@@ -27,5 +27,16 @@ namespace TaskMaster.Web.Controllers
             ViewBag.mod = y;
             return View();
         }
+
+
+        public class dataFromViewCallendar {
+            public int id { get; set; }
+            
+        }
+        [HttpPost]
+        public JsonResult getId(dataFromViewCallendar data) {
+
+            return Json(string.Empty, JsonRequestBehavior.AllowGet);
+        }
     }
 }
