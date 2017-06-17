@@ -22,10 +22,6 @@ namespace TaskMaster.Web.Controllers
         [HttpPost]
         public JsonResult GetMonthAndYear(dataFromViewCallendar data) {
       
-        
-        
-
-       
           return Json(string.Empty, JsonRequestBehavior.AllowGet);
         }
     }

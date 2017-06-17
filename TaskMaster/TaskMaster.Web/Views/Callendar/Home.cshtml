@@ -98,12 +98,11 @@
             year: year        
     };        
         $.ajax({
-            url: "/Callendar/GetMonth",
+            url: "/Callendar/GetMonthAndYear",
             type: "POST",
             dataType: "json",
             data: dataToSend          
-        });
-        alert(dataToSend.year);
+        });        
         return false;
     }
     
