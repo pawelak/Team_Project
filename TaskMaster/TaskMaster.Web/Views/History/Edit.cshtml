@@ -9,16 +9,16 @@
        <p>@p</p>
    }
     <div>@ViewBag.tym</div>
-    <div class="form-group">
-        <label class="control-label" for="focusedInput">Nazwa tasku</label>
-        <input class="form-control" id="focusedInput" type="text" value="tu pobrana z bazy">
+    
+
+    <div class="form-group" id="taskName">
+        <label class="control-label">Nazwa tasku</label>
+        
     </div>
 
     <div class="edit">
         <div class="progress" id="bars">
-            @*<div class="progress-bar progress-bar-warning" style="width: 35%"><p>1:05:41</p></div>
-            <div class="progress-bar progress-bar-info" style="width: 20%"><p>0:30:45</p></div>
-            <div class="progress-bar progress-bar-warning" style="width: 45%"><p>1:54:12</p></div>*@
+
         </div>
     </div>
     <div class="row">
@@ -29,7 +29,12 @@
             </div>
         </div>
         <div class="col-md-2">
-            <div id="textBoxes" class="form-group">
+            <div id="textBoxesStart" class="form-group">
+
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div id="textBoxesStop" class="form-group">
 
             </div>
         </div>
@@ -43,8 +48,43 @@
 
 
 <script>
+    
+    function getName() {
+        var input = document.createElement('input');
+        input.className = "form-control";
+        input.id = "focusedInput";
+        input.placeholder = "tu pobrano z bazy";                    // WSTAWIĆ NAZWE Z BAZY
+        document.getElementById('taskName').appendChild(input);
+    }
+
+    function buttonClick() {
+        var target = event.target || event.srcElement;
+        var id = target.id;
+        var cut = id.substr(10);
+        
+        var inp = document.getElementById('editTextBoxStart' + cut);        
+        $(inp).css("visibility", "visible");
+
+        inp = document.getElementById('editTextBoxStop' + cut);
+        $(inp).css("visibility", "visible");
+
+        var button = document.getElementById('acceptButton' + cut);
+        $(button).css("visibility", "visible");
+
+    }
+
+    function acceptChange() {
+        var target = event.target || event.srcElement;
+        var id = target.id;
+        document.getElementById(id).className = "btn btn-success";
+        document.getElementById(id).innerHTML = "zapisano";
+    }
+
+    getName();
+
+
     var howManyTimes = 3; // this number will be taken from database
-    var percents = ["25%", "35%", "40%"];
+    var percents = ["25%", "35%", "40%"];                           // WSTAWIĆ DANE Z BAZY
     var times = ["1:05:41", "0:30:45", "1:54:12"];
 
     for (var i = 0; i < howManyTimes; i++) {
@@ -80,57 +120,86 @@
             button.className = "btn btn-danger";
         }
         else
-            button.innerHTML = "edytuj czas " + i;
+            button.innerHTML = "edytuj odcinek " + (i+1);
 
         $(button).css("margin", "10px 0px ");
         button.id = "editButton" + i;
-
-        //button.onclick = () => {
-        //     $("#editTextBox"+i).css("visibility", "visible");
-        //    alert(i);
-
-        //}
+        button.onclick = buttonClick;
         document.getElementById("editTimes").appendChild(button);
-
-
-   
-
     }
     
-    //function test() {
-    //    alert(this.i);
-    //}
 
     for (var i = 0; i < howManyTimes; i++) {
         var inp = document.createElement("input");
         inp.className = "form-control";
         inp.type = "text";
-        inp.value = "wpisz nowy czas";
-        inp.id = "editTextBox" + i;
+        inp.placeholder = "wpisz nowy czas startu";
+        inp.id = "editTextBoxStart" + i;
         $(inp).css("margin", "10px 0px 20px 0px ");
-        // $(inp).css("visibility", "hidden");
-        document.getElementById("textBoxes").appendChild(inp);
+        $(inp).css("width", "100%");
+        $(inp).css("visibility", "hidden");
+        document.getElementById("textBoxesStart").appendChild(inp);
+
+        var inpStop = document.createElement('input');
+        inpStop.className = "form-control";
+        inpStop.type = "text";
+        inpStop.placeholder = "wpisz nowy czas stopu";
+        inpStop.id = "editTextBoxStop" + i;
+        $(inpStop).css("margin", "10px 0px 20px 0px ");
+        $(inpStop).css("width", "100%");
+        $(inpStop).css("visibility", "hidden");
+        document.getElementById("textBoxesStop").appendChild(inpStop);
+
+        var button = document.createElement('button');
+        button.className = "btn btn-danger";
+        button.innerHTML = "akceptuj";
+        button.id = "acceptButton" + i;
+        $(button).css("visibility", "hidden");
+        $(button).css("margin", "10px 0px ");
+        
+        button.onclick = acceptChange;
+        document.getElementById('accept').appendChild(button);
 
     }
 
-
+    var counter = howManyTimes;
     $(document).ready(function () {               
-        $("#editButton" + howManyTimes).click(function () {
+        $("#editButton" + counter).click(function () {
             var newTextBox = document.createElement('input');
             newTextBox.className = "form-control";
             newTextBox.type = "text";
-            newTextBox.value = "wpisz nowy czas";
-            newTextBox.id = "editTextBox" + i;
+            newTextBox.placeholder = "wpisz nowy czas startu";
+            newTextBox.id = "editTextBoxStart" + counter;
             $(newTextBox).css("margin", "10px 0px 20px 0px ");
-            document.getElementById("textBoxes").appendChild(newTextBox);
+            document.getElementById("textBoxesStart").appendChild(newTextBox);
 
+            var newTextBoxStop = document.createElement('input');
+            newTextBoxStop.className = "form-control";
+            newTextBoxStop.type = "text";
+            newTextBoxStop.placeholder = "wpisz nowy czas stopu";
+            newTextBoxStop.id = "editTextBoxStart" + counter;
+            $(newTextBoxStop).css("margin", "10px 0px 20px 0px ");
+            document.getElementById("textBoxesStop").appendChild(newTextBoxStop);
+
+        
             
             var button = document.createElement("button");
             button.innerHTML = "wpisz czas ";
             button.className = "btn btn-success";
-            $(button).css("margin", "10px 0px ");
+            button.id = "editButton" + counter;
+            $(button).css("margin", "10px 0px ");            
             $(button).insertBefore($("#editButton" + howManyTimes));
-           
+
+            var buttonAccept = document.createElement('button');
+            buttonAccept.innerHTML = "akceptuj";
+            buttonAccept.className = "btn btn-danger";
+            $(buttonAccept).css("margin", "10px 0px ");
+            $(buttonAccept).css("visibility", "visible");
+            buttonAccept.id = "acceptButton" + counter;
+            buttonAccept.onclick = acceptChange;
+            document.getElementById("accept").appendChild(buttonAccept);
+
+            counter++;
         });
     });
 

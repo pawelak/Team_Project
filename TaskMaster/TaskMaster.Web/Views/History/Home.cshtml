@@ -30,62 +30,39 @@
 
                 @foreach (var p in alfa.History("dlanorberta@gmail.com"))
                 {
-                    <tr class="activityDetails">
-                    
-                    <td>
-                        @*<a href='@Url.Action("Edit", "History")'>
-                            <img src="../../images/programming.png" />
-                        </a>*@
-                    </td>
-                        <td>@p[0]</td>
+                    <tr class="activityDetails">                    
+                        <td ></td>
+                        <td  id="task_@p[6]" onclick="getSpecifiedTask()">@p[0]</td>
                         <td>@p[1]</td>
                         <td>@p[2]</td>
                         <td>@p[3]</td>
-                        <td>@p[4]</td>
-                      
+                        <td>@p[4]</td>                        
                     </tr>
                 }           
-                @*<tr class="activityDetails">                         
-                        <td>
-                            <a href='@Url.Action("Edit", "History")'>
-                                <img src="../../images/programming.png" />
-                            </a>
-                        </td>
-                        <td>@p[0]</td>
-                        <td>@p[1]</td>
-                        <td>@p[2]</td>
-                        <td>@p[3]</td>
-                        <td>@p[4]</td>                            
-                    </tr>
-                <tr class="activityDetails">
-                    <td>
-                        <a href='@Url.Action("Edit", "History")'>
-                            <img src="../../images/Cafe.png" />
-                        </a>
-                    </td>
-                    <td>picie kawy</td>
-                    <td>15.05.2017</td>
-                    <td>0:10:20</td>
-                    <td>0:10:20</td>
-                    <td>0:00:00</td>
-                </tr>*@
-            </table>
-            
+            </table>            
         </div>
     </div>  
 
 </div>
 
 <script>
-    $(document).ready(function () {
-        $('.activityDetails').click(function () {
-            var href = $(this).find("a").attr("href");
-            if (href) {
-                window.location = href;
-            }
-        });
+    function getSpecifiedTask() {
+        var target = event.target || event.srcElement;
+        var id = target.id;
+        var cut = id.substr(5);
+        
+        var dataToSend = {
+            id: cut
+        };
 
-    });
+        $.ajax({
+            url: "/History/GetId",
+            type: "POST",
+            dataType: "json",
+            data: dataToSend
+        });
+        return false;        
+    }
 
 </script>
 
