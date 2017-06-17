@@ -55,6 +55,7 @@
     var changeMonth = 0;
     var changeYear = 0;
     var month = 0;
+    var year = 0;
     function createCallendar() {
         document.getElementById("callendar").innerHTML = '';
         var date = new Date();
@@ -68,7 +69,7 @@
         ];
 
         month = date.getMonth() + changeMonth;
-        var year = date.getFullYear() + changeYear;
+        year = date.getFullYear() + changeYear;
         var firstDate = monthsEng[month] + " " + 1 + ", " + year;
         var tmp = new Date(firstDate);
 
@@ -91,6 +92,22 @@
 
     createCallendar();
 
+    function sendMonth() {
+        var dataToSend = {
+            month: month + 1,
+            year: year        
+    };        
+        $.ajax({
+            url: "/Callendar/GetMonth",
+            type: "POST",
+            dataType: "json",
+            data: dataToSend          
+        });
+        alert(dataToSend.year);
+        return false;
+    }
+    
+
     function addMonth() {
         changeMonth++;
         if (month == 11) {            
@@ -100,9 +117,9 @@
             changeMonth = 0;
             changeMonth -= currentMonth;
             changeYear++;
-        }
-        
+        }        
         createCallendar();
+        sendMonth();
     }
     function subtractMonth() {
         changeMonth--;

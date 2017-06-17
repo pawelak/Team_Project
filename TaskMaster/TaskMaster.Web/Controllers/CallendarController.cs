@@ -13,5 +13,20 @@ namespace TaskMaster.Web.Controllers
         {
             return View();
         }
+
+        public class dataFromViewCallendar {
+            public int month { get; set; }
+            public int year { get; set; }
+        }
+
+        [HttpPost]
+        public JsonResult GetMonthAndYear(dataFromViewCallendar data) {
+      
+        
+        
+
+       
+          return Json(string.Empty, JsonRequestBehavior.AllowGet);
+        }
     }
 }
