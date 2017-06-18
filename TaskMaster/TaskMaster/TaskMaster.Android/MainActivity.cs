@@ -7,7 +7,6 @@ using Android.Gms.Auth.Api.SignIn;
 using Android.Gms.Common;
 using Android.Gms.Common.Apis;
 using Android.OS;
-using Android.Widget;
 using TaskMaster.Enums;
 using TaskMaster.ModelsDto;
 using TaskMaster.Services;
@@ -99,9 +98,15 @@ namespace TaskMaster.Droid
                         SyncStatus = SyncStatus.ToUpload,
                         IsLoggedIn = true
                     };
+                    var send = await SynchronizationService.Instance.SendUser(userDto);
+                    if (!send)
+                    {
+                        Finish();
+                        return;
+                    }
                     userDto.UserId = await Services.UserService.Instance.SaveUser(userDto);
                     Services.UserService.Instance.SetLoggedUser(userDto);
-                    await SynchronizationService.Instance.SendUser(userDto);
+                    
                 }
                 else
                 {
