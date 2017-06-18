@@ -33,14 +33,14 @@
                                     <StackLayout Orientation="Vertical" HorizontalOptions="FillAndExpand" VerticalOptions="Fill" Spacing="1" Margin="2">
                                         <Label Text="{Binding Name}" TextColor="{x:StaticResource TextColor}"
                                                FontFamily="{x:StaticResource Font}" FontSize="{x:StaticResource Medium}" />
+                                        <Label Text="{Binding Description}" TextColor="{x:StaticResource TextColor}" HorizontalOptions="EndAndExpand"
+                                               FontFamily="{x:StaticResource Font}" FontSize="{x:StaticResource Field}"/>
                                         <Label Text="{Binding Date}" TextColor="{x:StaticResource TextColor}"
                                                FontFamily="{x:StaticResource Font}" FontSize="{x:StaticResource Field}"/>
                                     </StackLayout>
-                                    <StackLayout>
+                                    <StackLayout WidthRequest="120">
                                         <Label Text="{Binding Time}" TextColor="{x:StaticResource TextColor}" HorizontalOptions="EndAndExpand"
                                                FontFamily="{x:StaticResource Font}" FontSize="{x:StaticResource Medium}"/>
-                                        <Label Text="{Binding Description}" TextColor="{x:StaticResource TextColor}" HorizontalOptions="EndAndExpand"
-                                               FontFamily="{x:StaticResource Font}" FontSize="{x:StaticResource Field}"/>
                                     </StackLayout>
                                 </StackLayout>
                             </StackLayout>

@@ -69,7 +69,7 @@ namespace TaskMaster.Pages
                 {
                     Name = task.Name,
                     Description = activity.Status.ToString(),
-                    Time = $"{t.Hours:D2}h:{t.Minutes:D2}m:{t.Seconds:D2}s",
+                    Time = $"{t.Hours:D2}:{t.Minutes:D2}:{t.Seconds:D2}",
                     Image = ImagesService.Instance.SelectImage(task.Typ)
                 };
                 _dayPlan.Add(element);

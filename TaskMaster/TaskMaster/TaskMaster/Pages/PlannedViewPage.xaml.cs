@@ -82,7 +82,11 @@ namespace TaskMaster.Pages
 
 	    private async Task ListInitiateAsync()
 	    {
-	        var activitiesPlannedList = await UserService.Instance.GetActivitiesByStatus(StatusType.Planned);
+	        if (_plannedList.Count > 0)
+	        {
+	            _plannedList.Clear();
+	        }
+            var activitiesPlannedList = await UserService.Instance.GetActivitiesByStatus(StatusType.Planned);
 	        foreach (var activity in activitiesPlannedList)
 	        {
 	            var lastPart = await UserService.Instance.GetLastActivityPart(activity.ActivityId);
@@ -93,12 +97,14 @@ namespace TaskMaster.Pages
 	                Name = task.Name,
 	                Description = activity.Comment,
 	                Date = lastPart.Start,
+                    PartId = lastPart.PartId,
 	                Image = ImagesService.Instance.SelectImage(task.Typ)
 	            };
 	            _plannedList.Add(element);
 	        }
 	        Device.BeginInvokeOnMainThread(() =>
 	        {
+	            PlannedTasks.ItemsSource = null;
 	            PlannedTasks.ItemsSource = _plannedList;
 	        });
         }
@@ -110,6 +116,7 @@ namespace TaskMaster.Pages
 	        {
 	            return;
 	        }
+            DependencyService.Get<INotificationService>().CancelNotification(item.PartId);
 	        var activity = await UserService.Instance.GetActivity(item.ActivityId);
 	        var task = await UserService.Instance.GetTaskById(activity.TaskId);
 	        if (activity.SyncStatus != SyncStatus.ToUpload)
@@ -118,7 +125,6 @@ namespace TaskMaster.Pages
 	        }
 	        activity.Status = StatusType.Canceled;
 	        await UserService.Instance.SaveActivity(activity);
-	        _plannedList.Clear();
 	        await ListInitiateAsync();
         }
 

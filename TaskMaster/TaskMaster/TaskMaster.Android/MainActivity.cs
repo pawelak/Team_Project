@@ -101,8 +101,8 @@ namespace TaskMaster.Droid
                     var send = await SynchronizationService.Instance.SendUser(userDto);
                     if (!send)
                     {
-                        Finish();
-                        return;
+                        /*Finish();
+                        return;*/
                     }
                     userDto.UserId = await Services.UserService.Instance.SaveUser(userDto);
                     Services.UserService.Instance.SetLoggedUser(userDto);
@@ -120,7 +120,7 @@ namespace TaskMaster.Droid
                 LoadApplication(new App());
             }
             else
-            {
+            {               
                 Finish();
             }
         }

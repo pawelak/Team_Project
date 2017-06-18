@@ -27,7 +27,6 @@ namespace TaskMaster.Pages
             ActivityDescription.Text = item.Description;
             TaskName.Text = item.Name;
             TaskDescription.Text = item.Description;
-            TypePickerImage.Source = "OK.png";
             AddItemsToPicker();
         }
 
@@ -81,9 +80,11 @@ namespace TaskMaster.Pages
             {
                 _task = new TasksDto
                 {
-                    Name = _initItem.Name
+                    Name = _initItem.Name,
+                    Typ = "Inne"
                 };
             }
+            TypePickerImage.Source = ImagesService.Instance.SelectImage(_task.Typ);
             TaskDate.Text = _part.Start;
             _startTime = _initItem.Time;
             var t = TimeSpan.FromMilliseconds(_startTime + StopwatchesService.Instance.GetStopwatchTime(_part.PartId));
