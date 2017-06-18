@@ -30,6 +30,10 @@ namespace TaskMaster
             {
                 _listTimer.Start();
             }
+            else
+            {
+                ActiveTasks.IsVisible = false;
+            }
         }
 
         protected override void OnDisappearing()
@@ -42,8 +46,10 @@ namespace TaskMaster
         {
             if (_activeTasksList.Count <= 0)
             {
+                ActiveTasks.IsVisible = false;
                 return;
             }
+            ActiveTasks.IsVisible = true;
             foreach (var item in _activeTasksList)
             {
                 if (item.Status != StatusType.Start)
@@ -90,9 +96,28 @@ namespace TaskMaster
             await Navigation.PushModalAsync(new NavigationPage(new PlannedViewPage()));
         }
 
+        private void UpdateUi(bool enable)
+        {
+            if (enable)
+            {
+                FastTaskButton.IsEnabled = true;
+                PlanTaskButton.IsEnabled = true;
+                StartTaskButton.IsEnabled = true;
+                ActiveTasks.IsEnabled = true;
+            }
+            else
+            {
+                FastTaskButton.IsEnabled = false;
+                PlanTaskButton.IsEnabled = false;
+                StartTaskButton.IsEnabled = false;
+                ActiveTasks.IsEnabled = false;
+            } 
+        }
+
         private async void SyncItem_OnClicked(object sender, EventArgs e)
         {
             _listTimer.Stop();
+            UpdateUi(false);
             var send = await SynchronizationService.Instance.SendTasks();
             if (!send)
             {
@@ -105,6 +130,7 @@ namespace TaskMaster
             await SynchronizationService.Instance.GetFavorites();
             await SynchronizationService.Instance.SendPlannedAsync();
             await SynchronizationService.Instance.GetPlanned();
+            UpdateUi(true);
             _listTimer.Start();
         }
 

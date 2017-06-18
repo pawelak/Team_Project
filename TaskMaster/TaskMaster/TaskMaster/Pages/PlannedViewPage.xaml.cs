@@ -116,9 +116,16 @@ namespace TaskMaster.Pages
 	        {
 	            return;
 	        }
-            DependencyService.Get<INotificationService>().CancelNotification(item.PartId);
-	        var activity = await UserService.Instance.GetActivity(item.ActivityId);
-	        var task = await UserService.Instance.GetTaskById(activity.TaskId);
+	        PlannedTasks.IsEnabled = false;
+            var activity = await UserService.Instance.GetActivity(item.ActivityId);
+	        if (activity.Status != StatusType.Planned)
+	        {
+	            await DisplayAlert("Error", "Nie można anulować gdyż aktywność nie jest nadal planowana", "Ok");
+	            await ListInitiateAsync();
+	            return;
+	        }
+	        DependencyService.Get<INotificationService>().CancelNotification(item.PartId);
+            var task = await UserService.Instance.GetTaskById(activity.TaskId);
 	        if (activity.SyncStatus != SyncStatus.ToUpload)
 	        {
 	            await SynchronizationService.Instance.DeletePlanned(activity, task);
@@ -126,15 +133,18 @@ namespace TaskMaster.Pages
 	        activity.Status = StatusType.Canceled;
 	        await UserService.Instance.SaveActivity(activity);
 	        await ListInitiateAsync();
+	        PlannedTasks.IsEnabled = true;
         }
 
 	    private async void SyncItem_OnClicked(object sender, EventArgs e)
 	    {
-	        var send = await SynchronizationService.Instance.SendTasks();
+	        PlannedTasks.IsEnabled = false;
+            var send = await SynchronizationService.Instance.SendTasks();
 	        if (!send)
 	        {
 	            await DisplayAlert("Error", "Wystąpił problem z synchronizacją", "Ok");
-	            return;
+	            PlannedTasks.IsEnabled = true;
+                return;
 	        }
 	        await SynchronizationService.Instance.SendActivities();
 	        await SynchronizationService.Instance.GetActivities();
@@ -142,6 +152,7 @@ namespace TaskMaster.Pages
 	        await SynchronizationService.Instance.GetFavorites();
 	        await SynchronizationService.Instance.SendPlannedAsync();
 	        await SynchronizationService.Instance.GetPlanned();
+	        PlannedTasks.IsEnabled = true;
         }
     }
 }

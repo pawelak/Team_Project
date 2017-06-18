@@ -19,7 +19,6 @@ namespace TaskMaster.Droid
             var pendingIntent = PendingIntent.GetBroadcast(Xamarin.Forms.Forms.Context, id, alarmIntent, PendingIntentFlags.UpdateCurrent);
             var alarmManager = (AlarmManager)Xamarin.Forms.Forms.Context.GetSystemService(Context.AlarmService);
             alarmManager.Set(AlarmType.RtcWakeup, NotifyTimeInMilliseconds(whenToStart), pendingIntent);
-            alarmManager.Cancel(pendingIntent);
         }
 
         public long NotifyTimeInMilliseconds(DateTime notifyTime)

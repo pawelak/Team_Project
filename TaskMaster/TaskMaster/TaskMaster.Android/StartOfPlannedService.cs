@@ -27,7 +27,6 @@ namespace TaskMaster.Droid
             await Services.UserService.Instance.SavePartOfActivity(_part);
             await Services.UserService.Instance.SaveActivity(_activity);
             StopwatchesService.Instance.AddStopwatch(_part.PartId);
-
         }
     }
 }

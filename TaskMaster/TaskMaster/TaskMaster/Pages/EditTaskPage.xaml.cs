@@ -118,9 +118,30 @@ namespace TaskMaster.Pages
             StopButton.IsVisible = _activity.Status != StatusType.Planned;
         }
 
+        private void UpdateUi(bool enable)
+        {
+            if (enable)
+            {
+                PauseButton.IsVisible = true;
+                ResumeButton.IsVisible = true;
+                StopButton.IsVisible = true;
+                AcceptButton.IsVisible = true;
+                AddFavorite.IsVisible = true;
+            }
+            else
+            {
+                PauseButton.IsVisible = false;
+                ResumeButton.IsVisible = false;
+                StopButton.IsVisible = false;
+                AcceptButton.IsVisible = false;
+                AddFavorite.IsVisible = false;
+            }
+        }
+
         private async void StopButton_OnClicked(object sender, EventArgs e)
         {
             _timer.Stop();
+            UpdateUi(false);
             StopwatchesService.Instance.StopStopwatch(_part.PartId);
             _part.Stop = DateTime.Now.ToString("HH:mm:ss dd/MM/yyyy");
             _part.Duration = StopwatchesService.Instance.GetStopwatchTime(_part.PartId).ToString();
@@ -129,6 +150,7 @@ namespace TaskMaster.Pages
             await UserService.Instance.SavePartOfActivity(_part);
             if (_task.TaskId == 0)
             {
+                UpdateUi(true);
                 await Navigation.PushModalAsync(new FillInformationPage(_activity));
             }
             else
@@ -137,6 +159,7 @@ namespace TaskMaster.Pages
                 _activity.TaskId = _task.TaskId;
                 await UserService.Instance.SaveActivity(_activity);
                 await SynchronizationService.Instance.SendActivity(_activity,_task);
+                UpdateUi(true);
                 await Navigation.PushModalAsync(new NavigationPage(new MainPage()));
             }
         }
@@ -233,12 +256,14 @@ namespace TaskMaster.Pages
 
         private async void AddFavorite_OnClicked(object sender, EventArgs e)
         {
+            
             if (_task.TaskId == 0)
             {
                 await DisplayAlert("Error", "Nie możesz dodać do ulubionych nienazwanego tasku", "Ok");
             }
             else
             {
+                UpdateUi(false);
                 var favorite = new FavoritesDto
                 {
                     TaskId = _task.TaskId,
@@ -250,6 +275,7 @@ namespace TaskMaster.Pages
                     await SynchronizationService.Instance.SendTask(_task);
                 }
                 await SynchronizationService.Instance.SendFavorite(favorite);
+                UpdateUi(true);
                 AddFavorite.IsVisible = false;
             }
         }
