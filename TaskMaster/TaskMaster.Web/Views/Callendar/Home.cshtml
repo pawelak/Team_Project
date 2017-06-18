@@ -262,31 +262,31 @@
         var daysNumber = 1;         // tu trzeba jakos pobrać dzien
         var fixNumber = daysNumber + '<';
         
-        if(number == fixNumber || number == daysNumber){
+        if(number == fixNumber || number == daysNumber) {
+            document.getElementById('activities').innerHTML = "";
+            var tr = document.createElement('tr');
+            var td = document.createElement('td');
+            td.innerHTML = " ";
+            tr.appendChild(td);
+            for (var i = 0; i < array.length; i++) {
+                tr = document.createElement('tr');
+                for (var j = -1; j < array[i].length; j++) {
+                    td = document.createElement('td');             
+                    console.log(array[i][j]);
+                    if (j == -1) {
+                        td.innerHTML = '<img src="../../images/eat.png" />';
 
-        var tr = document.createElement('tr');
-        var td = document.createElement('td');
-        td.innerHTML = " ";
-        tr.appendChild(td);
-        for (var i = 0; i < array.length; i++) {
-             tr = document.createElement('tr');
-            for (var j = -1; j < array[i].length; j++) {
-                td = document.createElement('td');             
-                console.log(array[i][j]);
-                if (j == -1) {
-                    td.innerHTML = '<img src="../../images/eat.png" />';
+                    } 
+                    else
+                        td.innerHTML = array[i][j];    
+                    tr.appendChild(td);
+                }
 
-                } 
-                else
-                    td.innerHTML = array[i][j];    
-                tr.appendChild(td);
+                console.log(array[i]);
+
+                document.getElementById('activities').appendChild(tr);
             }
-
-            console.log(array[i]);
-
-            document.getElementById('activities').appendChild(tr);
         }
-            }
         
     }
 
