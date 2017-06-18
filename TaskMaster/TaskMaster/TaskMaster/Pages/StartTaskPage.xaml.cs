@@ -19,7 +19,7 @@ namespace TaskMaster
 
 	    private void AddItemsToPicker()
 	    {
-	        string[] types = {"Sztuka","Inne","Programowanie","Sport","Muzyka","Języki","Jedzenie","Rozrywka","Podróż","Przerwa","Inne" };
+	        string[] types = {"Sztuka","Programowanie","Sport","Muzyka","Języki","Jedzenie","Rozrywka","Podróż","Przerwa","Inne" };
 	        foreach (var type in types)
 	        {
 	            TypePicker.Items.Add(type);

@@ -116,7 +116,7 @@ namespace TaskMaster
 	            var lastPart = await UserService.Instance.GetLastActivityPart(activity.ActivityId);
 	            var task = await UserService.Instance.GetTaskById(activity.TaskId);
 	            var t = TimeSpan.FromMilliseconds(time);
-	            var answer = $"{t.Hours:D2}h:{t.Minutes:D2}m:{t.Seconds:D2}s";
+	            var answer = $"{t.Hours:D2}:{t.Minutes:D2}:{t.Seconds:D2}";
                 var element = new HistoryListItem
                 {
                     Name = task.Name,

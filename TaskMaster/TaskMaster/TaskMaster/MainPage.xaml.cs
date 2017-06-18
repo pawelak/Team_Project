@@ -52,7 +52,7 @@ namespace TaskMaster
                 }
                 var time = item.Time + StopwatchesService.Instance.GetStopwatchTime(item.PartId);
                 var t = TimeSpan.FromMilliseconds(time);
-                var answer = $"{t.Hours:D2}h:{t.Minutes:D2}m:{t.Seconds:D2}s";
+                var answer = $"{t.Hours:D2}:{t.Minutes:D2}:{t.Seconds:D2}";
                 item.Duration = answer;
             }
             UpdateList();
@@ -146,7 +146,7 @@ namespace TaskMaster
                     MyImageSource = ImageChoice(activity.Status),
                     ActivityId = activity.ActivityId,
                     PartId = lastPart.PartId,
-                    Duration = $"{t.Hours:D2}h:{t.Minutes:D2}m:{t.Seconds:D2}s",
+                    Duration = $"{t.Hours:D2}:{t.Minutes:D2}:{t.Seconds:D2}",
                     Time = time,
                     Status = StatusType.Start
                 };
@@ -177,7 +177,7 @@ namespace TaskMaster
                 {
                     MyImageSource = ImageChoice(activity.Status),
                     ActivityId = activity.ActivityId,
-                    Duration = $"{t.Hours:D2}h:{t.Minutes:D2}m:{t.Seconds:D2}s",
+                    Duration = $"{t.Hours:D2}:{t.Minutes:D2}:{t.Seconds:D2}",
                     Time = time,
                     Status = StatusType.Start
                 };
@@ -241,7 +241,7 @@ namespace TaskMaster
                 Name = "Nowa Aktywność " + activity.ActivityId,
                 ActivityId = activity.ActivityId,
                 PartId = part.PartId,
-                Duration = $"{t.Hours:D2}h:{t.Minutes:D2}m:{t.Seconds:D2}s",
+                Duration = $"{t.Hours:D2}:{t.Minutes:D2}:{t.Seconds:D2}",
                 Time = 0
             };
             _activeTasksList.Add(item);

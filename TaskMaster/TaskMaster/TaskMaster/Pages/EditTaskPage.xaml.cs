@@ -87,7 +87,7 @@ namespace TaskMaster.Pages
             TaskDate.Text = _part.Start;
             _startTime = _initItem.Time;
             var t = TimeSpan.FromMilliseconds(_startTime + StopwatchesService.Instance.GetStopwatchTime(_part.PartId));
-            var answer = $"{t.Hours:D2}h:{t.Minutes:D2}m:{t.Seconds:D2}s";
+            var answer = $"{t.Hours:D2}:{t.Minutes:D2}:{t.Seconds:D2}";
             TaskDuration.Text = answer;
             UpdateButtons();
             _timer.Elapsed += UpdateTime;
@@ -103,7 +103,7 @@ namespace TaskMaster.Pages
             }
             _duration = _startTime + StopwatchesService.Instance.GetStopwatchTime(_part.PartId);
             var t = TimeSpan.FromMilliseconds(_duration);
-            var answer = $"{t.Hours:D2}h:{t.Minutes:D2}m:{t.Seconds:D2}s";
+            var answer = $"{t.Hours:D2}:{t.Minutes:D2}:{t.Seconds:D2}";
             Device.BeginInvokeOnMainThread(() =>
             {
                 TaskDuration.Text = answer;
