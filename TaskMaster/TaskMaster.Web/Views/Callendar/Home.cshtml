@@ -251,6 +251,14 @@
 
     addImagesToTheCallendar();
 
+    //<tr>
+    //    <th></th>
+    //    <th>Czynność</th> 
+    //    <th>data</th>
+    //    <th>czas trwania</th>
+    //    <th>czas pracy</th>
+    //    <th>czas przerwy</th>
+    //    </tr>           
     function showTable() {
         var target = event.target || event.srcElement;
         var number = target.innerHTML.substr(0,2);
@@ -262,9 +270,25 @@
         var daysNumber = 1;         // tu trzeba jakos pobrać dzien
         var fixNumber = daysNumber + '<';
         
+       
+
         if(number == fixNumber || number == daysNumber) {
             document.getElementById('activities').innerHTML = "";
+
+
+            var names = ['', 'Czynność', 'Data', 'Czas trwania', 'Czas pracy', 'Czas przerwy'];
             var tr = document.createElement('tr');
+            for (var c = 0; c < 6; c++) {
+                var th = document.createElement('th');
+                th.innerHTML = names[c];
+                tr.appendChild(th);
+            }
+            document.getElementById('activities').appendChild(tr);
+
+
+
+
+            tr = document.createElement('tr');
             var td = document.createElement('td');
             td.innerHTML = " ";
             tr.appendChild(td);
