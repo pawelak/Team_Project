@@ -4,13 +4,7 @@
 }
 <script src="~/Scripts/jquery-3.1.1.min.js"></script>
 <div class="quickFixMargin">
-   @foreach (var p in @ViewBag.mod)
-   {
-       <p>@p</p>
-   }
-    <div>@ViewBag.tym</div>
-    
-
+  
     <div class="form-group" id="taskName">
         <label class="control-label">Nazwa tasku</label>
         
@@ -48,12 +42,13 @@
 
 
 <script>
-    
+
     function getName() {
         var input = document.createElement('input');
         input.className = "form-control";
         input.id = "focusedInput";
-        input.placeholder = "tu pobrano z bazy";                    // WSTAWIĆ NAZWE Z BAZY
+        var array = @Html.Raw(Json.Encode(@ViewBag.mod));
+        input.placeholder = array[0][0];                    // WSTAWIĆ NAZWE Z BAZY
         document.getElementById('taskName').appendChild(input);
     }
 
@@ -61,8 +56,8 @@
         var target = event.target || event.srcElement;
         var id = target.id;
         var cut = id.substr(10);
-        
-        var inp = document.getElementById('editTextBoxStart' + cut);        
+
+        var inp = document.getElementById('editTextBoxStart' + cut);
         $(inp).css("visibility", "visible");
 
         inp = document.getElementById('editTextBoxStop' + cut);
@@ -83,9 +78,14 @@
     getName();
 
 
-    var howManyTimes = 3; // this number will be taken from database
-    var percents = ["25%", "35%", "40%"];                           // WSTAWIĆ DANE Z BAZY
-    var times = ["1:05:41", "0:30:45", "1:54:12"];
+    var array = @Html.Raw(Json.Encode(@ViewBag.mod));
+
+    var howManyTimes = array.length-1; // this number will be taken from database
+    var percents = ["35%", "65%"];                           // WSTAWIĆ DANE Z BAZY
+    var times = [];
+    for (var i = 1; i <= howManyTimes; i++) {
+        times.push(array[i][3]);
+    }
 
     for (var i = 0; i < howManyTimes; i++) {
         var progressBar = document.createElement('div');
@@ -98,7 +98,7 @@
         //progressBar.styleSheet = "width:" + percents[i];
         $(progressBar).css("width", percents[i]);
 
-        var p = document.createElement('p');       
+        var p = document.createElement('p');
         p.innerHTML = times[i];
         progressBar.appendChild(p);
 
@@ -127,13 +127,14 @@
         button.onclick = buttonClick;
         document.getElementById("editTimes").appendChild(button);
     }
-    
+
 
     for (var i = 0; i < howManyTimes; i++) {
         var inp = document.createElement("input");
         inp.className = "form-control";
         inp.type = "text";
-        inp.placeholder = "wpisz nowy czas startu";
+        var array = @Html.Raw(Json.Encode(@ViewBag.mod));
+        inp.placeholder = array[i+1][1];
         inp.id = "editTextBoxStart" + i;
         $(inp).css("margin", "10px 0px 20px 0px ");
         $(inp).css("width", "100%");
@@ -143,7 +144,8 @@
         var inpStop = document.createElement('input');
         inpStop.className = "form-control";
         inpStop.type = "text";
-        inpStop.placeholder = "wpisz nowy czas stopu";
+        var array = @Html.Raw(Json.Encode(@ViewBag.mod));
+        inpStop.placeholder = array[i+1][2];
         inpStop.id = "editTextBoxStop" + i;
         $(inpStop).css("margin", "10px 0px 20px 0px ");
         $(inpStop).css("width", "100%");
@@ -156,14 +158,14 @@
         button.id = "acceptButton" + i;
         $(button).css("visibility", "hidden");
         $(button).css("margin", "10px 0px ");
-        
+
         button.onclick = acceptChange;
         document.getElementById('accept').appendChild(button);
 
     }
 
     var counter = howManyTimes;
-    $(document).ready(function () {               
+    $(document).ready(function () {
         $("#editButton" + counter).click(function () {
             var newTextBox = document.createElement('input');
             newTextBox.className = "form-control";
@@ -171,6 +173,7 @@
             newTextBox.placeholder = "wpisz nowy czas startu";
             newTextBox.id = "editTextBoxStart" + counter;
             $(newTextBox).css("margin", "10px 0px 20px 0px ");
+            $(newTextBox).css("width", "100%");
             document.getElementById("textBoxesStart").appendChild(newTextBox);
 
             var newTextBoxStop = document.createElement('input');
@@ -179,15 +182,16 @@
             newTextBoxStop.placeholder = "wpisz nowy czas stopu";
             newTextBoxStop.id = "editTextBoxStart" + counter;
             $(newTextBoxStop).css("margin", "10px 0px 20px 0px ");
+            $(newTextBoxStop).css("width", "100%");
             document.getElementById("textBoxesStop").appendChild(newTextBoxStop);
 
-        
-            
+
+
             var button = document.createElement("button");
             button.innerHTML = "wpisz czas ";
             button.className = "btn btn-success";
             button.id = "editButton" + counter;
-            $(button).css("margin", "10px 0px ");            
+            $(button).css("margin", "10px 0px ");
             $(button).insertBefore($("#editButton" + howManyTimes));
 
             var buttonAccept = document.createElement('button');
