@@ -57,6 +57,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Pages\PlannedViewPage.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Services\ImagesService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\StopwatchesService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\SynchronizationService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\UserService.cs" />

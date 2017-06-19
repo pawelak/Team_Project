@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
+using System.Threading.Tasks;
 using TaskMaster.Interfaces;
 using TaskMaster.Pages;
 using TaskMaster.Services;
@@ -12,6 +12,7 @@ namespace TaskMaster
 	
 	public partial class HistoryPage
 	{
+        private readonly List<HistoryListItem> _historyList = new List<HistoryListItem>();
 		public HistoryPage ()
 		{
 			InitializeComponent();
@@ -34,43 +35,20 @@ namespace TaskMaster
 
 	    private async void SyncItem_OnClicked(object sender, EventArgs e)
 	    {
-	        Content.IsEnabled = false;
-	        var isInternet = CheckInternetConnection();
-	        if (isInternet)
+	        var send = await SynchronizationService.Instance.SendActivities();
+	        if (!send)
 	        {
-	            await SynchronizationService.Instance.SendTasks();
-	            await SynchronizationService.Instance.SendActivities();
-	            await SynchronizationService.Instance.GetActivities();
-	            await SynchronizationService.Instance.SendFavorites();
-	            await SynchronizationService.Instance.GetFavorites();
-	            await SynchronizationService.Instance.SendPlannedAsync();
-	            await SynchronizationService.Instance.GetPlanned();
+	            await DisplayAlert("Error", "Wystąpił problem z synchronizacją", "Ok");
+	            return;
 	        }
-	        else
-	        {
-	            await DisplayAlert("Error", "Nie można synchronizować bez internetu", "Ok");
-	        }
-	        Content.IsEnabled = true;
-	    }
-	    private static bool CheckInternetConnection()
-	    {
-	        const string checkUrl = "http://google.com";
-	        try
-	        {
-	            var iNetRequest = (HttpWebRequest)WebRequest.Create(checkUrl);
-	            iNetRequest.Timeout = 3000;
-	            var iNetResponse = iNetRequest.GetResponse();
-	            iNetResponse.Close();
-	            return true;
+	        await SynchronizationService.Instance.GetActivities();
+	        await SynchronizationService.Instance.SendFavorites();
+	        await SynchronizationService.Instance.GetFavorites();
+	        await SynchronizationService.Instance.SendPlannedAsync();
+	        await SynchronizationService.Instance.GetPlanned();
+        }
 
-	        }
-	        catch (WebException)
-	        {
-	            return false;
-	        }
-	    }
-
-        private async void LogoutItem_OnClicked(object sender, EventArgs e)
+	    private async void LogoutItem_OnClicked(object sender, EventArgs e)
 	    {
 	        var result = await DisplayAlert("Uwaga",
 	            "Wszystkie aktywności zostaną automatycznie zakończone. Kontynuować?", "Tak", "Nie");
@@ -109,15 +87,14 @@ namespace TaskMaster
 	        DependencyService.Get<ILogOutService>().LogOut();
         }
 
-        protected override void OnAppearing()
+        protected override async void OnAppearing()
         {
-            ListInitiate();
+            await ListInitiateAsync();
         }
 
-	    private async void ListInitiate()
+	    private async Task ListInitiateAsync()
 	    {
 	        var activitiesStoppedList = await UserService.Instance.GetActivitiesByStatus(StatusType.Stop);
-	        var historyPlan = new List<HistoryListItem>();
 	        foreach (var activity in activitiesStoppedList)
 	        {
 	            if (activity.TaskId == 0)
@@ -138,62 +115,19 @@ namespace TaskMaster
 	            var lastPart = await UserService.Instance.GetLastActivityPart(activity.ActivityId);
 	            var task = await UserService.Instance.GetTaskById(activity.TaskId);
 	            var t = TimeSpan.FromMilliseconds(time);
-	            var answer = $"{t.Hours:D2}h:{t.Minutes:D2}m:{t.Seconds:D2}s";
+	            var answer = $"{t.Hours:D2}:{t.Minutes:D2}:{t.Seconds:D2}";
                 var element = new HistoryListItem
                 {
                     Name = task.Name,
                     Description = activity.Comment,
                     Time = answer,
                     Date = lastPart.Start,
-                    Image = SelectImage(task.Typ)
+                    Image = ImagesService.Instance.SelectImage(task.Typ)
 	            };
-	            historyPlan.Add(element);
+	            _historyList.Add(element);
 	        }
-            HistoryPlan.ItemsSource = historyPlan;
+            HistoryPlan.ItemsSource = _historyList;
         }
-        private string SelectImage(string item)
-        {
-            string obraz;
-            switch (item)
-            {
-                case "Sztuka":
-                    obraz = "art.png";
-                    break;
-                case "Inne":
-                    obraz = "OK.png";
-                    break;
-                case "Programowanie":
-                    obraz = "programming.png";
-                    break;
-                case "Sport":
-                    obraz = "sport.png";
-                    break;
-                case "Muzyka":
-                    obraz = "music.png";
-                    break;
-                case "Języki":
-                    obraz = "language.png";
-                    break;
-                case "Jedzenie":
-                    obraz = "eat.png";
-                    break;
-                case "Rozrywka":
-                    obraz = "instrument.png";
-                    break;
-                case "Podróż":
-                    obraz = "car.png";
-                    break;
-                case "Przerwa":
-                    obraz = "Cafe.png";
-                    break;
-                default:
-                    obraz = "OK.png";
-                    break;
-            }
-            return obraz;
-        }
-
-	    
     }
 }
 

@@ -7,7 +7,6 @@ using Android.Gms.Auth.Api.SignIn;
 using Android.Gms.Common;
 using Android.Gms.Common.Apis;
 using Android.OS;
-using Android.Widget;
 using TaskMaster.Enums;
 using TaskMaster.ModelsDto;
 using TaskMaster.Services;
@@ -99,24 +98,23 @@ namespace TaskMaster.Droid
                         SyncStatus = SyncStatus.ToUpload,
                         IsLoggedIn = true
                     };
-                    userDto.UserId = await Services.UserService.Instance.SaveUser(userDto);
-                    Services.UserService.Instance.SetLoggedUser(userDto);
-                    await SynchronizationService.Instance.SendUser(userDto);
+                    var send = await SynchronizationService.Instance.SendUser(userDto);
+                    if (!send)
+                    {
+                        Finish();
+                        return;
+                    } 
                 }
                 else
                 {
-                    user.Token = idToken;
-                    user.SyncStatus = SyncStatus.ToUpload;
                     user.IsLoggedIn = true;
-                    user.UserId = await Services.UserService.Instance.SaveUser(user);
+                    await Services.UserService.Instance.SaveUser(user);
                     Services.UserService.Instance.SetLoggedUser(user);
-                    await SynchronizationService.Instance.SendUser(user);
                 }
                 LoadApplication(new App());
             }
             else
             {
-                Toast.MakeText(this, "Nie udało się zalogować", ToastLength.Long);
                 Finish();
             }
         }

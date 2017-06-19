@@ -7,6 +7,7 @@ namespace TaskMaster.Models
     {
         [PrimaryKey,AutoIncrement]
         public int UserId { get; set; }
+        [Unique]
         public string Name { get; set; }
         public string Token { get; set; }
         public string TypeOfRegistration { get; set; }

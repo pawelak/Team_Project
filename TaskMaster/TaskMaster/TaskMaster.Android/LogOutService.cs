@@ -12,7 +12,7 @@ namespace TaskMaster.Droid
         public void LogOut()
         {
             Auth.GoogleSignInApi.SignOut(MainActivity.MGoogleApiClient);
-            ((Activity)Forms.Context).Finish();
+            ((Activity) Forms.Context).Finish();
         }
     }
 }

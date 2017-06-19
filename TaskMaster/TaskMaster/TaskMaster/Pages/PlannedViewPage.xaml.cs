@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
 using System.Threading.Tasks;
 using TaskMaster.Enums;
 using TaskMaster.Interfaces;
@@ -24,11 +23,7 @@ namespace TaskMaster.Pages
 	    protected override async void OnAppearing()
 	    {
 	        base.OnAppearing();
-	        await ListInitiate();
-	        Device.BeginInvokeOnMainThread(() =>
-	        {
-	            PlannedTasks.ItemsSource = _plannedList;
-	        });
+	        await ListInitiateAsync();
 	    }
 
 	    private async void MainPageItem_OnClicked(object sender, EventArgs e)
@@ -85,9 +80,13 @@ namespace TaskMaster.Pages
 	        DependencyService.Get<ILogOutService>().LogOut();
         }
 
-	    private async Task ListInitiate()
+	    private async Task ListInitiateAsync()
 	    {
-	        var activitiesPlannedList = await UserService.Instance.GetActivitiesByStatus(StatusType.Planned);
+	        if (_plannedList.Count > 0)
+	        {
+	            _plannedList.Clear();
+	        }
+            var activitiesPlannedList = await UserService.Instance.GetActivitiesByStatus(StatusType.Planned);
 	        foreach (var activity in activitiesPlannedList)
 	        {
 	            var lastPart = await UserService.Instance.GetLastActivityPart(activity.ActivityId);
@@ -98,114 +97,61 @@ namespace TaskMaster.Pages
 	                Name = task.Name,
 	                Description = activity.Comment,
 	                Date = lastPart.Start,
-	                Image = SelectImage(task.Typ)
+                    PartId = lastPart.PartId,
+	                Image = ImagesService.Instance.SelectImage(task.Typ)
 	            };
 	            _plannedList.Add(element);
 	        }
-
-	    }
-
-	    private static string SelectImage(string item)
-	    {
-	        string obraz;
-	        switch (item)
+	        Device.BeginInvokeOnMainThread(() =>
 	        {
-	            case "Sztuka":
-	                obraz = "art.png";
-	                break;
-	            case "Inne":
-	                obraz = "OK.png";
-	                break;
-	            case "Programowanie":
-	                obraz = "programming.png";
-	                break;
-	            case "Sport":
-	                obraz = "sport.png";
-	                break;
-	            case "Muzyka":
-	                obraz = "music.png";
-	                break;
-	            case "Języki":
-	                obraz = "language.png";
-	                break;
-	            case "Jedzenie":
-	                obraz = "eat.png";
-	                break;
-	            case "Rozrywka":
-	                obraz = "instrument.png";
-	                break;
-	            case "Podróż":
-	                obraz = "car.png";
-	                break;
-	            case "Przerwa":
-	                obraz = "Cafe.png";
-	                break;
-	            default:
-	                obraz = "OK.png";
-	                break;
-	        }
-	        return obraz;
-	    }
+	            PlannedTasks.ItemsSource = null;
+	            PlannedTasks.ItemsSource = _plannedList;
+	        });
+        }
 
 	    private async void PlannedTasks_OnItemTapped(object sender, ItemTappedEventArgs e)
 	    {
-	        var item = e.Item as PlannedListItem;
+            var item = e.Item as PlannedListItem;
 	        if (item == null)
 	        {
 	            return;
 	        }
-	        var activity = await UserService.Instance.GetActivity(item.ActivityId);
-	        var task = await UserService.Instance.GetTaskById(activity.TaskId);
+	        PlannedTasks.IsEnabled = false;
+            var activity = await UserService.Instance.GetActivity(item.ActivityId);
+	        if (activity.Status != StatusType.Planned)
+	        {
+	            await DisplayAlert("Error", "Nie można anulować gdyż aktywność nie jest nadal planowana", "Ok");
+	            await ListInitiateAsync();
+	            return;
+	        }
+	        DependencyService.Get<INotificationService>().CancelNotification(item.PartId);
+            var task = await UserService.Instance.GetTaskById(activity.TaskId);
 	        if (activity.SyncStatus != SyncStatus.ToUpload)
 	        {
 	            await SynchronizationService.Instance.DeletePlanned(activity, task);
 	        }
 	        activity.Status = StatusType.Canceled;
-            await UserService.Instance.SaveActivity(activity);
-            _plannedList.Clear();
-	        await ListInitiate();
-	        Device.BeginInvokeOnMainThread(() =>
-	        {
-	            PlannedTasks.ItemsSource = _plannedList;
-	        });
+	        await UserService.Instance.SaveActivity(activity);
+	        await ListInitiateAsync();
+	        PlannedTasks.IsEnabled = true;
         }
 
 	    private async void SyncItem_OnClicked(object sender, EventArgs e)
 	    {
-	        Content.IsEnabled = false;
-	        var isInternet = CheckInternetConnection();
-	        if (isInternet)
+	        PlannedTasks.IsEnabled = false;
+	        var send = await SynchronizationService.Instance.SendActivities();
+	        if (!send)
 	        {
-	            await SynchronizationService.Instance.SendTasks();
-	            await SynchronizationService.Instance.SendActivities();
-	            await SynchronizationService.Instance.GetActivities();
-	            await SynchronizationService.Instance.SendFavorites();
-	            await SynchronizationService.Instance.GetFavorites();
-	            await SynchronizationService.Instance.SendPlannedAsync();
-	            await SynchronizationService.Instance.GetPlanned();
+	            await DisplayAlert("Error", "Wystąpił problem z synchronizacją", "Ok");
+	            PlannedTasks.IsEnabled = true;
+                return;
 	        }
-	        else
-	        {
-	            await DisplayAlert("Error", "Nie można synchronizować bez internetu", "Ok");
-	        }
-	        Content.IsEnabled = true;
+	        await SynchronizationService.Instance.GetActivities();
+	        await SynchronizationService.Instance.SendFavorites();
+	        await SynchronizationService.Instance.GetFavorites();
+	        await SynchronizationService.Instance.SendPlannedAsync();
+	        await SynchronizationService.Instance.GetPlanned();
+            PlannedTasks.IsEnabled = true;
         }
-	    private static bool CheckInternetConnection()
-	    {
-	        const string checkUrl = "http://google.com";
-	        try
-	        {
-	            var iNetRequest = (HttpWebRequest)WebRequest.Create(checkUrl);
-	            iNetRequest.Timeout = 3000;
-	            var iNetResponse = iNetRequest.GetResponse();
-	            iNetResponse.Close();
-	            return true;
-
-	        }
-	        catch (WebException)
-	        {
-	            return false;
-	        }
-	    }
     }
 }

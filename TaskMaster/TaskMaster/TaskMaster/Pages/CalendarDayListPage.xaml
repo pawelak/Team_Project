@@ -9,13 +9,13 @@
     </ContentPage.Padding>
     <ContentPage.Content>
         <StackLayout>
-            <ListView x:Name="DayPlan" HasUnevenRows="False" ItemTapped="DayPlan_OnItemTapped">
+            <ListView x:Name="DayPlan" HasUnevenRows="True" RowHeight="50">
                 <ListView.Header>
                     <Label Text="{x:StaticResource DayPlan}" TextColor="{x:StaticResource TextColor}" HorizontalOptions="Center" FontSize="20" />
                 </ListView.Header>
                 <ListView.ItemTemplate>
                     <DataTemplate>
-                        <ViewCell>
+                        <ViewCell IsEnabled="False" >
                             <StackLayout Orientation="Horizontal" BackgroundColor="{x:StaticResource BackgroundButtonColor}">
                                 <StackLayout WidthRequest="50">
                                     <Image Source="{Binding Image}"/>
@@ -28,7 +28,7 @@
                                             <Label Text="{Binding Description}" TextColor="{x:StaticResource TextColor}"
                                                    FontFamily="{x:StaticResource Font}" FontSize="{x:StaticResource Field}"/>
                                         </StackLayout>
-                                        <StackLayout>
+                                        <StackLayout WidthRequest="120">
                                             <Label Text="{Binding Time}" TextColor="{x:StaticResource TextColor}" HorizontalOptions="EndAndExpand"
                                                    FontFamily="{x:StaticResource Font}" FontSize="{x:StaticResource Medium}"/>
                                         </StackLayout>

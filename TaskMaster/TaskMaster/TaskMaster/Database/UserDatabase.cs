@@ -10,12 +10,12 @@ namespace TaskMaster
 {
     public class UserDatabase
     {
-        readonly SQLiteAsyncConnection _database;
+        private readonly SQLiteAsyncConnection _database;
 
-        public UserDatabase(string dbpath)
+        public UserDatabase(string dbPath)
         {
             Mapper.Initialize(cfg => cfg.AddProfile<UserMapProfile>());
-            _database = new SQLiteAsyncConnection(dbpath);
+            _database = new SQLiteAsyncConnection(dbPath);
             _database.CreateTablesAsync<Activities, Favorites, PartsOfActivity, Tasks, User>().Wait();
         }
 
@@ -168,6 +168,15 @@ namespace TaskMaster
             return list;
         }
 
+        public async Task<List<ActivitiesDto>> GetActivitiesToUpload(StatusType status)
+        {
+            var result = await _database.Table<Activities>()
+                .Where(t => t.Status == status && t.SyncStatus == SyncStatus.ToUpload)
+                .ToListAsync();
+            var list = Mapper.Map<List<ActivitiesDto>>(result);
+            return list;
+        }
+
         public async Task<PartsOfActivityDto> GetLastActivityPart(int id)
         {
             var result = await _database.Table<PartsOfActivity>()
@@ -195,6 +204,15 @@ namespace TaskMaster
         public async Task<List<FavoritesDto>> GetUserFavorites(int id)
         {
             var result = await _database.Table<Favorites>().Where(f => f.UserId == id).ToListAsync();
+            var list = Mapper.Map<List<FavoritesDto>>(result);
+            return list;
+        }
+
+        public async Task<List<FavoritesDto>> GetFavoritesToUpload()
+        {
+            var result = await _database.Table<Favorites>()
+                .Where(f => f.SyncStatus == SyncStatus.ToUpload)
+                .ToListAsync();
             var list = Mapper.Map<List<FavoritesDto>>(result);
             return list;
         }

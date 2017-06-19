@@ -27,22 +27,7 @@ namespace TaskMaster.Pages
             ActivityDescription.Text = item.Description;
             TaskName.Text = item.Name;
             TaskDescription.Text = item.Description;
-            TypePickerImage.Source = "OK.png";
             AddItemsToPicker();
-        }
-
-        private void AddItemsToPicker()
-        {
-            TypePicker.Items.Add("Sztuka");
-            TypePicker.Items.Add("Inne");
-            TypePicker.Items.Add("Programowanie");
-            TypePicker.Items.Add("Sport");
-            TypePicker.Items.Add("Muzyka");
-            TypePicker.Items.Add("Języki");
-            TypePicker.Items.Add("Jedzenie");
-            TypePicker.Items.Add("Rozrywka");
-            TypePicker.Items.Add("Podróż");
-            TypePicker.Items.Add("Przerwa");
         }
 
         protected override async void OnAppearing()
@@ -52,11 +37,20 @@ namespace TaskMaster.Pages
             await AddToFavoritesList();
         }
 
+        private void AddItemsToPicker()
+        {
+            string[] types = { "Sztuka", "Inne", "Programowanie", "Sport", "Muzyka", "Języki", "Jedzenie", "Rozrywka", "Podróż", "Przerwa", "Inne" };
+            foreach (var type in types)
+            {
+                TypePicker.Items.Add(type);
+            }
+        }
+
         private async Task AddToFavoritesList()
         {
             var user = UserService.Instance.GetLoggedUser();
             var favorites = await UserService.Instance.GetUserFavorites(user.UserId);
-            if (favorites == null)
+            if (favorites.Count == 0)
             {
                 Device.BeginInvokeOnMainThread(() =>
                 {
@@ -81,18 +75,25 @@ namespace TaskMaster.Pages
             if (_initItem.TaskId != 0)
             {
                 _task = await UserService.Instance.GetTaskById(_activity.TaskId);
+                var fav = await UserService.Instance.GetFavoriteByTaskId(_initItem.TaskId);
+                if (fav != null)
+                {
+                    AddFavorite.IsVisible = false;
+                }
             }
             else
             {
                 _task = new TasksDto
                 {
-                    Name = _initItem.Name
+                    Name = _initItem.Name,
+                    Typ = "Inne"
                 };
             }
+            TypePickerImage.Source = ImagesService.Instance.SelectImage(_task.Typ);
             TaskDate.Text = _part.Start;
             _startTime = _initItem.Time;
             var t = TimeSpan.FromMilliseconds(_startTime + StopwatchesService.Instance.GetStopwatchTime(_part.PartId));
-            var answer = $"{t.Hours:D2}h:{t.Minutes:D2}m:{t.Seconds:D2}s";
+            var answer = $"{t.Hours:D2}:{t.Minutes:D2}:{t.Seconds:D2}";
             TaskDuration.Text = answer;
             UpdateButtons();
             _timer.Elapsed += UpdateTime;
@@ -108,7 +109,7 @@ namespace TaskMaster.Pages
             }
             _duration = _startTime + StopwatchesService.Instance.GetStopwatchTime(_part.PartId);
             var t = TimeSpan.FromMilliseconds(_duration);
-            var answer = $"{t.Hours:D2}h:{t.Minutes:D2}m:{t.Seconds:D2}s";
+            var answer = $"{t.Hours:D2}:{t.Minutes:D2}:{t.Seconds:D2}";
             Device.BeginInvokeOnMainThread(() =>
             {
                 TaskDuration.Text = answer;
@@ -121,9 +122,20 @@ namespace TaskMaster.Pages
             ResumeButton.IsVisible = _activity.Status == StatusType.Pause;
             StopButton.IsVisible = _activity.Status != StatusType.Planned;
         }
+
+        private void UpdateUi(bool enable)
+        {
+            PauseButton.IsVisible = enable;
+            ResumeButton.IsVisible = enable;
+            StopButton.IsVisible = enable;
+            AcceptButton.IsVisible = enable;
+            AddFavorite.IsVisible = enable;
+        }
+
         private async void StopButton_OnClicked(object sender, EventArgs e)
         {
             _timer.Stop();
+            UpdateUi(false);
             StopwatchesService.Instance.StopStopwatch(_part.PartId);
             _part.Stop = DateTime.Now.ToString("HH:mm:ss dd/MM/yyyy");
             _part.Duration = StopwatchesService.Instance.GetStopwatchTime(_part.PartId).ToString();
@@ -132,6 +144,7 @@ namespace TaskMaster.Pages
             await UserService.Instance.SavePartOfActivity(_part);
             if (_task.TaskId == 0)
             {
+                UpdateUi(true);
                 await Navigation.PushModalAsync(new FillInformationPage(_activity));
             }
             else
@@ -140,6 +153,7 @@ namespace TaskMaster.Pages
                 _activity.TaskId = _task.TaskId;
                 await UserService.Instance.SaveActivity(_activity);
                 await SynchronizationService.Instance.SendActivity(_activity,_task);
+                UpdateUi(true);
                 await Navigation.PushModalAsync(new NavigationPage(new MainPage()));
             }
         }
@@ -222,7 +236,7 @@ namespace TaskMaster.Pages
             }
             Device.BeginInvokeOnMainThread(async () =>
             {
-                var result = await DisplayAlert("Error", "Niezapisane dane zostaną utracone. Czy kontynuować",
+                var result = await DisplayAlert("Error", "Niezapisane dane zostaną utracone. Czy kontynuować?",
                     "Tak", "Nie");
                 if (!result)
                 {
@@ -236,12 +250,14 @@ namespace TaskMaster.Pages
 
         private async void AddFavorite_OnClicked(object sender, EventArgs e)
         {
+            
             if (_task.TaskId == 0)
             {
                 await DisplayAlert("Error", "Nie możesz dodać do ulubionych nienazwanego tasku", "Ok");
             }
             else
             {
+                UpdateUi(false);
                 var favorite = new FavoritesDto
                 {
                     TaskId = _task.TaskId,
@@ -253,57 +269,16 @@ namespace TaskMaster.Pages
                     await SynchronizationService.Instance.SendTask(_task);
                 }
                 await SynchronizationService.Instance.SendFavorite(favorite);
-                AddFavorite.IsEnabled = false;
+                UpdateUi(true);
+                AddFavorite.IsVisible = false;
             }
         }
 
         private void TypePicker_SelectedIndexChanged(object sender, EventArgs e)
         {
             var typ = TypePicker.Items[TypePicker.SelectedIndex];
-            TypePickerImage.Source = SelectImage(typ);
+            TypePickerImage.Source = ImagesService.Instance.SelectImage(typ);
             _task.Typ = typ;
-        }
-
-        private static string SelectImage(string item)
-        {
-            string type;
-            switch (item)
-            {
-                case "Sztuka":
-                    type = "art.png";
-                    break;
-                case "Inne":
-                    type = "OK.png";
-                    break;
-                case "Programowanie":
-                    type = "programming.png";
-                    break;
-                case "Sport":
-                    type = "sport.png";
-                    break;
-                case "Muzyka":
-                    type = "music.png";
-                    break;
-                case "Języki":
-                    type = "language.png";
-                    break;
-                case "Jedzenie":
-                    type = "eat.png";
-                    break;
-                case "Rozrywka":
-                    type = "instrument.png";
-                    break;
-                case "Podróż":
-                    type = "car.png";
-                    break;
-                case "Przerwa":
-                    type = "Cafe.png";
-                    break;
-                default:
-                    type = "OK.png";
-                    break;
-            }
-            return type;
         }
 
         private async void FavoritePicker_OnSelectedIndexChanged(object sender, EventArgs e)
@@ -314,9 +289,17 @@ namespace TaskMaster.Pages
                 Name = select
             };
             var task = await UserService.Instance.GetTask(taskDto);
+            var fav = await UserService.Instance.GetFavoriteByTaskId(task.TaskId);
+            if (fav != null)
+            {
+                AddFavorite.IsVisible = false;
+            }
             TaskName.Text = task.Name;
+            _task.TaskId = task.TaskId;
+            _task.Name = task.Name;
+            _task.Typ = task.Typ; 
             ActivityName.Text = task.Name;
-            TypePickerImage.Source = SelectImage(task.Typ);
+            TypePickerImage.Source = ImagesService.Instance.SelectImage(task.Typ);
         }
     }
 }

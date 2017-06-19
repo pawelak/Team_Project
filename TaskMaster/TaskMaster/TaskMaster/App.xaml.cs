@@ -12,13 +12,15 @@ namespace TaskMaster
             InitializeComponent();
             Device.BeginInvokeOnMainThread(async () =>
             {
-                await SynchronizationService.Instance.SendTasks();
-                await SynchronizationService.Instance.SendActivities();
-                await SynchronizationService.Instance.GetActivities();
-                await SynchronizationService.Instance.SendFavorites();
-                await SynchronizationService.Instance.GetFavorites();
-                await SynchronizationService.Instance.SendPlannedAsync();
-                await SynchronizationService.Instance.GetPlanned();
+                var send = await SynchronizationService.Instance.SendActivities();
+                if (send)
+                {
+                    await SynchronizationService.Instance.GetActivities();
+                    await SynchronizationService.Instance.SendFavorites();
+                    await SynchronizationService.Instance.GetFavorites();
+                    await SynchronizationService.Instance.SendPlannedAsync();
+                    await SynchronizationService.Instance.GetPlanned();
+                }
                 var result2 = await UserService.Instance.GetActivitiesByStatus(StatusType.Planned);
                 foreach (var activity in result2)
                 {

@@ -34,10 +34,10 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <AndroidUseSharedRuntime>True</AndroidUseSharedRuntime>
+    <AndroidUseSharedRuntime>true</AndroidUseSharedRuntime>
     <AndroidLinkMode>SdkOnly</AndroidLinkMode>
     <AndroidSupportedAbis>armeabi;armeabi-v7a;x86</AndroidSupportedAbis>
-    <EmbedAssembliesIntoApk>False</EmbedAssembliesIntoApk>
+    <EmbedAssembliesIntoApk>false</EmbedAssembliesIntoApk>
     <BundleAssemblies>false</BundleAssemblies>
     <AndroidCreatePackagePerAbi>False</AndroidCreatePackagePerAbi>
     <Debugger>.Net (Xamarin)</Debugger>
@@ -58,12 +58,13 @@
     <AotAssemblies>false</AotAssemblies>
     <EnableLLVM>false</EnableLLVM>
     <BundleAssemblies>false</BundleAssemblies>
-    <EnableProguard>true</EnableProguard>
+    <EnableProguard>false</EnableProguard>
     <EmbedAssembliesIntoApk>true</EmbedAssembliesIntoApk>
+    <DebugSymbols>false</DebugSymbols>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="AutoMapper, Version=6.0.2.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\AutoMapper.6.0.2\lib\netstandard1.3\AutoMapper.dll</HintPath>
+    <Reference Include="AutoMapper, Version=6.1.0.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\AutoMapper.6.1.0\lib\netstandard1.3\AutoMapper.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="FormsViewGroup, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
@@ -74,7 +75,7 @@
     <Reference Include="Mono.Android" />
     <Reference Include="mscorlib" />
     <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Newtonsoft.Json.10.0.2\lib\netstandard1.3\Newtonsoft.Json.dll</HintPath>
+      <HintPath>..\..\packages\Newtonsoft.Json.10.0.3\lib\netstandard1.3\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="PInvoke.BCrypt, Version=0.5.0.0, Culture=neutral, PublicKeyToken=9e300f9f87f04a7a, processorArchitecture=MSIL">

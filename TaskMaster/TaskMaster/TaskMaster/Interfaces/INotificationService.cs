@@ -6,5 +6,6 @@ namespace TaskMaster.Interfaces
     {
         void LoadNotifications(string name, string textdesc, int id, DateTime whenToStart);
         long NotifyTimeInMilliseconds(DateTime notifyTime);
+        void CancelNotification(int id);
     }
 }

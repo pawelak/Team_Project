@@ -26,21 +26,16 @@ namespace TaskMaster.Pages
 
 	    private void AddItemsToPicker()
 	    {
-	        TypePicker.Items.Add("Sztuka");
-	        TypePicker.Items.Add("Inne");
-	        TypePicker.Items.Add("Programowanie");
-	        TypePicker.Items.Add("Sport");
-	        TypePicker.Items.Add("Muzyka");
-	        TypePicker.Items.Add("Języki");
-	        TypePicker.Items.Add("Jedzenie");
-	        TypePicker.Items.Add("Rozrywka");
-	        TypePicker.Items.Add("Podróż");
-	        TypePicker.Items.Add("Przerwa");
-	    }
+	        string[] types = { "Sztuka", "Inne", "Programowanie", "Sport", "Muzyka", "Języki", "Jedzenie", "Rozrywka", "Podróż", "Przerwa", "Inne" };
+	        foreach (var type in types)
+	        {
+	            TypePicker.Items.Add(type);
+	        }
+        }
 	    private async void AddToFavoritesList()
 	    {
 	        var favorites = await UserService.Instance.GetUserFavorites(1);
-	        if (favorites == null)
+	        if (favorites.Count == 0)
 	        {
 	            FavoritePicker.IsVisible = false;
 	            FavText.IsVisible = false;
@@ -61,7 +56,7 @@ namespace TaskMaster.Pages
 	        var parts = await UserService.Instance.GetPartsOfActivityByActivityId(_activity.ActivityId);
             _duration = parts.Sum(part => long.Parse(part.Duration));
 	        var t = TimeSpan.FromMilliseconds(_duration);
-	        var answer = $"{t.Hours:D2}h:{t.Minutes:D2}m:{t.Seconds:D2}s";
+	        var answer = $"{t.Hours:D2}:{t.Minutes:D2}:{t.Seconds:D2}";
 	        FillTaskDuration.Text = answer;
 	    }
 
@@ -120,50 +115,8 @@ namespace TaskMaster.Pages
 	    private void TypePicker_SelectedIndexChanged(object sender, EventArgs e)
 	    {
 	        var typ = TypePicker.Items[TypePicker.SelectedIndex];
-	        TypePickerImage.Source = SelectImage(typ);
+	        TypePickerImage.Source = ImagesService.Instance.SelectImage(typ);
 	        _task.Typ = typ;
-	    }
-
-        private static string SelectImage(string item)
-	    {
-	        string type;
-	        switch (item)
-	        {
-	            case "Sztuka":
-	                type = "art.png";
-	                break;
-	            case "Inne":
-	                type = "OK.png";
-	                break;
-	            case "Programowanie":
-	                type = "programming.png";
-	                break;
-	            case "Sport":
-	                type = "sport.png";
-	                break;
-	            case "Muzyka":
-	                type = "music.png";
-	                break;
-	            case "Języki":
-	                type = "language.png";
-	                break;
-	            case "Jedzenie":
-	                type = "eat.png";
-	                break;
-	            case "Rozrywka":
-	                type = "instrument.png";
-	                break;
-	            case "Podróż":
-	                type = "car.png";
-	                break;
-	            case "Przerwa":
-	                type = "Cafe.png";
-	                break;
-	            default:
-	                type = "OK.png";
-	                break;
-	        }
-	        return type;
 	    }
 
 	    private async void FavoritePicker_OnSelectedIndexChanged(object sender, EventArgs e)
@@ -175,7 +128,7 @@ namespace TaskMaster.Pages
 	        };
 	        _task = await UserService.Instance.GetTask(taskDto);
 	        FillTaskName.Text = _task.Name;
-	        TypePickerImage.Source = SelectImage(_task.Typ);
+	        TypePickerImage.Source = ImagesService.Instance.SelectImage(_task.Typ);
 	    }
     }
 }

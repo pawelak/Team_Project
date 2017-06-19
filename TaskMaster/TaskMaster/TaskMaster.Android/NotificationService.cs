@@ -29,5 +29,14 @@ namespace TaskMaster.Droid
             var utcAlarmTimeInMillis = utcTime.AddSeconds(-epochDifference).Ticks / 10000;
             return utcAlarmTimeInMillis;
         }
+
+        public void CancelNotification(int id)
+        {
+            var alarmIntent = new Intent(Xamarin.Forms.Forms.Context, typeof(AlarmReceiver));
+            var pendingIntent = PendingIntent.GetBroadcast(Xamarin.Forms.Forms.Context, id, alarmIntent, PendingIntentFlags.UpdateCurrent);
+            var alarmManager = (AlarmManager)Xamarin.Forms.Forms.Context.GetSystemService(Context.AlarmService);
+            pendingIntent.Cancel();
+            alarmManager.Cancel(pendingIntent);
+        }
     }
 }

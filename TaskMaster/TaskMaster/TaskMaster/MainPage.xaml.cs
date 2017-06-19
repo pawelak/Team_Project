@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
 using System.Threading.Tasks;
 using System.Timers;
 using TaskMaster.Interfaces;
@@ -31,6 +30,10 @@ namespace TaskMaster
             {
                 _listTimer.Start();
             }
+            else
+            {
+                ActiveTasks.IsVisible = false;
+            }
         }
 
         protected override void OnDisappearing()
@@ -43,8 +46,10 @@ namespace TaskMaster
         {
             if (_activeTasksList.Count <= 0)
             {
+                ActiveTasks.IsVisible = false;
                 return;
             }
+            ActiveTasks.IsVisible = true;
             foreach (var item in _activeTasksList)
             {
                 if (item.Status != StatusType.Start)
@@ -53,7 +58,7 @@ namespace TaskMaster
                 }
                 var time = item.Time + StopwatchesService.Instance.GetStopwatchTime(item.PartId);
                 var t = TimeSpan.FromMilliseconds(time);
-                var answer = $"{t.Hours:D2}h:{t.Minutes:D2}m:{t.Seconds:D2}s";
+                var answer = $"{t.Hours:D2}:{t.Minutes:D2}:{t.Seconds:D2}";
                 item.Duration = answer;
             }
             UpdateList();
@@ -91,27 +96,33 @@ namespace TaskMaster
             await Navigation.PushModalAsync(new NavigationPage(new PlannedViewPage()));
         }
 
+        private void UpdateUi(bool enable)
+        {
+            FastTaskButton.IsEnabled = enable;
+            PlanTaskButton.IsEnabled = enable;
+            StartTaskButton.IsEnabled = enable;
+            ActiveTasks.IsEnabled = enable;
+        }
+
         private async void SyncItem_OnClicked(object sender, EventArgs e)
         {
-            Content.IsEnabled = false;
             _listTimer.Stop();
-            var isInternet = CheckInternetConnection();
-            if (isInternet)
+            UpdateUi(false);
+            var send = await SynchronizationService.Instance.SendActivities();
+            if (!send)
             {
-                await SynchronizationService.Instance.SendTasks();
-                await SynchronizationService.Instance.SendActivities();
-                await SynchronizationService.Instance.GetActivities();
-                await SynchronizationService.Instance.SendFavorites();
-                await SynchronizationService.Instance.GetFavorites();
-                await SynchronizationService.Instance.SendPlannedAsync();
-                await SynchronizationService.Instance.GetPlanned();
+                await DisplayAlert("Error", "Wystąpił problem z synchronizacją", "Ok");
+                UpdateUi(true);
+                _listTimer.Start();
+                return;
             }
-            else
-            {
-                await DisplayAlert("Error", "Nie można synchronizować bez internetu","Ok");
-            }
+            await SynchronizationService.Instance.GetActivities();
+            await SynchronizationService.Instance.SendFavorites();
+            await SynchronizationService.Instance.GetFavorites();
+            await SynchronizationService.Instance.SendPlannedAsync();
+            await SynchronizationService.Instance.GetPlanned();
+            UpdateUi(true);
             _listTimer.Start();
-            Content.IsEnabled = true;
         }
 
         private async void ActiveTasks_OnItemTapped(object sender, ItemTappedEventArgs e)
@@ -152,7 +163,7 @@ namespace TaskMaster
                     MyImageSource = ImageChoice(activity.Status),
                     ActivityId = activity.ActivityId,
                     PartId = lastPart.PartId,
-                    Duration = $"{t.Hours:D2}h:{t.Minutes:D2}m:{t.Seconds:D2}s",
+                    Duration = $"{t.Hours:D2}:{t.Minutes:D2}:{t.Seconds:D2}",
                     Time = time,
                     Status = StatusType.Start
                 };
@@ -183,7 +194,7 @@ namespace TaskMaster
                 {
                     MyImageSource = ImageChoice(activity.Status),
                     ActivityId = activity.ActivityId,
-                    Duration = $"{t.Hours:D2}h:{t.Minutes:D2}m:{t.Seconds:D2}s",
+                    Duration = $"{t.Hours:D2}:{t.Minutes:D2}:{t.Seconds:D2}",
                     Time = time,
                     Status = StatusType.Start
                 };
@@ -221,6 +232,10 @@ namespace TaskMaster
 
         private async void FastTaskButton_OnClicked(object sender, EventArgs e)
         {
+            if (_activeTasksList.Count == 0)
+            {
+                ActiveTasks.IsVisible = true;
+            }
             var activity = new ActivitiesDto
             {
                 Guid = Guid.NewGuid().ToString(),
@@ -247,7 +262,7 @@ namespace TaskMaster
                 Name = "Nowa Aktywność " + activity.ActivityId,
                 ActivityId = activity.ActivityId,
                 PartId = part.PartId,
-                Duration = $"{t.Hours:D2}h:{t.Minutes:D2}m:{t.Seconds:D2}s",
+                Duration = $"{t.Hours:D2}:{t.Minutes:D2}:{t.Seconds:D2}",
                 Time = 0
             };
             _activeTasksList.Add(item);
@@ -349,24 +364,6 @@ namespace TaskMaster
             }
             await UserService.Instance.LogoutUser();
             DependencyService.Get<ILogOutService>().LogOut();
-        }
-
-        public bool CheckInternetConnection()
-        {
-            const string checkUrl = "http://google.com";
-            try
-            {
-                var iNetRequest = (HttpWebRequest)WebRequest.Create(checkUrl);
-                iNetRequest.Timeout = 3000;
-                var iNetResponse = iNetRequest.GetResponse();
-                iNetResponse.Close();
-                return true;
-
-            }
-            catch (WebException)
-            {
-                return false;
-            }
         }
     }
 }

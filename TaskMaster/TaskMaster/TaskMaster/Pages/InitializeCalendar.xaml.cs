@@ -32,9 +32,9 @@ namespace TaskMaster.Pages
                 StartDay = DayOfWeek.Monday,
                 SelectedTextColor = Color.Fuchsia
             };
-            _calendar.DateClicked += (sender, e) =>
+            _calendar.DateClicked += async (sender, e) =>
             {
-                Navigation.PushModalAsync(new CalendarDayListPage(e.DateTime));
+                await Navigation.PushModalAsync(new CalendarDayListPage(e.DateTime));
             };
             var vm = new CalendarVm();
             _calendar.SetBinding(Calendar.DateCommandProperty, nameof(vm.DateChosen));
