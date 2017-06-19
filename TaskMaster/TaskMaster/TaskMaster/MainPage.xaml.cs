@@ -98,33 +98,24 @@ namespace TaskMaster
 
         private void UpdateUi(bool enable)
         {
-            if (enable)
-            {
-                FastTaskButton.IsEnabled = true;
-                PlanTaskButton.IsEnabled = true;
-                StartTaskButton.IsEnabled = true;
-                ActiveTasks.IsEnabled = true;
-            }
-            else
-            {
-                FastTaskButton.IsEnabled = false;
-                PlanTaskButton.IsEnabled = false;
-                StartTaskButton.IsEnabled = false;
-                ActiveTasks.IsEnabled = false;
-            } 
+            FastTaskButton.IsEnabled = enable;
+            PlanTaskButton.IsEnabled = enable;
+            StartTaskButton.IsEnabled = enable;
+            ActiveTasks.IsEnabled = enable;
         }
 
         private async void SyncItem_OnClicked(object sender, EventArgs e)
         {
             _listTimer.Stop();
             UpdateUi(false);
-            var send = await SynchronizationService.Instance.SendTasks();
+            var send = await SynchronizationService.Instance.SendActivities();
             if (!send)
             {
                 await DisplayAlert("Error", "Wystąpił problem z synchronizacją", "Ok");
+                UpdateUi(true);
+                _listTimer.Start();
                 return;
             }
-            await SynchronizationService.Instance.SendActivities();
             await SynchronizationService.Instance.GetActivities();
             await SynchronizationService.Instance.SendFavorites();
             await SynchronizationService.Instance.GetFavorites();
@@ -241,6 +232,10 @@ namespace TaskMaster
 
         private async void FastTaskButton_OnClicked(object sender, EventArgs e)
         {
+            if (_activeTasksList.Count == 0)
+            {
+                ActiveTasks.IsVisible = true;
+            }
             var activity = new ActivitiesDto
             {
                 Guid = Guid.NewGuid().ToString(),

@@ -75,6 +75,11 @@ namespace TaskMaster.Pages
             if (_initItem.TaskId != 0)
             {
                 _task = await UserService.Instance.GetTaskById(_activity.TaskId);
+                var fav = await UserService.Instance.GetFavoriteByTaskId(_initItem.TaskId);
+                if (fav != null)
+                {
+                    AddFavorite.IsVisible = false;
+                }
             }
             else
             {
@@ -120,22 +125,11 @@ namespace TaskMaster.Pages
 
         private void UpdateUi(bool enable)
         {
-            if (enable)
-            {
-                PauseButton.IsVisible = true;
-                ResumeButton.IsVisible = true;
-                StopButton.IsVisible = true;
-                AcceptButton.IsVisible = true;
-                AddFavorite.IsVisible = true;
-            }
-            else
-            {
-                PauseButton.IsVisible = false;
-                ResumeButton.IsVisible = false;
-                StopButton.IsVisible = false;
-                AcceptButton.IsVisible = false;
-                AddFavorite.IsVisible = false;
-            }
+            PauseButton.IsVisible = enable;
+            ResumeButton.IsVisible = enable;
+            StopButton.IsVisible = enable;
+            AcceptButton.IsVisible = enable;
+            AddFavorite.IsVisible = enable;
         }
 
         private async void StopButton_OnClicked(object sender, EventArgs e)
@@ -295,7 +289,15 @@ namespace TaskMaster.Pages
                 Name = select
             };
             var task = await UserService.Instance.GetTask(taskDto);
+            var fav = await UserService.Instance.GetFavoriteByTaskId(task.TaskId);
+            if (fav != null)
+            {
+                AddFavorite.IsVisible = false;
+            }
             TaskName.Text = task.Name;
+            _task.TaskId = task.TaskId;
+            _task.Name = task.Name;
+            _task.Typ = task.Typ; 
             ActivityName.Text = task.Name;
             TypePickerImage.Source = ImagesService.Instance.SelectImage(task.Typ);
         }

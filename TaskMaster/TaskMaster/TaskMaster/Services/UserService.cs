@@ -125,6 +125,7 @@ namespace TaskMaster.Services
 
         public async Task LogoutUser()
         {
+            _loggedUser = null;
             await Database.LogoutUser();
         }
 

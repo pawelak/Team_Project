@@ -12,10 +12,9 @@ namespace TaskMaster
             InitializeComponent();
             Device.BeginInvokeOnMainThread(async () =>
             {
-                var send = await SynchronizationService.Instance.SendTasks();
+                var send = await SynchronizationService.Instance.SendActivities();
                 if (send)
                 {
-                    await SynchronizationService.Instance.SendActivities();
                     await SynchronizationService.Instance.GetActivities();
                     await SynchronizationService.Instance.SendFavorites();
                     await SynchronizationService.Instance.GetFavorites();

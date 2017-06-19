@@ -101,26 +101,20 @@ namespace TaskMaster.Droid
                     var send = await SynchronizationService.Instance.SendUser(userDto);
                     if (!send)
                     {
-                        /*Finish();
-                        return;*/
-                    }
-                    userDto.UserId = await Services.UserService.Instance.SaveUser(userDto);
-                    Services.UserService.Instance.SetLoggedUser(userDto);
-                    
+                        Finish();
+                        return;
+                    } 
                 }
                 else
                 {
-                    user.Token = idToken;
-                    user.SyncStatus = SyncStatus.ToUpload;
                     user.IsLoggedIn = true;
-                    user.UserId = await Services.UserService.Instance.SaveUser(user);
+                    await Services.UserService.Instance.SaveUser(user);
                     Services.UserService.Instance.SetLoggedUser(user);
-                    await SynchronizationService.Instance.SendUser(user);
                 }
                 LoadApplication(new App());
             }
             else
-            {               
+            {
                 Finish();
             }
         }

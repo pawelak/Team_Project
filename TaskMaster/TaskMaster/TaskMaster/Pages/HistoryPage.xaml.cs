@@ -35,19 +35,18 @@ namespace TaskMaster
 
 	    private async void SyncItem_OnClicked(object sender, EventArgs e)
 	    {
-	        var send = await SynchronizationService.Instance.SendTasks();
+	        var send = await SynchronizationService.Instance.SendActivities();
 	        if (!send)
-            {
-                await DisplayAlert("Error", "Wystąpił problem z synchronizacją", "Ok");
-                return;
-            }
-	        await SynchronizationService.Instance.SendActivities();
+	        {
+	            await DisplayAlert("Error", "Wystąpił problem z synchronizacją", "Ok");
+	            return;
+	        }
 	        await SynchronizationService.Instance.GetActivities();
 	        await SynchronizationService.Instance.SendFavorites();
 	        await SynchronizationService.Instance.GetFavorites();
 	        await SynchronizationService.Instance.SendPlannedAsync();
 	        await SynchronizationService.Instance.GetPlanned();
-	    }
+        }
 
 	    private async void LogoutItem_OnClicked(object sender, EventArgs e)
 	    {
