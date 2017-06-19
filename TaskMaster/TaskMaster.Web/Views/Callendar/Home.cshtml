@@ -36,9 +36,9 @@
                     <th>czas pracy</th>
                     <th>czas przerwy</th>
                 </tr>             
-                                        
+                                
                    
-                    @*@if (@ViewBag.mod == null)
+                    @if (@ViewBag.mod == null)
                     {
 
                     }
@@ -55,7 +55,7 @@
                                 <td>@p[4]</td>
                             </tr>
                          }
-                    }*@
+                    }
                      
 
             </table>
@@ -65,6 +65,7 @@
 </div>
 
 <script>
+    
     var changeMonth = 0;
     var changeYear = 0;
     var month = 0;
@@ -109,14 +110,14 @@
         var dataToSend = {
             month: month + 1,
             year: year
-    };
+        };
         $.ajax({
-            url: "/Callendar/GetMonthAndYear",
+            url: "/Callendar/Home", //GetMonthAndYear
             type: "POST",
             dataType: "json",
             data: dataToSend
         });
-        return false;
+        
     }
 
 
@@ -132,6 +133,7 @@
         }
         createCallendar();
         sendMonth();
+        
     }
     function subtractMonth() {
         changeMonth--;
@@ -219,6 +221,8 @@
     }
 
     function addImagesToTheCallendar() {
+        
+        alert('dupa');
         var array = @Html.Raw(Json.Encode(@ViewBag.mod));
         var date = [];
         var date2 = [];
@@ -235,7 +239,7 @@
         var checkDay = document.getElementsByClassName('cell');
 
         for (var i = 0; i < checkDay.length; i++) {
-          //var cellDate = new Date(date[i][1]);//new Date(date[j][1].replace(".", "/"));
+            //var cellDate = new Date(date[i][1]);//new Date(date[j][1].replace(".", "/"));
             var cellDate = 1;       //narazie jedynka, ponniej trzeba tu jakos podstawić date...
 
             if (checkDay[i].innerHTML == cellDate) {
@@ -262,11 +266,11 @@
     function showTable() {
         var target = event.target || event.srcElement;
         var number = target.innerHTML.substr(0,2);
-        
+
         
 
         var array = @Html.Raw(Json.Encode(@ViewBag.mod));
-
+    
         var daysNumber = 1;         // tu trzeba jakos pobrać dzien
         var fixNumber = daysNumber + '<';
         

@@ -3,17 +3,26 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Microsoft.Ajax.Utilities;
 using TaskMaster.BLL.WebServices;
 
 namespace TaskMaster.Web.Controllers
 {
     public class CallendarController : Controller
     {
+        private dynamic callendar;
+        private bool firsTime = true;
+
         // GET: Callendar
         public ActionResult Home()
         {
             WebCalService cal = new WebCalService();
-            var callendar = cal.Calendar("dlanorberta@gmail.com", DateTime.Now.Year, DateTime.Now.Month);
+
+            if (firsTime)
+            {
+                callendar = cal.Calendar("dlanorberta@gmail.com", DateTime.Now.Year, DateTime.Now.Month);
+                firsTime = false; 
+            }
             ViewBag.mod = callendar;
 
             return View();
@@ -27,15 +36,16 @@ namespace TaskMaster.Web.Controllers
     
 
         [HttpPost]
-        public ActionResult Home(int month, int year)
+        public ViewResult Home(int month, int year)
         {
-
+           // ModelState.Clear();
+            ViewBag.mod = null;
             WebCalService cal = new WebCalService();
-            var callendar = cal.Calendar("dlanorberta@gmail.com", year, month);
+            callendar = cal.Calendar("dlanorberta@gmail.com", year, month);
             ViewBag.mod = callendar;
+           // RedirectToAction("Home");
 
-           // return Json(string.Empty, JsonRequestBehavior.AllowGet);
-            return View();
+           return View(); //Json(string.Empty, JsonRequestBehavior.AllowGet);
         }
     }
 }
