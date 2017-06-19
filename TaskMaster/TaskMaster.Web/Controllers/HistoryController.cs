@@ -37,9 +37,12 @@ namespace TaskMaster.Web.Controllers
             
         }
         [HttpPost]
-        public JsonResult getId(dataFromViewCallendar data) {
+        public ActionResult Home(dataFromViewCallendar data) {
 
-            return Json(string.Empty, JsonRequestBehavior.AllowGet);
+            // Json(string.Empty, JsonRequestBehavior.AllowGet);
+            ModelState.Clear();
+           
+            return RedirectToAction(null);
         }
     }
 }
