@@ -14,7 +14,7 @@ namespace TaskMaster.Services
 {
     public class SynchronizationService
     {
-        private const string Ip = "http://178.43.208.211:65116/api"; 
+        private const string Ip = "http://178.43.199.239:65116/api"; 
         private static SynchronizationService _instance;
         private readonly HttpClient _client = new HttpClient();
         public static SynchronizationService Instance => _instance ?? (_instance = new SynchronizationService());

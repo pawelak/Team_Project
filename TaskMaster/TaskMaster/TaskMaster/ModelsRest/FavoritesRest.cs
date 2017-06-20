@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using TaskMaster.Enums;
+﻿using TaskMaster.Enums;
 
 namespace TaskMaster.ModelsRest
 {
