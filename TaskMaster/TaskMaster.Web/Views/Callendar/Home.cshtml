@@ -38,30 +38,30 @@
                 </tr>             
                                 
                    
-                    @if (@ViewBag.mod == null)
-                    {
+                @if (@ViewBag.mod == null)
+                {
 
-                    }
-                    else
+                }
+                else
+                {
+                    foreach (var p in @ViewBag.mod)
                     {
-                        foreach (var p in @ViewBag.mod)
-                        {
-                            <tr>
-                                <td><img src="../../images/eat.png" /></td>
-                                <td>@p[0]</td>
-                                <td>@p[1]</td>
-                                <td>@p[2]</td>
-                                <td>@p[3]</td>
-                                <td>@p[4]</td>
-                            </tr>
-                         }
+                        <tr>
+                            <td><img src="../../images/eat.png" /></td>
+                            <td>@p[0]</td>
+                            <td>@p[1]</td>
+                            <td>@p[2]</td>
+                            <td>@p[3]</td>
+                            <td>@p[4]</td>
+                        </tr>
                     }
+                }
                      
 
             </table>
             
         </div>
-    </div>
+    </div>    
 </div>
 
 <script>
@@ -105,6 +105,8 @@
     }
 
     createCallendar();
+    var globalData = [];
+    var checkIfFunctionExecuted = false;
 
     function sendMonth() {
         var dataToSend = {
@@ -112,12 +114,15 @@
             year: year
         };
         $.ajax({
-            url: "/Callendar/Home", //GetMonthAndYear
+            url: "/Callendar/Home",
             type: "POST",
             dataType: "json",
-            data: dataToSend
+            data: dataToSend,
+            success: (data) => {
+                globalData = data;
+                alert(globalData);
+            }
         });
-        
     }
 
 
@@ -131,9 +136,14 @@
             changeMonth -= currentMonth;
             changeYear++;
         }
+
         createCallendar();
         sendMonth();
-        
+        setTimeout(function () {
+            addImagesToTheCallendar();
+        }, 2000);
+
+
     }
     function subtractMonth() {
         changeMonth--;
@@ -222,55 +232,69 @@
 
     function addImagesToTheCallendar() {
         
-        alert('dupa');
-        var array = @Html.Raw(Json.Encode(@ViewBag.mod));
+        
+       // var array = @Html.Raw(Json.Encode(@ViewBag.mod));
         var date = [];
         var date2 = [];
+        var array = globalData;
+       // alert("dupa");
+       // alert(array);
 
         //get all dates
         for (var i = 0; i < array.length; i++) {
             for(var j = 0; j < 5; j++) {
-                date2[j] = array[i][j];
+               
+                date2[j] = array[i][j];                
             }
             date.push(date2);
+            
         }
 
         //get list of cells
         var checkDay = document.getElementsByClassName('cell');
 
         for (var i = 0; i < checkDay.length; i++) {
-            //var cellDate = new Date(date[i][1]);//new Date(date[j][1].replace(".", "/"));
-            var cellDate = 1;       //narazie jedynka, ponniej trzeba tu jakos podstawić date...
+            var cellDate;    
+            
+            for (var j = 0; j < array.length; j++) {
+                cellDate = array[j][1].substr(0, 2);
+                if (cellDate[0] == '0') {                    
+                    cellDate = cellDate.substr(1, 2);                    
+                }               
+            }
 
             if (checkDay[i].innerHTML == cellDate) {
+                alert('cellDate'+cellDate);
                 var k = document.createElement('div');
                 k.className = "activityCircle";
                 var image = document.createElement('img');
-                image.setAttribute("src", "../../images/eat.png");
+                image.setAttribute("src", "../../images/ok.png");
                 k.appendChild(image);
                 document.getElementsByClassName('cell')[i].appendChild(k);
             }
         }
     }
 
-    addImagesToTheCallendar();
+   // sendMonth();
+   // addImagesToTheCallendar();
+  // sendMonth().then(addImagesToTheCallendar());
 
-    //<tr>
-    //    <th></th>
-    //    <th>Czynność</th> 
-    //    <th>data</th>
-    //    <th>czas trwania</th>
-    //    <th>czas pracy</th>
-    //    <th>czas przerwy</th>
-    //    </tr>           
+    sendMonth();
+    setTimeout(function () {
+        addImagesToTheCallendar();
+    }, 2000);
+
+    
+    
     function showTable() {
         var target = event.target || event.srcElement;
         var number = target.innerHTML.substr(0,2);
-
+        
+        var array = globalData;
+       // var array = @Html.Raw(Json.Encode(@ViewBag.mod));
+        
         
 
-        var array = @Html.Raw(Json.Encode(@ViewBag.mod));
-    
         var daysNumber = 1;         // tu trzeba jakos pobrać dzien
         var fixNumber = daysNumber + '<';
         
@@ -290,16 +314,16 @@
             document.getElementById('activities').appendChild(tr);
 
 
-
-
+            
             tr = document.createElement('tr');
             var td = document.createElement('td');
             td.innerHTML = " ";
             tr.appendChild(td);
+           
             for (var i = 0; i < array.length; i++) {
                 tr = document.createElement('tr');
                 for (var j = -1; j < array[i].length; j++) {
-                    td = document.createElement('td');             
+                    td = document.createElement('td');                         
                     console.log(array[i][j]);
                     if (j == -1) {
                         td.innerHTML = '<img src="../../images/eat.png" />';

@@ -36,16 +36,26 @@ namespace TaskMaster.Web.Controllers
     
 
         [HttpPost]
-        public ViewResult Home(int month, int year)
+        public JsonResult Home(int month, int year)
         {
            // ModelState.Clear();
             ViewBag.mod = null;
             WebCalService cal = new WebCalService();
-            callendar = cal.Calendar("dlanorberta@gmail.com", year, month);
+            var calendar = cal.Calendar("dlanorberta@gmail.com", year, month);
             ViewBag.mod = callendar;
-           // RedirectToAction("Home");
 
-           return View(); //Json(string.Empty, JsonRequestBehavior.AllowGet);
+            // RedirectToAction("Home");
+            // var loginTmp = this.User.Identity.Name;
+
+
+
+
+            return new JsonResult
+            {
+                Data = calendar
+            };
+
+            //return View(); //Json(string.Empty, JsonRequestBehavior.AllowGet);
         }
     }
 }
