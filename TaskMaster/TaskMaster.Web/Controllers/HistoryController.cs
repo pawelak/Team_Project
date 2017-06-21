@@ -29,8 +29,11 @@ namespace TaskMaster.Web.Controllers
             WebHistEditService _webHistEditService = new WebHistEditService();
             var tmpLog = User.Identity.Name.ToString();
 
-            var taskEdit = _webHistEditService.ShowEditTask(tmpLog, 4);
+            var taskEdit = _webHistEditService.ShowEditTask("dlanorberta@gmail.com", 5);
             ViewBag.mod = taskEdit;
+            _webHistEditService.EditPart(new DateTime(2017,6,1,13,45,10), new DateTime(2017, 6, 1, 14, 10, 10), 6, 5);
+
+            
 
             return View();
         }
