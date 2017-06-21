@@ -154,6 +154,12 @@ namespace TaskMaster.BLL.WebServices
             }
 
             var orderList = list.OrderByDescending(x => x.dur).ToList();
+
+            if (orderList.Count == 0)
+            {
+                return null;
+            }
+
             var max = orderList[0].dur.TotalSeconds;
 
             var returned = new List<List<string>>();

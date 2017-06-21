@@ -32,8 +32,14 @@
     <div class="lastActivities">
         <h4>Najdłużej wykonywane</h4>
         
-           
-            @foreach (var p in @ViewBag.tab)
+           @if (@ViewBag.tab == null)
+           {
+           }
+           else
+           {
+               
+          
+            foreach (var p in @ViewBag.tab)
             {
                 <div class="singleActivity">
                     <div class="singleActivityContent"><img src="../../images/programming.png" /></div>
@@ -42,6 +48,7 @@
                     <div class="clear"></div>
                 </div>
             }
+           }
 
               
      

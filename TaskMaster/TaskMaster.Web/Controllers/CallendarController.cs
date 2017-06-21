@@ -17,10 +17,10 @@ namespace TaskMaster.Web.Controllers
         public ActionResult Home()
         {
             WebCalService cal = new WebCalService();
-
+            var tmpLog = User.Identity.Name.ToString();
             if (firsTime)
             {
-                callendar = cal.Calendar("dlanorberta@gmail.com", DateTime.Now.Year, DateTime.Now.Month);
+                callendar = cal.Calendar(tmpLog, DateTime.Now.Year, DateTime.Now.Month);
                 firsTime = false; 
             }
             ViewBag.mod = callendar;
@@ -38,10 +38,11 @@ namespace TaskMaster.Web.Controllers
         [HttpPost]
         public ViewResult Home(int month, int year)
         {
-           // ModelState.Clear();
+            var tmpLog = User.Identity.Name.ToString();
+            // ModelState.Clear();
             ViewBag.mod = null;
             WebCalService cal = new WebCalService();
-            callendar = cal.Calendar("dlanorberta@gmail.com", year, month);
+            callendar = cal.Calendar(tmpLog, year, month);
             ViewBag.mod = callendar;
            // RedirectToAction("Home");
 

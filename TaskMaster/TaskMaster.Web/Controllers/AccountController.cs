@@ -348,7 +348,7 @@ namespace TaskMaster.Web.Controllers
                     // If the user does not have an account, then prompt the user to create an account
                     ViewBag.ReturnUrl = returnUrl;
                     ViewBag.LoginProvider = loginInfo.Login.LoginProvider;
-                    return View("ExternalLoginConfirmation", new ExternalLoginConfirmationViewModel { Email = loginInfo.DefaultUserName });
+                    return View("ExternalLoginConfirmation", new ExternalLoginConfirmationViewModel { Email = loginInfo.Email });//default name
             }
         }
 
@@ -361,7 +361,7 @@ namespace TaskMaster.Web.Controllers
         {
             if (User.Identity.IsAuthenticated)
             {
-                return RedirectToAction("Index", "Manage");
+                return RedirectToAction("Index", "HomePage");
             }
 
             if (ModelState.IsValid)
@@ -372,7 +372,7 @@ namespace TaskMaster.Web.Controllers
                 {
                     return View("ExternalLoginFailure");
                 }
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email + "@sa" };
+                var user = new ApplicationUser { UserName = model.Email, Email = model.Email  };
                 var result = await UserManager.CreateAsync(user);
                 _userService.SaveUser(info.Email, model.Email, info.Login.ProviderKey);
                 if (result.Succeeded)
@@ -381,7 +381,7 @@ namespace TaskMaster.Web.Controllers
                     if (result.Succeeded)
                     {
                         await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
-                        return RedirectToLocal(returnUrl);
+                        return RedirectToAction("Index","Homepage");
                     }
                 }
                 //AddErrors(result);

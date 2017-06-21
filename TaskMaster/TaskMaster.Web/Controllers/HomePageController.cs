@@ -24,11 +24,11 @@ namespace TaskMaster.Web.Controllers
             //{
             //    if (User.Identity.IsAuthenticated)
             //    {
-                   
 
-                    var lastMonth = _activityWebService.LastMonth("dlanorberta@gmail.com", 30);
-                    var longestTask = _activityWebService.LongestTask("dlanorberta@gmail.com");
-                    var longestTaskToChart = _activityWebService.LongestTaskToChart("dlanorberta@gmail.com", 30);
+                    var tmpLog = User.Identity.Name.ToString();
+                    var lastMonth = _activityWebService.LastMonth(tmpLog, 30);
+                    var longestTask = _activityWebService.LongestTask(tmpLog);
+                    var longestTaskToChart = _activityWebService.LongestTaskToChart(tmpLog, 30);
     
                     ViewBag.mod = lastMonth;
                     ViewBag.tab = longestTask;

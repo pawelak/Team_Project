@@ -28,7 +28,7 @@
                     <th>czas przerwy</th>
                 </tr>     
 
-                @foreach (var p in alfa.History("dlanorberta@gmail.com"))
+                @foreach (var p in @ViewBag.mod)//alfa.History("dlanorberta@gmail.com")
                 {
                     <tr class="activityDetails">                    
                         <td ></td>
@@ -61,7 +61,7 @@
             dataType: "json",
             data: dataToSend
         });
-        return false;        
+        return true;        
     }
 
 </script>

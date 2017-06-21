@@ -13,8 +13,10 @@ namespace TaskMaster.Web.Controllers
         // GET: Statistics
         public ActionResult Home()
         {
-            var pieChart = _activityWebService.ActivityFromBase("dlanorberta@gmail.com");
-            var Chart = _activityWebService.Last12MOfWork("dlanorberta@gmail.com");
+            var tmpLog = User.Identity.Name.ToString();
+
+            var pieChart = _activityWebService.ActivityFromBase(tmpLog);
+            var Chart = _activityWebService.Last12MOfWork(tmpLog);
 
             ViewBag.mod = pieChart;
             ViewBag.tab = Chart;

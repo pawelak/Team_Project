@@ -14,7 +14,9 @@ namespace TaskMaster.Web.Controllers
         public ActionResult Home()
         {
             WebMainService hist = new WebMainService();
-            ViewBag.mod = hist.History("dlanorberta@gmail.com");
+            var tmpLog = User.Identity.Name.ToString();
+
+            ViewBag.mod = hist.History(tmpLog);
 
           //  y = new List<string> {(TempData["Data1"]).ToString()};
 
@@ -25,7 +27,9 @@ namespace TaskMaster.Web.Controllers
         public ActionResult Edit()
         {
             WebHistEditService _webHistEditService = new WebHistEditService();
-            var taskEdit = _webHistEditService.ShowEditTask("dlanorberta@gmail.com", 4);
+            var tmpLog = User.Identity.Name.ToString();
+
+            var taskEdit = _webHistEditService.ShowEditTask(tmpLog, 4);
             ViewBag.mod = taskEdit;
 
             return View();
@@ -40,9 +44,12 @@ namespace TaskMaster.Web.Controllers
         public ActionResult Home(dataFromViewCallendar data) {
 
             // Json(string.Empty, JsonRequestBehavior.AllowGet);
-            ModelState.Clear();
            
-            return RedirectToAction(null);
+           
+            return RedirectToAction("Edit","History");
+
+           // var redirectUrl = new UrlHelper(Request.RequestContext).Action("Edit","History");
+           // return Json(new {Url = redirectUrl});
         }
     }
 }

@@ -37,10 +37,13 @@ namespace TaskMaster.BLL.Services
                 Email = email,
                 Name = login
             };
+
+            _userRepositories.Add(user);
+
             var token = new TokensDto
             {
                 Token = password,
-                User = user
+                User = _userRepositories.Get(user.Email)
             };
             _tokensRepositories.Add(token);
         }
