@@ -169,7 +169,8 @@ table img {
 }
 
 .activityCircle img:hover {
-    background-color: azure;  
+    background-color: azure;
+    cursor: default;
 }
 
 .historyInCallendar {
