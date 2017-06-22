@@ -261,6 +261,7 @@
     <Content Include="images\landingBackground.png" />
     <Content Include="images\language.png" />
     <Content Include="images\logoGlow.png" />
+    <Content Include="images\miniLogo.png" />
     <Content Include="images\music.png" />
     <Content Include="images\OK.png" />
     <Content Include="images\programming.png" />
