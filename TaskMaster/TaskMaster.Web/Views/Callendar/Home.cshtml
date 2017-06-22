@@ -97,7 +97,8 @@
             dataType: "json",
             data: dataToSend,
             success: (data) => {
-                globalData = data;                
+                globalData = data;
+                addImagesToTheCallendar();
             }
         });
     }
@@ -116,9 +117,7 @@
 
         createCallendar();
         sendMonth();
-        setTimeout(function () {
-            addImagesToTheCallendar();
-        }, 2000);
+
 
 
     }
@@ -231,16 +230,21 @@
         //get list of cells
         var checkDay = document.getElementsByClassName('cell');
 
-        for (var i = 0; i < checkDay.length; i++) {
+        
+       for (var i = 0; i < checkDay.length; i++) {
             var cellDate;    
             
             for (var j = 0; j < array.length; j++) {
                 cellDate = array[j][1].substr(0, 2);
                 if (cellDate[0] == '0') {                    
                     cellDate = cellDate.substr(1, 2);                    
-                }               
+                }
+                if (cellDate == checkDay[i].innerHTML) {
+                    break;
+                }
             }
 
+          
             if (checkDay[i].innerHTML == cellDate) {                
                 var k = document.createElement('div');
                 k.className = "activityCircle";
@@ -252,37 +256,63 @@
         }
     }
 
-   // sendMonth();
-   // addImagesToTheCallendar();
-  // sendMonth().then(addImagesToTheCallendar());
 
     sendMonth();
-    setTimeout(function () {
-        addImagesToTheCallendar();
-    }, 2000);
-
-
 
     function showTable() {
         var target = event.target || event.srcElement;
-        var number = target.innerHTML.substr(0,2);
-        
+        var number = target.innerHTML.substr(0, 2);
+
         var array = globalData;
-        
-        
-        
 
         var daysNumber;         // tu trzeba jakos pobrać dzien
-        
+        var fixNumber;
         for (var j = 0; j < array.length; j++) {
             daysNumber = array[j][1].substr(0, 2);
             if (daysNumber[0] == '0') {
                 daysNumber = daysNumber.substr(1, 2);
+                var fixNumber = daysNumber + '<';
+            }
+            if (number == fixNumber || number == daysNumber) {
+                break;
             }
         }
 
-        var fixNumber = daysNumber + '<';
-        if(number == fixNumber || number == daysNumber) {
+        fixNumber = daysNumber + '<';
+        if (number == fixNumber || number == daysNumber) {            
+            createCategoryRowOfTable();
+
+            for (var i = 0; i < array.length; i++) {
+                tr = document.createElement('tr');
+
+                for (var j = -1; j < array[i].length; j++) {
+                    var localNumbar = array[i][1].substr(0, 2);
+                    var fixLocal;
+                    if (localNumbar[0] == '0') {
+                        localNumbar = localNumbar.substr(1, 2);
+                        fixLocal = localNumbar + '<';
+                    }
+
+                    if (localNumbar == number || fixLocal == number) {
+                        td = document.createElement('td');
+                       // console.log(array[i][j]);
+                        if (j == -1) {
+                            td.innerHTML = '<img src="../../images/eat.png" />';
+
+                        } else
+                            td.innerHTML = array[i][j];
+                        tr.appendChild(td);
+                    }
+                   // console.log(array[i]);
+
+                    document.getElementById('activities').appendChild(tr);
+                }
+            }
+        } else {
+            createCategoryRowOfTable();
+        }
+
+        function createCategoryRowOfTable() {
             document.getElementById('activities').innerHTML = "";
 
 
@@ -295,31 +325,10 @@
             }
             document.getElementById('activities').appendChild(tr);
 
-
-            
             tr = document.createElement('tr');
             var td = document.createElement('td');
             td.innerHTML = " ";
             tr.appendChild(td);
-           
-            for (var i = 0; i < array.length; i++) {
-                tr = document.createElement('tr');
-                for (var j = -1; j < array[i].length; j++) {
-                    td = document.createElement('td');                         
-                    console.log(array[i][j]);
-                    if (j == -1) {
-                        td.innerHTML = '<img src="../../images/eat.png" />';
-
-                    } 
-                    else
-                        td.innerHTML = array[i][j];    
-                    tr.appendChild(td);
-                }
-
-                console.log(array[i]);
-
-                document.getElementById('activities').appendChild(tr);
-            }
         }
         
     }
