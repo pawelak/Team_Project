@@ -149,6 +149,7 @@ namespace TaskMaster.BLL.WebServices
                 strLongTask.dur = sum;
                 strLongTask.name = act.Task.Name;
                 
+                
                 list.Add(strLongTask);
                
             }

@@ -9,6 +9,7 @@ namespace TaskMaster.DAL.DTOModels
         public DateTime Stop { get; set; }
         public TimeSpan Duration { get; set; }
 
+        public int ActivityId { get; set; }
         public virtual ActivityDto Activity { get; set; }
     }
 }

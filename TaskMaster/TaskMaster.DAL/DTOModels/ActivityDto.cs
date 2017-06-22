@@ -10,9 +10,12 @@ namespace TaskMaster.DAL.DTOModels
         public EditState EditState { get; set; }
         public string Comment { get; set; }
         public string Guid { get; set; }
-         
+
+        public int UserId { get; set; }
         public virtual UserDto User { get; set; }
+        public int GroupId { get; set; }
         public virtual GroupDto Group { get; set; }
+        public int TaskId { get; set; }
         public virtual TaskDto Task { get; set; }
 
         public virtual ICollection<PartsOfActivityDto> PartsOfActivity { get; set; }

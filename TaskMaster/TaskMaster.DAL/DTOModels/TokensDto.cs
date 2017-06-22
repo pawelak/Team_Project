@@ -9,6 +9,7 @@ namespace TaskMaster.DAL.DTOModels
         public BrowserType BrowserType { get; set; }
         public PlatformType PlatformType { get; set; }
 
+        public int UserId { get; set; }
         public virtual UserDto User { get; set; }   
     }
 }

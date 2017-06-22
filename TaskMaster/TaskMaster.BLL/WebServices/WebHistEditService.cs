@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,6 +14,7 @@ namespace TaskMaster.BLL.WebServices
     {
         private readonly UserRepositories _userRepositories = new UserRepositories();
         private readonly PartsOfActivityRepositories _partsOfActivityRepositories = new PartsOfActivityRepositories();
+        private readonly TaskRepositories _taskRepositories = new TaskRepositories();
 
         public List<List<string>> ShowEditTask(string email, int id)
         {
@@ -44,34 +46,26 @@ namespace TaskMaster.BLL.WebServices
                 tmp.Add(part.Start.ToString());
                 tmp.Add(part.Stop.ToString()); 
                 tmp.Add(part.Duration.ToString()); 
-                tmp.Add(part.Activity.ActivityId.ToString());   
-                
+                tmp.Add(part.Activity.ActivityId.ToString());
+
                 retruned.Add(tmp);   
             }
+                
 
-            
 
-            return retruned;
+                return retruned;
             }
 
         }
-
-        public bool EditParts(List<string> newList)
+        public bool EditTaskName(string name,int id)
         {
             try
             {
-                TimeSpan tmp = Convert.ToDateTime(newList[2]) - Convert.ToDateTime(newList[1]);
+                
+                var task = _taskRepositories.Get(id);
 
-                PartsOfActivityDto part = new PartsOfActivityDto()
-                {
-                    PartsOfActivityId = Convert.ToInt32(newList[0]),
-                    Start = Convert.ToDateTime(newList[1]),
-                    Stop = Convert.ToDateTime(newList[2]),
-                    Duration = tmp
-
-                };
-
-                _partsOfActivityRepositories.Edit(part);
+                task.Name = name;
+                _taskRepositories.Edit(task);
 
                 return true;
             }
@@ -79,9 +73,11 @@ namespace TaskMaster.BLL.WebServices
             {
                 return false;
             }
+
         }
 
-        public bool EditPart(DateTime start, DateTime stop, int id, int activityId)
+
+        public bool EditPart(string start, string stop, int id)
         {
             try
             {
@@ -90,9 +86,9 @@ namespace TaskMaster.BLL.WebServices
 
                 var part = _partsOfActivityRepositories.Get(id);
 
-
-                part.Start = start;
-                part.Stop = stop;
+                part.Start = DateTime.ParseExact(start, "yyyy.MM.dd HH:mm:ss", CultureInfo.InvariantCulture);
+                part.Stop = DateTime.ParseExact(stop, "yyyy.MM.dd HH:mm:ss", CultureInfo.InvariantCulture);
+               
                 part.Duration = part.Stop - part.Start;
                 
 
@@ -107,20 +103,21 @@ namespace TaskMaster.BLL.WebServices
             
         }
 
-        public bool AddPart(List<string> newList)
+        public bool AddPart(string start, string stop, int id)
         {
             try
             {
-                TimeSpan tmp = Convert.ToDateTime(newList[2]) - Convert.ToDateTime(newList[1]);
 
-                PartsOfActivityDto part = new PartsOfActivityDto()
-                {
-                    PartsOfActivityId = Convert.ToInt32(newList[0]),
-                    Start = Convert.ToDateTime(newList[1]),
-                    Stop = Convert.ToDateTime(newList[2]),
-                    Duration = tmp
+                TimeSpan time = new TimeSpan();
 
-                };
+                var part = _partsOfActivityRepositories.Get(id);
+
+
+                part.Start = DateTime.ParseExact(start, "yyyy.MM.dd HH:mm:ss", CultureInfo.InvariantCulture);
+                part.Stop = DateTime.ParseExact(stop, "yyyy.MM.dd HH:mm:ss", CultureInfo.InvariantCulture);
+
+                part.Duration = part.Stop - part.Start;
+
 
                 _partsOfActivityRepositories.Add(part);
 
@@ -130,6 +127,9 @@ namespace TaskMaster.BLL.WebServices
             {
                 return false;
             }
+
         }
-    }
+        
+
+   }
 }
