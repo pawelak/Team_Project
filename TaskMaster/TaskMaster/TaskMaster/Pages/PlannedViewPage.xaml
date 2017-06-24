@@ -3,9 +3,10 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="TaskMaster.Pages.PlannedViewPage" BackgroundColor="{x:StaticResource BackgroundColor}">
     <ContentPage.Padding>
-        <OnPlatform x:TypeArguments="Thickness"
-                    iOS="0, 20, 0, 0"
-                    Android="0, 0, 0, 0" />
+        <OnPlatform x:TypeArguments="Thickness">
+            <On Platform="iOS" Value="0, 20, 0, 0"/>
+            <On Platform="Android" Value="0, 0, 0, 0"/>
+        </OnPlatform>
     </ContentPage.Padding>
     <ContentPage.ToolbarItems>
         <ToolbarItem x:Name="MainPageItem" Order="Default" Priority="0" Clicked="MainPageItem_OnClicked" Icon="homeInactive.png"  />
@@ -19,11 +20,11 @@
         <StackLayout HorizontalOptions="Center" Spacing="15">
             <ListView x:Name="PlannedTasks" HasUnevenRows="False" ItemTapped="PlannedTasks_OnItemTapped">
                 <ListView.Header>
-                    <StackLayout>
-                        <Label Text="{x:StaticResource Planned}" TextColor="{x:StaticResource TextColor}" HorizontalOptions="Center" 
-                               FontFamily="{x:StaticResource Font}" FontSize="{x:StaticResource Header}"/>
-                        <Label Text="{x:StaticResource Warning}" TextColor="{x:StaticResource TextColor}" HorizontalOptions="Center" 
-                               FontFamily="{x:StaticResource Font}" FontSize="{x:StaticResource Medium}"/>
+                    <StackLayout Orientation="Vertical">
+                        <Label Text="{x:StaticResource PlannedPageTitle}" HorizontalOptions="Center" 
+                               TextColor="{x:StaticResource TextColor}" FontFamily="{x:StaticResource Font}" FontSize="{x:StaticResource Header}"/>
+                        <Label Text="{x:StaticResource PlannedPageWarning}" HorizontalOptions="Center" 
+                               TextColor="{x:StaticResource TextColor}" FontFamily="{x:StaticResource Font}" FontSize="{x:StaticResource Field}"/>
                     </StackLayout>
                 </ListView.Header>
                 <ListView.ItemTemplate>

@@ -6,66 +6,60 @@
         <ResourceDictionary>
             <!-- App Font-->
             <OnPlatform x:TypeArguments="x:String" x:Key="Font">
-                <OnPlatform.iOS>Quicksand-Regular</OnPlatform.iOS>
-                <OnPlatform.Android>Quicksand-Regular.ttf#Quicksand-Regular</OnPlatform.Android>
+                <On Platform="iOS" Value="Quicksand-Regular"/>
+                <On Platform="Android" Value="Quicksand-Regular.ttf#Quicksand-Regular"/>
             </OnPlatform>
-            <!--App Font sizes-->
-            <x:Double x:Key="Header">24</x:Double>
-            <x:Double x:Key="Field">12</x:Double>
-            <x:Double x:Key="Medium">18</x:Double>
-            <x:Double x:Key="Button">8</x:Double>
             <!-- App Colors -->
             <Color x:Key="BackgroundColor">#2049A5</Color>
             <Color x:Key="BackgroundButtonColor">#2E52A8</Color>
             <Color x:Key="TextColor">White</Color>
-
-            <!-- Edit Task Page -->
-            <x:String x:Key="EditTitle">Edytuj task</x:String>
-            <x:String x:Key="ResumeButtonText">Wznów aktywność</x:String>
-            <x:String x:Key="PauseButtonText">Zapauzuj aktywność</x:String>
-            <x:String x:Key="StopButtonText">Zakończ aktywność</x:String>
-            <x:String x:Key="AddFavoriteText">Dodaj do ulubionych</x:String>
-            <!-- Fill Information Page -->
-            <x:String x:Key="FillTitle">Uzupełnij informacje</x:String>
-            <!-- History Page -->
-            <x:String x:Key="History">Historia</x:String>
-            <!-- Main Page -->
-            <x:String x:Key="WelcomeText">Witaj w TaskMaster!</x:String>
-            <x:String x:Key="StartTaskText">Rozpocznij aktywność</x:String>
-            <x:String x:Key="PlanTaskText">Zaplanuj task</x:String>
-            <x:String x:Key="FastTaskText">Szybki start</x:String>
-            <x:String x:Key="ActiveText">Twoje Taski: </x:String>
-
+            <!--App Font sizes-->
+            <x:Double x:Key="Header">24</x:Double>
+            <x:Double x:Key="Medium">18</x:Double>
+            <x:Double x:Key="Field">12</x:Double>
+            <x:Double x:Key="Button">8</x:Double>
             <!-- Calender Day List Page -->
-            <x:String x:Key="DayPlan">Plan Dnia</x:String>
-
+            <x:String x:Key="DayListPageTitle">Plan dnia</x:String>
+            <!-- Edit Task Page -->
+            <x:String x:Key="EditPageTitle">Edytuj aktywność</x:String>
+            <x:String x:Key="EditPageName">Nazwa:</x:String>
+            <x:String x:Key="EditPageDescription">Komentarz:</x:String>
+            <x:String x:Key="EditPageType">Typ:</x:String>
+            <x:String x:Key="EditPageFavorite">Ulubione:</x:String>
+            <x:String x:Key="EditPageSave">Zapisz</x:String>
+            <!-- Fill Information Page -->
+            <x:String x:Key="FillPageTitle">Uzupełnij informacje:</x:String>
+            <x:String x:Key="FillPageName">Nazwa:</x:String>
+            <x:String x:Key="FillPageDescription">Komentarz:</x:String>
+            <x:String x:Key="FillPageType">Typ:</x:String>
+            <x:String x:Key="FillPageFavorite">Ulubione:</x:String>
+            <x:String x:Key="FillPageSave">Zapisz</x:String>
+            <!-- History Page -->
+            <x:String x:Key="HistoryPageTitle">Historia</x:String>
+            <!--Planned View Page -->
+            <x:String x:Key="PlannedPageTitle">Masz zaplanowane następujące aktywności:</x:String>
+            <x:String x:Key="PlannedPageWarning">Naciśnięcie spowoduje anulowanie</x:String>
             <!-- Plan Task Page -->
-            <x:String x:Key="PlanLabel">Zaplanuj task</x:String>
-            <x:String x:Key="NameText">nazwa:</x:String>
-            <x:String x:Key="DescriptionText">komentarz:</x:String>
-            <x:String x:Key="TypeText">Typ:</x:String>
-            <x:String x:Key="FavoriteText">Ulubione</x:String>
-            <x:String x:Key="DateStartText">data roz:</x:String>
-            <x:String x:Key="DateStopText">data kon:</x:String>
-            <x:String x:Key="StartPlanText">Zaplanuj aktywność</x:String>
-
+            <x:String x:Key="PlanPageTitle">Zaplanuj aktywność</x:String>
+            <x:String x:Key="PlanPageName">Nazwa:</x:String>
+            <x:String x:Key="PlanPageDateStart">Data:</x:String>
+            <x:String x:Key="PlanPageDescription">Komentarz:</x:String>
+            <x:String x:Key="PlanPageType">Typ:</x:String>
+            <x:String x:Key="PlanPageFavorite">Ulubione:</x:String>
+            <x:String x:Key="PlanPageStartPlan">Zaplanuj aktywność</x:String>
             <!-- Start Task Page -->
-            <x:String x:Key="StartTaskHeader">Podaj dane aktywności:</x:String>
-            <x:String x:Key="StartNameText">nazwa:</x:String>
-            <x:String x:Key="StartDescriptionText">komentarz:</x:String>
-            <x:String x:Key="StartTaskButtonText">Rozpocznij aktywność</x:String>
-            <!-- Normal Login Page -->
-            <x:String x:Key="LoginTitle">Logowanie</x:String>
-            <x:String x:Key="LoginText">Login:</x:String>
-            <x:String x:Key="PasswordText">Hasło:</x:String>
-            <x:String x:Key="AcceptLogin">Zaloguj</x:String>
-            <x:String x:Key="NoAccount">Nie masz konta?</x:String>
-            <!-- Normal Register Page -->
-            <x:String x:Key="RegisterTitle">Rejestracja</x:String>
-            <x:String x:Key="AcceptRegister">Zarejestruj</x:String>
-
-            <x:String x:Key="Planned">Masz zaplanowane następujące taski:</x:String>
-            <x:String x:Key="Warning">Naciśnięcie spowoduje anulowanie</x:String>
+            <x:String x:Key="StartPageTitle">Podaj dane aktywności:</x:String>
+            <x:String x:Key="StartPageName">Nazwa:</x:String>
+            <x:String x:Key="StartPageDescription">Komentarz:</x:String>
+            <x:String x:Key="StartPageType">Typ:</x:String>
+            <x:String x:Key="StartPageFavorite">Ulubione:</x:String>
+            <x:String x:Key="StartPageSave">Rozpocznij aktywność</x:String>
+            <!-- Main Page -->
+            <x:String x:Key="MainPageTitle">Witaj w TaskMaster!</x:String>
+            <x:String x:Key="MainPageStartTask">Rozpocznij aktywność</x:String>
+            <x:String x:Key="MainPagePlanTask">Zaplanuj aktywność</x:String>
+            <x:String x:Key="MainPageFastTask">Szybki start aktywności</x:String>
+            <x:String x:Key="MainPageActive">Twoje aktualne aktywności:</x:String>
         </ResourceDictionary>
     </Application.Resources>
 </Application>

@@ -16,6 +16,7 @@ namespace TaskMaster.Pages
         {
             _calendarDayString = dateTime.ToString("dd/MM/yyyy");
             InitializeComponent();
+            DayListDate.Text = _calendarDayString;
         }
 
         protected override async void OnAppearing()

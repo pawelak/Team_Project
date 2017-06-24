@@ -14,7 +14,7 @@ namespace TaskMaster.Services
 {
     public class SynchronizationService
     {
-        private const string Ip = "http://178.43.199.239:65116/api"; 
+        private const string Ip = "http://192.168.1.14:65116/api"; 
         private static SynchronizationService _instance;
         private readonly HttpClient _client = new HttpClient();
         public static SynchronizationService Instance => _instance ?? (_instance = new SynchronizationService());
@@ -22,7 +22,7 @@ namespace TaskMaster.Services
         private SynchronizationService()
         {
             _client.MaxResponseContentBufferSize = 256000;
-            _client.Timeout = TimeSpan.FromSeconds(2);
+            _client.Timeout = TimeSpan.FromSeconds(5);
         }
 
         public async Task<bool> SendUser(UserDto user)

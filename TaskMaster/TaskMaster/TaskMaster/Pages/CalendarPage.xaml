@@ -5,9 +5,10 @@
              x:Class="TaskMaster.CalendarPage" BackgroundColor="{x:StaticResource BackgroundColor}">
 
     <ContentPage.Padding>
-        <OnPlatform x:TypeArguments="Thickness"
-                    iOS="0, 20, 0, 0"
-                    Android="0, 0, 0, 0" />
+        <OnPlatform x:TypeArguments="Thickness">
+            <On Platform="iOS" Value="0, 20, 0, 0"/>
+            <On Platform="Android" Value="0, 0, 0, 0"/>
+        </OnPlatform>
     </ContentPage.Padding>
     <ContentPage.ToolbarItems>
         <ToolbarItem x:Name="MainPageItem" Order="Default" Priority="0" Clicked="MainPageItem_OnClicked" Icon="homeInactive.png"  />
@@ -20,7 +21,8 @@
     <ContentPage.Content>
         <StackLayout HorizontalOptions="Center"
                      Spacing="15">
-            <controls:Calendar Padding="10,0,10,0" StartDay="Monday" SelectedBorderWidth="4" DisabledBorderColor="Black" SelectedDate="{Binding Date}" DateCommand="{Binding DateChosen}">
+            <controls:Calendar Padding="10,0,10,0" StartDay="Monday" SelectedBorderWidth="4" DisabledBorderColor="Black" 
+                               SelectedDate="{Binding Date}" DateCommand="{Binding DateChosen}">
             </controls:Calendar>
         </StackLayout>
     </ContentPage.Content>

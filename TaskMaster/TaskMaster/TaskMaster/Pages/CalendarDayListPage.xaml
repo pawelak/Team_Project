@@ -1,21 +1,28 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="TaskMaster.Pages.CalendarDayListPage" BackgroundColor="{x:StaticResource BackgroundColor}">
+             x:Class="TaskMaster.Pages.CalendarDayListPage" 
+             BackgroundColor="{x:StaticResource BackgroundColor}">
     <ContentPage.Padding>
-        <OnPlatform x:TypeArguments="Thickness"
-                    iOS="0, 20, 0, 0"
-                    Android="0, 0, 0, 0" />
+        <OnPlatform x:TypeArguments="Thickness">
+            <On Platform="iOS" Value="0, 20, 0, 0"/>
+            <On Platform="Android" Value="0, 0, 0, 0"/>
+        </OnPlatform>
     </ContentPage.Padding>
     <ContentPage.Content>
         <StackLayout>
             <ListView x:Name="DayPlan" HasUnevenRows="True" RowHeight="50">
                 <ListView.Header>
-                    <Label Text="{x:StaticResource DayPlan}" TextColor="{x:StaticResource TextColor}" HorizontalOptions="Center" FontSize="20" />
+                    <StackLayout Orientation="Vertical" HorizontalOptions="Center">
+                        <Label Text="{x:StaticResource DayListPageTitle}"
+                               TextColor="{x:StaticResource TextColor}" FontSize="{x:StaticResource Header}" />
+                        <Label x:Name="DayListDate"
+                               TextColor="{x:StaticResource TextColor}" FontSize="{x:StaticResource Medium}"/>
+                    </StackLayout>
                 </ListView.Header>
                 <ListView.ItemTemplate>
                     <DataTemplate>
-                        <ViewCell IsEnabled="False" >
+                        <ViewCell IsEnabled="False">
                             <StackLayout Orientation="Horizontal" BackgroundColor="{x:StaticResource BackgroundButtonColor}">
                                 <StackLayout WidthRequest="50">
                                     <Image Source="{Binding Image}"/>

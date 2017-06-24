@@ -18,48 +18,32 @@
     <ContentPage.Content>
         <StackLayout Orientation="Vertical" Margin="0,40,0,40">
             <StackLayout Orientation="Horizontal" HeightRequest="100" Padding="5">
-                <Button Text="{x:StaticResource StartTaskText}" 
+                <Button Text="{x:StaticResource MainPageStartTask}" 
                         x:Name="StartTaskButton" 
-                        HorizontalOptions="Fill" 
-                        WidthRequest="110" 
-                        Clicked="StartTaskButton_OnClicked" 
-                        BackgroundColor="{x:StaticResource BackgroundButtonColor}" 
-                        FontFamily="{x:StaticResource Font}" 
-                        FontSize="{x:StaticResource Button}"
-                        TextColor="{x:StaticResource TextColor}"/>
-                <Button Text="{x:StaticResource PlanTaskText}" 
+                        HorizontalOptions="Fill" WidthRequest="110" Clicked="StartTaskButton_OnClicked" 
+                        TextColor="{x:StaticResource TextColor}" FontFamily="{x:StaticResource Font}" FontSize="{x:StaticResource Button}"
+                        BackgroundColor="{x:StaticResource BackgroundButtonColor}" />
+                <Button Text="{x:StaticResource MainPagePlanTask}" 
                         x:Name="PlanTaskButton" 
-                        Image="planTaskStopwatch.png" 
-                        ContentLayout="Bottom,0"
-                        HorizontalOptions="Fill"  
-                        WidthRequest="110"  
-                        HeightRequest="150" 
-                        Clicked="PlanTaskButton_OnClicked" 
-                        BackgroundColor="{x:StaticResource BackgroundButtonColor}"
-                        FontFamily="{x:StaticResource Font}" 
-                        FontSize="{x:StaticResource Button}"
-                        TextColor="{x:StaticResource TextColor}"/>
-                <Button Text="{x:StaticResource FastTaskText}" 
+                        Image="planTaskStopwatch.png" ContentLayout="Bottom,0"
+                        HorizontalOptions="Fill" WidthRequest="110" HeightRequest="150" Clicked="PlanTaskButton_OnClicked" 
+                        TextColor="{x:StaticResource TextColor}" FontFamily="{x:StaticResource Font}" FontSize="{x:StaticResource Button}"
+                        BackgroundColor="{x:StaticResource BackgroundButtonColor}" />
+                <Button Text="{x:StaticResource MainPageFastTask}" 
                         x:Name="FastTaskButton" 
-                        Image="fastStartButton.png" 
-                        ContentLayout="Bottom,0" 
-                        HorizontalOptions="Fill"  
-                        WidthRequest="110" 
-                        HeightRequest="150"  
-                        Clicked="FastTaskButton_OnClicked" 
-                        BackgroundColor="{x:StaticResource BackgroundButtonColor}"
-                        FontFamily="{x:StaticResource Font}" 
-                        FontSize="{x:StaticResource Button}"
-                        TextColor="{x:StaticResource TextColor}"/>
+                        Image="fastStartButton.png" ContentLayout="Bottom,0" 
+                        HorizontalOptions="Fill" WidthRequest="110" HeightRequest="150" Clicked="FastTaskButton_OnClicked" 
+                        TextColor="{x:StaticResource TextColor}" FontFamily="{x:StaticResource Font}" FontSize="{x:StaticResource Button}"
+                        BackgroundColor="{x:StaticResource BackgroundButtonColor}" />
             </StackLayout>
             <StackLayout Spacing="0" HeightRequest="10" Margin="0,20,0,20">
-                <Label Text="{x:StaticResource WelcomeText}" HorizontalOptions="FillAndExpand" VerticalOptions="Center" TextColor="{x:StaticResource TextColor}"
+                <Label Text="{x:StaticResource MainPageTitle}" HorizontalOptions="FillAndExpand" VerticalOptions="Center" TextColor="{x:StaticResource TextColor}"
                        FontFamily="{x:StaticResource Font}" FontSize="{x:StaticResource Medium}" />
             </StackLayout>
             <StackLayout>
                 <ListView x:Name="ActiveTasks" HasUnevenRows="False" ItemTapped="ActiveTasks_OnItemTapped">
                     <ListView.Header>
-                        <Label Text="{x:StaticResource ActiveText}" TextColor="{x:StaticResource TextColor}" FontFamily="{x:StaticResource Font}" FontSize="{x:StaticResource Medium}"/>
+                        <Label Text="{x:StaticResource MainPageActive}" TextColor="{x:StaticResource TextColor}" FontFamily="{x:StaticResource Font}" FontSize="{x:StaticResource Medium}"/>
                     </ListView.Header>
                     <ListView.ItemTemplate>
                         <DataTemplate>
