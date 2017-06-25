@@ -295,7 +295,7 @@ namespace TaskMaster.BLL.WebServices
             
 
 
-            foreach (var act in user.Activities)
+            foreach (var act in listOfAct)
             {
                     TimeSpan sum = new TimeSpan();
 

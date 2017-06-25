@@ -39,8 +39,9 @@
            {
                
           
-            foreach (var p in @ViewBag.tab)
+            for(int i=0; i<3;i++)//foreach (var p in @ViewBag.tab)
             {
+                var p = ViewBag.tab[i];
                 <div class="singleActivity">
                     <div class="singleActivityContent"><img src="../../images/programming.png" /></div>
                     <div class="singleActivityContent"><p>@p[1]</p> </div>
