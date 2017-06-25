@@ -131,9 +131,36 @@
                             '#f39c12', '#3498db', '#e74c3c', '#00bc8c', '#f35611', '#349855', '#e34c3c', '#008f8c',
                             '#f39c12', '#349855', '#e34c3c', '#008f8c'
                         ],
-                        data: sortedValuesInEveryMonths
+                        data: sortedValuesInEveryMonths,
+
                     }
                 ]
+            },
+            options: {
+                legend: {
+                    display: false
+                },
+                tooltips: {
+                    callbacks: {
+                        label: function(tooltipItem) {
+                            return tooltipItem.yLabel;
+                        }
+                    }
+                },
+                scales: {
+                    xAxes:[{
+                        gridLines:{
+                            color:"rgba(255,255,255,0.5)",
+                            zeroLineColor:"rgba(255,255,255,0.5)"
+                        }
+                    }],
+                    yAxes:[{
+                        gridLines:{
+                            color:"rgba(255,255,255,0.5)",
+                            zeroLineColor:"rgba(255,255,255,0.5)"
+                        }
+                    }]
+                }
             }
         });
 </script>
