@@ -158,11 +158,11 @@ table img {
 }
 
 .activityCircle img {
-    width: 20px;
+    width: 30px;
     padding: 3px 3px;
-    background-color: transparent;
-    border: solid 1px  aqua;
-    border-radius: 10px;
+    background-color: orange;
+    border: solid 2px orange;
+    border-radius: 20px;
     float: left;
     margin-left: 5px;
     margin-top: 3px;

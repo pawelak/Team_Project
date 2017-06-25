@@ -35,6 +35,10 @@
                     <th>czas trwania</th>
                     <th>czas pracy</th>
                     <th>czas przerwy</th>
+                    @*@foreach (var p in @ViewBag.mod)
+                    {
+                        <td>@p[1]</td>
+                    }*@
                 </tr>                             
             </table>
             

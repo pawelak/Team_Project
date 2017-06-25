@@ -69,13 +69,17 @@
 <script>
     var whichColor = 0;
     var colors = ['progress-bar-success', 'progress-bar-info', 'progress-bar-warning', 'progress-bar-danger'];
-    function getColor() {      
+    function getColor() {        
+        if (whichColor > 3){
+            whichColor = 0;
+        }
         return colors[whichColor++];
     }
 
-    getColor();
+    
     var array = @Html.Raw(Json.Encode(@ViewBag.alt));
     for (var i = 0; i < array.length; i++) {
+        getColor();
         var divForP = document.createElement('div');
         var p = document.createElement('p');
         p.innerHTML = array[i][1];
